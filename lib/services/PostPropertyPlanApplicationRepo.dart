@@ -75,10 +75,8 @@ class PostPropertyPlanApplicationRepo {
 //Your API call
       var headers = {'token': '$token', 'Content-Type': 'application/json'};
 
-      var request = http.Request(
-          'POST',
-          Uri.parse(
-              'http://115.244.7.153/diucitizenapi/api/PostPropertyPlanApplication/PostPropertyPlanApplication'));
+      // var request = http.Request('POST', Uri.parse('http://115.244.7.153/diucitizenapi/api/PostPropertyPlanApplication/PostPropertyPlanApplication'));
+      var request = http.Request('POST', Uri.parse('$markPointSubmitApi'));
       request.body =
           updatedJsonResponse; // Assign the JSON string to the request body
       request.headers.addAll(headers);

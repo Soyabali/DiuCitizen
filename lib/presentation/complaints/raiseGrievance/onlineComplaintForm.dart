@@ -74,7 +74,7 @@ class _TemplesHomeState extends State<OnlineComplaintForm> {
   }
   // bindCityzenWard
   bindCityzenData() async {
-    bindComplintWard = await BindCityzenWardRepo().getbindWard();
+    bindComplintWard = await BindCityzenWardRepo().getbindWard(context);
     print(" -----xxxxx-  bindComplaintWard--- 62---> $bindComplintWard");
     setState(() {});
   }

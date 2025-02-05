@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+import 'package:puri/app/generalFunction.dart';
+import 'package:puri/presentation/onlineService/buildingPlan/buildingPlan.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../app/loader_helper.dart';
 import 'baseurl.dart';
@@ -8,8 +11,9 @@ import 'dart:async';
 
 class AdvertiseMentPlaceTypeRepo
 {
+  GeneralFunction generalFunction = GeneralFunction();
   List advertisementPlaceTypeList = [];
-  Future<List> advertisementPlaceType() async
+  Future<List> advertisementPlaceType(BuildContext context) async
   {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
@@ -32,7 +36,9 @@ class AdvertiseMentPlaceTypeRepo
 
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
-
+      if(response.statusCode ==401){
+        generalFunction.logout(context);
+      }
       if (response.statusCode == 200)
       {
         hideLoader();

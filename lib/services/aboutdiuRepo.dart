@@ -36,6 +36,9 @@ class AboutDiuRepo {
       // if(response.statusCode ==401){
       //   generalFunction.logout(context);
       // }
+      if(response.statusCode==401){
+        generalFunction.logout(context);
+      }
       if (response.statusCode == 200) {
         hideLoader();
         var data = await response.stream.bytesToString();

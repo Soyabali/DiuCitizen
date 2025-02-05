@@ -85,16 +85,31 @@ class _SplaceState extends State<SplashView> {
     print('----TOKEN---87---$token');
     if(token!=null && token!=''){
       print('-----89---HomeScreen');
-      Navigator.push(
+
+      Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => ComplaintHomePage()),
+            (Route<dynamic> route) => false, // This condition removes all previous routes
       );
+
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => ComplaintHomePage()),
+      // );
+
     }else{
       print('-----91----LoginScreen');
-      Navigator.push(
+
+      Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => LoginScreen_2()),
+            (Route<dynamic> route) => false, // This condition removes all previous routes
       );
+
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => LoginScreen_2()),
+      // );
     }
   }
   versionAliCall() async{

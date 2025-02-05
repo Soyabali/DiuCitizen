@@ -33,9 +33,9 @@ class GetEmergencyContactTitleRepo {
 
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
-      // if(response.statusCode ==401){
-      //   generalFunction.logout(context);
-      // }
+      if(response.statusCode ==401){
+        generalFunction.logout(context);
+      }
       if (response.statusCode == 200) {
         hideLoader();
         var data = await response.stream.bytesToString();

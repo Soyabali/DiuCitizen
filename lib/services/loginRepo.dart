@@ -36,7 +36,9 @@ class LoginRepo {
       var data = await response.stream.bytesToString();
       map = json.decode(data);
       print('----------20---LOGINaPI RESPONSE----$map');
-
+      if(response.statusCode==401){
+        generalFunction.logout(context);
+      }
       if (response.statusCode == 200) {
         // create an instance of auth class
         print('----44-${response.statusCode}');

@@ -91,47 +91,22 @@ class _LoginPageState extends State<LoginPage> {
     debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
     debugPrint(position.toString());
   }
+
   turnOnLocationMsg(){
     if((lat==null && lat=='') ||(long==null && long=='')){
       displayToast("Please turn on Location");
     }
   }
 
-  Future<bool> _onWillPop() async {
-    return (await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('Are you sure?',style: AppTextStyle
-            .font14OpenSansRegularBlackTextStyle,),
-        content: new Text('Do you want to exit app',style: AppTextStyle
-            .font14OpenSansRegularBlackTextStyle,),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(false), //<-- SEE HERE
-            child: new Text('No'),
-          ),
-          TextButton(
-            onPressed: () {
-              //  goToHomePage();
-              // exit the app
-              exit(0);
-            }, //Navigator.of(context).pop(true), // <-- SEE HERE
-            child: new Text('Yes'),
-          ),
-        ],
-      ),
-    )) ??
-        false;
-  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getLocation();
-    if(lat==null || lat==''){
-      turnOnLocationMsg();
-    }
+    // if(lat==null || lat==''){
+    //   turnOnLocationMsg();
+    // }
   }
 
   @override
@@ -143,83 +118,7 @@ class _LoginPageState extends State<LoginPage> {
   void clearText() {
     _phoneNumberController.clear();
   }
-  // bottomSheet
-  void _showBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          height: 200,
-          color: Colors.white,
-          child: GestureDetector(
-            onTap: (){
-              print('---------');
-            },
-            child: Container(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: GestureDetector(
-                      onTap: (){
-                        Navigator.pop(context);
-                      },
-                      child: Container(
-                        height: 40,
-                        width: 40,
-                        decoration: BoxDecoration(
-                            color: Colors.red,
-                            borderRadius: BorderRadius.circular(10)
-                        ),
-                        child: const Center(child: Padding(
-                          padding: EdgeInsets.all(0.0),
-                          child: Icon(Icons.close,size: 25,color: Colors.white),
-                        )),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Text("Can't Login?",style:AppTextStyle.font18OpenSansboldAppBasicTextStyle),
-                  SizedBox(height: 10),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        /// After implement attion this comment is remove and OtpVerfication is hide
-                        // Add your button onPressed logic here
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) =>
-                        //         const ForgotPassword()));
 
-                      },
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: Colors.red,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20), // Adjust as needed
-                        ), // Text color
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                        child: Text(
-                            'Forgot Password',style:TextStyle(
-                            fontSize: 16,
-                            color: Colors.white
-                        )),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -252,12 +151,12 @@ class _LoginPageState extends State<LoginPage> {
 
                           Container(
                             margin: const EdgeInsets.all(AppMargin.m10),
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/roundcircle.png"), // Correct path to background image
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                            // decoration: const BoxDecoration(
+                            //   image: DecorationImage(
+                            //     image: AssetImage("assets/images/roundcircle.png"), // Correct path to background image
+                            //     fit: BoxFit.cover,
+                            //   ),
+                            // ),
                             width: AppSize.s50,
                             height: AppSize.s50,
                             child: Image.asset(
@@ -269,12 +168,12 @@ class _LoginPageState extends State<LoginPage> {
                           Expanded(child: Container()),
                           Container(
                             margin: const EdgeInsets.all(AppMargin.m10),
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/roundcircle.png"), // Correct path to background image
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                            // decoration: const BoxDecoration(
+                            //   image: DecorationImage(
+                            //     image: AssetImage("assets/images/roundcircle.png"), // Correct path to background image
+                            //     fit: BoxFit.cover,
+                            //   ),
+                            // ),
                             width: AppSize.s50,
                             height: AppSize.s50,
                             child: Image.asset(
@@ -397,6 +296,8 @@ class _LoginPageState extends State<LoginPage> {
 
                                              loginMap = await LoginRepo().login(context, phone!);
 
+                                             print("------299---$loginMap");
+
 
                                             print('---358----$loginMap');
                                             result = "${loginMap['Result']}";
@@ -412,10 +313,16 @@ class _LoginPageState extends State<LoginPage> {
                                           } // condition to fetch a response form a api
                                           if(result=="1"){
 
-                                            Navigator.pushReplacement(
+                                            Navigator.pushAndRemoveUntil(
                                               context,
                                               MaterialPageRoute(builder: (context) => OtpPage(phone:phone)),
+                                                  (Route<dynamic> route) => false, // This condition removes all previous routes
                                             );
+
+                                            // Navigator.pushReplacement(
+                                            //   context,
+                                            //   MaterialPageRoute(builder: (context) => OtpPage(phone:phone)),
+                                            // );
 
                                           }else{
                                             print('----373---To display error msg---');

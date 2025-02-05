@@ -47,7 +47,7 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
   }
 
   bindWard() async {
-    wardList = await BindCityzenWardRepo().getbindWard();
+    wardList = await BindCityzenWardRepo().getbindWard(context);
     print(" -----xxxxx-  wardList--50---> $wardList");
     setState(() {});
   }
@@ -201,90 +201,6 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
       hideLoader();
       print('Error uploading image: $error');
     }
-  }
-
-  // build dialog sucess
-  Widget _buildDialogSucces2(BuildContext context, String msg) {
-    return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
-      elevation: 0,
-      backgroundColor: Colors.transparent,
-      child: Stack(
-        clipBehavior: Clip.none,
-        alignment: Alignment.center,
-        children: [
-          Container(
-            height: 190,
-            padding: EdgeInsets.fromLTRB(20, 45, 20, 20),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(height: 0),
-                // Space for the image
-                //  Text('Success', style: AppTextStyle.font16OpenSansRegularBlackTextStyle),
-                SizedBox(height: 10),
-                Text(
-                  msg,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey[600],
-                  ),
-                  maxLines: 2,
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        // Navigator.of(context).pop();
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //       builder: (context) => const ExpenseManagement()),
-                        // );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        // Set the background color to white
-                        foregroundColor:
-                            Colors.black, // Set the text color to black
-                      ),
-                      child: Text('Ok',
-                          style:
-                              AppTextStyle.font16OpenSansRegularBlackTextStyle),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-          Positioned(
-            top: -30, // Position the image at the top center
-            child: CircleAvatar(
-              radius: 30,
-              backgroundColor: Colors.blueAccent,
-              child: ClipOval(
-                child: Image.asset(
-                  'assets/images/sussess.jpeg',
-                  // Replace with your asset image path
-                  fit: BoxFit.cover,
-                  width: 60,
-                  height: 60,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   @override
@@ -574,15 +490,16 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
               statusBarBrightness: Brightness.light, // For iOS (dark icons)
             ),
             // backgroundColor: Colors.blu
+            centerTitle: true,
             backgroundColor: Color(0xFF255898),
             leading: GestureDetector(
               onTap: () {
                 print("------back---");
-                // Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => OnlineComplaint()),
-                );
+                 Navigator.pop(context);
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => OnlineComplaint()),
+                // );
               },
               child: const Icon(
                 Icons.arrow_back_ios,

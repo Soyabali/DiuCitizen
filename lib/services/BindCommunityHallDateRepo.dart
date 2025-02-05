@@ -9,7 +9,7 @@ class BindCommunityHallDateRepo {
   // Change bindcityWardList to be of type List<Map<String, dynamic>>
   List<Map<String, dynamic>> bindcityWardList = [];
 
-  Future<List<Map<String, dynamic>>> bindCommunityHallDate(BuildContext context, var hallId) async {
+  Future<List<Map<String, dynamic>>> bindCommunityHallDate(BuildContext context, var hallId, selectedMonthCode) async {
     print("--------15----$hallId");
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -28,6 +28,7 @@ class BindCommunityHallDateRepo {
 
       request.body = json.encode({
         "iCommunityHallID": hallId,
+        "iMonthCode":selectedMonthCode
       });
 
       request.headers.addAll(headers);

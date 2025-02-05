@@ -118,124 +118,129 @@ class _TemplesHomeState extends State<EmergencyContacts> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      // appBar: getAppBarBack(context, '${widget.name}'),
-      appBar: AppBar(
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Color(0xFF12375e),
-          statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
-          statusBarBrightness: Brightness.light, // For iOS (dark icons)
-        ),
-        // backgroundColor: Colors.blu
-        backgroundColor: Color(0xFF255898),
-        leading: GestureDetector(
-          onTap: (){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ComplaintHomePage()),
-            );
-          },
-          child: const Icon(Icons.arrow_back_ios,
-            color: Colors.white,),
-        ),
-        title: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5),
-          child: Text(
-            'Department List',
-            style: AppTextStyle.font16OpenSansRegularWhiteTextStyle,
-            textAlign: TextAlign.center,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        // appBar: getAppBarBack(context, '${widget.name}'),
+        appBar: AppBar(
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Color(0xFF12375e),
+            statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+            statusBarBrightness: Brightness.light, // For iOS (dark icons)
           ),
+          // backgroundColor: Colors.blu
+          centerTitle: true,
+          backgroundColor: Color(0xFF255898),
+          leading: GestureDetector(
+            onTap: (){
+              Navigator.pop(context);
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => ComplaintHomePage()),
+              // );
+            },
+            child: const Icon(Icons.arrow_back_ios,
+              color: Colors.white,),
+          ),
+          title: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5),
+            child: Text(
+              'Department List',
+              style: AppTextStyle.font16OpenSansRegularWhiteTextStyle,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          //centerTitle: true,
+          elevation: 0, // Removes shadow under the AppBar
         ),
-        //centerTitle: true,
-        elevation: 0, // Removes shadow under the AppBar
-      ),
 
-      drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
-      body:
-      isLoading
-          ? Center(child: Container())
-          : (emergencyTitleList == null || emergencyTitleList!.isEmpty)
-          ? NoDataScreenPage()
-          :
-      Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                   // middleHeader(context, '${widget.name}'),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.8, // Adjust the height as needed
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: emergencyTitleList?.length ?? 0,
-                        itemBuilder: (context, index) {
-                       final color = borderColors[index % borderColors.length];
-                          return Column(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 1.0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    var sHeadName = emergencyTitleList![index]['sHeadName'];
-                                    var iHeadCode = emergencyTitleList![index]['iHeadCode'];
-                                  //
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            EmergencyListPage(name:sHeadName,iHeadCode:iHeadCode)
-                                           // FireEmergency(name: name,iHeadCode:iHeadCode,sIcon:sIcon),
+       // drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
+        body:
+        isLoading
+            ? Center(child: Container())
+            : (emergencyTitleList == null || emergencyTitleList!.isEmpty)
+            ? NoDataScreenPage()
+            :
+        Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                     // middleHeader(context, '${widget.name}'),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.8, // Adjust the height as needed
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: emergencyTitleList?.length ?? 0,
+                          itemBuilder: (context, index) {
+                         final color = borderColors[index % borderColors.length];
+                            return Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 1.0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      var sHeadName = emergencyTitleList![index]['sHeadName'];
+                                      var iHeadCode = emergencyTitleList![index]['iHeadCode'];
+                                    //
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              EmergencyListPage(name:sHeadName,iHeadCode:iHeadCode)
+                                             // FireEmergency(name: name,iHeadCode:iHeadCode,sIcon:sIcon),
+                                        ),
+                                      );
+                                      },
+
+                                    child: ListTile(
+                                      leading: Container(
+                                          width: 35,
+                                          height: 35,
+                                          decoration: BoxDecoration(
+                                            color: color, // Set the dynamic color
+                                            borderRadius: BorderRadius.circular(5),
+                                          ),
+                                          child: const Icon(Icons.ac_unit,
+                                            color: Colors.white,
+                                          )
                                       ),
-                                    );
-                                    },
+                                      title: Text(
+                                        emergencyTitleList![index]['sHeadName']!,
+                                        style: AppTextStyle.font14OpenSansRegularBlackTextStyle,
 
-                                  child: ListTile(
-                                    leading: Container(
-                                        width: 35,
-                                        height: 35,
-                                        decoration: BoxDecoration(
-                                          color: color, // Set the dynamic color
-                                          borderRadius: BorderRadius.circular(5),
-                                        ),
-                                        child: const Icon(Icons.ac_unit,
-                                          color: Colors.white,
-                                        )
-                                    ),
-                                    title: Text(
-                                      emergencyTitleList![index]['sHeadName']!,
-                                      style: AppTextStyle.font14OpenSansRegularBlackTextStyle,
-
-                                    ),
-                                    trailing: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Image.asset(
-                                          'assets/images/arrow.png',
-                                          height: 12,
-                                          width: 12,
-                                          color: color
-                                        ),
-                                      ],
+                                      ),
+                                      trailing: Row(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Image.asset(
+                                            'assets/images/arrow.png',
+                                            height: 12,
+                                            width: 12,
+                                            color: color
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 12, right: 12),
-                                child: Container(
-                                  height: 1,
-                                  color: Colors
-                                      .grey, // Gray color for the bottom line
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 12, right: 12),
+                                  child: Container(
+                                    height: 1,
+                                    color: Colors
+                                        .grey, // Gray color for the bottom line
+                                  ),
                                 ),
-                              ),
-                            ],
-                          );
-                        },
+                              ],
+                            );
+                          },
+                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
 
-              );
+                ),
+    );
             }
 
   }

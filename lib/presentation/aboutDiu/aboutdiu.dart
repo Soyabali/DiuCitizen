@@ -122,125 +122,129 @@ class _AboutDiuState extends State<AboutDiu> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        // statusBarColore
-        systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Color(0xFF12375e),
-          statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
-          statusBarBrightness: Brightness.light, // For iOS (dark icons)
-        ),
-        // backgroundColor: Colors.blu
-        backgroundColor: Color(0xFF255898),
-        leading: GestureDetector(
-          onTap: (){
-            print("------back---");
-            Navigator.pop(context);
-          },
-          child: Icon(Icons.arrow_back_ios,
-            color: Colors.white,),
-        ),
-        title: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5),
-          child: Text(
-            'About Diu',
-            style: AppTextStyle.font16OpenSansRegularWhiteTextStyle,
-            textAlign: TextAlign.center,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          // statusBarColore
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Color(0xFF12375e),
+            statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+            statusBarBrightness: Brightness.light, // For iOS (dark icons)
           ),
+          // backgroundColor: Colors.blu
+          centerTitle: true,
+          backgroundColor: Color(0xFF255898),
+          leading: GestureDetector(
+            onTap: (){
+              print("------back---");
+              Navigator.pop(context);
+            },
+            child: Icon(Icons.arrow_back_ios,
+              color: Colors.white,),
+          ),
+          title: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5),
+            child: Text(
+              'About Diu',
+              style: AppTextStyle.font16OpenSansRegularWhiteTextStyle,
+              textAlign: TextAlign.center,
+            ),
+          ),
+          //centerTitle: true,
+          elevation: 0, // Removes shadow under the AppBar
         ),
-        //centerTitle: true,
-        elevation: 0, // Removes shadow under the AppBar
-      ),
-      drawer:
-      generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
+        drawer:
+        generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
 
-      body:
-      isLoading
-          ? Center(child: Container())
-          : (emergencyTitleList == null || emergencyTitleList!.isEmpty)
-          ? NoDataScreenPage()
-          :
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          // middleHeader(context, '${widget.name}'),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.8, // Adjust the height as needed
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: emergencyTitleList?.length ?? 0,
-              // itemCount: emergencyTitleList?.length ?? 0,
-              itemBuilder: (context, index) {
-              final color = borderColors[index % borderColors.length];
-                return Column(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 1.0),
-                      child: GestureDetector(
-                        onTap: () {
-                          var sPageName = emergencyTitleList![index]['sPageName'];
-                          var sPageLink = emergencyTitleList![index]['sPageLink'];
+        body:
+        isLoading
+            ? Center(child: Container())
+            : (emergencyTitleList == null || emergencyTitleList!.isEmpty)
+            ? NoDataScreenPage()
+            :
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            // middleHeader(context, '${widget.name}'),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.8, // Adjust the height as needed
+              child: ListView.builder(
+                shrinkWrap: true,
+                itemCount: emergencyTitleList?.length ?? 0,
+                // itemCount: emergencyTitleList?.length ?? 0,
+                itemBuilder: (context, index) {
+                final color = borderColors[index % borderColors.length];
+                  return Column(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 1.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            var sPageName = emergencyTitleList![index]['sPageName'];
+                            var sPageLink = emergencyTitleList![index]['sPageLink'];
 
 
-                          // sIcon
-                          print('----sPageName---$sPageName');
-                          print('----categoryCode---$sPageLink');
+                            // sIcon
+                            print('----sPageName---$sPageName');
+                            print('----categoryCode---$sPageLink');
 
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    AboutDiuPage(name:sPageName,sPageLink:sPageLink),
-                              ));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      AboutDiuPage(name:sPageName,sPageLink:sPageLink),
+                                ));
 
-                        },
-                        child: ListTile(
-                          leading: Container(
-                              width: 35,
-                              height: 35,
-                              decoration: BoxDecoration(
-                                color: color, // Set the dynamic color
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: const Icon(Icons.ac_unit,
-                                color: Colors.white,
-                              )
-                          ),
-                          title: Text(
-                            emergencyTitleList![index]['sPageName']!,
-                            style: AppTextStyle
-                                .font14OpenSansRegularBlack45TextStyle,
-                          ),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.asset(
-                                'assets/images/arrow.png',
-                                height: 12,
-                                width: 12,
-                                color: color,
-                              ),
-                            ],
+                          },
+                          child: ListTile(
+                            leading: Container(
+                                width: 35,
+                                height: 35,
+                                decoration: BoxDecoration(
+                                  color: color, // Set the dynamic color
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: const Icon(Icons.ac_unit,
+                                  color: Colors.white,
+                                )
+                            ),
+                            title: Text(
+                              emergencyTitleList![index]['sPageName']!,
+                              style: AppTextStyle
+                                  .font14OpenSansRegularBlack45TextStyle,
+                            ),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Image.asset(
+                                  'assets/images/arrow.png',
+                                  height: 12,
+                                  width: 12,
+                                  color: color,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 12, right: 12),
-                      child: Container(
-                        height: 1,
-                        color: Colors.grey, // Gray color for the bottom line
+                      Padding(
+                        padding: const EdgeInsets.only(left: 12, right: 12),
+                        child: Container(
+                          height: 1,
+                          color: Colors.grey, // Gray color for the bottom line
+                        ),
                       ),
-                    ),
-                  ],
-                );
-              },
+                    ],
+                  );
+                },
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
 
+      ),
     );
   }
 }

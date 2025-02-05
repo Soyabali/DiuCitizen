@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../app/generalFunction.dart';
 import '../../services/PostOccupancyCertificateReq.dart';
 import '../../services/feedbackRepo.dart';
 import '../circle/circle.dart';
+import '../complaints/complaintHomePage.dart';
 import '../resources/app_text_style.dart';
 import '../resources/assets_manager.dart';
 import '../resources/custom_elevated_button.dart';
 import '../resources/values_manager.dart';
 
 class FeedbackBottomSheet extends StatelessWidget {
+
   final TextEditingController _feedbackController = TextEditingController();
 
   @override
@@ -30,7 +31,10 @@ class FeedbackForm extends StatefulWidget {
 }
 
 class _FeedbackFormState extends State<FeedbackForm> {
+
   TextEditingController _feedbackController = TextEditingController();
+  var feedbackResponse;
+
   final _formKey = GlobalKey<FormState>();
   FocusNode feedbackfocus = FocusNode();
   var result,msg;
@@ -59,21 +63,27 @@ class _FeedbackFormState extends State<FeedbackForm> {
     final isFormValid = _formKey.currentState!.validate();
 
  // Validate all conditions
-    if (isFormValid &&
-        feedback.isNotEmpty) {
+
+    if (isFormValid && feedback.isNotEmpty) {
       // All conditions met; call the API
       print('---Call API---');
 
-      var feedbackResponse = await FeedbackRepo().feedfack(
-          context,
-          feedback
-      );
+      feedbackResponse = await FeedbackRepo().feedfack(context, feedback,sContactNo);
       print('----845---->>.--->>>>---$feedbackResponse');
       result = feedbackResponse['Result'];
       msg = feedbackResponse['Msg'];
-      displayToast(msg);
+      // displayToast(msg);
+      // navigate to home page
+      //Navigator.pop(context);
+      Navigator.of(context, rootNavigator: true).pop();
+      // Navigator.pushAndRemoveUntil(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => ComplaintHomePage()),
+      //       (Route<dynamic> route) => false, // Removes all previous routes
+      // );
       // Your API call logic here
     } else {
+      displayToast(msg);
       // If conditions fail, display appropriate error messages
       print('--Not Call API--');
       if (feedback.isEmpty) {
@@ -116,12 +126,10 @@ class _FeedbackFormState extends State<FeedbackForm> {
                     SizedBox(width: 5),
                     CircleWithSpacing(),
                     Text('Feedback',
-                        style:
-                            AppTextStyle.font14OpenSansRegularBlack45TextStyle),
+                        style: AppTextStyle.font14OpenSansRegularBlack45TextStyle),
                   ],
                 ),
                 SizedBox(height: 5),
-
                 Padding(
                   padding: const EdgeInsets.only(
                     left: 15, // Adjusted padding value
@@ -130,33 +138,27 @@ class _FeedbackFormState extends State<FeedbackForm> {
                   child: Container(
                    // height: 80, // Adjusted container height
                     child: Expanded(
-                        child: TextFormField(
-                      focusNode: feedbackfocus, // Focus node for the text field
-                      controller:
-                          _feedbackController, // Controller to manage the text field's value
-                      textInputAction:
-                          TextInputAction.next, // Set action for the keyboard
-                      onEditingComplete: () => FocusScope.of(context)
-                          .nextFocus(), // Move to next input on completion
-                      decoration: const InputDecoration(
-                        border:
-                            OutlineInputBorder(), // Add a border around the text field
-                        contentPadding: EdgeInsets.symmetric(
-                          vertical: 10.0,
-                          horizontal: 10.0,
-                        ), // Adjust padding inside the text field
-                        filled:
-                            true, // Enable background color for the text field
-                        fillColor: Colors.white,
-                        // fillColor: Color(0xFFf2f3f5), // Set background color
-                        // hintText: "Email ID", // Placeholder text when field is empty
-                        hintStyle: TextStyle(
-                            color:
-                                Colors.grey), // Style for the placeholder text
+                      child: TextFormField(
+                        focusNode: feedbackfocus, // Focus node for the text field
+                        controller: _feedbackController, // Controller to manage the text field's value
+                        textInputAction: TextInputAction.next, // Set action for the keyboard
+                        onEditingComplete: () => FocusScope.of(context).nextFocus(), // Move to next input on completion
+                        maxLines: null, // Allows the text field to expand to multiple lines
+                        minLines: 4, // Minimum height of the text field (approximately 100 in height)
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(), // Add a border around the text field
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0, // Adjust padding inside the text field
+                            horizontal: 10.0,
+                          ),
+                          filled: true, // Enable background color for the text field
+                          fillColor: Colors.white,
+                          hintText: "Enter your feedback here...", // Placeholder text when field is empty
+                          hintStyle: TextStyle(color: Colors.grey), // Style for the placeholder text
+                        ),
+                        autovalidateMode: AutovalidateMode.onUserInteraction, // Enable validation on user interaction
                       ),
-                      autovalidateMode: AutovalidateMode
-                          .onUserInteraction, // Enable validation on user interaction
-                    )),
+                    ),
                   ),
                 ),
                 SizedBox(height: 10),

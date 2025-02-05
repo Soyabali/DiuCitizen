@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import '../../../app/generalFunction.dart';
 import '../../../services/notificationRepo.dart';
+import '../../resources/app_text_style.dart';
+import '../complaintHomePage.dart';
 
 
 class NotificationPage extends StatelessWidget {
@@ -12,6 +15,7 @@ class NotificationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
       theme: ThemeData(
         appBarTheme: const AppBarTheme(
           iconTheme: IconThemeData(
@@ -33,11 +37,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   List<Map<String, dynamic>>? notificationList;
+
   String? sName, sContactNo;
-  // get api response
+
+  GeneralFunction generalFunction = GeneralFunction();
   getnotificationResponse() async {
     notificationList = await NotificationRepo().notification(context);
+    print('------39----$notificationList');
     setState(() {
     });
   }
@@ -49,114 +57,155 @@ class _MyHomePageState extends State<MyHomePage> {
     getnotificationResponse();
     super.initState();
   }
-
   getlocalvalue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       sName = prefs.getString('sName') ?? "";
       sContactNo = prefs.getString('sContactNo') ?? "";
+      print("------148---$sName");
+      print("------1149---$sContactNo");
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Color(0xFF255899),
-          title: const Text(
-            'Notification',
-            style: TextStyle(
-                fontFamily: 'Montserrat',
-                color: Colors.white,
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold),
+    return  Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            // statusBarColore
+            systemOverlayStyle: const SystemUiOverlayStyle(
+              statusBarColor: Color(0xFF12375e),
+              statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+              statusBarBrightness: Brightness.light, // For iOS (dark icons)
+            ),
+            // backgroundColor: Colors.blu
+            backgroundColor: Color(0xFF255898),
+            centerTitle: true,
+            leading: GestureDetector(
+              onTap: (){
+                print("------back---");
+                // Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ComplaintHomePage()),
+                );
+              },
+              child: Icon(Icons.arrow_back_ios,
+                color: Colors.white,),
+            ),
+            title: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              child: Text(
+                'Notification',
+                style: AppTextStyle.font16OpenSansRegularWhiteTextStyle,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            //centerTitle: true,
+            elevation: 0, // Removes shadow under the AppBar
           ),
-        ),
-        // drawer
-       // drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
+        //  drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
+         // drawer: generalFunction.drawerFunction_2(context,"$sCitizenName","$sContactNo"),
+    // WillPopScope(
+    // onWillPop: () async => false,
+    //       child:
+          body: WillPopScope(
+            onWillPop: ()async =>false,
+            child: Container(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15,right: 15,top: 15,bottom: 15),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height,
 
-        body: Container(
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(left: 15,right: 15,top: 15,bottom: 15),
-                child: Container(
-                  height: MediaQuery.of(context).size.height,
-            
-                  child: ListView.separated(
-                      itemCount: notificationList != null ? notificationList!.length : 0,
-                      separatorBuilder: (BuildContext context, int index) {
-                        return Divider(); // Example separator, you can customize this
-                      },
-                      itemBuilder: (context, index) {
-                        return  SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Column(
-                        children: [
-
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              const Padding(
-                                padding: EdgeInsets.only(top: 15),
-                                child: Icon(
-                                  Icons.notification_important, size: 30, color: Color(
-                                    0xFF255899),),
-                              ),
-                              SizedBox(width: 10),
-                              Column(
+                      child: ListView.separated(
+                          itemCount: notificationList != null ? notificationList!.length : 0,
+                          separatorBuilder: (BuildContext context, int index) {
+                            return Divider(); // Example separator, you can customize this
+                          },
+                          itemBuilder: (context, index) {
+                            return  SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Column(
+                            children: [
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
-                                  Text(notificationList?[index]['sTitle'].toString() ?? '',
-                                    style: const TextStyle(
-                                                          fontFamily: 'Montserrat',
-                                                          color: Color(0xff3f617d),
-                                                          fontSize: 14.0,
-                                                          fontWeight: FontWeight.bold),
-                                                    ),
-                                  SizedBox(height: 2),
-                                  Container(
-                                    width: MediaQuery.of(context).size.width - 32,
-                                    child: Text(
-                                      notificationList?[index]['sNotification'].toString() ?? '',
-                                      overflow: TextOverflow.clip,
-                                      textAlign: TextAlign.start,
-                                      style: const TextStyle(
-                                          fontFamily: 'Montserrat',
-                                          color: Color(0xff3f617d),
-                                          fontSize: 12.0,
-                                          fontWeight: FontWeight.bold),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 15),
+                                    child: Container(
+                                      child: const Icon(
+                                        Icons.notification_important, size: 25, color: Colors.black),
                                     ),
                                   ),
-                                  SizedBox(height: 2),
-                                  Text(notificationList?[index]['dRecivedAt'].toString() ?? '',
-                                    style: const TextStyle(
-                                                          fontFamily: 'Montserrat',
-                                                          color: Color(0xff3f617d),
-                                                          fontSize: 14.0,
-                                                          fontWeight: FontWeight.bold),
-                                                    )
+                                  SizedBox(width: 10),
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text(notificationList?[index]['sTitle'].toString() ?? '',
+                                          style: AppTextStyle
+                                              .font14penSansExtraboldBlack45TextStyle
+                                        // style: const TextStyle(
+                                        //                       fontFamily: 'Montserrat',
+                                        //                       color: Color(0xff3f617d),
+                                        //                       fontSize: 14.0,
+                                        //                       fontWeight: FontWeight.bold),
+
+                                                        ),
+                                      SizedBox(height: 2),
+                                      Container(
+                                        width: MediaQuery.of(context).size.width - 32,
+                                        child: Text(
+                                          notificationList?[index]['sNotification'].toString() ?? '',
+                                          overflow: TextOverflow.clip,
+                                          textAlign: TextAlign.start,
+                                            style: AppTextStyle
+                                                .font14penSansExtraboldBlackTextStyle
+                                        ),
+                                      ),
+                                      SizedBox(height: 2),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        children: [
+                                          Icon(Icons.calendar_month,size:18,
+                                          color: Color(0xff3f617d),),
+                                          SizedBox(width: 5),
+                                          Text(notificationList?[index]['dRecivedAt'].toString() ?? '',
+                                              style: AppTextStyle
+                                                  .font14penSansExtraboldBlackTextStyle
+                                            // style: const TextStyle(
+                                            //     fontFamily: 'Montserrat',
+                                            //     color: Color(0xff3f617d),
+                                            //     fontSize: 14.0,
+                                            //     fontWeight: FontWeight.bold),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  )
                                 ],
-                              )
+                              ),
                             ],
-                          ),
-                        ],
-                      )
-                        );
-                      }
-                  ),
+                          )
+                            );
+                          }
+                      ),
+                    ),
+                  )
+
+                  ]
                 ),
-              )
-            
-              ]
+              ),
             ),
-          ),
-        )
+          )
+
+
     );
+
 
   }
 }

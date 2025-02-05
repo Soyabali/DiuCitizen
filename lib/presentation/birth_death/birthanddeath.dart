@@ -34,14 +34,17 @@ class _BirthAndDeathState extends State<BirthAndDeathCertificate> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: getAppBarBack(context,"Birth & Death Certificate"),
-      drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
-      body: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: BirthAndDeathWebViewStack()),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: getAppBarBack(context,"Birth & Death Certificate"),
+        //drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
+        body: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: BirthAndDeathWebViewStack()),
+      ),
     );
   }
 }

@@ -282,6 +282,7 @@ class _MyHomePageState extends State<OtpPage> {
                                                   if(result=="1"){
 
                                                         var iCitizenCode = "${verifyCitizenOtpMap['Data'][0]['iCitizenCode']}";
+                                                        print('-----otp----$iCitizenCode');
                                                         var sContactNo =
                                                             "${verifyCitizenOtpMap['Data'][0]['sContactNo']}";
                                                         var sCitizenName =
@@ -298,10 +299,16 @@ class _MyHomePageState extends State<OtpPage> {
                                                         String? token = prefs.getString('sToken');
                                                         print('---321-----token---$token');
 
-                                                        Navigator.push(
+                                                        // Navigator.push(
+                                                        //   context,
+                                                        //   MaterialPageRoute(builder: (context) => const ComplaintHomePage()),
+                                                        // );
+                                                        Navigator.pushAndRemoveUntil(
                                                           context,
-                                                          MaterialPageRoute(builder: (context) => const ComplaintHomePage()),
+                                                          MaterialPageRoute(builder: (context) => ComplaintHomePage()),
+                                                              (Route<dynamic> route) => false, // This condition removes all previous routes
                                                         );
+
 
                                                         controllers?.clear();
 

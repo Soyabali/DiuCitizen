@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -28,21 +29,53 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
 
+  // bool activeConnection = false;
+  // String T = "";
+  // Future checkUserConnection() async {
+  //   try {
+  //     final result = await InternetAddress.lookup('google.com');
+  //     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+  //       setState(() {
+  //         activeConnection = true;
+  //         T = "Turn off the data and repress again";
+  //       });
+  //     }
+  //   } on SocketException catch (_) {
+  //     setState(() {
+  //       activeConnection = false;
+  //       T = "Turn On the data and repress again";
+  //     });
+  //   }
+  // }
+
   bool activeConnection = false;
-  String T = "";
-  Future checkUserConnection() async {
+  String connectionType = "No Internet";
+
+  Future<void> checkUserConnection() async {
     try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+      // Check connectivity type
+      var connectivityResult = await Connectivity().checkConnectivity();
+      if (connectivityResult == ConnectivityResult.none) {
         setState(() {
-          activeConnection = true;
-          T = "Turn off the data and repress again";
+          activeConnection = false;
+          connectionType = "No Internet";
         });
+      } else {
+        // Check actual internet access
+        final result = await InternetAddress.lookup('google.com');
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          setState(() {
+            activeConnection = true;
+            connectionType = connectivityResult == ConnectivityResult.wifi
+                ? "Connected to Wi-Fi"
+                : "Connected to Mobile Data";
+          });
+        }
       }
     } on SocketException catch (_) {
       setState(() {
         activeConnection = false;
-        T = "Turn On the data and repress again";
+        connectionType = "No Internet Access";
       });
     }
   }

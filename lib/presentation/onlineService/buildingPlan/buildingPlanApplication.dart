@@ -321,7 +321,6 @@ class _MyHomePageState extends State<BuildingPlanApplication> {
     }
   }
 
-
   @override
   void initState() {
     var subCategoryCode = "${widget.iCategoryCode}";
@@ -635,6 +634,7 @@ class _MyHomePageState extends State<BuildingPlanApplication> {
               statusBarBrightness: Brightness.light, // For iOS (dark icons)
             ),
             // backgroundColor: Colors.blu
+            centerTitle: true,
             backgroundColor: Color(0xFF255898),
             leading: GestureDetector(
               onTap: () {

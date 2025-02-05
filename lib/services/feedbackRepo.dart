@@ -15,19 +15,23 @@ class FeedbackRepo {
 
   Future feedfack(
       BuildContext context,
-      String feedback) async {
+      String feedback, String? sContactNo) async {
     //
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
+    // String? sContact = prefs.getString('sContact');
+
+    print("----token---$sToken");
+    print("----feedback---$feedback");
+    print("----sContactNo---$sContactNo");
 
     try {
       print('----phsRequestNoone-----31--$feedback');
 
       var baseURL = BaseRepo().baseurl;
-      var endPoint = "";
+      var endPoint = "PostCitizenFeedback/PostCitizenFeedback";
       var bookAdvertisementApi = "$baseURL$endPoint";
       print('------------17---Api---$bookAdvertisementApi');
-
       showLoader();
       // var headers = {'Content-Type': 'application/json'};
       var headers = {
@@ -37,7 +41,8 @@ class FeedbackRepo {
           'POST', Uri.parse('$bookAdvertisementApi'));
       request.body = json.encode(
           {
-            "sRequestNo": feedback ?? "0",
+            "dPostedBy":sContactNo,
+            "sFeadback":feedback
           });
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();

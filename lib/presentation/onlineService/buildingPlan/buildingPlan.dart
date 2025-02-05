@@ -91,6 +91,7 @@ class _OnlineComplaintState extends State<BuildingPlan> {
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
         ),
         // backgroundColor: Colors.blu
+        centerTitle: true,
         backgroundColor: Color(0xFF255898),
         leading: GestureDetector(
           onTap: (){

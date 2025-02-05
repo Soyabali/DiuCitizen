@@ -10,7 +10,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../presentation/advertisementBookingStatus/advertisementBookingStatus.dart';
 import '../presentation/complaints/complaintHomePage.dart';
+import '../presentation/complaints/raiseGrievance/notification.dart';
 import '../presentation/homepage/homepage.dart';
 import '../presentation/login/loginScreen_2.dart';
 import '../presentation/resources/app_text_style.dart';
@@ -22,6 +24,7 @@ import '../presentation/temples/facilities/facilities.dart';
 import '../presentation/temples/howToReach/howToReach.dart';
 import '../presentation/temples/templehome.dart';
 import '../presentation/temples/weather/weather.dart';
+import '../services/deleteaccountrepo.dart';
 
 // pdf downlodd path
 
@@ -61,7 +64,7 @@ Widget buildDialogCall(BuildContext context, String sEmpName, String sContactNo)
             mainAxisSize: MainAxisSize.min,
             children: [
               // Space for the image
-              Row(
+              const Row(
                 children: [
                   Icon(
                     Icons.phone, // Exclamation icon
@@ -90,12 +93,12 @@ Widget buildDialogCall(BuildContext context, String sEmpName, String sContactNo)
                     children: <TextSpan>[
                       TextSpan(
                         text: '$sEmpName', // Highlighted text
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontWeight: FontWeight.bold, // Bold only for the name
                           color: Color(0xff3f617d), // Optional: Change color for the name
                         ),
                       ),
-                      TextSpan(
+                      const TextSpan(
                         text: '?', // Regular text after the name
                       ),
                     ],
@@ -128,7 +131,6 @@ Widget buildDialogCall(BuildContext context, String sEmpName, String sContactNo)
                     Expanded(
                       child: TextButton(
                         onPressed: () {
-
                           //generalFunction.logout(context);
                           Navigator.of(context).pop();
                         },
@@ -150,7 +152,7 @@ Widget buildDialogCall(BuildContext context, String sEmpName, String sContactNo)
                         ),
                       ),
                     ),
-                    VerticalDivider(
+                    const VerticalDivider(
                       color: Colors.grey, // Divider color
                       width: 20, // Space between buttons
                       thickness: 1, // Thickness of the divider
@@ -386,11 +388,12 @@ middleHeaderPuri(BuildContext context, String templeName) {
      ),
      // backgroundColor: Colors.blu
      backgroundColor: Color(0xFF255898),
+     centerTitle: true,
      title: Padding(
        padding: EdgeInsets.symmetric(horizontal: 5),
        child: Text(
          '$title',
-         style: TextStyle(
+         style: const TextStyle(
            color: Colors.white,
            fontSize: 16,
            fontWeight: FontWeight.normal,
@@ -449,14 +452,15 @@ getAppBarBack(BuildContext context ,String title) {
       statusBarBrightness: Brightness.light, // For iOS (dark icons)
     ),
     // backgroundColor: Colors.blu
+    centerTitle: true,
     backgroundColor: Color(0xFF255898),
     leading: GestureDetector(
       onTap: (){
         print("------back---");
         Navigator.pop(context);
       },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
+      child: const Padding(
+        padding: EdgeInsets.all(8.0),
         child: Icon(Icons.arrow_back_ios,
           color: Colors.white,),
       ),
@@ -477,22 +481,19 @@ getAppBarBack(BuildContext context ,String title) {
 dynamic? lat,long;
 
 class GeneralFunction {
+
   void logout(BuildContext context) async {
-    /// TODO LOGOUT CODE
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.remove("iCitizenCode");
-    prefs.remove("sContactNo");
-    prefs.remove("sCitizenName");
-    prefs.remove("sToken");
-    //displayToastlogout();
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear(); // This removes all stored data
     goNext(context);
+
   }
 
   goNext(BuildContext context) {
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => LoginScreen_2()),
-          (route) => false, // Pop all routes until this page
+          (Route<dynamic> route) => false, // Condition to retain routes
     );
   }
   // drawerfuntiion 2
@@ -512,28 +513,6 @@ class GeneralFunction {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-
-                  // internetImage(
-                  //   '$sEmpImage',
-                  //   fit: BoxFit.cover,
-                  // ),
-                  // Container(
-                  //   width: 80,
-                  //   height: 80,
-                  //   decoration: BoxDecoration(
-                  //     color: Colors.grey[300], // Light gray color
-                  //     borderRadius: BorderRadius.circular(40), // Border radius of 40
-                  //   ),
-                  //   /// todo apply a funcation to set a internet images
-                  //   child: Padding(
-                  //     padding: const EdgeInsets.all(14.0),
-                  //     child: Container(
-                  //       child:   Image.asset('assets/images/post_complaint.png',
-                  //         fit: BoxFit.cover,
-                  //        ),
-                  //     ),
-                  //   ),
-                  // ),
                   SizedBox(height: 10),
                   Text(
                     sName,
@@ -558,16 +537,6 @@ class GeneralFunction {
               ),
             ),
           ),
-          // Drawer
-          // DrawerHeader(
-          //   decoration: BoxDecoration(
-          //     image: DecorationImage(
-          //       image: AssetImage('assets/images/puriOned4.png'),
-          //       fit: BoxFit.cover,
-          //     ),
-          //   ),
-          //   child: Container(),
-          // ),
 
           Padding(
             padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
@@ -683,29 +652,6 @@ class GeneralFunction {
                       ],
                     ),
                   ),
-                  // const SizedBox(height: 15),
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     Navigator.of(context).pushReplacement(
-                  //       MaterialPageRoute(builder: (context) => HowToReach()),
-                  //     );
-                  //   },
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.start,
-                  //     children: <Widget>[
-                  //       Image.asset(
-                  //         'assets/images/how_to_rech.png',
-                  //         width: 25,
-                  //         height: 25,
-                  //       ),
-                  //       const SizedBox(width: 10),
-                  //       Text('How To Reach',
-                  //           style: AppTextStyle
-                  //               .font16penSansExtraboldRedTextStyle),
-                  //     ],
-                  //   ),
-                  // ),
-                  // SizedBox(height: 15),
                 ],
               ),
             ),
@@ -714,7 +660,244 @@ class GeneralFunction {
       ),
     );
   }
+  // widget function
+  Widget _buildDialogSucces(BuildContext context) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center,
+        children: [
+          Container(
+            height: 170,
+            padding: EdgeInsets.fromLTRB(20, 30, 20, 20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Space for the image
+                const Row(
+                  children: [
+                    Icon(
+                      Icons.error_outline, // Exclamation icon
+                      color: Colors.red, // Color of the icon
+                      size: 22, // Size of the icon
+                    ),
+                    SizedBox(width: 8), // Spacing between the icon and text
+                    Text(
+                      'Delete Account',
+                      style: TextStyle(
+                        fontSize: 16, // Adjust font size
+                        fontWeight: FontWeight.bold, // Make the text bold
+                        color: Colors.black, // Text color
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+                Expanded( // Wrap the text in Expanded to allow it to take available space and wrap
+                  child: Text(
+                    "Are you sure you want to Delete Account?",
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey[600],
+                    ),
+                    textAlign: TextAlign.left, // Align the text to the left
+                    softWrap: true, // Allow text to wrap
+                    maxLines: 2, // Set the maximum number of lines the text can take
+                    overflow: TextOverflow.ellipsis, // Add ellipsis if the text exceeds the available space
+                  ),
+                ),
+                SizedBox(height: 20),
+                Container(
+                  height: 35, // Reduced height to 35
+                  padding: EdgeInsets.symmetric(horizontal: 5), // Adjust padding as needed
+                  decoration: BoxDecoration(
+                    color: Colors.white, // Container background color
+                    borderRadius: BorderRadius.circular(15), // Rounded corners
+                    border: Border.all(color: Colors.grey), // Border color
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            //generalFunction.logout(context);
+                            Navigator.of(context).pop();
+                          },
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero, // Remove default padding
+                            minimumSize: Size(0, 0), // Remove minimum size constraints
+                            backgroundColor: Colors.white, // Button background
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15), // Button border radius
+                            ),
+                          ),
+                          child: Text(
+                            'No',
+                            style: GoogleFonts.openSans(
+                              color: Colors.red, // Text color for "Yes"
+                              fontSize: 12, // Adjust font size to fit the container
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const VerticalDivider(
+                        color: Colors.grey, // Divider color
+                        width: 20, // Space between buttons
+                        thickness: 1, // Thickness of the divider
+                      ),
+                      Expanded(
+                        child: TextButton(
+                          onPressed: ()async {
+                            // getLocation();
+                            Navigator.pop(context);
+                            print("----Call api delete the Account---");
+
+                            var  deleteAccount = await DeleteAccountRepo().deleteAccount(context,"");
+                            print("-----DeleteAccount---$deleteAccount");
+
+                            var  result = "${deleteAccount['Result']}";
+                            var msg = "${deleteAccount['Msg']}";
+
+
+                            if(result=="1"){
+                              // show dialog Account is deleted
+                              // _buildDialogSucces2
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return _buildDialogSucces2(context,msg);
+                                },
+                              );
+                            }else{
+                              displayToast(msg);
+                              // show a msg api msg
+                            }
+                            // Navigator.of(context).pop();
+                          },
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero, // Remove default padding
+                            minimumSize: Size(0, 0), // Remove minimum size constraints
+                            backgroundColor: Colors.white, // Button background
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15), // Button border radius
+                            ),
+                          ),
+                          child: Text(
+                            'Yes',
+                            style: GoogleFonts.openSans(
+                              color: Colors.green, // Text color for "No"
+                              fontSize: 12, // Adjust font size to fit the container
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
   // drawerFunction
+  Widget _buildDialogSucces2(BuildContext context,String msg) {
+    return Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+      elevation: 0,
+      backgroundColor: Colors.transparent,
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.center,
+        children: [
+          Container(
+            height: 190,
+            padding: EdgeInsets.fromLTRB(20, 45, 20, 20),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(height: 0), // Space for the image
+                Text(
+                    'Success',
+                    style: AppTextStyle.font16OpenSansRegularBlackTextStyle
+                ),
+                SizedBox(height: 10),
+                Text(
+                  msg,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey[600],
+                  ),
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        // navigate to LoginScreen
+
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginScreen_2()),
+                              (Route<dynamic> route) => false, // Condition to retain routes
+                        );
+
+
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white, // Set the background color to white
+                        foregroundColor: Colors.black, // Set the text color to black
+                      ),
+                      child: Text('Ok',style: AppTextStyle.font16OpenSansRegularBlackTextStyle),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+          Positioned(
+            top: -30, // Position the image at the top center
+            child: CircleAvatar(
+              radius: 30,
+              backgroundColor: Colors.blueAccent,
+              child: ClipOval(
+                child: Image.asset(
+                  'assets/images/sussess.jpeg', // Replace with your asset image path
+                  fit: BoxFit.cover,
+                  width: 60,
+                  height: 60,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
 
   drawerFunction_2(BuildContext context, String sName, String sContactNo) {
     return Drawer(
@@ -787,12 +970,12 @@ class GeneralFunction {
                   ),
                   const SizedBox(height: 15),
                   GestureDetector(
-                    onTap: ()async {
+                    onTap: () async {
+                      //displayToast("Coming Soon");
 
-
-                      // Navigator.of(context).pushReplacement(
-                      //   MaterialPageRoute(builder: (context) => TemplesHome()),
-                      // );
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => AdvertisementBookingStatus()),
+                      );
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -813,11 +996,11 @@ class GeneralFunction {
                   const SizedBox(height: 15),
                   GestureDetector(
                     onTap: () {
-                      // Navigator.of(context).pushReplacement(
-                      //   MaterialPageRoute(
-                      //       builder: (context) =>
-                      //           CityHistory(templeName: "", image: "")),
-                      // );
+                     // displayToast("Coming Soon");
+
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) => NotificationPage()),
+                      );
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -838,8 +1021,37 @@ class GeneralFunction {
                   ),
                   const SizedBox(height: 15),
                   GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return _buildDialogSucces(context);
+                        },
+                      );
+
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/images/deleteaccount.png',
+                          width: 25,
+                          height: 25,
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          'Delete Account',
+                          style:
+                          AppTextStyle.font16penSansExtraboldBlackTextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  GestureDetector(
                     onTap: () async {
                       // clear all store SharedPreferenceValue :
+
                       final prefs = await SharedPreferences.getInstance();
                       await prefs.clear(); // This removes all stored data
 

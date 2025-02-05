@@ -13,6 +13,7 @@ class CitizenMyPostComplaintRepo {
 GeneralFunction generalFunction = GeneralFunction();
 
 Future<List<Map<String, dynamic>>?> cityzenpostcomplaint(BuildContext context) async {
+
   SharedPreferences prefs = await SharedPreferences.getInstance();
   String? sToken = prefs.getString('sToken');
   String? iUserId = prefs.getString('iUserId');
@@ -37,6 +38,9 @@ Future<List<Map<String, dynamic>>?> cityzenpostcomplaint(BuildContext context) a
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();
 
+    if(response.statusCode ==401){
+      generalFunction.logout(context);
+    }
     if (response.statusCode == 200) {
       hideLoader();
       var data = await response.stream.bytesToString();

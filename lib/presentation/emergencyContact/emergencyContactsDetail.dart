@@ -164,16 +164,18 @@ class _MyHomePageState extends State<EmergencyListPage> {
                 statusBarBrightness: Brightness.light, // For iOS (dark icons)
               ),
               // backgroundColor: Colors.blu
+             centerTitle: true,
               backgroundColor: Color(0xFF255898),
               leading: GestureDetector(
                 onTap: (){
                   print("------back---");
                   //Navigator.pop(context);
+                  Navigator.pop(context);
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => EmergencyContacts()),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(builder: (context) => EmergencyContacts()),
+                  // );
                 },
                 child: const Icon(Icons.arrow_back_ios,
                   color: Colors.white,),

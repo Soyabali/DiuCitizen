@@ -10,10 +10,7 @@ class GrievanceForm extends StatefulWidget {
 
 class _GrievanceFormState extends State<GrievanceForm> {
   final _formKey = GlobalKey<FormState>();
-
-  String? _selectedCategory;
   String? _selectedSubCategory;
-  String? _selectedWard;
 
   @override
   Widget build(BuildContext context) {

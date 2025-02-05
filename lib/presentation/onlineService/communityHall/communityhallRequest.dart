@@ -1,5 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -7,6 +8,7 @@ import 'package:puri/services/bindCommunityHallRepo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../app/generalFunction.dart';
 import '../../../services/BindCommunityHallDateRepo.dart';
+import '../../../services/BindMonthsRepo.dart';
 import '../../../services/PostCommunityBookingHallReqRepo.dart';
 import '../../../services/bindSubCategoryRepo.dart';
 import '../../circle/circle.dart';
@@ -33,6 +35,7 @@ class _MyHomePageState extends State<CommunityHallRequest> with TickerProviderSt
   //List<dynamic> bindcommunityHallDate = [];
  List<Map<String, dynamic>>bindcommunityHallDate=[];
   List<dynamic> wardList = [];
+  List<dynamic> bindMonthList = [];
   List<dynamic> bindreimouList = [];
   List blockList = [];
   List shopTypeList = [];
@@ -88,6 +91,7 @@ class _MyHomePageState extends State<CommunityHallRequest> with TickerProviderSt
   //var _dropDownSector;
   var dropDownSubCategory;
   var _dropDownWard;
+  var _dropDownMonth;
   var sectorresponse;
   String? sec;
   final distDropdownFocus = GlobalKey();
@@ -99,6 +103,7 @@ class _MyHomePageState extends State<CommunityHallRequest> with TickerProviderSt
 
   //var _selectedWardId;
   var _selectediCommunityHallId;
+  var _selectedMonthCode;
   var _selectedRatePerDay;
   var iUserTypeCode;
   var userId;
@@ -107,8 +112,10 @@ class _MyHomePageState extends State<CommunityHallRequest> with TickerProviderSt
   File? image;
   var uplodedImage;
   double? lat, long;
-  List<String> selectedDates = []; // List to store selected dates
-
+  //List<String> selectedDates = []; // List to store selected dates
+  List<Map<String, dynamic>> seleccteddates = [];
+  List<Map<String, dynamic>> thirdFormCombinedList = [];
+  List<Map<String, dynamic>> firstFormCombinedList = [];
   bool isSuccess = false;
   bool isLoading = false;
   var iCommunityHallName;
@@ -139,7 +146,13 @@ var  firstStatus;
     print(" -----xxxxx-  wardList--58-xx---> $wardList");
     setState(() {});
   }
-
+  // BindMonth
+  bindMonth() async {
+    /// todo remove the comment and call Community Hall
+    bindMonthList = await BindMonthsRepo().bindMonth();
+    print(" -----xxxxx-  BindMonth--148-xx---> $bindMonthList");
+    setState(() {});
+  }
   // DropdownButton Ward
   Widget _bindWard() {
     return Material(
@@ -184,15 +197,17 @@ var  firstStatus;
 
                       }
                     });
-                    if (_selectediCommunityHallId != null) {
+                    if (_selectediCommunityHallId != null && _selectedMonthCode!=null) {
                       /// remove the comment
-                      bindCommunityHallDate(_selectediCommunityHallId);
+                     setState(() {
+                       bindCommunityHallDate(_selectediCommunityHallId,_selectedMonthCode);
+                     });
 
                     } else {
                       //toast
                     }
                     print("------157---hallId--$_selectediCommunityHallId");
-                    print("------158----RatePerDay---$_selectedRatePerDay");
+                    print("------158--MonthCode---$_selectedMonthCode");
                   });
                 },
 
@@ -220,15 +235,97 @@ var  firstStatus;
       ),
     );
   }
-  Future<void> bindCommunityHallDate(var hallId) async {
+  // bindMonth list DropDown
+  Widget _bindMonthList() {
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(10.0),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10),
+        child: Container(
+          width: MediaQuery.of(context).size.width - 50,
+          height: 42,
+          color: Color(0xFFf2f3f5),
+          child: DropdownButtonHideUnderline(
+            child: ButtonTheme(
+              alignedDropdown: true,
+              child: DropdownButton(
+                isDense: true,
+                // Reduces the vertical size of the button
+                isExpanded: true,
+                // Allows the DropdownButton to take full width
+                dropdownColor: Colors.white,
+                // Set dropdown list background color
+                onTap: () {
+                  FocusScope.of(context).unfocus(); // Dismiss keyboard
+                },
+                hint: RichText(
+                  text: TextSpan(
+                    text: "Select Community Hall",
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                  ),
+                ),
+                value: _dropDownMonth,
+                onChanged: (newValue) {
+                  setState(() {
+                    _dropDownMonth = newValue;
+                    bindMonthList.forEach((element) {
+                      if (element["sMonthName"] == _dropDownMonth) {
+                        // RatePerDay
+                        //_selectedWardId = element['iCommunityHallId'];
+                        _selectedMonthCode = element['iMonthCode'];
+
+                      }
+                    });
+                    if (_selectedMonthCode != null) {
+                      /// remove the comment
+                      setState(() {
+                       // bindCommunityHallDate(_selectediCommunityHallId);
+                      });
+
+                    } else {
+                      //toast
+                    }
+                    print("------157---_selectedMonthCode--$_selectedMonthCode");
+                    print("------158----RatePerDay---$_dropDownMonth");
+                  });
+                },
+
+                items: bindMonthList.map((dynamic item) {
+                  return DropdownMenuItem(
+                    value: item["sMonthName"].toString(),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            item['sMonthName'].toString(),
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTextStyle
+                                .font14OpenSansRegularBlack45TextStyle,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<void> bindCommunityHallDate(var hallId, selectedMonthCode) async {
     setState(() {
       isLoading = true; // Start the progress bar
     });
-
     try {
+      print("-----hallId----$hallId");
+      print("-----selectedMonthCode----$selectedMonthCode");
       bindcommunityHallDate = await BindCommunityHallDateRepo()
-          .bindCommunityHallDate(context, hallId);
-
+          .bindCommunityHallDate(context, hallId,selectedMonthCode);
+        print('-----328----xxxx---->>>>---$bindcommunityHallDate');
       // If the response is not empty or null, set isSuccess to true
       if (bindcommunityHallDate.isNotEmpty) {
         setState(() {
@@ -253,7 +350,7 @@ var  firstStatus;
 
   Widget buildContent() {
     if (isLoading) {
-      return Center(
+      return const Center(
         child: CircularProgressIndicator(), // Show progress bar while loading
       );
     }
@@ -318,12 +415,19 @@ var  firstStatus;
                           if (status == 0 || status == 1) {
                             selectedStates[firstIndex] = !selectedStates[firstIndex];
                             if (selectedStates[firstIndex]) {
-                              selectedDates.add(firstItem['dDate']);
+
+                              seleccteddates.add({
+                               "dBookingDate":"${firstItem['dDate']}"
+                              });
+                              //selectedDates.add(firstItem['dDate']);
+                              //
+
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text("Selected: ${firstItem['dDate']}")),
                               );
                             } else {
-                              selectedDates.remove(firstItem['dDate']);
+                             // selectedDates.remove(firstItem['dDate']);
+                              seleccteddates.remove(firstItem['dDate']);
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text("Deselected: ${firstItem['dDate']}")),
                               );
@@ -337,8 +441,7 @@ var  firstStatus;
                       },
                     ),
                     if (secondItem != null)
-                      _buildDateTile(
-                        secondItem['dDate'],
+                      _buildDateTile(secondItem['dDate'],
                         selectedStates[secondIndex],
                         secondColor!,
                             () {
@@ -348,12 +451,19 @@ var  firstStatus;
 
                               selectedStates[secondIndex] = !selectedStates[secondIndex];
                               if (selectedStates[secondIndex]) {
-                                selectedDates.add(secondItem?['dDate']);
+
+                               // selectedDates.add(secondItem?['dDate']);
+                                seleccteddates.add({
+                                  "dBookingDate":"${secondItem?['dDate']}"
+                                });
+
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text("Selected: ${secondItem?['dDate']}")),
                                 );
                               } else {
-                                selectedDates.remove(secondItem?['dDate']);
+                               // selectedDates.remove(secondItem?['dDate']);
+                                seleccteddates.remove(secondItem?['dDate']);
+
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text("Deselected: ${secondItem?['dDate']}")),
                                 );
@@ -374,7 +484,7 @@ var  firstStatus;
         ),
       );
     } else {
-      return Center(
+      return const Center(
         child: Text(
           "No Data Available ",
           style: TextStyle(fontSize: 16, color: Colors.red),
@@ -383,10 +493,10 @@ var  firstStatus;
     }
   }
 
-
   @override
   void initState() {
     bindWard();
+    bindMonth();
     super.initState();
     _applicationNamefocus = FocusNode();
     _applicationMoboileNofocus = FocusNode();
@@ -413,11 +523,14 @@ var  firstStatus;
     _purposeOfBookingfocus.dispose();
     FocusScope.of(context).unfocus();
   }
-
   // Api call Function
-
   void validateAndCallApi() async {
+    firstFormCombinedList = [];
     // Trim values to remove leading/trailing spaces
+    // random No
+    Random random = Random();
+    // Generate a random 10-digit number
+    int sBookingReqId = 1000000000 + random.nextInt(900000);
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String? sCreatedBy = prefs.getString('sContactNo');
@@ -437,19 +550,10 @@ var  firstStatus;
     // print('---perDayAmount----$perDayAmount');
     print("purposeOfBooking: $dPurposeOfBooking");
     print("per Day Amount : $_selectedRatePerDay");
-    print("Community Booking Dates List : $selectedDates");
-    var sBookingReqId;
-    var iDaysOfBooking;
-    var iStatus;
-    var dBookingDate;
-   // var iCommunityHallID;
-    // _selectedRatePerDay  fAmount
+    print("Community Booking Dates List : $seleccteddates");
+    print("------446----${seleccteddates.length}");
+    var iDaysOfBooking = "${seleccteddates.length}";
 
-    // Check Form Validation
-    // bool isFormValid = false;
-    //
-    // // Safely check if the form is initialized
-    // if (_formKey.currentState != null) {
     final isFormValid = _formKey.currentState!.validate();
     // }
     //
@@ -465,26 +569,29 @@ var  firstStatus;
       // All conditions met; call the API
       print('---Call API---');
 
-      // Call your API logic here
-      var onlineComplaintResponse = await PostCommunityBookingHallReqRepo().postCommunityBookingHall(
-        context,
-        sBookingReqId,
-        sApplicantName,
-        sAddress,
-        sMobileNo,
-        iCommunityHallName,
-        iDaysOfBooking,
-        dPurposeOfBooking,
-        iStatus,
-        _selectedRatePerDay,
-         sCreatedBy,
-         selectedDates,
-        dBookingDate,
-        _selectediCommunityHallId
-      );
-      print('----562---$onlineComplaintResponse');
-      result2 = onlineComplaintResponse['Result'];
-      msg2 = onlineComplaintResponse['Msg'];
+      firstFormCombinedList.add({
+        "sBookingReqId": "$sBookingReqId",
+        "sApplicantName": sApplicantName,
+        "sMobileNo": "$sMobileNo",
+        "sAddress": sAddress,
+        "iCommunityHallName": "$_selectediCommunityHallId",
+        "iDaysOfBooking": "$iDaysOfBooking",
+        "fAmount": "$_selectedRatePerDay",
+        "dPurposeOfBooking": "$dPurposeOfBooking",
+        "sCreatedBy": sCreatedBy,
+        "sBookingDateArray": seleccteddates,
+      });
+      // lIST to convert json string
+      String allThreeFormJson = jsonEncode(firstFormCombinedList);
+
+      print('----572--->>.---$allThreeFormJson');
+
+      var onlineComplaintResponse = await PostCommunityBookingHallReqRepo()
+          .postCommunityBookingHall(context, allThreeFormJson);
+
+      print('----1020---$onlineComplaintResponse');
+       result2 = onlineComplaintResponse['Result'];
+       msg2 = onlineComplaintResponse['Msg'];
       if (result2 == "1") {
         displayToast(msg2);
         Navigator.pop(context);
@@ -591,6 +698,7 @@ var  firstStatus;
               statusBarBrightness: Brightness.light, // For iOS (dark icons)
             ),
             // backgroundColor: Colors.blu
+            centerTitle: true,
             backgroundColor: Color(0xFF255898),
             leading: GestureDetector(
               onTap: () {
@@ -613,7 +721,6 @@ var  firstStatus;
             //centerTitle: true,
             elevation: 0, // Removes shadow under the AppBar
           ),
-
           body: Padding(
             padding: const EdgeInsets.only(left: 10, right: 10),
             child: SingleChildScrollView(
@@ -707,8 +814,7 @@ var  firstStatus;
                                           Expanded(
                                             child: TextFormField(
                                               focusNode: _applicationNamefocus,
-                                              controller:
-                                                  _applicationNameController,
+                                              controller: _applicationNameController,
                                               textInputAction:
                                                   TextInputAction.next,
                                               onEditingComplete: () =>
@@ -865,6 +971,27 @@ var  firstStatus;
                                     ),
                                   ),
                                 ),
+                                // Month
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                    // Align items vertically
+                                    children: <Widget>[
+                                      CircleWithSpacing(),
+                                      // Space between the circle and text
+                                      Text(
+                                        'Months',
+                                        style: AppTextStyle
+                                            .font14OpenSansRegularBlack45TextStyle,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                // Dropdown month
+                                _bindMonthList(),
                                 // Community Hall
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10),
@@ -1167,45 +1294,33 @@ var  firstStatus;
                                                   var date =  bindcommunityHallDate[index]['dDate'];
                                                   //   var status = firstItem['iStatus'];
                                                   var iStatus =  bindcommunityHallDate[index]['iStatus'];
-                                                  print("-----1257---$iStatus");
-                                                  if(iStatus==0){
-                                                      setState(() {
-                                                        if (isSelected) {
-                                                          selectedIndices.remove(index);
-                                                          displayToast("RemoveDate : $date");
-                                                          selectedDates.remove(date);
-                                                        } else {
-                                                          selectedIndices.add(index);
-                                                          displayToast("SelectedDate : $date");
-                                                          selectedDates.add(date);
-                                                          print("-----Selected Date----$selectedDates");
-                                                        }
-                                                      });
 
-                                                    }
-                                                  if(iStatus==1){
-                                                      setState(() {
-                                                        if (isSelected) {
-                                                          selectedIndices.remove(index);
-                                                          displayToast("RemoveDate : $date");
-                                                          selectedDates.remove(date);
-                                                        } else {
-                                                          selectedIndices.add(index);
-                                                          displayToast("SelectedDate : $date");
-                                                          selectedDates.add(date);
-                                                          print("-----Selected Date----$selectedDates");
-                                                        }
-                                                      });
-                                                    }
+                                                  print("-----1257---$iStatus");
+                                                  if (iStatus == 0 || iStatus == 1) {
+                                                    setState(() {
+                                                      if (isSelected) {
+                                                        // Remove the index from selected indices
+                                                        selectedIndices.remove(index);
+
+                                                        // Remove the corresponding date from seleccteddates list
+                                                        seleccteddates.removeWhere((element) => element["dBookingDate"] == date);
+
+                                                        displayToast("RemoveDate: $date");
+                                                      } else {
+                                                        // Add the index and date if it's being selected
+                                                        selectedIndices.add(index);
+                                                        seleccteddates.add({"dBookingDate": date});
+
+                                                        displayToast("SelectedDate: $date");
+                                                      }
+                                                    });
+
+                                                    print("Updated selected dates: $seleccteddates");
+                                                  }
+
                                                   if(iStatus==2){
                                                     displayToast("Already Book");
                                                   }
-
-
-
-
-
-
                                                 },
                                                 child: Container(
                                                   height: 45,
@@ -1248,49 +1363,7 @@ var  firstStatus;
                                                   // ),),
                                                 ),
                                               ))
-                                          // Padding(
-                                          //   padding: const EdgeInsets.symmetric(vertical: 1.0),
-                                          //   child: GestureDetector(
-                                          //     onTap:(){
-                                          //      // var status =  bindcommunityHallDate[index]['iStatus'];   //secondItem?['iStatus'];
-                                          //      },
-                                          //     // onTap: () {
-                                          //     //   var title = OnlineTitle[index];
-                                          //     //   // sIcon
-                                          //     //   print('----title---207---$title');
-                                          //     //   if(title=="Community Hall Request"){
-                                          //     //     //  PropertyTax
-                                          //     //     var name = "Community Hall Request";
-                                          //     //     var iCategoryCode ="3";
-                                          //     //     Navigator.push(
-                                          //     //       context,
-                                          //     //       MaterialPageRoute(builder: (context) => CommunityHallRequest(name:name,iCategoryCode:iCategoryCode)),
-                                          //     //     );
-                                          //     //     // BuildingPlanStatus
-                                          //     //   }else{
-                                          //     //     var name = "Community Hall Status";
-                                          //     //     var iCategoryCode ="3";
-                                          //     //     Navigator.push(
-                                          //     //       context,
-                                          //     //       MaterialPageRoute(builder: (context) => CommunityHallStatus(name:name)),
-                                          //     //     );
-                                          //     //   }
-                                          //     // },
-                                          //     child: ListTile(
-                                          //       title: Text(
-                                          //         bindcommunityHallDate[index]['dDate'],
-                                          //         style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                                          //       ),
-                                          //     ),
-                                          //   ),
-                                          // ),
-                                          // Padding(
-                                          //   padding: const EdgeInsets.only(left: 12, right: 12),
-                                          //   child: Container(
-                                          //     height: 1,
-                                          //     color: Colors.grey, // Gray color for the bottom line
-                                          //   ),
-                                          // ),
+
                                         ],
                                       );
                                     },

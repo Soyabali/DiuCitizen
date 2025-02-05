@@ -48,7 +48,7 @@ class _MyHomePageState extends State<OccupationCertificateApplyForm> {
   }
 
   bindWard() async {
-    wardList = await BindCityzenWardRepo().getbindWard();
+    wardList = await BindCityzenWardRepo().getbindWard(context);
     print(" -----xxxxx-  wardList--50---> $wardList");
     setState(() {});
   }
