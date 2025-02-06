@@ -629,7 +629,9 @@ var  firstStatus;
         sMobileNo.isNotEmpty &&
         sAddress.isNotEmpty &&
         _selectediCommunityHallId != null &&
-        dPurposeOfBooking.isNotEmpty) {
+        dPurposeOfBooking.isNotEmpty &&
+        uplodedImage!=null
+    ) {
       // All conditions met; call the API
       print('---Call API---');
 
@@ -685,6 +687,10 @@ var  firstStatus;
         displayToast('Please Select Community Hall');
         return;
       }
+      if(uplodedImage==null || uplodedImage==""){
+      displayToast('Please pic image');
+      return;
+    }
       if (dPurposeOfBooking.isEmpty) {
         displayToast('Please Enter Purpose of Booking');
       }
@@ -1467,109 +1473,109 @@ var  firstStatus;
                                 ),
                                 SizedBox(height: 5),
                                 Container(
-                                 // height: MediaQuery.of(context).size.height * 0.8, // Adjust the height as needed
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    //itemCount: 2 ?? 0,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: bindcommunityHallDate?.length ?? 0,
-                                    itemBuilder: (context, index) {
+                                   // height: 250,
+                                   // height: MediaQuery.of(context).size.height * 0.8, // Adjust the height as needed
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      //itemCount: 2 ?? 0,
+                                     physics: NeverScrollableScrollPhysics(),
+                                      itemCount: bindcommunityHallDate?.length ?? 0,
+                                      itemBuilder: (context, index) {
 
-                                      int status = bindcommunityHallDate[index]['iStatus'];
+                                        int status = bindcommunityHallDate[index]['iStatus'];
 
-                                      Color itemColor;
-                                      if (status == 0) {
-                                        itemColor = Colors.blue;
-                                      } else if (status == 1) {
-                                        itemColor = Colors.green;
-                                      } else if (status == 2) {
-                                        itemColor = Colors.red;
-                                      } else {
-                                        itemColor = Colors.grey;
-                                      }
-                                      // Check if the item is selected
-                                      bool isSelected = selectedIndices.contains(index);
-                                      return Column(
-                                        children: <Widget>[
-                                          Visibility(
-                                              visible: isFormVisible2,
-                                              child:
-                                              GestureDetector(
-                                                onTap: () {
-                                                  var date = bindcommunityHallDate[index]['dDate'];
-                                                  var iStatus = bindcommunityHallDate[index]['iStatus'];
-                                                  print("-----1257---$iStatus");
+                                        Color itemColor;
+                                        if (status == 0) {
+                                          itemColor = Colors.blue;
+                                        } else if (status == 1) {
+                                          itemColor = Colors.green;
+                                        } else if (status == 2) {
+                                          itemColor = Colors.red;
+                                        } else {
+                                          itemColor = Colors.grey;
+                                        }
+                                        // Check if the item is selected
+                                        bool isSelected = selectedIndices.contains(index);
+                                        return Column(
+                                          children: <Widget>[
+                                            Visibility(
+                                                visible: isFormVisible2,
+                                                child:
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    var date = bindcommunityHallDate[index]['dDate'];
+                                                    var iStatus = bindcommunityHallDate[index]['iStatus'];
+                                                    print("-----1257---$iStatus");
 
-                                                  if (iStatus == 0) {
-                                                    // Only allow selection for status 0
-                                                    setState(() {
-                                                      if (isSelected) {
-                                                        // Remove the index from selected indices
-                                                        selectedIndices.remove(index);
-                                                        // Remove the corresponding date from selected dates list
-                                                        seleccteddates.removeWhere((element) => element["dBookingDate"] == date);
-                                                        displayToast("Remove Date: $date");
-                                                      } else {
-                                                        // Add the index and date if it's being selected
-                                                        selectedIndices.add(index);
-                                                        seleccteddates.add({"dBookingDate": date});
-                                                        displayToast("Selected Date: $date");
-                                                      }
-                                                    });
-                                                    print("Updated selected dates: $seleccteddates");
-                                                  } else if (iStatus == 1) {
-                                                    // Prevent selection and show message for waiting status
-                                                    displayToast("Date is in waiting status, cannot be selected.");
-                                                  } else if (iStatus == 2) {
-                                                    displayToast("Already Booked");
-                                                  }
-                                                },
-                                                child: Container(
-                                                  height: 45,
-                                                  margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                                                  //color: itemColor,
-                                                  decoration: BoxDecoration(
-                                                    color: isSelected ? Colors.lightBlueAccent : Colors.white,
-                                                    borderRadius: BorderRadius.circular(22),
-                                                    border: Border.all(
-                                                      color: itemColor,
-                                                      width: 2,
-                                                    ),
-                                                  ),
-                                                  child: Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                    children: [
-                                                      Padding(
-                                                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                                                        child: Text(
-                                                          bindcommunityHallDate[index]['dDate'],
-                                                          style: const TextStyle(
-                                                            color: Colors.black,
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
+                                                    if (iStatus == 0) {
+                                                      // Only allow selection for status 0
+                                                      setState(() {
+                                                        if (isSelected) {
+                                                          // Remove the index from selected indices
+                                                          selectedIndices.remove(index);
+                                                          // Remove the corresponding date from selected dates list
+                                                          seleccteddates.removeWhere((element) => element["dBookingDate"] == date);
+                                                          displayToast("Remove Date: $date");
+                                                        } else {
+                                                          // Add the index and date if it's being selected
+                                                          selectedIndices.add(index);
+                                                          seleccteddates.add({"dBookingDate": date});
+                                                          displayToast("Selected Date: $date");
+                                                        }
+                                                      });
+                                                      print("Updated selected dates: $seleccteddates");
+                                                    } else if (iStatus == 1) {
+                                                      // Prevent selection and show message for waiting status
+                                                      displayToast("Date is in waiting status, cannot be selected.");
+                                                    } else if (iStatus == 2) {
+                                                      displayToast("Already Booked");
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    height: 45,
+                                                    margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                                    //color: itemColor,
+                                                    decoration: BoxDecoration(
+                                                      color: isSelected ? Colors.lightBlueAccent : Colors.white,
+                                                      borderRadius: BorderRadius.circular(22),
+                                                      border: Border.all(
+                                                        color: itemColor,
+                                                        width: 2,
                                                       ),
-                                                      if (isSelected)
-                                                        const Padding(
-                                                          padding: EdgeInsets.only(right: 16),
-                                                          child: Icon(
-                                                            Icons.check,
-                                                            color: Colors.white,
+                                                    ),
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                                                          child: Text(
+                                                            bindcommunityHallDate[index]['dDate'],
+                                                            style: const TextStyle(
+                                                              color: Colors.black,
+                                                              fontSize: 14,
+                                                            ),
                                                           ),
                                                         ),
-                                                    ],
+                                                        if (isSelected)
+                                                          const Padding(
+                                                            padding: EdgeInsets.only(right: 16),
+                                                            child: Icon(
+                                                              Icons.check,
+                                                              color: Colors.white,
+                                                            ),
+                                                          ),
+                                                      ],
+                                                    ),
+                                                    // child: Text(bindcommunityHallDate[index]['dDate'],style: TextStyle(
+                                                    //   color: Colors.black45,fontSize: 14
+                                                    // ),),
                                                   ),
-                                                  // child: Text(bindcommunityHallDate[index]['dDate'],style: TextStyle(
-                                                  //   color: Colors.black45,fontSize: 14
-                                                  // ),),
-                                                ),
-                                              ))
-                                        ],
-                                      );
-                                    },
+                                                ))
+                                          ],
+                                        );
+                                      },
+                                    ),
                                   ),
-                                ),
-
                               ],
                             ),
                           )),
