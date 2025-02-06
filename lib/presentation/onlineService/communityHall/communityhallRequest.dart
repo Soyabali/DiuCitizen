@@ -373,10 +373,12 @@ var  firstStatus;
                 int firstIndex = index * 2;
                 int secondIndex = firstIndex + 1;
 
-                if (firstIndex >= bindcommunityHallDate.length) return SizedBox.shrink(); // No item for firstIndex
+                if (firstIndex >= bindcommunityHallDate.length)
+                return SizedBox.shrink(); // No item for firstIndex
                 Map<String, dynamic> firstItem = bindcommunityHallDate[firstIndex];
 
                 // Determine color for the first date
+
                 int firstStatus = firstItem['iStatus'];
                 Color firstColor;
                 if (firstStatus == 0) {
@@ -388,7 +390,6 @@ var  firstStatus;
                 } else {
                   firstColor = Colors.grey;
                 }
-
                 Map<String, dynamic>? secondItem;
                 Color? secondColor;
                 if (secondIndex < bindcommunityHallDate.length) {
@@ -402,7 +403,6 @@ var  firstStatus;
                       ? Colors.red
                       : Colors.grey;
                 }
-
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -415,13 +415,11 @@ var  firstStatus;
                           if (status == 0 || status == 1) {
                             selectedStates[firstIndex] = !selectedStates[firstIndex];
                             if (selectedStates[firstIndex]) {
-
                               seleccteddates.add({
                                "dBookingDate":"${firstItem['dDate']}"
                               });
                               //selectedDates.add(firstItem['dDate']);
                               //
-
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text("Selected: ${firstItem['dDate']}")),
                               );
@@ -785,16 +783,13 @@ var  firstStatus;
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10),
                                   child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     // Align items vertically
                                     children: <Widget>[
                                       CircleWithSpacing(),
                                       // Space between the circle and text
-                                      Text(
-                                        'Application Name',
-                                        style: AppTextStyle
-                                            .font14OpenSansRegularBlack45TextStyle,
+                                      Text('Application Name',
+                                        style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
                                       ),
                                     ],
                                   ),
@@ -1044,8 +1039,7 @@ var  firstStatus;
                                     child: Padding(
                                       padding: EdgeInsets.only(left: 0),
                                       child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.start,
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
@@ -1055,8 +1049,7 @@ var  firstStatus;
                                                 "${_selectedRatePerDay ?? 0}",
                                                 style: AppTextStyle
                                                     .font14OpenSansRegularBlack45TextStyle,
-                                                textAlign: TextAlign
-                                                    .left, // Aligns the text to the left
+                                                textAlign: TextAlign.left, // Aligns the text to the left
                                               )),
                                         ],
                                       ),
@@ -1105,8 +1098,7 @@ var  firstStatus;
                                                       .nextFocus(),
                                               decoration: const InputDecoration(
                                                 border: OutlineInputBorder(),
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
+                                                contentPadding: EdgeInsets.symmetric(
                                                         vertical: 10.0,
                                                         horizontal: 10.0),
                                                 filled: true,
@@ -1194,8 +1186,7 @@ var  firstStatus;
                                     ),
                                     // Third Column
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       // Center align in the column
                                       children: [
                                         Container(
@@ -1203,8 +1194,7 @@ var  firstStatus;
                                           height: 10,
                                           decoration: BoxDecoration(
                                             color: Colors.green,
-                                            borderRadius:
-                                                BorderRadius.circular(5),
+                                            borderRadius: BorderRadius.circular(5),
                                           ),
                                         ),
                                         const SizedBox(width: 10),
@@ -1235,8 +1225,7 @@ var  firstStatus;
                                             const EdgeInsets.only(left: 10),
                                         child: Text(
                                           "2. Community Bookings Dates",
-                                          style: AppTextStyle
-                                              .font14OpenSansRegularBlackTextStyle,
+                                          style: AppTextStyle.font14OpenSansRegularBlackTextStyle,
                                         ),
                                       ),
                                       IconButton(
@@ -1272,6 +1261,7 @@ var  firstStatus;
                                     itemBuilder: (context, index) {
 
                                       int status = bindcommunityHallDate[index]['iStatus'];
+
                                       Color itemColor;
                                       if (status == 0) {
                                         itemColor = Colors.blue;
@@ -1290,36 +1280,33 @@ var  firstStatus;
                                               visible: isFormVisible2,
                                               child:
                                               GestureDetector(
-                                                onTap: (){
-                                                  var date =  bindcommunityHallDate[index]['dDate'];
-                                                  //   var status = firstItem['iStatus'];
-                                                  var iStatus =  bindcommunityHallDate[index]['iStatus'];
-
+                                                onTap: () {
+                                                  var date = bindcommunityHallDate[index]['dDate'];
+                                                  var iStatus = bindcommunityHallDate[index]['iStatus'];
                                                   print("-----1257---$iStatus");
-                                                  if (iStatus == 0 || iStatus == 1) {
+
+                                                  if (iStatus == 0) {
+                                                    // Only allow selection for status 0
                                                     setState(() {
                                                       if (isSelected) {
                                                         // Remove the index from selected indices
                                                         selectedIndices.remove(index);
-
-                                                        // Remove the corresponding date from seleccteddates list
+                                                        // Remove the corresponding date from selected dates list
                                                         seleccteddates.removeWhere((element) => element["dBookingDate"] == date);
-
-                                                        displayToast("RemoveDate: $date");
+                                                        displayToast("Remove Date: $date");
                                                       } else {
                                                         // Add the index and date if it's being selected
                                                         selectedIndices.add(index);
                                                         seleccteddates.add({"dBookingDate": date});
-
-                                                        displayToast("SelectedDate: $date");
+                                                        displayToast("Selected Date: $date");
                                                       }
                                                     });
-
                                                     print("Updated selected dates: $seleccteddates");
-                                                  }
-
-                                                  if(iStatus==2){
-                                                    displayToast("Already Book");
+                                                  } else if (iStatus == 1) {
+                                                    // Prevent selection and show message for waiting status
+                                                    displayToast("Date is in waiting status, cannot be selected.");
+                                                  } else if (iStatus == 2) {
+                                                    displayToast("Already Booked");
                                                   }
                                                 },
                                                 child: Container(
@@ -1357,17 +1344,115 @@ var  firstStatus;
                                                         ),
                                                     ],
                                                   ),
-
                                                   // child: Text(bindcommunityHallDate[index]['dDate'],style: TextStyle(
                                                   //   color: Colors.black45,fontSize: 14
                                                   // ),),
                                                 ),
                                               ))
-
                                         ],
                                       );
                                     },
                                   ),
+                                  //  child: ListView.builder(
+                                 //    shrinkWrap: true,
+                                 //    //itemCount: 2 ?? 0,
+                                 //    physics: NeverScrollableScrollPhysics(),
+                                 //    itemCount: bindcommunityHallDate?.length ?? 0,
+                                 //    itemBuilder: (context, index) {
+                                 //
+                                 //      int status = bindcommunityHallDate[index]['iStatus'];
+                                 //
+                                 //      Color itemColor;
+                                 //      if (status == 0) {
+                                 //        itemColor = Colors.blue;
+                                 //      } else if (status == 1) {
+                                 //        itemColor = Colors.green;
+                                 //      } else if (status == 2) {
+                                 //        itemColor = Colors.red;
+                                 //      } else {
+                                 //        itemColor = Colors.grey;
+                                 //      }
+                                 //      // Check if the item is selected
+                                 //      bool isSelected = selectedIndices.contains(index);
+                                 //      return Column(
+                                 //        children: <Widget>[
+                                 //          Visibility(
+                                 //              visible: isFormVisible2,
+                                 //              child:
+                                 //              GestureDetector(
+                                 //                onTap: (){
+                                 //                  var date =  bindcommunityHallDate[index]['dDate'];
+                                 //                  //   var status = firstItem['iStatus'];
+                                 //                  var iStatus =  bindcommunityHallDate[index]['iStatus'];
+                                 //
+                                 //                  print("-----1257---$iStatus");
+                                 //                  if (iStatus == 0 || iStatus == 1) {
+                                 //                    setState(() {
+                                 //                      if (isSelected) {
+                                 //                        // Remove the index from selected indices
+                                 //                        selectedIndices.remove(index);
+                                 //
+                                 //                        // Remove the corresponding date from seleccteddates list
+                                 //                        seleccteddates.removeWhere((element) => element["dBookingDate"] == date);
+                                 //
+                                 //                        displayToast("RemoveDate: $date");
+                                 //                      } else {
+                                 //                        // Add the index and date if it's being selected
+                                 //                        selectedIndices.add(index);
+                                 //                        seleccteddates.add({"dBookingDate": date});
+                                 //                        displayToast("SelectedDate: $date");
+                                 //                      }
+                                 //                    });
+                                 //                    print("Updated selected dates: $seleccteddates");
+                                 //                  }
+                                 //                  if(iStatus==2){
+                                 //                    displayToast("Already Book");
+                                 //                  }
+                                 //                },
+                                 //                child: Container(
+                                 //                  height: 45,
+                                 //                  margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                                 //                  //color: itemColor,
+                                 //                  decoration: BoxDecoration(
+                                 //                    color: isSelected ? Colors.lightBlueAccent : Colors.white,
+                                 //                    borderRadius: BorderRadius.circular(22),
+                                 //                    border: Border.all(
+                                 //                      color: itemColor,
+                                 //                      width: 2,
+                                 //                    ),
+                                 //                  ),
+                                 //                  child: Row(
+                                 //                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                 //                    children: [
+                                 //                      Padding(
+                                 //                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                                 //                        child: Text(
+                                 //                          bindcommunityHallDate[index]['dDate'],
+                                 //                          style: const TextStyle(
+                                 //                            color: Colors.black,
+                                 //                            fontSize: 14,
+                                 //                          ),
+                                 //                        ),
+                                 //                      ),
+                                 //                      if (isSelected)
+                                 //                        const Padding(
+                                 //                          padding: EdgeInsets.only(right: 16),
+                                 //                          child: Icon(
+                                 //                            Icons.check,
+                                 //                            color: Colors.white,
+                                 //                          ),
+                                 //                        ),
+                                 //                    ],
+                                 //                  ),
+                                 //                  // child: Text(bindcommunityHallDate[index]['dDate'],style: TextStyle(
+                                 //                  //   color: Colors.black45,fontSize: 14
+                                 //                  // ),),
+                                 //                ),
+                                 //              ))
+                                 //        ],
+                                 //      );
+                                 //    },
+                                 //  ),
                                 ),
 
                               ],
