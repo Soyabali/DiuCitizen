@@ -4,12 +4,15 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:image_picker/image_picker.dart';
 import 'package:puri/services/bindCommunityHallRepo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../app/generalFunction.dart';
+import '../../../app/loader_helper.dart';
 import '../../../services/BindCommunityHallDateRepo.dart';
 import '../../../services/BindMonthsRepo.dart';
 import '../../../services/PostCommunityBookingHallReqRepo.dart';
+import '../../../services/baseurl.dart';
 import '../../../services/bindSubCategoryRepo.dart';
 import '../../circle/circle.dart';
 import '../../resources/app_text_style.dart';
@@ -491,6 +494,69 @@ var  firstStatus;
     }
   }
 
+  // pick Image
+  Future pickImage() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? sToken = prefs.getString('sToken');
+    print('---Token----113--$sToken');
+    try {
+      final pickFileid = await ImagePicker()
+          .pickImage(source: ImageSource.camera, imageQuality: 65);
+      if (pickFileid != null) {
+        image = File(pickFileid.path);
+        setState(() {});
+        print('Image File path Id Proof-------167----->$image');
+        // multipartProdecudre();
+        uploadImage(sToken!, image!);
+      } else {
+        print('no image selected');
+      }
+    } catch (e) {}
+  }
+  // uplode photo
+  Future<void> uploadImage(String token, File imageFile) async {
+    print("--------225---tolen---$token");
+    print("--------226---imageFile---$imageFile");
+    var baseURL = BaseRepo().baseurl;
+    var endPoint = "PostImage/PostImage";
+    var uploadImageApi = "$baseURL$endPoint";
+    try {
+      print('-----xx-x----214----');
+      showLoader();
+      // Create a multipart request
+      var request = http.MultipartRequest(
+        'POST', Uri.parse('$uploadImageApi'),
+      );
+      // Add headers
+      //request.headers['token'] = '04605D46-74B1-4766-9976-921EE7E700A6';
+      request.headers['token'] = token;
+      request.headers['sFolder'] = 'CompImage';
+      // Add the image file as a part of the request
+      request.files.add(await http.MultipartFile.fromPath('sFolder',imageFile.path,
+      ));
+      // Send the request
+      var streamedResponse = await request.send();
+      // Get the response
+      var response = await http.Response.fromStream(streamedResponse);
+
+      // Parse the response JSON
+      var responseData = json.decode(response.body); // No explicit type casting
+      print("---------544--------$responseData");
+      if (responseData is Map<String, dynamic>) {
+        // Check for specific keys in the response
+        uplodedImage = responseData['Data'][0]['sImagePath'];
+        print('Uploaded Image Path----548----xxxxx----: $uplodedImage');
+      } else {
+        print('Unexpected response format: $responseData');
+      }
+
+      hideLoader();
+    } catch (error) {
+      hideLoader();
+      print('Error uploading image: $error');
+    }
+  }
+
   @override
   void initState() {
     bindWard();
@@ -577,6 +643,7 @@ var  firstStatus;
         "fAmount": "$_selectedRatePerDay",
         "dPurposeOfBooking": "$dPurposeOfBooking",
         "sCreatedBy": sCreatedBy,
+        "sCommunityDocUrl":uplodedImage,
         "sBookingDateArray": seleccteddates,
       });
       // lIST to convert json string
@@ -587,7 +654,7 @@ var  firstStatus;
       var onlineComplaintResponse = await PostCommunityBookingHallReqRepo()
           .postCommunityBookingHall(context, allThreeFormJson);
 
-      print('----1020---$onlineComplaintResponse');
+      print('----657---$onlineComplaintResponse');
        result2 = onlineComplaintResponse['Result'];
        msg2 = onlineComplaintResponse['Msg'];
       if (result2 == "1") {
@@ -1056,6 +1123,154 @@ var  firstStatus;
                                     ),
                                   ),
                                 ),
+                                // images code
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    // Align items vertically
+                                    children: <Widget>[
+                                      CircleWithSpacing(),
+                                      // Space between the circle and text
+                                      Text(
+                                        'Uplode Photo',
+                                        style: AppTextStyle
+                                            .font14OpenSansRegularBlack45TextStyle,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                //----Card
+                                Card(
+                                  elevation: 5,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: Container(
+                                    height: 80,
+                                    color: Colors.white,
+                                    padding: EdgeInsets.all(10),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        // Column Section
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                          children: [
+                                            Text("Click Photo",
+                                                style: AppTextStyle
+                                                    .font14OpenSansRegularBlack45TextStyle),
+                                            SizedBox(height: 5),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "Please click here to take a photo",
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.red[300]),
+                                                ),
+                                                SizedBox(width: 5),
+                                                Icon(
+                                                  Icons.arrow_forward_ios,
+                                                  color: Colors.red[300],
+                                                  size: 16,
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        // Container Section
+                                        GestureDetector(
+                                          onTap: () {
+                                            print("---------image-----");
+                                            pickImage();
+                                          },
+                                          child: Padding(
+                                            padding:
+                                            const EdgeInsets.only(top: 10),
+                                            child: Container(
+                                              padding: EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey[300],
+                                                shape: BoxShape.circle,
+                                              ),
+                                              child: Center(
+                                                child: Image.asset("assets/images/ic_camera.PNG",
+                                                  height: 30,
+                                                  width: 30,
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              ),
+                                              // child: const Icon(
+                                              //   Icons.camera_alt,
+                                              //   size: 30,
+                                              //   color: Colors.black45,
+                                              // ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      image != null
+                                          ? Stack(
+                                        children: [
+                                          GestureDetector(
+                                            behavior:
+                                            HitTestBehavior.translucent,
+                                            onTap: () {
+                                              // Navigator.push(
+                                              //     context,
+                                              //     MaterialPageRoute(
+                                              //         builder: (context) =>
+                                              //             FullScreenPage(
+                                              //               child: image!,
+                                              //               dark: true,
+                                              //             )));
+                                            },
+                                            child: Container(
+                                                color:
+                                                Colors.lightGreenAccent,
+                                                height: 100,
+                                                width: 70,
+                                                child: Image.file(
+                                                  image!,
+                                                  fit: BoxFit.fill,
+                                                )),
+                                          ),
+                                          Positioned(
+                                              bottom: 65,
+                                              left: 35,
+                                              child: IconButton(
+                                                onPressed: () {
+                                                  image = null;
+                                                  setState(() {});
+                                                },
+                                                icon: const Icon(
+                                                  Icons.close,
+                                                  color: Colors.red,
+                                                  size: 30,
+                                                ),
+                                              ))
+                                        ],
+                                      )
+                                          : Text(
+                                        "",
+                                        style: TextStyle(
+                                            color: Colors.red[700]),
+                                      )
+                                    ]),
+                                SizedBox(height: 5),
                                 // Purpose of Booking
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10),
@@ -1353,106 +1568,6 @@ var  firstStatus;
                                       );
                                     },
                                   ),
-                                  //  child: ListView.builder(
-                                 //    shrinkWrap: true,
-                                 //    //itemCount: 2 ?? 0,
-                                 //    physics: NeverScrollableScrollPhysics(),
-                                 //    itemCount: bindcommunityHallDate?.length ?? 0,
-                                 //    itemBuilder: (context, index) {
-                                 //
-                                 //      int status = bindcommunityHallDate[index]['iStatus'];
-                                 //
-                                 //      Color itemColor;
-                                 //      if (status == 0) {
-                                 //        itemColor = Colors.blue;
-                                 //      } else if (status == 1) {
-                                 //        itemColor = Colors.green;
-                                 //      } else if (status == 2) {
-                                 //        itemColor = Colors.red;
-                                 //      } else {
-                                 //        itemColor = Colors.grey;
-                                 //      }
-                                 //      // Check if the item is selected
-                                 //      bool isSelected = selectedIndices.contains(index);
-                                 //      return Column(
-                                 //        children: <Widget>[
-                                 //          Visibility(
-                                 //              visible: isFormVisible2,
-                                 //              child:
-                                 //              GestureDetector(
-                                 //                onTap: (){
-                                 //                  var date =  bindcommunityHallDate[index]['dDate'];
-                                 //                  //   var status = firstItem['iStatus'];
-                                 //                  var iStatus =  bindcommunityHallDate[index]['iStatus'];
-                                 //
-                                 //                  print("-----1257---$iStatus");
-                                 //                  if (iStatus == 0 || iStatus == 1) {
-                                 //                    setState(() {
-                                 //                      if (isSelected) {
-                                 //                        // Remove the index from selected indices
-                                 //                        selectedIndices.remove(index);
-                                 //
-                                 //                        // Remove the corresponding date from seleccteddates list
-                                 //                        seleccteddates.removeWhere((element) => element["dBookingDate"] == date);
-                                 //
-                                 //                        displayToast("RemoveDate: $date");
-                                 //                      } else {
-                                 //                        // Add the index and date if it's being selected
-                                 //                        selectedIndices.add(index);
-                                 //                        seleccteddates.add({"dBookingDate": date});
-                                 //                        displayToast("SelectedDate: $date");
-                                 //                      }
-                                 //                    });
-                                 //                    print("Updated selected dates: $seleccteddates");
-                                 //                  }
-                                 //                  if(iStatus==2){
-                                 //                    displayToast("Already Book");
-                                 //                  }
-                                 //                },
-                                 //                child: Container(
-                                 //                  height: 45,
-                                 //                  margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                                 //                  //color: itemColor,
-                                 //                  decoration: BoxDecoration(
-                                 //                    color: isSelected ? Colors.lightBlueAccent : Colors.white,
-                                 //                    borderRadius: BorderRadius.circular(22),
-                                 //                    border: Border.all(
-                                 //                      color: itemColor,
-                                 //                      width: 2,
-                                 //                    ),
-                                 //                  ),
-                                 //                  child: Row(
-                                 //                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                 //                    children: [
-                                 //                      Padding(
-                                 //                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                                 //                        child: Text(
-                                 //                          bindcommunityHallDate[index]['dDate'],
-                                 //                          style: const TextStyle(
-                                 //                            color: Colors.black,
-                                 //                            fontSize: 14,
-                                 //                          ),
-                                 //                        ),
-                                 //                      ),
-                                 //                      if (isSelected)
-                                 //                        const Padding(
-                                 //                          padding: EdgeInsets.only(right: 16),
-                                 //                          child: Icon(
-                                 //                            Icons.check,
-                                 //                            color: Colors.white,
-                                 //                          ),
-                                 //                        ),
-                                 //                    ],
-                                 //                  ),
-                                 //                  // child: Text(bindcommunityHallDate[index]['dDate'],style: TextStyle(
-                                 //                  //   color: Colors.black45,fontSize: 14
-                                 //                  // ),),
-                                 //                ),
-                                 //              ))
-                                 //        ],
-                                 //      );
-                                 //    },
-                                 //  ),
                                 ),
 
                               ],
