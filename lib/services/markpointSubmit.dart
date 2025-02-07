@@ -76,8 +76,7 @@ class OnlineComplaintFormRepo {
 
       var request = http.Request(
           'POST',
-          Uri.parse(
-              'http://115.244.7.153/diucitizenapi/api/CitizenPostComplaint/CitizenPostComplaint'));
+          Uri.parse('http://115.244.7.153/diucitizenapi/api/CitizenPostComplaint/CitizenPostComplaint'));
       request.body =
           updatedJsonResponse; // Assign the JSON string to the request body
       request.headers.addAll(headers);

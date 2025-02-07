@@ -56,13 +56,14 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
   bool isLoading = true;
   var iStatus;
   var communityHallBookingResponse;
+  var iPaymenyDone;
 
   // Api response
 
   pendingInternalComplaintResponse() async {
     pendingInternalComplaintList =
         await CommunityHallStatusRepo().communityHall(context);
-    print('-----56-----xxx-----$pendingInternalComplaintList');
+    print('-----65-----xxx-----$pendingInternalComplaintList');
     _filteredData =
         List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
 
@@ -264,6 +265,9 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                 Map<String, dynamic> item =
                                     _filteredData[index];
                                 iStatus = item['iStatus'];
+                                 iPaymenyDone = item['iPaymenyDone'];
+
+                               // iPaymenyDone = "0";
 
                                 //var iStatus2 = item['iStatus'];
 
@@ -591,7 +595,8 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                               const EdgeInsets
                                                                   .only(
                                                                   left: 24),
-                                                          child: Text(item['sStatus'] ??
+                                                          child: Text(
+                                                              item['sStatus'] ??
                                                                   '',
                                                               style: AppTextStyle
                                                                   .font14OpenSansRegularRedTextStyle),
@@ -622,14 +627,16 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                                   ? GestureDetector(
                                                                       onTap:
                                                                           () {
-                                                                        var bookingRequuestId = item['sBookingReqId'] ??
+                                                                        var bookingRequuestId =
+                                                                            item['sBookingReqId'] ??
                                                                                 '';
                                                                         // _showCustomBottomSheet(context,bookingRequuestId);
                                                                         // showCancelBookingDialog(
                                                                         //     context,
                                                                         //     bookingRequuestId);
-                                                                        _showCustomBottomSheet(context, bookingRequuestId);
-
+                                                                        _showCustomBottomSheet(
+                                                                            context,
+                                                                            bookingRequuestId);
                                                                       },
                                                                       child:
                                                                           Container(
@@ -663,7 +670,10 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                               SizedBox(
                                                                   width: 5),
                                                               iStatus.toString() ==
-                                                                      "1"
+                                                                          "1" &&
+                                                                      iPaymenyDone
+                                                                              .toString() ==
+                                                                          "0"
                                                                   ? InkWell(
                                                                       onTap:
                                                                           () {
@@ -671,8 +681,10 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                                             "-----717---");
                                                                         var requestNo =
                                                                             item['sBookingReqId'];
-                                                                        print("---670---$requestNo");
-                                                                        var sPageName = "Community Hall Status";
+                                                                        print(
+                                                                            "---670---$requestNo");
+                                                                        var sPageName =
+                                                                            "Community Hall Status";
                                                                         // call a Payment page
                                                                         var baseurl =
                                                                             "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
@@ -715,8 +727,36 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                                         ),
                                                                       ),
                                                                     )
-                                                                  : SizedBox
-                                                                      .shrink()
+                                                                  : Container(
+                                                                      height:
+                                                                          40,
+                                                                      width:
+                                                                          100,
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        color: Colors
+                                                                            .blue,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(15), // Rounded corners
+                                                                      ),
+                                                                      child:
+                                                                          const Center(
+                                                                        child:
+                                                                            Padding(
+                                                                              padding: EdgeInsets.only(left: 15),
+                                                                              child: Text(
+                                                                                                                                                        "Payment Successful",
+                                                                                                                                                        style:
+                                                                                TextStyle(
+                                                                              color:
+                                                                                  Colors.white,
+                                                                              fontSize:
+                                                                                  14,
+                                                                                                                                                        ),
+                                                                                                                                                      ),
+                                                                            ),
+                                                                      ),
+                                                                    ),
                                                             ],
                                                           ),
                                                         ),
@@ -844,10 +884,14 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                                     ],
                                                                   ),
                                                                 ),
-                                                                SizedBox(height: 5),
+                                                                SizedBox(
+                                                                    height: 5),
                                                                 Padding(
-                                                                  padding: const EdgeInsets.only(
-                                                                          left:5),
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .only(
+                                                                          left:
+                                                                              5),
                                                                   child:
                                                                       Container(
                                                                     height: 50,
@@ -1016,25 +1060,20 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                   onTap: () {
                     var remarkController = _remarksController.text.trim();
                     print("---1018---$remarkController");
-                    if(remarkController.isNotEmpty){
+                    if (remarkController.isNotEmpty) {
                       print("-----call Api-----");
-                     // displayToast("Call Api");
+                      // displayToast("Call Api");
                       //open Confirm Dialiog here
 
-                      showCancelBookingDialog(
-                          context,
-                          bookingRequuestId);
-
-
-                    }else{
+                      showCancelBookingDialog(context, bookingRequuestId);
+                    } else {
                       print("----- Not call Api-----");
                       displayToast("Please enter Remarks");
                     }
                     //  call Api
-                   // print("---729--$bookingRequuestId");
+                    // print("---729--$bookingRequuestId");
 
                     //validateAndCallRemarksApi(bookingRequuestId); // Your validation logic
-
                   },
                   child: Container(
                     width: double.infinity, // Make the button fill the width
@@ -1076,11 +1115,8 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
             "Booking Request Cancel",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
-          content: Text(
-            "Are you sure you want to cancel this booking?",
-            style: AppTextStyle
-              .font14penSansExtraboldBlack26TextStyle
-          ),
+          content: Text("Are you sure you want to cancel this booking?",
+              style: AppTextStyle.font14penSansExtraboldBlack26TextStyle),
           actionsAlignment: MainAxisAlignment.end,
           // Align buttons to the right
           actions: [
@@ -1104,10 +1140,9 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                     /// you should call api dialog box
                     /// todo remove comments
 
-                   // _showCustomBottomSheet(context, bookingRequuestId);
+                    // _showCustomBottomSheet(context, bookingRequuestId);
                     validateAndCallRemarksApi(bookingRequuestId);
                     Navigator.pop(dialogContext); // Close Dialog
-
                   },
                   style:
                       ElevatedButton.styleFrom(backgroundColor: Colors.green),
