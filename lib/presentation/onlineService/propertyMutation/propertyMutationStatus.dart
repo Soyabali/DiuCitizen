@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:puri/services/GetMutationStatusRepo.dart';
 import '../../../../app/generalFunction.dart';
+import '../../aboutDiu/Aboutdiupage.dart';
 import '../../circle/circle.dart';
 import '../../nodatavalue/NoDataValue.dart';
 import '../../resources/app_text_style.dart';
@@ -414,38 +415,8 @@ class _TemplesHomeState extends State<PropertyMutationStatus> {
                                                     .font14penSansExtraboldBlack26TextStyle),
                                           ),
                                         ],
-                                      ),
-                                      Spacer(),
-                                      pending !="Pending" ?
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: [
-                                          Container(
-                                            height: 35,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5),
-                                              gradient: const LinearGradient(
-                                                // colors: [Colors.red, Colors.orange],
-                                                colors: [Color(0xFF255898),Color(0xFF12375e)],
-                                                begin: Alignment.topLeft,
-                                                end: Alignment.bottomRight,
-                                              ),
-
-                                            ),
-                                            child:Padding(
-                                              padding: const EdgeInsets.only(left: 10,right: 10),
-                                              child: Center(
-                                                child: Text(
-                                                    "Make Payment",
-                                                    style: AppTextStyle
-                                                        .font14OpenSansRegularWhiteTextStyle),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      )
-                                          :SizedBox()],
+                                  ),
+                              ]
                                   ),
                                   // Owner name
                                   Row(
@@ -495,19 +466,75 @@ class _TemplesHomeState extends State<PropertyMutationStatus> {
                                   ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    children: <Widget>[
-                                      SizedBox(width: 5),
-                                      CircleWithSpacing(),
-                                      Text('Status',
-                                          style: AppTextStyle
-                                              .font14OpenSansRegularBlack45TextStyle),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 24),
-                                    child: Text(item['sStatusName'] ?? '',
-                                        style: AppTextStyle
-                                            .font14penSansExtraboldBlack26TextStyle),
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: <Widget>[
+                                              SizedBox(width: 5),
+                                              CircleWithSpacing(),
+                                              Text('Status',
+                                                  style: AppTextStyle
+                                                      .font14OpenSansRegularBlack45TextStyle),
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(left: 24),
+                                            child: Text(item['sStatusName'] ?? '',
+                                                style: AppTextStyle
+                                                    .font14penSansExtraboldBlack26TextStyle),
+                                          ),
+                                        ],
+                                      ),
+                                      Spacer(),
+                                      pending !="Pending" ?
+                                      Column(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        crossAxisAlignment: CrossAxisAlignment.end,
+                                        children: [
+                                          // payment code
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 4),
+                                            child: InkWell(
+                                              onTap: (){
+                                                var requestNo = item['sTranNo'];
+                                                var sPageName = "Property Transfer Status";
+                                                // call a Payment page
+                                                var baseurl = "https://www.diusmartcity.com/PropertyTransferPaymentGatewayMobile.aspx?QS=";
+                                                var paymentUrl = "$baseurl$requestNo";
+                                                print(paymentUrl);
+
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(builder: (context) =>
+                                                      AboutDiuPage(
+                                                          name: sPageName, sPageLink: paymentUrl)),
+                                                );
+
+                                              },
+                                              child: Container(
+                                                height: 35,
+                                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.blue,
+                                                  borderRadius: BorderRadius.circular(10),
+                                                ),
+                                                alignment: Alignment.center,
+                                                // sStatus
+                                                child: Text('Pay Now',
+                                                    textAlign: TextAlign.center,
+                                                    style: AppTextStyle
+                                                        .font14OpenSansRegularWhiteTextStyle),
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                          :SizedBox()],
                                   ),
                                   pending !="Pending" ?
                                   Column(
@@ -542,7 +569,7 @@ class _TemplesHomeState extends State<PropertyMutationStatus> {
                                                       Text("Action By",
                                                           style: AppTextStyle
                                                               .font140penSansExtraboldWhiteTextStyle),
-                                                      Text(item['dActionBy'] ?? 'No Action by',
+                                                      Text(item['sActionBy'] ?? 'No Action by',
                                                           style: AppTextStyle
                                                               .font140penSansExtraboldWhiteTextStyle)
                                                     ],
@@ -575,7 +602,7 @@ class _TemplesHomeState extends State<PropertyMutationStatus> {
                                                         Text('Action At',
                                                             style: AppTextStyle
                                                                 .font140penSansExtraboldWhiteTextStyle),
-                                                        Text(item['dActionRemarks'] ?? 'No Action At',
+                                                        Text(item['dActionDate'] ?? 'No Action At',
                                                             style: AppTextStyle
                                                                 .font140penSansExtraboldWhiteTextStyle)
                                                       ],
@@ -613,7 +640,7 @@ class _TemplesHomeState extends State<PropertyMutationStatus> {
                                                       style: AppTextStyle
                                                           .font14OpenSansRegularBlack45TextStyle),
                                                   SizedBox(height: 5),
-                                                  Text(item['dActionRemarks'] ?? 'No Remarks',
+                                                  Text(item['sRemarks'] ?? 'No Remarks',
                                                       style: AppTextStyle
                                                           .font14OpenSansRegularRedTextStyle),
                                                 ],

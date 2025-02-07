@@ -635,6 +635,7 @@ var  firstStatus;
       // All conditions met; call the API
       print('---Call API---');
 
+
       firstFormCombinedList.add({
         "sBookingReqId": "$sBookingReqId",
         "sApplicantName": sApplicantName,
@@ -648,6 +649,7 @@ var  firstStatus;
         "sCommunityDocUrl":uplodedImage,
         "sBookingDateArray": seleccteddates,
       });
+
       // lIST to convert json string
       String allThreeFormJson = jsonEncode(firstFormCombinedList);
 

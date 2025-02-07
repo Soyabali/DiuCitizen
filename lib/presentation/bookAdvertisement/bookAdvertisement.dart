@@ -587,7 +587,8 @@ class _MyHomePageState extends State<BookAdvertisement> with TickerProviderState
         "sApplicantName": applicationName, // Applicant Name
         "sApplicantMobileNo": applicationMobileNo,
         "sApplicantAddress": applicationAddress,
-        "iAdSpaceTypeCode": _dropDowniAdSpaceCode,
+         // "iAdSpaceTypeCode": _dropDowniAdSpaceCode,
+        "iAdSpaceCode":_dropDowniAdSpaceCode,
         "sAdvSize": advertisementUnit,
         "sAdvAmountType": advertisementAmountType,
         "fAdvAmount": advertisementAmount,

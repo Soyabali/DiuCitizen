@@ -11,6 +11,7 @@ import '../../../services/CommunityHallStatusRepo.dart';
 import '../../../services/citizenMyPostedComplaint.dart';
 import '../../../services/communityHallBookingCancel.dart';
 import '../../../services/feedbackRepo.dart';
+import '../../aboutDiu/Aboutdiupage.dart';
 import '../../circle/circle.dart';
 import '../../complaints/complaintHomePage.dart';
 import '../../fullscreen/imageDisplay.dart';
@@ -363,7 +364,8 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                                 MaterialPageRoute(
                                                                     builder: (context) =>
                                                                         FullScreenImages(
-                                                                            image: docUrl)),
+                                                                            image:
+                                                                                docUrl)),
                                                               );
                                                             },
                                                             child: Container(
@@ -408,56 +410,6 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                   ),
                                                 ),
 
-                                                // Padding(
-                                                //   padding: const EdgeInsets.only(left: 2,right: 2),
-                                                //   child: Container(
-                                                //     height: 50,
-                                                //     decoration: BoxDecoration(
-                                                //       borderRadius: BorderRadius.circular(10.0), // Adjust the radius as needed
-                                                //       color :Colors.white,
-                                                //       border: Border.all(
-                                                //         color: Colors.grey, // Border color
-                                                //         width: 1, // Border width
-                                                //       ),
-                                                //     ),
-                                                //     child: Stack(
-                                                //       children: [
-                                                //         Container(
-                                                //             decoration: BoxDecoration(
-                                                //               borderRadius: BorderRadius.circular(10.0), // Adjust the radius as needed
-                                                //               color :Color(0xFFF5F5F5),
-                                                //             ),
-                                                //             child: ListTile(
-                                                //               leading: Container(
-                                                //                 // color: Colors.blueGrey,
-                                                //                 width: 35,
-                                                //                 height: 35,
-                                                //                 // Height and width must be equal to make it circular
-                                                //                 decoration: const BoxDecoration(
-                                                //                   // color: Colors.orange,
-                                                //                   shape: BoxShape.circle,
-                                                //                 ),
-                                                //                 child: Center(
-                                                //                   child: Image.asset(
-                                                //                     'assets/images/home12.jpeg',
-                                                //                     height: 25,
-                                                //                     width: 25,
-                                                //                     fit: BoxFit.cover,
-                                                //                   ),
-                                                //                 ),
-                                                //               ),
-                                                //               title: Padding(
-                                                //                 padding: const EdgeInsets.only( bottom: 5),
-                                                //                 child: Text(item['sCommunityHallName'] ?? '',
-                                                //                     style: AppTextStyle
-                                                //                         .font14penSansExtraboldBlack45TextStyle),
-                                                //               ),
-                                                //             )),
-                                                //
-                                                //       ],
-                                                //     ),
-                                                //   ),
-                                                // ),
                                                 SizedBox(height: 5),
                                                 Row(
                                                   mainAxisAlignment:
@@ -587,6 +539,29 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                           .font14penSansExtraboldBlack26TextStyle),
                                                 ),
                                                 // status row cancel and Pay Now
+                                                //address
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    SizedBox(width: 5),
+                                                    CircleWithSpacing(),
+                                                    Text('Address',
+                                                        style: AppTextStyle
+                                                            .font14OpenSansRegularBlack45TextStyle),
+                                                  ],
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          left: 24),
+                                                  child: Text(
+                                                      item['sAddress']
+                                                              .toString() ??
+                                                          '',
+                                                      style: AppTextStyle
+                                                          .font14penSansExtraboldBlack26TextStyle),
+                                                ),
                                                 Row(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment.start,
@@ -616,8 +591,7 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                               const EdgeInsets
                                                                   .only(
                                                                   left: 24),
-                                                          child: Text(
-                                                              item['sStatus'] ??
+                                                          child: Text(item['sStatus'] ??
                                                                   '',
                                                               style: AppTextStyle
                                                                   .font14OpenSansRegularRedTextStyle),
@@ -648,13 +622,14 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                                   ? GestureDetector(
                                                                       onTap:
                                                                           () {
-                                                                        var bookingRequuestId =
-                                                                            item['sBookingReqId'] ??
+                                                                        var bookingRequuestId = item['sBookingReqId'] ??
                                                                                 '';
                                                                         // _showCustomBottomSheet(context,bookingRequuestId);
-                                                                        showCancelBookingDialog(
-                                                                            context,
-                                                                            bookingRequuestId);
+                                                                        // showCancelBookingDialog(
+                                                                        //     context,
+                                                                        //     bookingRequuestId);
+                                                                        _showCustomBottomSheet(context, bookingRequuestId);
+
                                                                       },
                                                                       child:
                                                                           Container(
@@ -689,29 +664,53 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                                   width: 5),
                                                               iStatus.toString() ==
                                                                       "1"
-                                                                  ? Container(
-                                                                      height:
-                                                                          40,
-                                                                      width:
-                                                                          100,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color: Colors
-                                                                            .green,
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(15), // Rounded corners
-                                                                      ),
+                                                                  ? InkWell(
+                                                                      onTap:
+                                                                          () {
+                                                                        print(
+                                                                            "-----717---");
+                                                                        var requestNo =
+                                                                            item['sBookingReqId'];
+                                                                        print("---670---$requestNo");
+                                                                        var sPageName = "Community Hall Status";
+                                                                        // call a Payment page
+                                                                        var baseurl =
+                                                                            "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
+                                                                        var paymentUrl =
+                                                                            "$baseurl$requestNo";
+                                                                        print(
+                                                                            paymentUrl);
+
+                                                                        Navigator
+                                                                            .push(
+                                                                          context,
+                                                                          MaterialPageRoute(
+                                                                              builder: (context) => AboutDiuPage(name: sPageName, sPageLink: paymentUrl)),
+                                                                        );
+                                                                      },
                                                                       child:
-                                                                          const Center(
+                                                                          Container(
+                                                                        height:
+                                                                            40,
+                                                                        width:
+                                                                            100,
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          color:
+                                                                              Colors.blue,
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(15), // Rounded corners
+                                                                        ),
                                                                         child:
-                                                                            Text(
-                                                                          "Pay Now",
-                                                                          style:
-                                                                              TextStyle(
-                                                                            color:
-                                                                                Colors.white,
-                                                                            fontSize:
-                                                                                14,
+                                                                            const Center(
+                                                                          child:
+                                                                              Text(
+                                                                            "Pay Now",
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: Colors.white,
+                                                                              fontSize: 14,
+                                                                            ),
                                                                           ),
                                                                         ),
                                                                       ),
@@ -726,28 +725,7 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                   ],
                                                 ),
                                                 // Address
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    SizedBox(width: 5),
-                                                    CircleWithSpacing(),
-                                                    Text('Address',
-                                                        style: AppTextStyle
-                                                            .font14OpenSansRegularBlack45TextStyle),
-                                                  ],
-                                                ),
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 24),
-                                                  child: Text(
-                                                      item['sAddress']
-                                                              .toString() ??
-                                                          '',
-                                                      style: AppTextStyle
-                                                          .font14penSansExtraboldBlack26TextStyle),
-                                                ),
+
                                                 //  bottom bar
                                                 iStatus.toString() != "0"
                                                     ? Column(
@@ -821,7 +799,7 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                      SizedBox(
+                                                                      const SizedBox(
                                                                           width:
                                                                               5),
                                                                       // Second Container
@@ -866,14 +844,10 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                                     ],
                                                                   ),
                                                                 ),
-                                                                SizedBox(
-                                                                    height: 5),
+                                                                SizedBox(height: 5),
                                                                 Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .only(
-                                                                          left:
-                                                                              5),
+                                                                  padding: const EdgeInsets.only(
+                                                                          left:5),
                                                                   child:
                                                                       Container(
                                                                     height: 50,
@@ -1040,10 +1014,27 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                 // Submit button
                 InkWell(
                   onTap: () {
+                    var remarkController = _remarksController.text.trim();
+                    print("---1018---$remarkController");
+                    if(remarkController.isNotEmpty){
+                      print("-----call Api-----");
+                     // displayToast("Call Api");
+                      //open Confirm Dialiog here
+
+                      showCancelBookingDialog(
+                          context,
+                          bookingRequuestId);
+
+
+                    }else{
+                      print("----- Not call Api-----");
+                      displayToast("Please enter Remarks");
+                    }
                     //  call Api
-                    print("---729--$bookingRequuestId");
-                    validateAndCallRemarksApi(
-                        bookingRequuestId); // Your validation logic
+                   // print("---729--$bookingRequuestId");
+
+                    //validateAndCallRemarksApi(bookingRequuestId); // Your validation logic
+
                   },
                   child: Container(
                     width: double.infinity, // Make the button fill the width
@@ -1082,12 +1073,13 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
             borderRadius: BorderRadius.circular(10), // Rounded corners
           ),
           title: const Text(
-            "Are you sure you want to cancel this booking?",
+            "Booking Request Cancel",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
-          content: const Text(
-            "As a confirmation to DMRC, no amount will be refunded.",
-            style: TextStyle(fontSize: 14, color: Colors.red),
+          content: Text(
+            "Are you sure you want to cancel this booking?",
+            style: AppTextStyle
+              .font14penSansExtraboldBlack26TextStyle
           ),
           actionsAlignment: MainAxisAlignment.end,
           // Align buttons to the right
@@ -1110,8 +1102,12 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                 ElevatedButton(
                   onPressed: () {
                     /// you should call api dialog box
-                    _showCustomBottomSheet(context, bookingRequuestId);
+                    /// todo remove comments
+
+                   // _showCustomBottomSheet(context, bookingRequuestId);
+                    validateAndCallRemarksApi(bookingRequuestId);
                     Navigator.pop(dialogContext); // Close Dialog
+
                   },
                   style:
                       ElevatedButton.styleFrom(backgroundColor: Colors.green),

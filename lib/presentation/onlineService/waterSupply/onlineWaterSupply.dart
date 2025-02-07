@@ -5,6 +5,7 @@ import '../../../services/SearchPropertyTaxForPaymentRepo.dart';
 import '../../../services/SearchWaterSupplyTaxForPaymentRepo.dart';
 import '../../../services/bindCityzenWardRepo.dart';
 import '../../../services/getEmergencyContactTitleRepo.dart';
+import '../../aboutDiu/Aboutdiupage.dart';
 import '../../circle/circle.dart';
 import '../../nodatavalue/NoDataValue.dart';
 import '../../resources/app_text_style.dart';
@@ -155,6 +156,7 @@ class _PropertyTaxState extends State<OnlineWaterSupply> {
       child: Scaffold(
           backgroundColor: Colors.white,
           appBar: getAppBarBack(context,'${widget.name}'),
+          //appBar: getAppBarBack(context,'sksksks'),
           drawer:
           generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
           body: Column(
@@ -279,7 +281,6 @@ class _PropertyTaxState extends State<OnlineWaterSupply> {
                 ),
               ),
               SizedBox(height: 5),
-
               isLoading
                   ? Center(child: Container())
                   : (emergencyTitleList == null || emergencyTitleList!.isEmpty)
@@ -353,56 +354,12 @@ class _PropertyTaxState extends State<OnlineWaterSupply> {
                                                     Text("Water Supply Request Id",
                                                       style: AppTextStyle
                                                           .font14OpenSansRegularBlack45TextStyle,
-
                                                     ),
 
                                                   ],
                                                 ),
                                               ),
                                             ),
-                                            // Spacer(),
-                                            // Padding(
-                                            //   padding: const EdgeInsets.only(right: 0,top: 10),
-                                            //   child: Container(
-                                            //     margin: EdgeInsets.all(16),
-                                            //     // color: Colors.black54,
-                                            //     decoration: BoxDecoration(
-                                            //       color: Color(0xFF96b2e1), // Background color
-                                            //       borderRadius: BorderRadius.circular(10), // Rounded corners
-                                            //       boxShadow: [
-                                            //         BoxShadow(
-                                            //           color: Colors.black.withOpacity(0.1), // Shadow color
-                                            //           blurRadius: 10,
-                                            //           spreadRadius: 2,
-                                            //           offset: Offset(0, 5), // Shadow position
-                                            //         ),
-                                            //       ],
-                                            //     ),
-                                            //     child: Container(
-                                            //       decoration: BoxDecoration(
-                                            //         color: Color(0xFF96b2e1), // Hex color #d5e6fa
-                                            //         borderRadius: BorderRadius.circular(10), // Optional: Rounded corners
-                                            //       ),
-                                            //       margin: EdgeInsets.all(5),
-                                            //       child: Row(
-                                            //         mainAxisAlignment: MainAxisAlignment.end,
-                                            //         crossAxisAlignment: CrossAxisAlignment.end,
-                                            //         children: [
-                                            //           const Icon(Icons.calendar_month,
-                                            //             size: 20,
-                                            //           ),
-                                            //           SizedBox(width: 5),
-                                            //           Text(emergencyTitleList![index]['sHouseOwnerName'].toString(),
-                                            //             style: AppTextStyle
-                                            //                 .font14OpenSansRegularWhiteTextStyle,
-                                            //
-                                            //           )
-                                            //         ],
-                                            //       ),
-                                            //     ),
-                                            //
-                                            //   ),
-                                            // )
                                           ],
 
                                         ),
@@ -425,7 +382,6 @@ class _PropertyTaxState extends State<OnlineWaterSupply> {
                                       Padding(
                                         padding: const EdgeInsets.only(),
                                         child: Container(
-
                                           height: 70,
                                           decoration: BoxDecoration(
                                             color:Colors.black12,
@@ -548,26 +504,44 @@ class _PropertyTaxState extends State<OnlineWaterSupply> {
                                         ),
                                       ),
                                       SizedBox(height: 5),
-                                      Center(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.end, // Aligns the container to the right
-                                          children: [
-                                            Container(
-                                              height: 45,
-                                              width: 150, // Set the width of the container
-                                              padding: EdgeInsets.only(right: 16), // Optional padding
-                                              alignment: Alignment.center, // Aligns text inside the container
-                                              decoration: BoxDecoration(
-                                                color: Colors.blue,
-                                                borderRadius: BorderRadius.circular(10), // Rounded corners
+                                      InkWell(
+                                        onTap: (){
+                                          print('----Payment---');
+                                          var houseNo = "${emergencyTitleList![index]['iWaterTaxReqId']}";
+                                          var baseurl = "https://www.diusmartcity.com/WaterSupplyPaymentGatewayMobile.aspx?QS=";
+                                          var paymentUrl = "$baseurl$houseNo";
+                                          print(paymentUrl);
+
+                                          var sPageName = "Online Water Supply";
+                                          //
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(builder: (context) =>
+                                                AboutDiuPage(
+                                                    name: sPageName, sPageLink: paymentUrl)),
+                                          );
+                                        },
+                                        child: Center(
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.end, // Aligns the container to the right
+                                            children: [
+                                              Container(
+                                                height: 45,
+                                                width: 150, // Set the width of the container
+                                                padding: EdgeInsets.only(right: 16), // Optional padding
+                                                alignment: Alignment.center, // Aligns text inside the container
+                                                decoration: BoxDecoration(
+                                                  color: Colors.blue,
+                                                  borderRadius: BorderRadius.circular(10), // Rounded corners
+                                                ),
+                                                child: Text(
+                                                  "Pay Now",
+                                                  style: AppTextStyle
+                                                      .font14OpenSansRegularWhiteTextStyle,
+                                                ),
                                               ),
-                                              child: Text(
-                                                "Make Payment",
-                                                style: AppTextStyle
-                                                    .font14OpenSansRegularWhiteTextStyle,
-                                              ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
                                       SizedBox(height: 5),

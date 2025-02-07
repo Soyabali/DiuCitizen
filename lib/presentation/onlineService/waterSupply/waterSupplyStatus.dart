@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:puri/presentation/onlineService/waterSupply/waterSupplyTaxTypeList.dart';
 import '../../../app/generalFunction.dart';
 import '../../../services/WaterSupplyStatusRepo.dart';
+import '../../aboutDiu/Aboutdiupage.dart';
 import '../../circle/circle.dart';
 import '../../nodatavalue/NoDataValue.dart';
 import '../../resources/app_text_style.dart';
@@ -431,29 +432,64 @@ class _TemplesHomeState extends State<WaterSupplyStatus> {
                                       ),
                                       Spacer(),
                                        WaterSupplyStatus !="Pending"?
-                                      Container(
-                                        padding: EdgeInsets.symmetric(horizontal: 20.0), // Adjust padding for text width
-                                        height: 35,
-                                        decoration: BoxDecoration(
-                                          //color: Colors.blue,
-                                          gradient: const LinearGradient(
-                                            // colors: [Colors.red, Colors.orange],
-                                            colors: [Color(0xFF255898),Color(0xFF12375e)],
-                                            begin: Alignment.topLeft,
-                                            end: Alignment.bottomRight,
-                                          ),
-                                          borderRadius: BorderRadius.circular(20), // Half of the height for rounded ends
-                                        ),
-                                        alignment: Alignment.center,
-                                        child: const Text(
-                                          'Make Payment',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ):
+                                       Padding(
+                                         padding: const EdgeInsets.only(top: 4),
+                                         child: InkWell(
+                                           onTap: (){
+                                             var requestNo = item['iWaterTaxReqId'];
+                                             var sPageName = "Water Supply Status";
+                                             // call a Payment page
+                                             var baseurl = "https://www.diusmartcity.com/WaterSupplyPaymentGatewayMobile.aspx?QS=";
+                                             var paymentUrl = "$baseurl$requestNo";
+                                             print(paymentUrl);
+
+                                             Navigator.push(
+                                               context,
+                                               MaterialPageRoute(builder: (context) =>
+                                                   AboutDiuPage(
+                                                       name: sPageName, sPageLink: paymentUrl)),
+                                             );
+
+                                           },
+                                           child: Container(
+                                             height: 35,
+                                             padding: const EdgeInsets.symmetric(horizontal: 10),
+                                             decoration: BoxDecoration(
+                                               color: Colors.blue,
+                                               borderRadius: BorderRadius.circular(10),
+                                             ),
+                                             alignment: Alignment.center,
+                                             // sStatus
+                                             child: Text('Pay Now',
+                                                 textAlign: TextAlign.center,
+                                                 style: AppTextStyle
+                                                     .font14OpenSansRegularWhiteTextStyle),
+                                           ),
+                                         ),
+                                       ):
+                                      // Container(
+                                      //   padding: EdgeInsets.symmetric(horizontal: 20.0), // Adjust padding for text width
+                                      //   height: 35,
+                                      //   decoration: BoxDecoration(
+                                      //     //color: Colors.blue,
+                                      //     gradient: const LinearGradient(
+                                      //       // colors: [Colors.red, Colors.orange],
+                                      //       colors: [Color(0xFF255898),Color(0xFF12375e)],
+                                      //       begin: Alignment.topLeft,
+                                      //       end: Alignment.bottomRight,
+                                      //     ),
+                                      //     borderRadius: BorderRadius.circular(20), // Half of the height for rounded ends
+                                      //   ),
+                                      //   alignment: Alignment.center,
+                                      //   child: const Text(
+                                      //     'Make Payment',
+                                      //     style: TextStyle(
+                                      //       color: Colors.white,
+                                      //       fontSize: 16,
+                                      //       fontWeight: FontWeight.bold,
+                                      //     ),
+                                      //   ),
+                                      // ):
                                       Container()
                                     ],
                                   ),

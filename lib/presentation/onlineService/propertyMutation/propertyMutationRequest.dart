@@ -946,7 +946,7 @@ class _MyHomePageState extends State<PropertyMutationRequest>
                         if (isFirstFormVisible) _buildFirstForm(),
                         // Second Section Header
                         _buildSectionHeader(
-                          title: "2. Transfer Detail",
+                          title: "2. Property Transfer Detail",
                           isVisible: isSecondFormVisible,
                           isIconRotated: isSecondIconRotated,
                           onToggle: () {
