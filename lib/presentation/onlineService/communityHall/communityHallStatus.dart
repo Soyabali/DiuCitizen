@@ -54,16 +54,18 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
   var msg1;
   GeneralFunction generalfunction = GeneralFunction();
   bool isLoading = true;
-  var iStatus;
   var communityHallBookingResponse;
+  var iStatus;
   var iPaymenyDone;
+  var iStatus2=1;
+  var iPaymenyDone2=1;
 
   // Api response
 
   pendingInternalComplaintResponse() async {
     pendingInternalComplaintList =
         await CommunityHallStatusRepo().communityHall(context);
-    print('-----65-----xxx-----$pendingInternalComplaintList');
+    print('-----66-----xxx-----$pendingInternalComplaintList');
     _filteredData =
         List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
 
@@ -262,17 +264,10 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                             child: ListView.builder(
                               itemCount: _filteredData.length ?? 0,
                               itemBuilder: (context, index) {
-                                Map<String, dynamic> item =
-                                    _filteredData[index];
+                                Map<String, dynamic> item = _filteredData[index];
                                 iStatus = item['iStatus'];
-                                 iPaymenyDone = item['iPaymenyDone'];
+                                iPaymenyDone = item['iPaymentDone'];
 
-                               // iPaymenyDone = "0";
-
-                                //var iStatus2 = item['iStatus'];
-
-                                // iStatus = "0";
-                                // iStatus = "1";
                                 return Padding(
                                   padding: const EdgeInsets.only(
                                       left: 8, top: 8, right: 8),
@@ -293,15 +288,12 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                 SizedBox(height: 5),
                                                 //top header
                                                 Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 2, right: 2),
+                                                  padding: const EdgeInsets.only(left: 2, right: 2),
                                                   child: Container(
                                                     height: 50,
                                                     decoration: BoxDecoration(
                                                       borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
+                                                          BorderRadius.circular(10.0),
                                                       // Adjust the radius as needed
                                                       color: Colors.white,
                                                       border: Border.all(
@@ -413,7 +405,6 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                     ),
                                                   ),
                                                 ),
-
                                                 SizedBox(height: 5),
                                                 Row(
                                                   mainAxisAlignment:
@@ -567,8 +558,7 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                           .font14penSansExtraboldBlack26TextStyle),
                                                 ),
                                                 Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
                                                   children: [
                                                     Column(
                                                       mainAxisAlignment:
@@ -615,15 +605,12 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                                   bottom: 5,
                                                                   right: 5),
                                                           child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .end,
+                                                            mainAxisAlignment: MainAxisAlignment.end,
                                                             crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .end,
+                                                                CrossAxisAlignment.end,
                                                             children: [
-                                                              iStatus.toString() !=
-                                                                      "5"
+                                                             // iStatus.toString() != "5"
+                                                              iStatus!=5
                                                                   ? GestureDetector(
                                                                       onTap:
                                                                           () {
@@ -667,96 +654,102 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                                       ),
                                                                     )
                                                                   : Container(),
-                                                              SizedBox(
-                                                                  width: 5),
-                                                              iStatus.toString() ==
-                                                                          "1" &&
-                                                                      iPaymenyDone
-                                                                              .toString() ==
-                                                                          "0"
-                                                                  ? InkWell(
-                                                                      onTap:
-                                                                          () {
-                                                                        print(
-                                                                            "-----717---");
-                                                                        var requestNo =
-                                                                            item['sBookingReqId'];
-                                                                        print(
-                                                                            "---670---$requestNo");
-                                                                        var sPageName =
-                                                                            "Community Hall Status";
-                                                                        // call a Payment page
-                                                                        var baseurl =
-                                                                            "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
-                                                                        var paymentUrl =
-                                                                            "$baseurl$requestNo";
-                                                                        print(
-                                                                            paymentUrl);
+                                                              SizedBox(width: 5),
 
-                                                                        Navigator
-                                                                            .push(
-                                                                          context,
-                                                                          MaterialPageRoute(
-                                                                              builder: (context) => AboutDiuPage(name: sPageName, sPageLink: paymentUrl)),
-                                                                        );
-                                                                      },
-                                                                      child:
-                                                                          Container(
-                                                                        height:
-                                                                            40,
-                                                                        width:
-                                                                            100,
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          color:
-                                                                              Colors.blue,
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(15), // Rounded corners
-                                                                        ),
-                                                                        child:
-                                                                            const Center(
-                                                                          child:
-                                                                              Text(
-                                                                            "Pay Now",
-                                                                            style:
-                                                                                TextStyle(
-                                                                              color: Colors.white,
-                                                                              fontSize: 14,
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    )
-                                                                  : Container(
-                                                                      height:
-                                                                          40,
-                                                                      width:
-                                                                          100,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color: Colors
-                                                                            .blue,
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(15), // Rounded corners
-                                                                      ),
-                                                                      child:
-                                                                          const Center(
-                                                                        child:
-                                                                            Padding(
-                                                                              padding: EdgeInsets.only(left: 15),
-                                                                              child: Text(
-                                                                                                                                                        "Payment Successful",
-                                                                                                                                                        style:
-                                                                                TextStyle(
-                                                                              color:
-                                                                                  Colors.white,
-                                                                              fontSize:
-                                                                                  14,
-                                                                                                                                                        ),
-                                                                                                                                                      ),
-                                                                            ),
-                                                                      ),
-                                                                    ),
+                                                              // iStatus=="1" ?
+                                                              //     Container(
+                                                              //       child: Text("Pay now",style: TextStyle(
+                                                              //       color: Colors.lightGreen,
+                                                              //       fontSize: 14,
+                                                              //       fontWeight: FontWeight.normal
+                                                              //     ),),)
+                                                              //     :
+                                                              //     Container(child: Text(iStatus.toString(),style: TextStyle(color: Colors.black,fontSize: 16),),)
+                                                              
+                                                              // iStatus == 1 && iPaymenyDone == 0
+                                                              //     ? InkWell(
+                                                              //         onTap:
+                                                              //             () {
+                                                              //           print(
+                                                              //               "-----717---");
+                                                              //           var requestNo =
+                                                              //               item['sBookingReqId'];
+                                                              //           print(
+                                                              //               "---670---$requestNo");
+                                                              //           var sPageName =
+                                                              //               "Community Hall Status";
+                                                              //           // call a Payment page
+                                                              //           var baseurl =
+                                                              //               "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
+                                                              //           var paymentUrl =
+                                                              //               "$baseurl$requestNo";
+                                                              //           print(
+                                                              //               paymentUrl);
+                                                              //
+                                                              //           Navigator
+                                                              //               .push(
+                                                              //             context,
+                                                              //             MaterialPageRoute(
+                                                              //                 builder: (context) => AboutDiuPage(name: sPageName, sPageLink: paymentUrl)),
+                                                              //           );
+                                                              //         },
+                                                              //         child:
+                                                              //             Container(
+                                                              //           height:
+                                                              //               40,
+                                                              //           width:
+                                                              //               100,
+                                                              //           decoration:
+                                                              //               BoxDecoration(
+                                                              //             color:
+                                                              //                 Colors.blue,
+                                                              //             borderRadius:
+                                                              //                 BorderRadius.circular(15), // Rounded corners
+                                                              //           ),
+                                                              //           child:
+                                                              //               Center(
+                                                              //             child:
+                                                              //                 Text(
+                                                              //               "Pay Now $iStatus",
+                                                              //               style:
+                                                              //                   TextStyle(
+                                                              //                 color: Colors.white,
+                                                              //                 fontSize: 14,
+                                                              //               ),
+                                                              //             ),
+                                                              //           ),
+                                                              //         ),
+                                                              //       )
+                                                              //     : Container(
+                                                              //         height:
+                                                              //             40,
+                                                              //         width:
+                                                              //             100,
+                                                              //         decoration:
+                                                              //             BoxDecoration(
+                                                              //           color: Colors
+                                                              //               .green,
+                                                              //           borderRadius:
+                                                              //               BorderRadius.circular(15), // Rounded corners
+                                                              //         ),
+                                                              //         child:
+                                                              //              Center(
+                                                              //           child:
+                                                              //               Padding(
+                                                              //             padding:
+                                                              //                 EdgeInsets.only(left: 15),
+                                                              //             child:
+                                                              //                 Text(
+                                                              //               "Payment done $iStatus",
+                                                              //               style:
+                                                              //                   TextStyle(
+                                                              //                 color: Colors.white,
+                                                              //                 fontSize: 14,
+                                                              //               ),
+                                                              //             ),
+                                                              //           ),
+                                                              //         ),
+                                                              //       ),
                                                             ],
                                                           ),
                                                         ),
@@ -764,192 +757,72 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                     )
                                                   ],
                                                 ),
-                                                // Address
 
-                                                //  bottom bar
-                                                iStatus.toString() != "0"
-                                                    ? Column(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Container(
-                                                            child: Column(
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .start,
-                                                              crossAxisAlignment:
-                                                                  CrossAxisAlignment
-                                                                      .start,
-                                                              children: <Widget>[
-                                                                SizedBox(
-                                                                    height: 5),
-                                                                Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .only(
-                                                                          bottom:
-                                                                              5,
-                                                                          left:
-                                                                              5,
-                                                                          right:
-                                                                              5,
-                                                                          top:
-                                                                              5),
-                                                                  child: Row(
-                                                                    children: [
-                                                                      // First Container
-                                                                      Expanded(
-                                                                        child:
-                                                                            Container(
-                                                                          height:
-                                                                              50,
-                                                                          //color: Colors.blue,
-                                                                          decoration:
-                                                                              BoxDecoration(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(5),
-                                                                            gradient:
-                                                                                const LinearGradient(
-                                                                              // colors: [Colors.red, Colors.orange],
-                                                                              colors: [
-                                                                                Color(0xFF255898),
-                                                                                Color(0xFF12375e)
-                                                                              ],
-                                                                              begin: Alignment.topLeft,
-                                                                              end: Alignment.bottomRight,
-                                                                            ),
-                                                                          ),
-                                                                          child:
-                                                                              Padding(
-                                                                            padding:
-                                                                                const EdgeInsets.only(left: 10, top: 5),
-                                                                            child:
-                                                                                Column(
-                                                                              mainAxisAlignment: MainAxisAlignment.start,
-                                                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                                                              children: [
-                                                                                Text('Approved By', style: AppTextStyle.font140penSansExtraboldWhiteTextStyle),
-                                                                                Text(item['sApprovedBy'] ?? '', style: AppTextStyle.font140penSansExtraboldWhiteTextStyle)
-                                                                              ],
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                      const SizedBox(
-                                                                          width:
-                                                                              5),
-                                                                      // Second Container
-                                                                      Expanded(
-                                                                        child:
-                                                                            Padding(
-                                                                          padding: const EdgeInsets
-                                                                              .only(
-                                                                              bottom: 0),
-                                                                          child:
-                                                                              Container(
-                                                                            height:
-                                                                                50,
-                                                                            //color: Colors.blue,
-                                                                            decoration:
-                                                                                BoxDecoration(
-                                                                              borderRadius: BorderRadius.circular(5),
-                                                                              gradient: const LinearGradient(
-                                                                                colors: [
-                                                                                  Color(0xFF255898),
-                                                                                  Color(0xFF12375e)
-                                                                                ],
-                                                                                begin: Alignment.topLeft,
-                                                                                end: Alignment.bottomRight,
-                                                                              ),
-                                                                            ),
-                                                                            child:
-                                                                                Padding(
-                                                                              padding: const EdgeInsets.only(left: 10, top: 5),
-                                                                              child: Column(
-                                                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  Text('Approved At', style: AppTextStyle.font140penSansExtraboldWhiteTextStyle),
-                                                                                  Text(item['dApprovedDate'] ?? '', style: AppTextStyle.font140penSansExtraboldWhiteTextStyle)
-                                                                                ],
-                                                                              ),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ),
-                                                                SizedBox(
-                                                                    height: 5),
-                                                                Padding(
-                                                                  padding:
-                                                                      const EdgeInsets
-                                                                          .only(
-                                                                          left:
-                                                                              5),
-                                                                  child:
-                                                                      Container(
-                                                                    height: 50,
-                                                                    width: MediaQuery.of(context).size.width /
-                                                                            2 -
-                                                                        18,
-                                                                    //color: Colors.blue,
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              5),
-                                                                      gradient:
-                                                                          const LinearGradient(
-                                                                        colors: [
-                                                                          Color(
-                                                                              0xFF255898),
-                                                                          Color(
-                                                                              0xFF12375e)
-                                                                        ],
-                                                                        begin: Alignment
-                                                                            .topLeft,
-                                                                        end: Alignment
-                                                                            .bottomRight,
-                                                                      ),
-                                                                    ),
-                                                                    child:
-                                                                        Padding(
-                                                                      padding: const EdgeInsets
-                                                                          .only(
-                                                                          left:
-                                                                              10,
-                                                                          top:
-                                                                              5),
-                                                                      child:
-                                                                          Column(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.start,
-                                                                        crossAxisAlignment:
-                                                                            CrossAxisAlignment.start,
-                                                                        children: [
-                                                                          Text(
-                                                                              'Remarks',
-                                                                              style: AppTextStyle.font140penSansExtraboldWhiteTextStyle),
-                                                                          Text(
-                                                                              item['sRemarks'] ?? '',
-                                                                              style: AppTextStyle.font140penSansExtraboldWhiteTextStyle)
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      )
-                                                    : SizedBox.shrink()
+                                                iStatus == 1 && iPaymenyDone == 1
+                                                    ? Container(
+                                                    height:
+                                                    40,
+                                                    width:
+                                                    100,
+                                                    decoration:
+                                                    BoxDecoration(
+                                                      color:
+                                                      Colors.green,
+                                                      borderRadius:
+                                                      BorderRadius.circular(15), // Rounded corners
+                                                    ),
+                                                    child: const Center(
+                                                      child: Text("Payment Done",
+                                                      style: TextStyle(color: Colors.white,fontSize: 14),
+                                                      ),
+                                                    ))
+                                                    : InkWell(
+                                                  onTap: (){
+                                                    print(
+                                                        "-----717---");
+                                                    var requestNo =
+                                                    item['sBookingReqId'];
+                                                    print(
+                                                        "---670---$requestNo");
+                                                    var sPageName =
+                                                        "Community Hall Status";
+                                                    // call a Payment page
+                                                    var baseurl =
+                                                        "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
+                                                    var paymentUrl =
+                                                        "$baseurl$requestNo";
+                                                    print(
+                                                        paymentUrl);
+
+                                                    Navigator
+                                                        .push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) => AboutDiuPage(name: sPageName, sPageLink: paymentUrl)),
+                                                    );
+                                                  },
+                                                      child: Container(
+                                                      height:
+                                                      40,
+                                                      width:
+                                                      100,
+                                                      decoration:
+                                                      BoxDecoration(
+                                                        color:
+                                                        Colors.blue,
+                                                        borderRadius:
+                                                        BorderRadius.circular(15), // Rounded corners
+                                                      ),
+
+                                                      child: Center(
+                                                        child: Text("Pay Now",style: TextStyle(
+                                                          color: Colors.white,fontSize: 14
+                                                        ),),
+                                                      )),
+                                                    )
+
+
+
                                               ],
                                             ),
                                           ),

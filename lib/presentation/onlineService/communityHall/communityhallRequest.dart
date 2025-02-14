@@ -501,7 +501,7 @@ var  firstStatus;
     print('---Token----113--$sToken');
     try {
       final pickFileid = await ImagePicker()
-          .pickImage(source: ImageSource.camera, imageQuality: 65);
+          .pickImage(source: ImageSource.gallery, imageQuality: 50);
       if (pickFileid != null) {
         image = File(pickFileid.path);
         setState(() {});
