@@ -99,11 +99,11 @@ class _OnlineComplaintState extends State<OnlineServives> {
     "License",
     "Community Hall",
     "Property Transfer",
-    "Water Supply",
-    "Electricity Bill",
-    "Mamlatdar Diu",
-    "Collectorate Diu",
-    "E-Procurement"
+     "Water Supply",
+    // "Electricity Bill",
+    // "Mamlatdar Diu",
+    // "Collectorate Diu",
+    // "E-Procurement"
   ];
   // "Water Supply",
   // "Electricity Bill",

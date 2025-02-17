@@ -226,7 +226,7 @@ class _HelpLineFeedBackState extends State<HelpLineFeedBack> {
                                                 Text('Phone Number',
                                                   style: AppTextStyle.font14OpenSansRegularBlackTextStyle),
                                                 SizedBox(height: 5),
-                                                Text("+91-2875-253638",
+                                                Text("+91-9099910215",
                                                   style: AppTextStyle.font14OpenSansRegularBlack45TextStyle),
                                                 SizedBox(height: 5),
                                               ],
@@ -238,7 +238,7 @@ class _HelpLineFeedBackState extends State<HelpLineFeedBack> {
                                     InkWell(
                                       onTap: (){
                                        // launchUrlString("tel://7520014455");
-                                        launchUrlString("tel://912875-253638");
+                                        launchUrlString("tel://9099910215");
                                       },
                                       child: Padding(
                                           padding: const EdgeInsets.only(right: 10),
@@ -368,7 +368,7 @@ class _HelpLineFeedBackState extends State<HelpLineFeedBack> {
                                                 Text('Website',
                                                     style: AppTextStyle.font14OpenSansRegularBlackTextStyle),
                                                 SizedBox(height: 5),
-                                                Text('https://upegov.in/website/',
+                                                Text('https://www.diusmartcity.com/',
                                                     style: AppTextStyle.font14OpenSansRegularBlack45TextStyle),
                                                 SizedBox(height: 5),
                                               ],

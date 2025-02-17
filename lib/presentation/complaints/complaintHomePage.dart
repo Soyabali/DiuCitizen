@@ -7,8 +7,10 @@ import '../../app/generalFunction.dart';
 import '../aboutDiu/aboutdiu.dart';
 import '../birth_death/birthanddeath.dart';
 import '../bookAdvertisement/bookAdvertisement.dart';
+import '../bookAdvertisement/bookAdvertisementHome.dart';
 import '../emergencyContact/emergencyContact.dart';
 import '../helpline_feedback/helplinefeedback.dart';
+import '../importantLink/importantlink.dart';
 import '../onlineComplaint/onlineComplaint.dart';
 import '../onlineService/onlineService.dart';
 import '../resources/app_text_style.dart';
@@ -329,13 +331,13 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                                 // Add your onTap functionality here
                                 print('-----52------');
                                // displayToast("Coming Soon");
-                                var name="Birth & Death Cert";
+                                var name="Important Links";
 
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          BirthAndDeathCertificate(name:name),
+                                          Importantlink(name:name),
                                 ));
 
                                 // Navigator.push(
@@ -396,7 +398,7 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                                             child: const Center(
                                                 child: Image(
                                                   image: AssetImage(
-                                                      'assets/images/birth_certificate.png'),
+                                                      'assets/images/holdicon.jpeg'),
                                                   width: 45,
                                                   height: 45,
                                                 )),
@@ -408,7 +410,7 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                                           ),
                                           SizedBox(height: 5),
                                           Text(
-                                            'Birth & Death Cert',
+                                            'Important Links',
                                             style: AppTextStyle
                                                 .font14penSansExtraboldOrangeTextStyle,
                                           ),
@@ -423,12 +425,13 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                                 // Add your onTap functionality here
                                 //print('-----109------');
                               //  displayToast("Coming Soon");
+                                var name = "Book Advertisement";
 
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          BookAdvertisement(name: null,)),
+                                          BookadvertisementHome(name: name)),
                                 );
 
                                 // Navigator.push(

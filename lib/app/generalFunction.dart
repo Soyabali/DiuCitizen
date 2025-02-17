@@ -968,31 +968,31 @@ class GeneralFunction {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 15),
-                  GestureDetector(
-                    onTap: () async {
-                      //displayToast("Coming Soon");
-
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => AdvertisementBookingStatus()),
-                      );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: <Widget>[
-                        Image.asset(
-                          'assets/images/holdicon.jpeg',
-                          width: 25,
-                          height: 25,
-                          fit: BoxFit.fill,
-                        ),
-                        const SizedBox(width: 10),
-                        Text('Advertisement Booking Status',
-                            style: AppTextStyle
-                                .font16penSansExtraboldBlackTextStyle),
-                      ],
-                    ),
-                  ),
+                  // const SizedBox(height: 15),
+                  // GestureDetector(
+                  //   onTap: () async {
+                  //     //displayToast("Coming Soon");
+                  //
+                  //     Navigator.of(context).pushReplacement(
+                  //       MaterialPageRoute(builder: (context) => AdvertisementBookingStatus()),
+                  //     );
+                  //   },
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.start,
+                  //     children: <Widget>[
+                  //       Image.asset(
+                  //         'assets/images/holdicon.jpeg',
+                  //         width: 25,
+                  //         height: 25,
+                  //         fit: BoxFit.fill,
+                  //       ),
+                  //       const SizedBox(width: 10),
+                  //       Text('Advertisement Booking Status',
+                  //           style: AppTextStyle
+                  //               .font16penSansExtraboldBlackTextStyle),
+                  //     ],
+                  //   ),
+                  // ),
                   const SizedBox(height: 15),
                   GestureDetector(
                     onTap: () {
