@@ -36,6 +36,7 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
   List<Map<String,dynamic>>? emergencyTitleList;
   bool isLoading = true; // logic
   String? sName, sContactNo;
+  var houseNo;
 
   final List<Color> borderColors = [
     Colors.red,
@@ -49,12 +50,11 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
     Colors.cyan,
     Colors.amber,
   ];
-
   // GeneralFunction generalFunction = GeneralFunction();
 
   getEmergencyTitleResponse(selectedWardId, String houseno, String houseOwnerName) async {
     emergencyTitleList = await SearchPropertyTaxForPaymentRepo().searchPropertyTaxForPayment(context,selectedWardId,houseno,houseOwnerName);
-    print('------40----$emergencyTitleList');
+    print('------56---xx----$emergencyTitleList');
     setState(() {
       isLoading = false;
     });
@@ -165,6 +165,7 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: getAppBarBack(context,'${widget.name}'),
+         //appBar: getAppBarBack(context,'ssss999'),
         //drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
         body: Column(
             children: [
@@ -266,9 +267,7 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
                       print("---Not Call APi---");
                       displayToast("Please enter the required details.");
                     }
-
-
-                      // getEmergencyTitleResponse();
+                    // getEmergencyTitleResponse();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFF255898), // Background color
@@ -294,324 +293,354 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
                   : (emergencyTitleList == null || emergencyTitleList!.isEmpty)
                   ? NoDataScreenPage()
                   :
-                  Container(
+                  Expanded(
+                    child: Stack(
+                      children: <Widget>[
+                        Container(
                           //height: MediaQuery.of(context).size.height * 0.8,
                           child: Expanded(
                             child: ListView.builder(
-                              shrinkWrap: true,
-                               itemCount: emergencyTitleList?.length ?? 0,
-                             // itemCount: OnlineTitle?.length ?? 0,
-                              itemBuilder: (context, index) {
-                                final color = borderColors[index % borderColors.length];
-                                return Column(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 10,right: 10),
-                                      child: Container(
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.start,
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                height: 70,
-                                                decoration: BoxDecoration(
-                                                  color: Color(0xFFD5E6FA), // Hex color #d5e6fa
-                                                  borderRadius: BorderRadius.circular(10), // Optional: Rounded corners
-                                                ),
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(left: 5),
-                                                      child: Center(
+                                shrinkWrap: true,
+                                itemCount: emergencyTitleList?.length ?? 0,
+                                // itemCount: OnlineTitle?.length ?? 0,
+                                itemBuilder: (context, index) {
+                                  final color = borderColors[index % borderColors.length];
+                                  houseNo = "${emergencyTitleList![index]['sHouseNo']}";
+                                  return Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 10,right: 10),
+                                        child: Container(
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  height: 70,
+                                                  decoration: BoxDecoration(
+                                                    color: Color(0xFFD5E6FA), // Hex color #d5e6fa
+                                                    borderRadius: BorderRadius.circular(10), // Optional: Rounded corners
+                                                  ),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(left: 5),
+                                                        child: Center(
+                                                          child: Container(
+                                                            width: 50, // Width of the container
+                                                            height: 50, // Height of the container
+                                                            decoration: const BoxDecoration(
+                                                              color: Colors.grey, // Gray background
+                                                              shape: BoxShape.circle, // Circular shape
+                                                            ),
+                                                            child: Container(
+                                                                width: 35,
+                                                                height: 35,
+                                                                decoration: BoxDecoration(
+                                                                  color: color, // Set the dynamic color
+                                                                  borderRadius: BorderRadius.circular(5),
+                                                                ),
+                                                                child: const Icon(Icons.ac_unit,
+                                                                  color: Colors.white,
+                                                                )
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 10),
+                                                      Padding(
+                                                        padding: EdgeInsets.only(top: 15),
+                                                        child: Center(
+                                                          child: Column(
+                                                            mainAxisAlignment: MainAxisAlignment.start,
+                                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                                            children: [
+                                                              Text(emergencyTitleList![index]['sHouseNo'],
+                                                                style: AppTextStyle
+                                                                    .font14OpenSansRegularBlackTextStyle,
+                                                              ),
+                                                              SizedBox(height: 5),
+                                                              Text("House No",
+                                                                style: AppTextStyle
+                                                                    .font14OpenSansRegularBlack45TextStyle,
+                    
+                                                              ),
+                    
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Spacer(),
+                                                      Padding(
+                                                        padding: const EdgeInsets.only(right: 0,top: 10),
                                                         child: Container(
-                                                          width: 50, // Width of the container
-                                                          height: 50, // Height of the container
-                                                          decoration: const BoxDecoration(
-                                                            color: Colors.grey, // Gray background
-                                                            shape: BoxShape.circle, // Circular shape
+                                                          margin: EdgeInsets.all(16),
+                                                          // color: Colors.black54,
+                                                          decoration: BoxDecoration(
+                                                            color: Color(0xFF96b2e1), // Background color
+                                                            borderRadius: BorderRadius.circular(10), // Rounded corners
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors.black.withOpacity(0.1), // Shadow color
+                                                                blurRadius: 10,
+                                                                spreadRadius: 2,
+                                                                offset: Offset(0, 5), // Shadow position
+                                                              ),
+                                                            ],
                                                           ),
                                                           child: Container(
-                                                              width: 35,
-                                                              height: 35,
-                                                              decoration: BoxDecoration(
-                                                                color: color, // Set the dynamic color
-                                                                borderRadius: BorderRadius.circular(5),
-                                                              ),
-                                                              child: const Icon(Icons.ac_unit,
-                                                                color: Colors.white,
-                                                              )
+                                                            decoration: BoxDecoration(
+                                                              color: Color(0xFF96b2e1), // Hex color #d5e6fa
+                                                              borderRadius: BorderRadius.circular(10), // Optional: Rounded corners
+                                                            ),
+                                                            margin: EdgeInsets.all(5),
+                                                            child: Row(
+                                                              mainAxisAlignment: MainAxisAlignment.end,
+                                                              crossAxisAlignment: CrossAxisAlignment.end,
+                                                              children: [
+                                                                const Icon(Icons.calendar_month,size: 20),
+                                                                SizedBox(width: 5),
+                                                                Text(emergencyTitleList![index]['TaxNoOfYears'],
+                                                                  style: AppTextStyle
+                                                                      .font14OpenSansRegularWhiteTextStyle,
+                    
+                                                                )
+                                                              ],
+                                                            ),
+                                                          ),
+                    
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(height: 10),
+                                                Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                  // Align items vertically
+                                                  children: <Widget>[
+                                                    CircleWithSpacing(),
+                                                    // Space between the circle and text
+                                                    Text(
+                                                      'Property Details :',
+                                                      style: AppTextStyle
+                                                          .font14OpenSansRegularGreenTextStyle,
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 10),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(),
+                                                  child: Container(
+                                                    height: 70,
+                                                    decoration: BoxDecoration(
+                                                      color:Colors.black12,
+                                                      // color: Color(0xf6f6f6), // Hex color #d5e6fa
+                                                      borderRadius: BorderRadius.circular(10), // Optional: Rounded corners
+                                                    ),
+                                                    child:Row(
+                                                      children: [
+                                                        Padding(
+                                                          padding: EdgeInsets.only(top: 15,left: 10),
+                                                          child: Center(
+                                                            child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Text("Owner Name",
+                                                                  style: AppTextStyle
+                                                                      .font14OpenSansRegularBlackTextStyle,
+                                                                ),
+                                                                SizedBox(height: 5),
+                                                                Text(emergencyTitleList![index]['sHouseOwnerName'],
+                                                                  style: AppTextStyle
+                                                                      .font14OpenSansRegularBlack45TextStyle,
+                                                                ),
+                                                              ],
+                                                            ),
+                    
                                                           ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                    SizedBox(width: 10),
-                                                    Padding(
-                                                      padding: EdgeInsets.only(top: 15),
-                                                      child: Center(
-                                                        child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          children: [
-                                                            Text(emergencyTitleList![index]['sHouseNo'],
-                                                              style: AppTextStyle
-                                                                  .font14OpenSansRegularBlackTextStyle,
-                                                            ),
-                                                            SizedBox(height: 5),
-                                                            Text("House No",
-                                                              style: AppTextStyle
-                                                                  .font14OpenSansRegularBlack45TextStyle,
-
-                                                            ),
-
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Spacer(),
-                                                    Padding(
-                                                      padding: const EdgeInsets.only(right: 0,top: 10),
-                                                      child: Container(
-                                                        margin: EdgeInsets.all(16),
-                                                        // color: Colors.black54,
-                                                        decoration: BoxDecoration(
-                                                          color: Color(0xFF96b2e1), // Background color
-                                                          borderRadius: BorderRadius.circular(10), // Rounded corners
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                              color: Colors.black.withOpacity(0.1), // Shadow color
-                                                              blurRadius: 10,
-                                                              spreadRadius: 2,
-                                                              offset: Offset(0, 5), // Shadow position
-                                                            ),
-                                                          ],
-                                                        ),
-                                                        child: Container(
-                                                          decoration: BoxDecoration(
-                                                            color: Color(0xFF96b2e1), // Hex color #d5e6fa
-                                                            borderRadius: BorderRadius.circular(10), // Optional: Rounded corners
-                                                          ),
-                                                          margin: EdgeInsets.all(5),
-                                                          child: Row(
+                                                        Spacer(),
+                                                        Padding(
+                                                          padding: EdgeInsets.only(right: 10),
+                                                          child: Column(
                                                             mainAxisAlignment: MainAxisAlignment.end,
                                                             crossAxisAlignment: CrossAxisAlignment.end,
                                                             children: [
-                                                              Icon(Icons.calendar_month,
-                                                                size: 20,
-                                                              ),
-                                                              SizedBox(width: 5),
-                                                              Text(emergencyTitleList![index]['TaxNoOfYears'],
-                                                                style: AppTextStyle
-                                                                    .font14OpenSansRegularWhiteTextStyle,
-
-                                                              )
-                                                            ],
-                                                          ),
-                                                        ),
-
-                                                      ),
-                                                    )
-                                                  ],
-
-                                                ),
-                                              ),
-                                              SizedBox(height: 10),
-                                              Row(
-                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                // Align items vertically
-                                                children: <Widget>[
-                                                  CircleWithSpacing(),
-                                                  // Space between the circle and text
-                                                  Text(
-                                                    'Property Details :',
-                                                    style: AppTextStyle
-                                                        .font14OpenSansRegularGreenTextStyle,
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(height: 10),
-                                              Padding(
-                                                padding: const EdgeInsets.only(),
-                                                child: Container(
-
-                                                  height: 70,
-                                                  decoration: BoxDecoration(
-                                                    color:Colors.black12,
-                                                   // color: Color(0xf6f6f6), // Hex color #d5e6fa
-                                                    borderRadius: BorderRadius.circular(10), // Optional: Rounded corners
-                                                  ),
-                                                  child:Row(
-
-                                                    children: [
-                                                      Padding(
-                                                        padding: EdgeInsets.only(top: 15,left: 10),
-                                                        child: Center(
-                                                          child: Column(
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text("Owner Name",
-                                                                style: AppTextStyle
-                                                                    .font14OpenSansRegularBlackTextStyle,
+                                                              Center(
+                                                                child: Text("Ward",
+                                                                  style: AppTextStyle
+                                                                      .font14OpenSansRegularBlackTextStyle,
+                                                                ),
                                                               ),
                                                               SizedBox(height: 5),
-                                                              Text(emergencyTitleList![index]['sHouseOwnerName'],
-                                                                style: AppTextStyle
-                                                                    .font14OpenSansRegularBlack45TextStyle,
+                                                              Center(
+                                                                child: Text(emergencyTitleList![index]['sWardName'],
+                                                                  style: const TextStyle(
+                                                                      color: Colors.black54,
+                                                                      fontSize: 14
+                                                                  ),),
                                                               ),
                                                             ],
                                                           ),
-
-                                                        ),
-                                                      ),
-                                                      Spacer(),
-                                                      Padding(
-                                                        padding: EdgeInsets.only(right: 10),
-                                                        child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment.end,
-                                                          crossAxisAlignment: CrossAxisAlignment.end,
-                                                          children: [
-                                                            Center(
-                                                              child: Text("Ward",
-                                                                style: AppTextStyle
-                                                                    .font14OpenSansRegularBlackTextStyle,
-                                                              ),
-                                                            ),
-                                                            SizedBox(height: 5),
-                                                             Center(
-                                                              child: Text(emergencyTitleList![index]['sWardName'],
-                                                                style: TextStyle(
-                                                                  color: Colors.black54,
-                                                                  fontSize: 14
-                                                              ),),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      )
-                                                    ],
-
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(height: 5),
-                                              Padding(
-                                                padding: const EdgeInsets.only(),
-                                                child: Container(
-                                                  height: 70,
-                                                  decoration: BoxDecoration(
-                                                    color:Colors.black12,
-                                                    //color: Color(0xf6f6f6), // Hex color #d5e6fa
-                                                    borderRadius: BorderRadius.circular(10), // Optional: Rounded corners
-                                                  ),
-                                                  child:Row(
-
-                                                    children: [
-                                                      Padding(
-                                                        padding: EdgeInsets.only(top: 15,left: 10),
-                                                        child: Center(
-                                                          child: Column(
-                                                            mainAxisAlignment: MainAxisAlignment.start,
-                                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                                            children: [
-                                                              Text("House Area",
-                                                                style: AppTextStyle
-                                                                    .font14OpenSansRegularBlackTextStyle,
-                                                              ),
-                                                              SizedBox(height: 5),
-                                                              Text(emergencyTitleList![index]['fSeqFeet'],
-                                                                style: AppTextStyle
-                                                                    .font14OpenSansRegularBlack45TextStyle,
-                                                              ),
-                                                            ],
-                                                          ),
-
-                                                        ),
-                                                      ),
-                                                      Spacer(),
-                                                      Padding(
-                                                        padding: EdgeInsets.only(right: 10),
-                                                        child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment.end,
-                                                          crossAxisAlignment: CrossAxisAlignment.end,
-                                                          children: [
-                                                            Center(
-                                                              child: Text("Amount",
-                                                                style: AppTextStyle
-                                                                    .font14OpenSansRegularBlackTextStyle,
-                                                              ),
-                                                            ),
-                                                            SizedBox(height: 5),
-                                                            Center(
-                                                              child: Text('₹ ${emergencyTitleList![index]['fAmount'].toString()}',
-                                                                style: AppTextStyle
-                                                                    .font14OpenSansRegularBlack45TextStyle,
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      )
-                                                    ],
-
-                                                  ),
-                                                ),
-                                              ),
-                                              SizedBox(height: 5),
-                                              Center(
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.end, // Aligns the container to the right
-                                                  children: [
-                                                    InkWell(
-                                                      onTap: () {
-                                                        var houseNo = "${emergencyTitleList![index]['sHouseNo']}";
-                                                        var baseurl = "https://www.diusmartcity.com/PaymentGatewayMobile.aspx?QS=";
-                                                      var paymentUrl = "$baseurl$houseNo";
-                                                      print(paymentUrl);
-
-                                                         var sPageName = "Property Tax";
-                                                        //
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(builder: (context) =>
-                                                              AboutDiuPage(
-                                                                  name: sPageName, sPageLink: paymentUrl)),
-                                                        );
-
-                                                        print("Container clicked!"); // Perform action here
-
-                                                      },
-                                                      child: Container(
-                                                        height: 45,
-                                                        width: 150, // Set the width of the container
-                                                        padding: EdgeInsets.only(right: 16), // Optional padding
-                                                        alignment: Alignment.center, // Aligns text inside the container
-                                                        decoration: BoxDecoration(
-                                                          color: Colors.blue,
-                                                          borderRadius: BorderRadius.circular(10), // Rounded corners
-                                                        ),
-                                                        child: Text(
-                                                          "Make Payment",
-                                                          style: AppTextStyle
-                                                              .font14OpenSansRegularWhiteTextStyle,
-                                                        ),
-                                                      ),
+                                                        )
+                                                      ],
+                    
                                                     ),
-                                                  ],
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(height: 5),
-                                            ],
-                                          )
-                                      ),
-                                    )
-                                  ],
-                                );
-
-                              }
+                                                SizedBox(height: 5),
+                                                Padding(
+                                                  padding: const EdgeInsets.only(),
+                                                  child: Container(
+                                                    height: 70,
+                                                    decoration: BoxDecoration(
+                                                      color:Colors.black12,
+                                                      //color: Color(0xf6f6f6), // Hex color #d5e6fa
+                                                      borderRadius: BorderRadius.circular(10), // Optional: Rounded corners
+                                                    ),
+                                                    child:Row(
+                                                      children: [
+                                                        Padding(
+                                                          padding: EdgeInsets.only(top: 15,left: 10),
+                                                          child: Center(
+                                                            child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                                              children: [
+                                                                Text("House Area",
+                                                                  style: AppTextStyle
+                                                                      .font14OpenSansRegularBlackTextStyle,
+                                                                ),
+                                                                SizedBox(height: 5),
+                                                                Text(emergencyTitleList![index]['fSeqFeet'],
+                                                                  style: AppTextStyle
+                                                                      .font14OpenSansRegularBlack45TextStyle,
+                                                                ),
+                                                              ],
+                                                            ),
+                    
+                                                          ),
+                                                        ),
+                                                        Spacer(),
+                                                        Padding(
+                                                          padding: EdgeInsets.only(right: 10),
+                                                          child: Column(
+                                                            mainAxisAlignment: MainAxisAlignment.end,
+                                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                                            children: [
+                                                              Center(
+                                                                child: Text("Amount",
+                                                                  style: AppTextStyle
+                                                                      .font14OpenSansRegularBlackTextStyle,
+                                                                ),
+                                                              ),
+                                                              SizedBox(height: 5),
+                                                              Center(
+                                                                child: Text('₹ ${emergencyTitleList![index]['fAmount'].toString()}',
+                                                                  style: AppTextStyle
+                                                                      .font14OpenSansRegularBlack45TextStyle,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        )
+                                                      ],
+                    
+                                                    ),
+                                                  ),
+                                                ),
+                                                SizedBox(height: 5),
+                                                // Center(
+                                                //   child: Row(
+                                                //     mainAxisAlignment: MainAxisAlignment.end, // Aligns the container to the right
+                                                //     children: [
+                                                //       InkWell(
+                                                //         onTap: () {
+                                                //           var houseNo = "${emergencyTitleList![index]['sHouseNo']}";
+                                                //           var baseurl = "https://www.diusmartcity.com/PaymentGatewayMobile.aspx?QS=";
+                                                //           var paymentUrl = "$baseurl$houseNo";
+                                                //           print(paymentUrl);
+                                                //           var sPageName = "Property Tax";
+                                                //           //
+                                                //           Navigator.push(
+                                                //             context,
+                                                //             MaterialPageRoute(builder: (context) =>
+                                                //                 AboutDiuPage(
+                                                //                     name: sPageName, sPageLink: paymentUrl)),
+                                                //           );
+                                                //           print("Container clicked!"); // Perform action here
+                                                //         },
+                                                //         child: Container(
+                                                //           height: 45,
+                                                //           width: 150, // Set the width of the container
+                                                //           padding: EdgeInsets.only(right: 16), // Optional padding
+                                                //           alignment: Alignment.center, // Aligns text inside the container
+                                                //           decoration: BoxDecoration(
+                                                //             color: Colors.blue,
+                                                //             borderRadius: BorderRadius.circular(10), // Rounded corners
+                                                //           ),
+                                                //           child: Text(
+                                                //             "Make Payment",
+                                                //             style: AppTextStyle
+                                                //                 .font14OpenSansRegularWhiteTextStyle,
+                                                //           ),
+                                                //         ),
+                                                //       ),
+                                                //     ],
+                                                //   ),
+                                                // ),
+                                                // SizedBox(height: 5),
+                                              ],
+                                            )
+                                        ),
+                                      )
+                                    ],
+                                  );
+                                }
                             ),
                           ),
+                    
+                        ),
+                        // position
+                        Positioned(
+                          bottom: 8, // Adjust position as needed
+                          right: 10, // Adjust position as needed
+                          child: InkWell(
+                            onTap: (){
 
-                  ),
+                             // var houseNo = "${emergencyTitleList![index]['sHouseNo']}";
+                              var baseurl = "https://www.diusmartcity.com/PaymentGatewayMobile.aspx?QS=";
+                              var paymentUrl = "$baseurl$houseNo";
+                              print(paymentUrl);
+                              var sPageName = "Property Tax";
+                              //
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) =>
+                                    AboutDiuPage(
+                                        name: sPageName, sPageLink: paymentUrl)),
+                              );
+                              // print('-----624----');
+                             },
+                            child: Container(
+                              height: 50,
+                              width: 50,
+                                decoration: const BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage("assets/images/pay_now.png"), // Change path
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
             ],
           ),
         )
