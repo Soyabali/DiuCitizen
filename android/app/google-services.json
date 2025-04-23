@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "63772006210",
+    "project_id": "diu-citizen",
+    "storage_bucket": "diu-citizen.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:63772006210:android:8b2c3eafaafac99cf05adb",
+        "android_client_info": {
+          "package_name": "com.synergy.diuCitizen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuMQXdqtqFPfTqz0cRCQnLwWR4KGhFWRs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

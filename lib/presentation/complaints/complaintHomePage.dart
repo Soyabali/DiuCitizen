@@ -1,7 +1,9 @@
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../app/generalFunction.dart';
 import '../aboutDiu/aboutdiu.dart';
@@ -32,10 +34,76 @@ class _MyHomePageState extends State<ComplaintHomePage> {
   String? sContactNo;
   String? sContactNo2;
   String? sContactNo3;
+  var token;
+
+  /// todo here you should put notification code and call initState()
+  void setupPushNotifications() async {
+      print("------41----xxxxx---xxxxx");
+    final fcm = FirebaseMessaging.instance;
+    await fcm.requestPermission();
+    token = await fcm.getToken();
+    print("🔥 Firebase Messaging Instance Info:");
+    print("📌 Token:----45----xxx $token");
+
+    NotificationSettings settings = await fcm.getNotificationSettings();
+    print("🔔 Notification Permissions:");
+    print("  - Authorization Status: ${settings.authorizationStatus}");
+    print("  - Alert: ${settings.alert}");
+    print("  - Sound: ${settings.sound}");
+    print("  - Badge: ${settings.badge}");
+
+    // ✅ Ensure notifications play default sound
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print("📩 New foreground notification received!");
+      print("📦 Data Payload----563---xx--: ${message.data}");
+      if (message.notification != null) {
+        _showNotification(message.notification!);
+      }
+    });
+
+    if (token != null && token!.isNotEmpty) {
+      /// todo  here call a api
+      //notificationResponse(token);
+    } else {
+      print("🚨 No Token Received!");
+    }
+  }
+
+// ✅ Show Notification with Default Sound
+  void _showNotification(RemoteNotification notification) async {
+    FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+      'default_channel',
+      'Default Notifications',
+      importance: Importance.high,
+      priority: Priority.high,
+      playSound: true, // 🔊 Ensure sound is enabled
+    );
+
+    const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
+      presentSound: true, // 🔊 Enable sound for iOS
+    );
+
+    const NotificationDetails details = NotificationDetails(
+      android: androidDetails,
+      iOS: iosDetails,
+    );
+
+    await flutterLocalNotificationsPlugin.show(
+      0, // Notification ID
+      notification.title,
+      notification.body,
+      details,
+    );
+  }
+
 
   @override
   void initState() {
     // TODO: implement initState
+    setupPushNotifications();
     getLocatdata();
     super.initState();
   }
