@@ -118,6 +118,7 @@ flutter:
      - assets/images/home_nw.png
      - assets/images/holdicon.jpeg
      - assets/images/no_image_found.png
+     - assets/icon/icon.png
 
 
   #   - images/a_dot_ham.jpeg

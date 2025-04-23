@@ -12,7 +12,6 @@ import '../resources/app_text_style.dart';
 import '../resources/assets_manager.dart';
 
 class SplashView extends StatefulWidget {
-
   const SplashView({super.key});
 
   @override
@@ -76,7 +75,7 @@ class _SplaceState extends State<SplashView> {
     checkUserConnection();
     // versionAliCall();
     getlocalDataBaseValue();
-    print('---------xx--xxxxxx-------');
+    print('------78--->>>Xx>....xxx-------');
     super.initState();
   }
   getlocalDataBaseValue() async {
@@ -85,7 +84,6 @@ class _SplaceState extends State<SplashView> {
     print('----TOKEN---87---$token');
     if(token!=null && token!=''){
       print('-----89---HomeScreen');
-
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => ComplaintHomePage()),
@@ -165,9 +163,8 @@ class _SplaceState extends State<SplashView> {
 }
 
 class SplaceScreen extends StatelessWidget {
+
   const SplaceScreen({super.key});
-
-
 
   @override
   Widget build(BuildContext context) {

@@ -114,8 +114,8 @@ class _HelpLineFeedBackState extends State<HelpLineFeedBack> {
               children: <Widget>[
                 Center(
                   child: Image.asset(
-                    //"assets/images/home.png",
-                    ImageAssets.iclauncher, // Replace with your image asset path
+                    "assets/images/Diu_icon-02.png",
+                   // ImageAssets.iclauncher, // Replace with your image asset path
                     width: AppSize.s145,
                     height: AppSize.s145,
                     fit: BoxFit.contain, // Adjust as needed
@@ -527,7 +527,8 @@ class _HelpLineFeedBackState extends State<HelpLineFeedBack> {
                 // Center image
                 Center(
                   child: Image.asset(
-                    ImageAssets.iclauncher, // Replace with your image asset path
+                     "assets/images/Diu_icon-02.png",
+                   // ImageAssets.iclauncher, // Replace with your image asset path
                     width: AppSize.s145,
                     height: AppSize.s145,
                     fit: BoxFit.contain,

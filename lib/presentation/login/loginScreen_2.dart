@@ -200,8 +200,8 @@ class _LoginPageState extends State<LoginPage> {
                           padding: const EdgeInsets.all(AppMargin.m16),
                           child: Center(
                             child: Image.asset(
-                              //"assets/images/home.png",
-                              ImageAssets.iclauncher, // Replace with your image asset path
+                              "assets/images/Diu_icon-02.png",
+                             // ImageAssets.iclauncher, // Replace with your image asset path
                               width: AppSize.s145,
                               height: AppSize.s145,
                               fit: BoxFit.contain, // Adjust as needed

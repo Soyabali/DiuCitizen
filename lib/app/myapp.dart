@@ -95,7 +95,7 @@ class _MyAppState extends State<MyApp> {
 
     EasyLoading.instance
 
-      ..displayDuration = const Duration(milliseconds: 2000)
+      ..displayDuration = const Duration(milliseconds: 1000)
 
       ..indicatorType = EasyLoadingIndicatorType.fadingCircle
 

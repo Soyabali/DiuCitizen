@@ -36,10 +36,11 @@ class NoInternetState extends State<NoInternet> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            //   "assets/images/Diu_icon-02.png",
             SizedBox(
               height: 150,
               width: 150,
-              child: Image.asset("assets/images/ic_launcher.png",
+              child: Image.asset("assets/images/Diu_icon-02.png",
                 // color: Colors.transparent,
               ),
             ),

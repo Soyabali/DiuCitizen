@@ -916,7 +916,7 @@ class GeneralFunction {
                 // User profile image
                 const CircleAvatar(
                   radius: 30,
-                  backgroundImage: AssetImage('assets/images/ic_launcher.png'),
+                  backgroundImage: AssetImage('assets/images/Diu_icon-02.png'),
                 ),
                 const SizedBox(height: 10),
                 // First text (e.g., user name)
