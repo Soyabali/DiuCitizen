@@ -48,7 +48,7 @@ class _SplaceState extends State<SplashView> {
 
   //url
   void _launchGooglePlayStore() async {
-    const url = 'https://play.google.com/store/apps/details?id=com.instagram.android&hl=en_IN&gl=US'; // Replace <YOUR_APP_ID> with your app's package name
+    const url = 'https://apps.apple.com/app/6739492787'; // Replace <YOUR_APP_ID> with your app's package name
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -113,7 +113,7 @@ class _SplaceState extends State<SplashView> {
   versionAliCall() async{
     /// TODO HERE YOU SHOULD CHANGE APP VERSION FLUTTER VERSION MIN 3 DIGIT SUCH AS 1.0.0
     /// HERE YOU PASS variable _appVersion
-    var loginMap = await VerifyAppVersionRepo().verifyAppVersion(context,'1');
+    var loginMap = await VerifyAppVersionRepo().verifyAppVersion(context,'2');
     var result = "${loginMap['Result']}";
     var msg = "${loginMap['Msg']}";
     // print('---73--$result');
@@ -136,7 +136,7 @@ class _SplaceState extends State<SplashView> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('New Version Available'),
-            content: const Text('Download the latest version of the app from the Play Store.'),
+            content: const Text('Download the latest version of the app from the App Store.'),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
