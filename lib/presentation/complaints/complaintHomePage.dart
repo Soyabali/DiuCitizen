@@ -7,8 +7,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../app/generalFunction.dart';
 import '../aboutDiu/aboutdiu.dart';
-import '../birth_death/birthanddeath.dart';
-import '../bookAdvertisement/bookAdvertisement.dart';
 import '../bookAdvertisement/bookAdvertisementHome.dart';
 import '../emergencyContact/emergencyContact.dart';
 import '../helpline_feedback/helplinefeedback.dart';
@@ -19,7 +17,6 @@ import '../resources/app_text_style.dart';
 import 'grievanceStatus/grievanceStatus.dart';
 
 class ComplaintHomePage extends StatefulWidget {
-
   const ComplaintHomePage({super.key});
 
   @override
@@ -99,7 +96,6 @@ class _MyHomePageState extends State<ComplaintHomePage> {
     );
   }
 
-
   @override
   void initState() {
     // TODO: implement initState
@@ -114,7 +110,6 @@ class _MyHomePageState extends State<ComplaintHomePage> {
     print('---46--$sCitizenName');
     print('---47--$sContactNo');
     setState(() {
-
     });
   }
 
@@ -162,10 +157,8 @@ class _MyHomePageState extends State<ComplaintHomePage> {
         backgroundColor: Colors.white,
         // appBar
        appBar: appBarFunction(context,"Diu Citizen"),
-
        drawer: generalFunction.drawerFunction_2(context,"$sCitizenName","$sContactNo"),
-
-        body: Stack(
+       body: Stack(
          // fit: StackFit.expand, // Make the stack fill the entire screen
           children: [
             /// todo here you applh border Image

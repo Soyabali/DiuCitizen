@@ -8,6 +8,7 @@ import 'package:puri/presentation/complaints/grievanceStatus/searchBar.dart';
 import '../../../app/generalFunction.dart';
 import '../../../services/citizenMyPostedComplaint.dart';
 import '../../circle/circle.dart';
+import '../../fullscreen/fullScreenImageComplaintList.dart';
 import '../../fullscreen/imageDisplay.dart';
 import '../../nodatavalue/NoDataValue.dart';
 import '../../resources/app_text_style.dart';
@@ -15,7 +16,6 @@ import '../../resources/app_text_style.dart';
 class GrievanceStatus extends StatefulWidget {
 
   final name;
-
   GrievanceStatus({super.key, this.name});
 
   @override
@@ -261,14 +261,18 @@ class _TemplesHomeState extends State<GrievanceStatus> {
                                                  // print("------257-----");
                                                   //  sComplaintPhoto
                                                   var image = "${item['sComplaintPhoto']}";
-                                                  print('------260----$image');
-                                                  // FullScreenImages
+                                                  // resolePhoto  sResolvePhoto
+                                                  var sResolvePhoto = "${item['sResolvePhoto']}";
+
+                                                  print('------265----$image');
+                                                  print('------266----resolePhoto----$sResolvePhoto');
+
+                                                 // FullScreenImages
                                                   Navigator.push(
                                                     context,
-                                                    MaterialPageRoute(builder: (context) => FullScreenImages(image:image)),
+                                                    MaterialPageRoute(builder: (context) => FullScreenImagesComplaintList(image:image,sResolvePhoto:sResolvePhoto)),
                                                   );
-
-                                                },
+                                                  },
                                                 child: Container(
                                                   width: 30,
                                                   height: 30,

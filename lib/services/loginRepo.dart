@@ -5,7 +5,6 @@ import '../app/generalFunction.dart';
 import '../app/loader_helper.dart';
 import 'baseurl.dart';
 
-
 class LoginRepo {
 
   // this is a loginApi call functin
@@ -15,7 +14,6 @@ class LoginRepo {
 
     try {
       print('----phone-----17--$phone');
-
       var baseURL = BaseRepo().baseurl;
       var endPoint = "SendOTPForCitizenLogin/SendOTPForCitizenLogin";
       var loginApi = "$baseURL$endPoint";

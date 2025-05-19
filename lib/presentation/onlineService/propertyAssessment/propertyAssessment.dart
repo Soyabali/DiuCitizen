@@ -234,6 +234,9 @@ class _MyHomePageState extends State<PropertyAssessment>
   DateTime? _selectedDate;  // To store the selected date
   String _formattedDate = '';
   var countTextFieldValue=0;
+  var residentialCount;
+  var commercialCount;
+  var uplodePhoto="3";
   //
   //int thirdVariable = 0;
   int thirdVariable = 0;
@@ -373,6 +376,7 @@ class _MyHomePageState extends State<PropertyAssessment>
     print(" -----bindDocumnent Property Repo---->>>>-xx--154-----> $bindDocumentTypePropertyList");
     setState(() {});
   }
+
   Widget _bindPremisesWard() {
     return Material(
       color: Colors.white,
@@ -1456,8 +1460,11 @@ class _MyHomePageState extends State<PropertyAssessment>
                     value: "Residential",
                     groupValue: _selectedOption,
                     onChanged: (value) {
+
                       setState(() {
                         _selectedOption = value!;
+                        residentialCount="2";
+
                       });
                       print("-------1427---$_selectedOption");
                     },
@@ -1473,6 +1480,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                     onChanged: (value) {
                       setState(() {
                         _selectedOption = value!;
+                        commercialCount="2";
                       });
                       print("-------1427---$_selectedOption");
                     },
@@ -1488,6 +1496,9 @@ class _MyHomePageState extends State<PropertyAssessment>
                     onChanged: (value) {
                       setState(() {
                         _selectedOption = value!;
+                        residentialCount="2";
+                        commercialCount="3";
+                        uplodePhoto="4";
                       });
                       print("-------1427---$_selectedOption");
                     },
@@ -1548,7 +1559,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                 children: [
                   // --Commercial-----
                   _buildSectionHeader(
-                    title: "3. Commercial Property Detail",
+                    title: "${commercialCount}. Commercial Property Detail",
                     isVisible: isCommercialFormVisible,
                     isIconRotated: isCommercialIconRotated,
                     color :Color(0xFFdac5e4),
@@ -1591,7 +1602,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                 children: [
 
                   _buildSectionHeader(
-                    title: "2. Residential Details",
+                    title: "${residentialCount}. Residential Details",
                     isVisible: isSecondFormVisible,
                     isIconRotated: isSecondIconRotated,
                     color :Color(0xFFf0cea9),
@@ -1607,7 +1618,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                     _buildSecondForm(),
                   // build Commercil Form
                   _buildSectionHeader(
-                    title: "3. Commercial Property Detail",
+                    title: "${commercialCount}. Commercial Property Detail",
                     isVisible: isCommercialFormVisible,
                     isIconRotated: isCommercialIconRotated,
                     color :Color(0xFFdac5e4),
@@ -1623,7 +1634,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                     _buildCommercialPropertyDetailForm(),
                   // build thirdForm
                   _buildSectionHeader(
-                    title: "3. Uplode Photos",
+                    title: "${uplodePhoto}. Uplode Photos",
                     isVisible: isThirdFormVisible,
                     isIconRotated: isThirdIconRotated,
                     color :Color(0xFFdac5e4),
