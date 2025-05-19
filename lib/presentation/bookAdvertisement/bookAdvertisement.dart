@@ -141,6 +141,8 @@ class _MyHomePageState extends State<BookAdvertisement> with TickerProviderState
   File? image2;
   var _fromDate;
   var _toDate;
+  DateTime? _fromDateValue;
+  DateTime? _toDateValue;
   List<bool> selectedStates = [];
   Set<int> selectedIndices = {}; // To track selected items by index
   List<dynamic>? consuambleItemList = [];
@@ -225,6 +227,11 @@ class _MyHomePageState extends State<BookAdvertisement> with TickerProviderState
                 value: _dropDownPremisesWard,
                 onChanged: (newValue) {
                   setState(() {
+                    // clear all TextFields
+                    _sizeOfAdvertisementController.clear();
+                    _daysController.clear();
+                    _totalAmountController.clear();
+
                     _dropDownPremisesWard = newValue;
                     premisesWardDropDown.forEach((element) {
                       if (element["sAdSpacePlace"] == _dropDownPremisesWard) {
@@ -875,28 +882,39 @@ class _MyHomePageState extends State<BookAdvertisement> with TickerProviderState
                                               children: <Widget>[
                                                 InkWell(
                                                   onTap: () async {
-                                                    DateTime? pickedDate =
-                                                        await showDatePicker(
+                                                    DateTime? pickedDate = await showDatePicker(
                                                       context: context,
-                                                      initialDate:
-                                                          DateTime.now(),
+                                                      initialDate: DateTime.now(),
                                                       // Set the current date as the initial date
                                                       firstDate: DateTime.now(),
                                                       // Prevent selection of past dates
-                                                      lastDate: DateTime(
-                                                          2101), // Set the maximum selectable date
+                                                      lastDate: DateTime(2101), // Set the maximum selectable date
                                                     );
 
                                                     if (pickedDate != null) {
-                                                      String formattedDate =
-                                                          DateFormat('dd/MMM/yyyy').format(pickedDate);
-                                                      setState(() {
-                                                        _fromDate = formattedDate; // Update the selected date
-                                                      });
-                                                      print(
-                                                          "----1285------$_fromDate");
+                                                      if (_toDateValue != null && pickedDate.isAfter(_toDateValue!)) {
+                                                        // ❌ Invalid: From Date > To Date
+                                                        ScaffoldMessenger.of(context).showSnackBar(
+                                                          SnackBar(content: Text('From Date cannot be later than To Date')),
+                                                        );
+                                                      } else {
+                                                        // ✅ Valid selection
+                                                        String formattedDate = DateFormat('dd/MMM/yyyy').format(pickedDate);
+                                                        setState(() {
+                                                          _fromDate = formattedDate;
+                                                          _fromDateValue = pickedDate;
+                                                        });
+                                                      }
                                                     }
-                                                    print("---From Date----");
+                                                    //   String formattedDate = DateFormat('dd/MMM/yyyy').format(pickedDate);
+                                                    //   setState(() {
+                                                    //     _fromDate = formattedDate; // Update the selected date
+                                                    //     _fromDateValue = pickedDate;
+                                                    //   });
+                                                    //   print(
+                                                    //       "----1285------$_fromDate");
+                                                    // }
+                                                    // print("---From Date----");
                                                   },
                                                   child: Container(
                                                       height: 60,
@@ -922,30 +940,35 @@ class _MyHomePageState extends State<BookAdvertisement> with TickerProviderState
                                                 InkWell(
                                                   onTap: () async {
                                                     // to date
-                                                    DateTime? pickedDate =
-                                                        await showDatePicker(
+                                                    DateTime? pickedDate = await showDatePicker(
                                                       context: context,
-                                                      initialDate:
-                                                          DateTime.now(),
+                                                      initialDate: DateTime.now(),
                                                       // Set the current date as the initial date
                                                       firstDate: DateTime.now(),
                                                       // Prevent selection of past dates
-                                                      lastDate: DateTime(
-                                                          2101), // Set the maximum selectable date
+                                                      lastDate: DateTime(2101), // Set the maximum selectable date
                                                     );
 
                                                     if (pickedDate != null) {
-                                                      String formattedDate =
-                                                          DateFormat(
-                                                                  'dd/MMM/yyyy')
-                                                              .format(
-                                                                  pickedDate);
-                                                      setState(() {
-                                                        _toDate = formattedDate; // Update the selected date
-                                                      });
-                                                      print(
-                                                          "----1327------$_toDate");
+                                                      if (_fromDateValue != null && pickedDate.isBefore(_fromDateValue!)) {
+                                                        // Show validation error
+                                                        ScaffoldMessenger.of(context).showSnackBar(
+                                                          SnackBar(content: Text('To Date cannot be earlier than From Date')),
+                                                        );
+                                                      } else {
+                                                        String formattedDate = DateFormat('dd/MMM/yyyy').format(pickedDate);
+                                                        setState(() {
+                                                          _toDate = formattedDate;
+                                                          _toDateValue = pickedDate;
+                                                        });
+                                                      }
                                                     }
+                                                    //   String formattedDate = DateFormat('dd/MMM/yyyy').format(pickedDate);
+                                                    //   setState(() {
+                                                    //     _toDate = formattedDate; // Update the selected date
+                                                    //   });
+                                                    //   print("----1327------$_toDate");
+                                                    // }
                                                   },
                                                   child: Container(
                                                       height: 60,
@@ -1633,6 +1656,11 @@ class _MyHomePageState extends State<BookAdvertisement> with TickerProviderState
                         focusNode: _daysfocus,
                         controller: _daysController,
                         textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.number, // Numeric keyboard
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly, // Accept only digits
+                          LengthLimitingTextInputFormatter(2),
+                        ],
                         onChanged: (value) {
                           // Update the current text
                           setState(() {

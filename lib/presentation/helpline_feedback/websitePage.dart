@@ -36,10 +36,10 @@ class _WebViewStackState extends State<WebSitePuri> {
       ))
       ..setJavaScriptMode(JavaScriptMode.unrestricted)  // Enable JavaScript
       ..loadRequest(
-        Uri.parse('https://upegov.in/website/'),
+        Uri.parse('https://www.diusmartcity.com'),
       );
   }
-
+  //   https://www.diusmartcity.com
   @override
   Widget build(BuildContext context) {
     return Stack(
