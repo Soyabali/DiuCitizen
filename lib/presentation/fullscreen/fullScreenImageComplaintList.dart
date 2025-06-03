@@ -67,6 +67,21 @@ class FullScreenImagesComplaintList extends StatelessWidget {
             ),
 
             // Close icon
+            // Positioned(
+            //   top: 20,
+            //   left: 50,
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //       color: Colors.grey[200],
+            //       borderRadius: BorderRadius.circular(10),
+            //     ),
+            //     padding: EdgeInsets.all(16),
+            //     child: Text(
+            //       'TextVIEW',
+            //       style: TextStyle(fontSize: 18),
+            //     ),
+            //   ),
+            // ),
             Positioned(
               top: 20,
               right: 10,

@@ -127,7 +127,7 @@ class _OnlineComplaintState extends State<BookadvertisementHome> {
           title: Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
             child: Text(
-              'Important Link',
+              'Book Advertisement',
               style: AppTextStyle.font16OpenSansRegularWhiteTextStyle,
               textAlign: TextAlign.center,
             ),

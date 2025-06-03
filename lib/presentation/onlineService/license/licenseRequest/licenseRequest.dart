@@ -155,8 +155,8 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
   // firstPage secondPage and ThirdPage
 
   bool isFirstFormVisible = true;
-  bool isSecondFormVisible = false;
-  bool isThirdFormVisible = false;
+  bool isSecondFormVisible = true;
+  bool isThirdFormVisible = true;
 
   bool isFirstIconRotated = false;
   bool isSecondIconRotated = false;

@@ -150,8 +150,8 @@ class _MyHomePageState extends State<BookAdvertisement> with TickerProviderState
   // firstPage secondPage and ThirdPage
 
   bool isFirstFormVisible = true;
-  bool isSecondFormVisible = false;
-  bool isThirdFormVisible = false;
+  bool isSecondFormVisible = true;
+  bool isThirdFormVisible = true;
 
   bool isFirstIconRotated = false;
   bool isSecondIconRotated = false;

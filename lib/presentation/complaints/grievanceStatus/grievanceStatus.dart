@@ -263,6 +263,8 @@ class _TemplesHomeState extends State<GrievanceStatus> {
                                                   var image = "${item['sComplaintPhoto']}";
                                                   // resolePhoto  sResolvePhoto
                                                   var sResolvePhoto = "${item['sResolvePhoto']}";
+                                                  var sComplaintDetails = "${item['sComplaintDetails']}";
+                                                  var sResolvedRemark = "${item['sResolvedRemark']}";
 
                                                   print('------265----$image');
                                                   print('------266----resolePhoto----$sResolvePhoto');
