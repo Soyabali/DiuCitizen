@@ -37,6 +37,7 @@ class _PropertyTaxState extends State<Onlinelicense> {
   List<Map<String, dynamic>>? emergencyTitleList;
   bool isLoading = true; // logic
   String? sName, sContactNo;
+  var licenseRequestId;
 
   final List<Color> borderColors = [
     Colors.red,
@@ -175,7 +176,7 @@ class _PropertyTaxState extends State<Onlinelicense> {
       },
       child: Scaffold(
           backgroundColor: Colors.white,
-         appBar: getAppBarBack(context, '${widget.name}'),
+        appBar: getAppBarBack(context, '${widget.name}'),
           //appBar: getAppBarBack(context, '${"skksk"}'),
           drawer: generalFunction.drawerFunction(
               context, 'Suaib Ali', '9871950881'),
@@ -336,6 +337,7 @@ class _PropertyTaxState extends State<Onlinelicense> {
                                 itemCount: emergencyTitleList?.length ?? 0,
                                 // itemCount: OnlineTitle?.length ?? 0,
                                 itemBuilder: (context, index) {
+                                  licenseRequestId = "${emergencyTitleList![index]['sLicenseRequestCode']}";
                                   final color =
                                       borderColors[index % borderColors.length];
                                   return Column(
@@ -610,19 +612,21 @@ class _PropertyTaxState extends State<Onlinelicense> {
                                                   InkWell(
                                                  onTap: () {
                                                     print("-----611---");
-                                                    var licenseRequestId = "${emergencyTitleList![index]['sLicenseRequestCode']}";
-                                                    var baseurl = "https://www.diusmartcity.com/LicensePaymentGatewayMobile.aspx?QS=";
-                                                    var paymentUrl = "$baseurl$licenseRequestId";
-                                                    print(paymentUrl);
 
-                                                    var sPageName = "Online License";
-                                                    //
-                                                    Navigator.push(
-                                                      context,
-                                                      MaterialPageRoute(builder: (context) =>
-                                                          AboutDiuPage(
-                                                              name: sPageName, sPageLink: paymentUrl)),
-                                                    );
+                                                    // var licenseRequestId = "${emergencyTitleList![index]['sLicenseRequestCode']}";
+                                                    // var baseurl = "https://www.diusmartcity.com/LicensePaymentGatewayMobile.aspx?QS=";
+                                                    // var paymentUrl = "$baseurl$licenseRequestId";
+                                                    // print(paymentUrl);
+                                                    // var sPageName = "Online License";
+                                                    // //
+                                                    // Navigator.push(
+                                                    //   context,
+                                                    //   MaterialPageRoute(builder: (context) =>
+                                                    //       AboutDiuPage(
+                                                    //           name: sPageName, sPageLink: paymentUrl)),
+                                                    // );
+
+                                                    showPaymentGatewayDialog(context);
                                                     //print("----613---$licenseRequestId");
                                                     },
                                                     child: Container(
@@ -660,6 +664,103 @@ class _PropertyTaxState extends State<Onlinelicense> {
                         ),
             ],
           )),
+    );
+  }
+  // DialogBox to select a payment
+  void showPaymentGatewayDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          elevation: 5,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Title row with close icon
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Choose Payment Gateway",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).pop(),
+                      child: Icon(Icons.close, color: Colors.grey[700]),
+                    ),
+                  ],
+                ),
+                const Divider(height: 30),
+
+                // Row with two card options
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                        onTap: (){
+                         var baseurl = "https://www.diusmartcity.com/LicensePaymentGatewayMobile.aspx?QS=";
+                          var paymentUrl = "$baseurl$licenseRequestId";
+                          var sPageName = "Online License";
+                          //
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) =>
+                                AboutDiuPage(name: sPageName, sPageLink: paymentUrl)),
+                          );
+
+                        },
+                        child: _buildGatewayCard('assets/images/bankborda.png', 'Pay with BOB',Color(0xFFff5e62))),
+                    GestureDetector(
+                        onTap: (){
+                          var iWardCode = "${emergencyTitleList![0]['iWardCode']}";
+                          print('-----737---Sbi---');
+
+                          // var baseurl = "https://www.diusmartcity.com/LicensePaymentGatewayMobile.aspx?QS=";
+                          // var paymentUrl = "$baseurl$licenseRequestId";
+                          // var sPageName = "Online License";
+                          // //
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) =>
+                          //       AboutDiuPage(name: sPageName, sPageLink: paymentUrl)),
+                          // );
+                        },
+                        child: _buildGatewayCard('assets/images/banksbi.png', 'Pay with SBI',Color(0xFF005BAC))),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+  Widget _buildGatewayCard(String assetPath, String title,Color textColor) {
+    return Card(
+      color: Colors.white,
+      elevation: 5,
+      shadowColor: Colors.grey[300],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: BorderSide(color: Colors.grey.shade400),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        child: Column(
+          children: [
+            Image.asset(assetPath, height: 40),
+            const SizedBox(height: 10),
+            Text(title, style: TextStyle(fontSize: 14,
+            color: textColor
+            )),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -46,6 +46,7 @@ class _TemplesHomeState extends State<PropertyMutationStatus> {
   var msg1;
   GeneralFunction generalfunction = GeneralFunction();
   bool isLoading = true;
+  var sTranNo;
 
   // Api response
 
@@ -140,6 +141,156 @@ class _TemplesHomeState extends State<PropertyMutationStatus> {
         textColor: Colors.white,
         fontSize: 16.0);
   }
+  //  baseUrl
+  // payNow dialogBox
+  void showPaymentGatewayDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          elevation: 5,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Title row with close icon
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Choose Payment Gateway",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).pop(),
+                      child: Icon(Icons.close, color: Colors.grey[700]),
+                    ),
+                  ],
+                ),
+                const Divider(height: 30),
+
+                // Row with two card options
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                        onTap: (){
+                        //  var requestNo = item['sTranNo'];
+                          var sPageName = "Property Transfer Status";
+                          // call a Payment page
+                          var baseurl = "https://www.diusmartcity.com/PropertyTransferPaymentGatewayMobile.aspx?QS=";
+                           var paymentUrl = "$baseurl$sTranNo";
+                           print('------187---$paymentUrl');
+
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) =>
+                                AboutDiuPage(
+                                    name: sPageName, sPageLink: paymentUrl)),
+                          );
+
+                          //
+                          // var sPageName = "Community Hall Status";
+                          // // Payment URL
+                          // var baseurl = "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
+                          // var paymentUrl = "$baseurl$sBookingReqId";
+                          //
+                          // print(paymentUrl);
+                          //
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => AboutDiuPage(name: sPageName, sPageLink: paymentUrl),
+                          //   ),
+                          // );
+
+                        },
+                        child: _buildGatewayCard('assets/images/bankborda.png', 'Pay with BOB',Color(0xFFff5e62))),
+
+                    GestureDetector(
+                        onTap: (){
+                          var sPageName = "Property Transfer Status";
+                          // call a Payment page
+                          var baseurl = "https://www.diusmartcity.com/PropertyTransferPaymentGatewayMobile.aspx?QS=";
+                          var paymentUrl = "$baseurl$sTranNo";
+                          print('------187---$paymentUrl');
+
+
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) =>
+                          //       AboutDiuPage(
+                          //           name: sPageName, sPageLink: paymentUrl)),
+                          // );
+
+                          // var sPageName = "Community Hall Status";
+                          // // Payment URL
+                          // /// TODO HERE YOU SHOUL CHNAGE THE PATH
+                          //
+                          // var baseurl = "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
+                          // var paymentUrl = "$baseurl$sBookingReqId";
+                          //
+                          // print(paymentUrl);
+
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => AboutDiuPage(name: sPageName, sPageLink: paymentUrl),
+                          //   ),
+                          // );
+
+                          // var iWardCode = "${emergencyTitleList![0]['iWardCode']}";
+                          //print('-----737---Sbi---');
+
+                          // var baseurl = "https://www.diusmartcity.com/LicensePaymentGatewayMobile.aspx?QS=";
+                          // var paymentUrl = "$baseurl$licenseRequestId";
+                          // var sPageName = "Online License";
+                          // //
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) =>
+                          //       AboutDiuPage(name: sPageName, sPageLink: paymentUrl)),
+                          // );
+                        },
+                        child: _buildGatewayCard('assets/images/banksbi.png', 'Pay with SBI',Color(0xFF005BAC))),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+  Widget _buildGatewayCard(String assetPath, String title, Color textColor) {
+    return Card(
+      color: Colors.white,
+      elevation: 5,
+      shadowColor: Colors.grey[300],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: BorderSide(color: Colors.grey.shade400),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        child: Column(
+          children: [
+            Image.asset(assetPath, height: 40),
+            const SizedBox(height: 10),
+            Text(title, style: TextStyle(fontSize: 14,
+                color: textColor
+            )),
+          ],
+        ),
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +301,7 @@ class _TemplesHomeState extends State<PropertyMutationStatus> {
       child: Scaffold(
         backgroundColor: Colors.white,
          appBar: getAppBarBack(context,'${widget.name}'),
-        // appBar: getAppBarBack(context,'jjsjsjsj'),
+        // appBar: getAppBarBack(context,'jjsjsjsj-----'),
         drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
         body :
         // pendingInternalComplaintList == null
@@ -208,6 +359,7 @@ class _TemplesHomeState extends State<PropertyMutationStatus> {
                 itemBuilder: (context, index) {
                   Map<String, dynamic> item = _filteredData[index];
                   var pending = item['sStatusName'];
+                  sTranNo = item['sTranNo'];
 
                   return Padding(
                     padding: const EdgeInsets.only(left: 8, top: 8, right: 8),
@@ -501,19 +653,24 @@ class _TemplesHomeState extends State<PropertyMutationStatus> {
                                             padding: const EdgeInsets.only(top: 4),
                                             child: InkWell(
                                               onTap: (){
-                                                var requestNo = item['sTranNo'];
-                                                var sPageName = "Property Transfer Status";
-                                                // call a Payment page
-                                                var baseurl = "https://www.diusmartcity.com/PropertyTransferPaymentGatewayMobile.aspx?QS=";
-                                                var paymentUrl = "$baseurl$requestNo";
-                                                print(paymentUrl);
+                                                // todo here you should open DialogBox..
+                                                showPaymentGatewayDialog(context);
+                                                // var requestNo = item['sTranNo'];
+                                               // var sPageName = "Property Transfer Status";
+                                               // // call a Payment page
+                                               // var baseurl = "https://www.diusmartcity.com/PropertyTransferPaymentGatewayMobile.aspx?QS=";
+                                               //  var paymentUrl = "$baseurl$sTranNo";
+                                               //  print('------635---$paymentUrl');
 
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(builder: (context) =>
-                                                      AboutDiuPage(
-                                                          name: sPageName, sPageLink: paymentUrl)),
-                                                );
+                                                // print(paymentUrl);
+                                                //
+                                                // Navigator.push(
+                                                //   context,
+                                                //   MaterialPageRoute(builder: (context) =>
+                                                //       AboutDiuPage(
+                                                //           name: sPageName, sPageLink: paymentUrl)),
+                                                // );
+
 
                                               },
                                               child: Container(

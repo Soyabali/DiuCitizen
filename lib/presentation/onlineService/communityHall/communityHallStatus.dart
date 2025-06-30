@@ -31,6 +31,7 @@ class CommunityHallStatus extends StatefulWidget {
 }
 
 class _TemplesHomeState extends State<CommunityHallStatus> {
+
   GeneralFunction generalFunction = GeneralFunction();
 
   var variableName;
@@ -59,6 +60,7 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
   var iPaymenyDone;
   var iStatus2=1;
   var iPaymenyDone2=1;
+  var sBookingReqId;
 
   // Api response
 
@@ -73,6 +75,127 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
       // parkList=[];
       isLoading = false;
     });
+  }
+
+  // payNow dialogBox
+  void showPaymentGatewayDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          elevation: 5,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Title row with close icon
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Choose Payment Gateway",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).pop(),
+                      child: Icon(Icons.close, color: Colors.grey[700]),
+                    ),
+                  ],
+                ),
+                const Divider(height: 30),
+
+                // Row with two card options
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                        onTap: (){
+
+                          var sPageName = "Community Hall Status";
+                          // Payment URL
+                          var baseurl = "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
+                          var paymentUrl = "$baseurl$sBookingReqId";
+
+                          print(paymentUrl);
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AboutDiuPage(name: sPageName, sPageLink: paymentUrl),
+                            ),
+                          );
+
+                          },
+                        child: _buildGatewayCard('assets/images/bankborda.png', 'Pay with BOB',Color(0xFFff5e62))),
+
+                    GestureDetector(
+                        onTap: (){
+
+                          var sPageName = "Community Hall Status";
+                          // Payment URL
+                          /// TODO HERE YOU SHOUL CHNAGE THE PATH
+
+                          var baseurl = "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
+                          var paymentUrl = "$baseurl$sBookingReqId";
+
+                          print(paymentUrl);
+
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => AboutDiuPage(name: sPageName, sPageLink: paymentUrl),
+                          //   ),
+                          // );
+
+                         // var iWardCode = "${emergencyTitleList![0]['iWardCode']}";
+                          //print('-----737---Sbi---');
+
+                          // var baseurl = "https://www.diusmartcity.com/LicensePaymentGatewayMobile.aspx?QS=";
+                          // var paymentUrl = "$baseurl$licenseRequestId";
+                          // var sPageName = "Online License";
+                          // //
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) =>
+                          //       AboutDiuPage(name: sPageName, sPageLink: paymentUrl)),
+                          // );
+                        },
+                        child: _buildGatewayCard('assets/images/banksbi.png', 'Pay with SBI',Color(0xFF005BAC))),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+  Widget _buildGatewayCard(String assetPath, String title, Color textColor) {
+    return Card(
+      color: Colors.white,
+      elevation: 5,
+      shadowColor: Colors.grey[300],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: BorderSide(color: Colors.grey.shade400),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        child: Column(
+          children: [
+            Image.asset(assetPath, height: 40),
+            const SizedBox(height: 10),
+            Text(title, style: TextStyle(fontSize: 14,
+            color: textColor
+            )),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -206,7 +329,7 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: getAppBarBack(context, '${widget.name}'),
+       appBar: getAppBarBack(context, '${widget.name}'),
         // appBar: getAppBarBack(context,'jjsjsjsj'),
         drawer:
             generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
@@ -267,6 +390,7 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                 Map<String, dynamic> item = _filteredData[index];
                                 iStatus = item['iStatus'];
                                 iPaymenyDone = item['iPaymentDone'];
+                                sBookingReqId =  item['sBookingReqId'];
 
                                 return Padding(
                                   padding: const EdgeInsets.only(
@@ -655,101 +779,6 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                                     )
                                                                   : Container(),
                                                               SizedBox(width: 5),
-
-                                                              // iStatus=="1" ?
-                                                              //     Container(
-                                                              //       child: Text("Pay now",style: TextStyle(
-                                                              //       color: Colors.lightGreen,
-                                                              //       fontSize: 14,
-                                                              //       fontWeight: FontWeight.normal
-                                                              //     ),),)
-                                                              //     :
-                                                              //     Container(child: Text(iStatus.toString(),style: TextStyle(color: Colors.black,fontSize: 16),),)
-                                                              
-                                                              // iStatus == 1 && iPaymenyDone == 0
-                                                              //     ? InkWell(
-                                                              //         onTap:
-                                                              //             () {
-                                                              //           print(
-                                                              //               "-----717---");
-                                                              //           var requestNo =
-                                                              //               item['sBookingReqId'];
-                                                              //           print(
-                                                              //               "---670---$requestNo");
-                                                              //           var sPageName =
-                                                              //               "Community Hall Status";
-                                                              //           // call a Payment page
-                                                              //           var baseurl =
-                                                              //               "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
-                                                              //           var paymentUrl =
-                                                              //               "$baseurl$requestNo";
-                                                              //           print(
-                                                              //               paymentUrl);
-                                                              //
-                                                              //           Navigator
-                                                              //               .push(
-                                                              //             context,
-                                                              //             MaterialPageRoute(
-                                                              //                 builder: (context) => AboutDiuPage(name: sPageName, sPageLink: paymentUrl)),
-                                                              //           );
-                                                              //         },
-                                                              //         child:
-                                                              //             Container(
-                                                              //           height:
-                                                              //               40,
-                                                              //           width:
-                                                              //               100,
-                                                              //           decoration:
-                                                              //               BoxDecoration(
-                                                              //             color:
-                                                              //                 Colors.blue,
-                                                              //             borderRadius:
-                                                              //                 BorderRadius.circular(15), // Rounded corners
-                                                              //           ),
-                                                              //           child:
-                                                              //               Center(
-                                                              //             child:
-                                                              //                 Text(
-                                                              //               "Pay Now $iStatus",
-                                                              //               style:
-                                                              //                   TextStyle(
-                                                              //                 color: Colors.white,
-                                                              //                 fontSize: 14,
-                                                              //               ),
-                                                              //             ),
-                                                              //           ),
-                                                              //         ),
-                                                              //       )
-                                                              //     : Container(
-                                                              //         height:
-                                                              //             40,
-                                                              //         width:
-                                                              //             100,
-                                                              //         decoration:
-                                                              //             BoxDecoration(
-                                                              //           color: Colors
-                                                              //               .green,
-                                                              //           borderRadius:
-                                                              //               BorderRadius.circular(15), // Rounded corners
-                                                              //         ),
-                                                              //         child:
-                                                              //              Center(
-                                                              //           child:
-                                                              //               Padding(
-                                                              //             padding:
-                                                              //                 EdgeInsets.only(left: 15),
-                                                              //             child:
-                                                              //                 Text(
-                                                              //               "Payment done $iStatus",
-                                                              //               style:
-                                                              //                   TextStyle(
-                                                              //                 color: Colors.white,
-                                                              //                 fontSize: 14,
-                                                              //               ),
-                                                              //             ),
-                                                              //           ),
-                                                              //         ),
-                                                              //       ),
                                                             ],
                                                           ),
                                                         ),
@@ -782,23 +811,27 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                       child: InkWell(
                                         onTap: () {
                                           print("-----717---");
-                                          var requestNo = item['sBookingReqId'];
-                                          print("---670---$requestNo");
-                                          var sPageName = "Community Hall Status";
+                                          showPaymentGatewayDialog(context);
 
-                                          // Payment URL
-                                          var baseurl = "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
-                                          var paymentUrl = "$baseurl$requestNo";
+                                          // var requestNo = item['sBookingReqId'];
+                                          // print("---670---$requestNo");
+                                          // var sPageName = "Community Hall Status";
+                                          //
+                                          // // Payment URL
+                                          // var baseurl = "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
+                                          // var paymentUrl = "$baseurl$requestNo";
+                                          //
+                                          // print(paymentUrl);
+                                          //
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (context) => AboutDiuPage(name: sPageName, sPageLink: paymentUrl),
+                                          //   ),
+                                          // );
 
-                                          print(paymentUrl);
 
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => AboutDiuPage(name: sPageName, sPageLink: paymentUrl),
-                                            ),
-                                          );
-                                        },
+                                          },
                                         child: Container(
                                           height: 40,
                                           width: 100,
@@ -815,50 +848,6 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                         ),
                                       ),
                                     )
-                                                  //  InkWell(
-                                                  // onTap: (){
-                                                  //   print(
-                                                  //       "-----717---");
-                                                  //   var requestNo =
-                                                  //   item['sBookingReqId'];
-                                                  //   print(
-                                                  //       "---670---$requestNo");
-                                                  //   var sPageName =
-                                                  //       "Community Hall Status";
-                                                  //   // call a Payment page
-                                                  //   var baseurl =
-                                                  //       "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
-                                                  //   var paymentUrl =
-                                                  //       "$baseurl$requestNo";
-                                                  //   print(
-                                                  //       paymentUrl);
-                                                  //
-                                                  //   Navigator
-                                                  //       .push(
-                                                  //     context,
-                                                  //     MaterialPageRoute(
-                                                  //         builder: (context) => AboutDiuPage(name: sPageName, sPageLink: paymentUrl)),
-                                                  //   );
-                                                  // },
-                                                  //     child: Container(
-                                                  //     height:
-                                                  //     40,
-                                                  //     width:
-                                                  //     100,
-                                                  //     decoration:
-                                                  //     BoxDecoration(
-                                                  //       color:
-                                                  //       Colors.blue,
-                                                  //       borderRadius:
-                                                  //       BorderRadius.circular(15), // Rounded corners
-                                                  //     ),
-                                                  //
-                                                  //     child: const Center(
-                                                  //       child: Text("Pay Now",style: TextStyle(
-                                                  //         color: Colors.white,fontSize: 14
-                                                  //       ),),
-                                                  //     )),
-                                                  //   )
 
 
 
@@ -878,63 +867,6 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
       ),
     );
   }
-  // Widget buildPayment(BuildContext context) {
-  //   return (iStatus == 1 && iPaymentDone == 1)
-  //       ? Container(
-  //     height: 40,
-  //     width: 100,
-  //     decoration: BoxDecoration(
-  //       color: Colors.green,
-  //       borderRadius: BorderRadius.circular(15), // Rounded corners
-  //     ),
-  //     child: const Center(
-  //       child: Text(
-  //         "Payment Done",
-  //         style: TextStyle(color: Colors.white, fontSize: 14),
-  //       ),
-  //     ),
-  //   )
-  //       : Visibility(
-  //     visible: (iStatus == 1 && iPaymentDone == 0), // Only show for this condition
-  //     child: InkWell(
-  //       onTap: () {
-  //         print("-----717---");
-  //         var requestNo = item['sBookingReqId'];
-  //         print("---670---$requestNo");
-  //         var sPageName = "Community Hall Status";
-  //
-  //         // Payment URL
-  //         var baseurl = "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
-  //         var paymentUrl = "$baseurl$requestNo";
-  //
-  //         print(paymentUrl);
-  //
-  //         Navigator.push(
-  //           context,
-  //           MaterialPageRoute(
-  //             builder: (context) => AboutDiuPage(name: sPageName, sPageLink: paymentUrl),
-  //           ),
-  //         );
-  //       },
-  //       child: Container(
-  //         height: 40,
-  //         width: 100,
-  //         decoration: BoxDecoration(
-  //           color: Colors.blue,
-  //           borderRadius: BorderRadius.circular(15), // Rounded corners
-  //         ),
-  //         child: const Center(
-  //           child: Text(
-  //             "Pay Now",
-  //             style: TextStyle(color: Colors.white, fontSize: 14),
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-
   // bottom sheet code
   void _showCustomBottomSheet(BuildContext context, bookingRequuestId) {
     showModalBottomSheet(

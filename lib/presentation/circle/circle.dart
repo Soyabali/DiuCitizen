@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CircleWithSpacing extends StatelessWidget {
+
   final double diameter;
   final Color color;
   final double spacing;

@@ -263,7 +263,6 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
                     print("----houseOwnerName-----241---$houseOwnerName");
                     if(_selectedWardId!=null && _selectedWardId!="" && houseno.isNotEmpty || houseOwnerName.isNotEmpty){
                        print("---Call APi---");
-
                        getEmergencyTitleResponse(_selectedWardId,houseno,houseOwnerName);
                     }else{
                       print("---Not Call APi---");
@@ -310,6 +309,7 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
                                     itemBuilder: (context, index) {
                                       final color = borderColors[index % borderColors.length];
                                       houseNo = "${emergencyTitleList![index]['sHouseNo']}";
+
                                       return Column(
                                         children: [
                                           Padding(
@@ -550,7 +550,6 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
                                                               ),
                                                             )
                                                           ],
-
                                                         ),
                                                       ),
                                                     ),
@@ -623,12 +622,20 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
                               //print("-----iwardCode----xx-----$iWardCode");
                               var sPageName = "Property Tax";
                               /// todo here you should open url
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) =>
-                                    AboutDiuPage(name: sPageName, sPageLink: baseurl)),
-                              );
+                              /// TODO HERE YOU SHOULD GIVE ONLY A CHOSE POPUP
+                              /// Every thing is same but behafe of choise you should call a url.
+                              print('-------627-----');
+
+                              showPaymentGatewayDialog(context);
+
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(builder: (context) =>
+                              //       AboutDiuPage(name: sPageName, sPageLink: baseurl)),
+                              // );
+
                               },
+
                             child: Container(
                               height: 50,
                               width: 50,
@@ -650,4 +657,105 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
       );
 
   }
+  // card
+// Card widget generator
+
+  void showPaymentGatewayDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          elevation: 5,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Title row with close icon
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Choose Payment Gateway",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).pop(),
+                      child: Icon(Icons.close, color: Colors.grey[700]),
+                    ),
+                  ],
+                ),
+                const Divider(height: 30),
+
+                // Row with two card options
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                        onTap: (){
+                          /// TODO HERE YOU SHOULD CALL A PAMENT URL ON A NEW PAGE
+                          var iWardCode = "${emergencyTitleList![0]['iWardCode']}";
+                          // var houseNo = "${emergencyTitleList![index]['sHouseNo']}";
+                          var baseurl = "https://www.diusmartcity.com/PaymentGatewayMobile.aspx?QS=$houseNo&iWardCode=$iWardCode";
+                          var sPageName = "Property Tax";
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) =>
+                                AboutDiuPage(name: sPageName, sPageLink: baseurl)),
+                          );
+                          },
+                        child: _buildGatewayCard('assets/images/bankborda.png', 'Pay with BOB',Color(0xFFff5e62))),
+                    GestureDetector(
+                        onTap: (){
+                          var iWardCode = "${emergencyTitleList![0]['iWardCode']}";
+                          // var houseNo = "${emergencyTitleList![index]['sHouseNo']}";
+                          var baseurl = "https://www.diusmartcity.com/PaymentGatewayMobile.aspx?QS=$houseNo&iWardCode=$iWardCode";
+                          var sPageName = "Property Tax";
+                          print('-----baseURL--$baseurl');
+
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) =>
+                          //       AboutDiuPage(name: sPageName, sPageLink: baseurl)),
+                          // );
+                          //print('------Pay with Sbi-----');
+                        },
+                        child: _buildGatewayCard('assets/images/banksbi.png', 'Pay with SBI',Color(0xFF005BAC))),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+  Widget _buildGatewayCard(String assetPath, String title,Color textColor) {
+    return Card(
+      color: Colors.white,
+      elevation: 5,
+      shadowColor: Colors.grey[300],
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: BorderSide(color: Colors.grey.shade400),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        child: Column(
+          children: [
+            Image.asset(assetPath, height: 40),
+            const SizedBox(height: 10),
+            Text(title, style: TextStyle(fontSize: 14,
+                color: textColor
+            )),
+          ],
+        ),
+      ),
+    );
+  }
+
 }
