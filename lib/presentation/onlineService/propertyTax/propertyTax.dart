@@ -167,7 +167,7 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: getAppBarBack(context,'${widget.name}'),
-         //appBar: getAppBarBack(context,'ssss999'),
+        // appBar: getAppBarBack(context,'ssss999'),
         //drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
         body: Column(
             children: [
@@ -554,46 +554,7 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
                                                       ),
                                                     ),
                                                     SizedBox(height: 5),
-                                                    // Center(
-                                                    //   child: Row(
-                                                    //     mainAxisAlignment: MainAxisAlignment.end, // Aligns the container to the right
-                                                    //     children: [
-                                                    //       InkWell(
-                                                    //         onTap: () {
-                                                    //           var houseNo = "${emergencyTitleList![index]['sHouseNo']}";
-                                                    //           var baseurl = "https://www.diusmartcity.com/PaymentGatewayMobile.aspx?QS=";
-                                                    //           var paymentUrl = "$baseurl$houseNo";
-                                                    //           print(paymentUrl);
-                                                    //           var sPageName = "Property Tax";
-                                                    //           //
-                                                    //           Navigator.push(
-                                                    //             context,
-                                                    //             MaterialPageRoute(builder: (context) =>
-                                                    //                 AboutDiuPage(
-                                                    //                     name: sPageName, sPageLink: paymentUrl)),
-                                                    //           );
-                                                    //           print("Container clicked!"); // Perform action here
-                                                    //         },
-                                                    //         child: Container(
-                                                    //           height: 45,
-                                                    //           width: 150, // Set the width of the container
-                                                    //           padding: EdgeInsets.only(right: 16), // Optional padding
-                                                    //           alignment: Alignment.center, // Aligns text inside the container
-                                                    //           decoration: BoxDecoration(
-                                                    //             color: Colors.blue,
-                                                    //             borderRadius: BorderRadius.circular(10), // Rounded corners
-                                                    //           ),
-                                                    //           child: Text(
-                                                    //             "Make Payment",
-                                                    //             style: AppTextStyle
-                                                    //                 .font14OpenSansRegularWhiteTextStyle,
-                                                    //           ),
-                                                    //         ),
-                                                    //       ),
-                                                    //     ],
-                                                    //   ),
-                                                    // ),
-                                                    // SizedBox(height: 5),
+
                                                   ],
                                                 )
                                             ),
@@ -613,27 +574,13 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
                           right: 10, // Adjust position as needed
                           child: InkWell(
                             onTap: (){
-                              var iWardCode = "${emergencyTitleList![0]['iWardCode']}";
-                              // var houseNo = "${emergencyTitleList![index]['sHouseNo']}";
-                             var baseurl = "https://www.diusmartcity.com/PaymentGatewayMobile.aspx?QS=$houseNo&iWardCode=$iWardCode";
-                             // var paymentUrl = "$baseurl$houseNo$iWardCode";
-                              //print(paymentUrl);
-                              print("-----622--payment URL----$baseurl");
-                              //print("-----iwardCode----xx-----$iWardCode");
-                              var sPageName = "Property Tax";
-                              /// todo here you should open url
-                              /// TODO HERE YOU SHOULD GIVE ONLY A CHOSE POPUP
-                              /// Every thing is same but behafe of choise you should call a url.
-                              print('-------627-----');
 
-                              showPaymentGatewayDialog(context);
-
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(builder: (context) =>
-                              //       AboutDiuPage(name: sPageName, sPageLink: baseurl)),
-                              // );
-
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext dialogContext) {
+                                  return paymentDialog(dialogContext);
+                                },
+                              );
                               },
 
                             child: Container(
@@ -657,103 +604,160 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
       );
 
   }
-  // card
-// Card widget generator
-
-  void showPaymentGatewayDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          elevation: 5,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+  // paymentDialog widget
+  Widget paymentDialog(BuildContext dialogContext){
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // 🔶 Gradient Header
+          Container(
+            height: 45,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFFF15C3B), // First color: #ff5e62 (a warm coral)
+                  Color(0xFF005BAC), // Second color: #005BAC (a deep blue)
+                ],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Title row with close icon
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Choose Payment Gateway",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    GestureDetector(
-                      onTap: () => Navigator.of(context).pop(),
-                      child: Icon(Icons.close, color: Colors.grey[700]),
-                    ),
-                  ],
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  child: Text(
+                    'Choose Payment Gateway',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
                 ),
-                const Divider(height: 30),
-
-                // Row with two card options
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    GestureDetector(
-                        onTap: (){
-                          /// TODO HERE YOU SHOULD CALL A PAMENT URL ON A NEW PAGE
-                          var iWardCode = "${emergencyTitleList![0]['iWardCode']}";
-                          // var houseNo = "${emergencyTitleList![index]['sHouseNo']}";
-                          var baseurl = "https://www.diusmartcity.com/PaymentGatewayMobile.aspx?QS=$houseNo&iWardCode=$iWardCode";
-                          var sPageName = "Property Tax";
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) =>
-                                AboutDiuPage(name: sPageName, sPageLink: baseurl)),
-                          );
-                          },
-                        child: _buildGatewayCard('assets/images/bankborda.png', 'Pay with BOB',Color(0xFFff5e62))),
-                    GestureDetector(
-                        onTap: (){
-                          var iWardCode = "${emergencyTitleList![0]['iWardCode']}";
-                          // var houseNo = "${emergencyTitleList![index]['sHouseNo']}";
-                          var baseurl = "https://www.diusmartcity.com/PaymentGatewayMobile.aspx?QS=$houseNo&iWardCode=$iWardCode";
-                          var sPageName = "Property Tax";
-                          print('-----baseURL--$baseurl');
-
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) =>
-                          //       AboutDiuPage(name: sPageName, sPageLink: baseurl)),
-                          // );
-                          //print('------Pay with Sbi-----');
-                        },
-                        child: _buildGatewayCard('assets/images/banksbi.png', 'Pay with SBI',Color(0xFF005BAC))),
-                  ],
+                IconButton(
+                    icon: Icon(Icons.close, color: Colors.white),
+                    onPressed: () {
+                      if (Navigator.of(dialogContext).canPop()) {
+                        Navigator.of(dialogContext).pop();
+                      }
+                    }
                 ),
               ],
             ),
           ),
-        );
-      },
-    );
-  }
-  Widget _buildGatewayCard(String assetPath, String title,Color textColor) {
-    return Card(
-      color: Colors.white,
-      elevation: 5,
-      shadowColor: Colors.grey[300],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-        side: BorderSide(color: Colors.grey.shade400),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-        child: Column(
-          children: [
-            Image.asset(assetPath, height: 40),
-            const SizedBox(height: 10),
-            Text(title, style: TextStyle(fontSize: 14,
-                color: textColor
-            )),
-          ],
-        ),
+          // 💳 Payment Options
+          Container(
+            height: 100,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // First Card
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      var iWardCode = "${emergencyTitleList![0]['iWardCode']}";
+                      // var houseNo = "${emergencyTitleList![index]['sHouseNo']}";
+                      var baseurl = "https://www.diusmartcity.com/PaymentGatewayMobile.aspx?QS=$houseNo&iWardCode=$iWardCode";
+                      var sPageName = "Property Tax";
+
+                      // close the DialogBox
+                      if (Navigator.of(dialogContext).canPop()) {
+                        Navigator.of(dialogContext).pop();
+                      }
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) =>
+                            AboutDiuPage(name: sPageName, sPageLink: baseurl)),
+                      );
+                    },
+                    child: Card(
+                      elevation: 10,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/bankborda.png',
+                              height: 30,
+                            ),
+                            SizedBox(width: 10),
+                            const Text(
+                              'BOB',
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(width: 12),
+
+                // Second Card
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+
+                      var iWardCode = "${emergencyTitleList![0]['iWardCode']}";
+                      // var houseNo = "${emergencyTitleList![index]['sHouseNo']}";
+                      // var baseurl = "https://www.diusmartcity.com/PaymentGatewayMobile.aspx?QS=$houseNo&iWardCode=$iWardCode";
+                      var baseurl = "https://www.diusmartcity.com/SBIPropertyTaxDataformGetewayMobile.aspx?QS=$houseNo&iWardCode=$iWardCode";
+                      var sPageName = "Property Tax";
+                      print('-----baseURL--$baseurl');
+                      // close the dialogbOS
+
+                      if (Navigator.of(dialogContext).canPop()) {
+                        Navigator.of(dialogContext).pop();
+                      }
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) =>
+                            AboutDiuPage(name: sPageName, sPageLink: baseurl)),
+                      );
+                    },
+                    child: Card(
+                      elevation: 10,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/banksbi.png',
+                              height: 30,
+                            ),
+                            SizedBox(width: 10),
+                            const Text(
+                              'SBI',
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
       ),
     );
   }

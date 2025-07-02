@@ -50,172 +50,6 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
     });
   }
 
-  // payment Dialog
-  void showPaymentGatewayDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          elevation: 5,
-          child: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Title row with close icon
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Choose Payment Gateway",
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    GestureDetector(
-                      onTap: () => Navigator.of(context).pop(),
-                      child: Icon(Icons.close, color: Colors.grey[700]),
-                    ),
-                  ],
-                ),
-                const Divider(height: 30),
-
-                // Row with two card options
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    GestureDetector(
-                        onTap: (){
-                          //var requestNo = item['sRequestNo'];
-                          var sPageName = "Advertisement Booking Status";
-                          // call a Payment page
-                          var baseurl = "https://www.diusmartcity.com/AdvertisementPaymentGatewayMobile.aspx?QS=";
-                          var paymentUrl = "$baseurl$sRequestNo";
-                          print(paymentUrl);
-
-
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) =>
-                                AboutDiuPage(
-                                    name: sPageName, sPageLink: paymentUrl)),
-                          );
-
-
-                          //  var requestNo = item['sTranNo'];
-                          // var sPageName = "Property Transfer Status";
-                          // // call a Payment page
-                          // var baseurl = "https://www.diusmartcity.com/PropertyTransferPaymentGatewayMobile.aspx?QS=";
-                          // var paymentUrl = "$baseurl$sTranNo";
-                          // print('------187---$paymentUrl');
-                          //
-                          //
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) =>
-                          //       AboutDiuPage(
-                          //           name: sPageName, sPageLink: paymentUrl)),
-                          // );
-
-                          //
-                          // var sPageName = "Community Hall Status";
-                          // // Payment URL
-                          // var baseurl = "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
-                          // var paymentUrl = "$baseurl$sBookingReqId";
-                          //
-                          // print(paymentUrl);
-                          //
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => AboutDiuPage(name: sPageName, sPageLink: paymentUrl),
-                          //   ),
-                          // );
-
-                        },
-                        child: _buildGatewayCard('assets/images/bankborda.png', 'Pay with BOB',Color(0xFFff5e62))),
-
-                    GestureDetector(
-                        onTap: (){
-                          var sPageName = "Advertisement Booking Status";
-                          // call a Payment page
-                          var baseurl = "https://www.diusmartcity.com/AdvertisementPaymentGatewayMobile.aspx?QS=";
-                          var paymentUrl = "$baseurl$sRequestNo";
-                          print(paymentUrl);
-
-
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) =>
-                          //       AboutDiuPage(
-                          //           name: sPageName, sPageLink: paymentUrl)),
-                          // );
-
-                          // var sPageName = "Community Hall Status";
-                          // // Payment URL
-                          // /// TODO HERE YOU SHOUL CHNAGE THE PATH
-                          //
-                          // var baseurl = "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
-                          // var paymentUrl = "$baseurl$sBookingReqId";
-                          //
-                          // print(paymentUrl);
-
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => AboutDiuPage(name: sPageName, sPageLink: paymentUrl),
-                          //   ),
-                          // );
-
-                          // var iWardCode = "${emergencyTitleList![0]['iWardCode']}";
-                          //print('-----737---Sbi---');
-
-                          // var baseurl = "https://www.diusmartcity.com/LicensePaymentGatewayMobile.aspx?QS=";
-                          // var paymentUrl = "$baseurl$licenseRequestId";
-                          // var sPageName = "Online License";
-                          // //
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) =>
-                          //       AboutDiuPage(name: sPageName, sPageLink: paymentUrl)),
-                          // );
-                        },
-                        child: _buildGatewayCard('assets/images/banksbi.png', 'Pay with SBI',Color(0xFF005BAC))),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-  Widget _buildGatewayCard(String assetPath, String title, Color textColor) {
-    return Card(
-      color: Colors.white,
-      elevation: 5,
-      shadowColor: Colors.grey[300],
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-        side: BorderSide(color: Colors.grey.shade400),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-        child: Column(
-          children: [
-            Image.asset(assetPath, height: 40),
-            const SizedBox(height: 10),
-            Text(title, style: TextStyle(fontSize: 14,
-                color: textColor
-            )),
-          ],
-        ),
-      ),
-    );
-  }
-
-
   @override
   void initState() {
     // TODO: implement initState
@@ -597,24 +431,14 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                                                 padding: const EdgeInsets.only(top: 4),
                                                 child: InkWell(
                                                   onTap: (){
-                                                    showPaymentGatewayDialog(context);
-
-                                                     // var requestNo = item['sRequestNo'];
-                                                     // var sPageName = "Advertisement Booking Status";
-                                                     // // call a Payment page
-                                                     // var baseurl = "https://www.diusmartcity.com/AdvertisementPaymentGatewayMobile.aspx?QS=";
-                                                     // var paymentUrl = "$baseurl$requestNo";
-                                                     // print(paymentUrl);
-                                                     //
-                                                     // //
-                                                     // Navigator.push(
-                                                     //   context,
-                                                     //   MaterialPageRoute(builder: (context) =>
-                                                     //       AboutDiuPage(
-                                                     //           name: sPageName, sPageLink: paymentUrl)),
-                                                     // );
-
-                                                     },
+                                                    // paymentDialog();
+                                                    showDialog(
+                                                      context: context,
+                                                      builder: (BuildContext dialogContext) {
+                                                        return paymentDialog(dialogContext);
+                                                      },
+                                                    );
+                                                    },
                                                   child: Container(
                                                     height: 35,
                                                     padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -644,4 +468,165 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                 ),
     );
   }
+  // paymentDialog widget
+  Widget paymentDialog(BuildContext dialogContext){
+          return Dialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // 🔶 Gradient Header
+                Container(
+                  height: 45,
+                  decoration: const BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xFFF15C3B), // First color: #ff5e62 (a warm coral)
+                        Color(0xFF005BAC), // Second color: #005BAC (a deep blue)
+                      ],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ),
+                    borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        child: Text(
+                          'Choose Payment Gateway',
+                          style: TextStyle(color: Colors.white, fontSize: 16),
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(Icons.close, color: Colors.white),
+                        onPressed: () {
+                          if (Navigator.of(dialogContext).canPop()) {
+                            Navigator.of(dialogContext).pop();
+                          }
+                        }
+                      ),
+                    ],
+                  ),
+                ),
+                // 💳 Payment Options
+                Container(
+                  height: 100,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      // First Card
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            print('-----706----');
+                            var sPageName = "Advertisement Booking Status";
+                            // call a Payment page
+                            var baseurl = "https://www.diusmartcity.com/AdvertisementPaymentGatewayMobile.aspx?QS=";
+                            var paymentUrl = "$baseurl$sRequestNo";
+                            print(paymentUrl);
+                            // close the dialog
+                            if (Navigator.of(dialogContext).canPop()) {
+                              Navigator.of(dialogContext).pop();
+                            }
+                            // open the payment activity
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>
+                                  AboutDiuPage(
+                                      name: sPageName, sPageLink: paymentUrl)),
+                            );
+                            },
+                          child: Card(
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/bankborda.png',
+                                    height: 30,
+                                  ),
+                                  SizedBox(width: 10),
+                                  const Text(
+                                    'BOB',
+                                    style: TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(width: 12),
+
+                      // Second Card
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () {
+                            print('---sbi----');
+                            var sPageName = "Advertisement Booking Status";
+                            // call a Payment page
+                            // var baseurl = "https://www.diusmartcity.com/AdvertisementPaymentGatewayMobile.aspx?QS=";
+                            var baseurl = "https://www.diusmartcity.com/SBIAdvertismentPaymentGetewayMobile.aspx?QS=";
+                            var paymentUrl = "$baseurl$sRequestNo";
+                            print(paymentUrl);
+
+                            // close the dialog
+                            if (Navigator.of(dialogContext).canPop()) {
+                              Navigator.of(dialogContext).pop();
+                            }
+
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>
+                                  AboutDiuPage(
+                                      name: sPageName, sPageLink: paymentUrl)),
+                            );
+                          },
+                          child: Card(
+                            elevation: 10,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/banksbi.png',
+                                    height: 30,
+                                  ),
+                                  SizedBox(width: 10),
+                                  const Text(
+                                    'SBI',
+                                    style: TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          );
+  }
+
 }
