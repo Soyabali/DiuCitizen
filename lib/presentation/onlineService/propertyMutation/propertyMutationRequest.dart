@@ -449,7 +449,7 @@ class _MyHomePageState extends State<PropertyMutationRequest>
                 },
                 hint: RichText(
                   text: TextSpan(
-                    text: "Select Trade Category",
+                    text: "Select Type of Property Transfer",
                     style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
                   ),
                 ),

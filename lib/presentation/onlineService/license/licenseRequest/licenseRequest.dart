@@ -627,7 +627,7 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
                 },
                 hint: RichText(
                   text: TextSpan(
-                    text: "Select Trade Category",
+                    text: "Select Trade Sub Category",
                     style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
                   ),
                 ),

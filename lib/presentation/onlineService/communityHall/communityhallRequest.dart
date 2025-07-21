@@ -496,6 +496,7 @@ var  firstStatus;
 
   // pick Image
   Future pickImage() async {
+    image=null;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
     print('---Token----113--$sToken');
@@ -513,6 +514,27 @@ var  firstStatus;
       }
     } catch (e) {}
   }
+  // pick image camra
+  Future pickImageCamra() async {
+    image=null;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? sToken = prefs.getString('sToken');
+    print('---Token----113--$sToken');
+    try {
+      final pickFileid = await ImagePicker()
+          .pickImage(source: ImageSource.camera, imageQuality: 50);
+      if (pickFileid != null) {
+        image = File(pickFileid.path);
+        setState(() {});
+        print('Image File path Id Proof-------167----->$image');
+        // multipartProdecudre();
+        uploadImage(sToken!, image!);
+      } else {
+        print('no image selected');
+      }
+    } catch (e) {}
+  }
+
   // uplode photo
   Future<void> uploadImage(String token, File imageFile) async {
     print("--------225---tolen---$token");
@@ -556,6 +578,175 @@ var  firstStatus;
       print('Error uploading image: $error');
     }
   }
+
+  //  to pick image gallery and Camra selected
+  Widget paymentDialog(BuildContext dialogContext){
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // 🔶 Gradient Header
+          Container(
+            height: 45,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Color(0xFFF15C3B), // First color: #ff5e62 (a warm coral)
+                  Color(0xFF005BAC), // Second color: #005BAC (a deep blue)
+                ],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  child: Text(
+                    'Click to choose a photo',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+                IconButton(
+                    icon: Icon(Icons.close, color: Colors.white),
+                    onPressed: () {
+                      if (Navigator.of(dialogContext).canPop()) {
+                        Navigator.of(dialogContext).pop();
+                      }
+                    }
+                ),
+              ],
+            ),
+          ),
+          // 💳 Payment Options
+          Container(
+            height: 100,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // First Card
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                      //pickImage();
+                      pickImageCamra();
+                      print('----Camra----');
+                      // print('-----706----');
+                      // var sPageName = "Advertisement Booking Status";
+                      // // call a Payment page
+                      // var baseurl = "https://www.diusmartcity.com/AdvertisementPaymentGatewayMobile.aspx?QS=";
+                      // var paymentUrl = "$baseurl$sRequestNo";
+                      // print(paymentUrl);
+                      // // close the dialog
+                      // if (Navigator.of(dialogContext).canPop()) {
+                      //   Navigator.of(dialogContext).pop();
+                      // }
+                      // // open the payment activity
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) =>
+                      //       AboutDiuPage(
+                      //           name: sPageName, sPageLink: paymentUrl)),
+                      // );
+                    },
+                    child: Card(
+                      elevation: 10,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/images/ic_camera.PNG',
+                              height: 30,
+                            ),
+                            SizedBox(width: 10),
+                            const Text(
+                              'Camera',
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(width: 12),
+
+                // Second Card
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () {
+                     // print("------Gallery----");
+                      pickImage();
+
+                      // print('---sbi----');
+                      // var sPageName = "Advertisement Booking Status";
+                      // // call a Payment page
+                      // // var baseurl = "https://www.diusmartcity.com/AdvertisementPaymentGatewayMobile.aspx?QS=";
+                      // var baseurl = "https://www.diusmartcity.com/SBIAdvertismentPaymentGetewayMobile.aspx?QS=";
+                      // var paymentUrl = "$baseurl$sRequestNo";
+                      // print(paymentUrl);
+                      //
+                      // // close the dialog
+                      // if (Navigator.of(dialogContext).canPop()) {
+                      //   Navigator.of(dialogContext).pop();
+                      // }
+                      //
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) =>
+                      //       AboutDiuPage(
+                      //           name: sPageName, sPageLink: paymentUrl)),
+                      // );
+                    },
+                    child: Card(
+                      elevation: 10,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+
+                            Image.asset(
+                              'assets/images/gallery.png',
+                              height: 30,
+                            ),
+                            SizedBox(width: 10),
+                            const Text(
+                              'Gallery',
+                              style: TextStyle(
+                                color: Colors.black54,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
 
   @override
   void initState() {
@@ -1115,8 +1306,7 @@ var  firstStatus;
                                       padding: EdgeInsets.only(left: 0),
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Padding(
                                               padding: EdgeInsets.all(10.0),
@@ -1196,8 +1386,16 @@ var  firstStatus;
                                         GestureDetector(
                                           onTap: () {
                                             print("---------image-----");
-                                            pickImage();
-                                          },
+                                           // pickImage();
+                                            // to open Dialog to Choose Gallery and Camra
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext dialogContext) {
+                                                return paymentDialog(dialogContext);
+                                              },
+                                            );
+
+                                            },
                                           child: Padding(
                                             padding:
                                             const EdgeInsets.only(top: 10),
