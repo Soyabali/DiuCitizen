@@ -510,8 +510,9 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                           child:
                                                               GestureDetector(
                                                             onTap: () {
-                                                              var docUrl =
-                                                                  "${item['sCommunityDocUrl'].toString()}";
+                                                              var docUrl = "${item['sCommunityDocUrl'].toString()}";
+
+                                                              print(docUrl);
 
                                                               Navigator.push(
                                                                 context,
