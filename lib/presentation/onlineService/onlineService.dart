@@ -99,7 +99,7 @@ class _OnlineComplaintState extends State<OnlineServives> {
     "License",
     "Community Hall",
     "Property Transfer",
-     "Water Supply",
+    "Water Supply",
     // "Electricity Bill",
     // "Mamlatdar Diu",
     // "Collectorate Diu",
@@ -159,7 +159,7 @@ class _OnlineComplaintState extends State<OnlineServives> {
           leading: GestureDetector(
             onTap: (){
               print("------back---");
-               Navigator.pop(context);
+              Navigator.pop(context);
               // Navigator.push(
               //   context,
               //   MaterialPageRoute(builder: (context) => const ComplaintHomePage()),
@@ -186,7 +186,7 @@ class _OnlineComplaintState extends State<OnlineServives> {
         ),
         //appBar: getAppBarBack(context, '${widget.name}'),
 
-       // drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
+        // drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
 
         body:
         isLoading
@@ -202,10 +202,10 @@ class _OnlineComplaintState extends State<OnlineServives> {
               height: MediaQuery.of(context).size.height * 0.8, // Adjust the height as needed
               child: ListView.builder(
                 shrinkWrap: true,
-               // itemCount: emergencyTitleList?.length ?? 0,
+                // itemCount: emergencyTitleList?.length ?? 0,
                 itemCount: OnlineTitle?.length ?? 0,
                 itemBuilder: (context, index) {
-               final color = borderColors[index % borderColors.length];
+                  final color = borderColors[index % borderColors.length];
                   return Column(
                     children: <Widget>[
                       Padding(
@@ -231,7 +231,7 @@ class _OnlineComplaintState extends State<OnlineServives> {
                               //print('------209---Property Tax');
                             }else if(title=="Building Plan"){
                               //   BuildingPlan
-                             // print('------211---Building Plan');
+                              // print('------211---Building Plan');
                               var name ="Building Plan";
                               Navigator.push(
                                 context,
@@ -326,7 +326,7 @@ class _OnlineComplaintState extends State<OnlineServives> {
 
                             }
 
-                            },
+                          },
                           child: ListTile(
                             leading: Container(
                                 width: 35,
@@ -341,7 +341,7 @@ class _OnlineComplaintState extends State<OnlineServives> {
                             ),
                             title: Text(
                               //emergencyTitleList![index]['sHeadName']!,
-                             // "Property Tax",
+                              // "Property Tax",
                               OnlineTitle[index],
                               style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
                             ),
@@ -378,4 +378,3 @@ class _OnlineComplaintState extends State<OnlineServives> {
     );
   }
 }
-

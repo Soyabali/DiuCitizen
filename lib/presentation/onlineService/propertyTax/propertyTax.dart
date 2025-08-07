@@ -574,13 +574,33 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
                           right: 10, // Adjust position as needed
                           child: InkWell(
                             onTap: (){
+                              //
+                              // showDialog(
+                              //   context: context,
+                              //   builder: (BuildContext dialogContext) {
+                              //     return paymentDialog(dialogContext);
+                              //   },
+                              // );
 
-                              showDialog(
-                                context: context,
-                                builder: (BuildContext dialogContext) {
-                                  return paymentDialog(dialogContext);
-                                },
-                              );
+                              var iWardCode = "${emergencyTitleList![0]['iWardCode']}";
+                              // var houseNo = "${emergencyTitleList![index]['sHouseNo']}";
+                              // var baseurl = "https://www.diusmartcity.com/PaymentGatewayMobile.aspx?QS=$houseNo&iWardCode=$iWardCode";
+                              //  https://www.diusmartcity.com/root/User/PropertyPayment.aspx?id=1(11)&ward=3
+                              var baseurl = "https://www.diusmartcity.com/root/User/PropertyPayment.aspx?id=$houseNo&ward=$iWardCode";
+                              var sPageName = "Property Tax";
+
+                              // close the DialogBox
+                             if(baseurl!=null && baseurl!=""){
+                               Navigator.push(
+                                 context,
+                                 MaterialPageRoute(builder: (context) =>
+                                     AboutDiuPage(name: sPageName, sPageLink: baseurl)),
+                               );
+                             }else{
+                               print("----596---baseUrl : $baseurl");
+                             }
+
+
                               },
 
                             child: Container(
@@ -588,7 +608,7 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
                               width: 50,
                                 decoration: const BoxDecoration(
                                   image: DecorationImage(
-                                    image: AssetImage("assets/images/pay_now.png"), // Change path
+                                    image: AssetImage("assets/images/Pay-Now-01.png"), // Change path
                                     fit: BoxFit.fill,
                                   ),
                                 ),
@@ -658,7 +678,9 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
                     onTap: () {
                       var iWardCode = "${emergencyTitleList![0]['iWardCode']}";
                       // var houseNo = "${emergencyTitleList![index]['sHouseNo']}";
-                      var baseurl = "https://www.diusmartcity.com/PaymentGatewayMobile.aspx?QS=$houseNo&iWardCode=$iWardCode";
+                     // var baseurl = "https://www.diusmartcity.com/PaymentGatewayMobile.aspx?QS=$houseNo&iWardCode=$iWardCode";
+                     //  https://www.diusmartcity.com/root/User/PropertyPayment.aspx?id=1(11)&ward=3
+                      var baseurl = "https://www.diusmartcity.com/root/User/PropertyPayment.aspx?id=$houseNo&ward=$iWardCode";
                       var sPageName = "Property Tax";
 
                       // close the DialogBox

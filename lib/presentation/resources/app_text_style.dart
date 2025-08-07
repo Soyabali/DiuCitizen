@@ -110,6 +110,14 @@ class AppTextStyle {
     // textStyle: Theme.of(context).textTheme.titleSmall,
 
   );
+  static TextStyle font10OpenSansRegularBlack26TextStyle = GoogleFonts.openSans(
+    color: Colors.black26,
+    fontSize: 10,
+    fontWeight: FontWeight.w600,
+    fontStyle: FontStyle.normal,
+    // textStyle: Theme.of(context).textTheme.titleSmall,
+
+  );
 
   static TextStyle font16OpenSansRegularBlack45TextStyle = GoogleFonts.openSans(
     color: Colors.black45,

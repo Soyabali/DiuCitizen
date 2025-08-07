@@ -18,6 +18,8 @@ import '../presentation/login/loginScreen_2.dart';
 import '../presentation/resources/app_text_style.dart';
 import '../presentation/resources/assets_manager.dart';
 import '../presentation/resources/values_manager.dart';
+import '../presentation/taxReceipt/downlodereceipt.dart';
+import '../presentation/taxReceipt/taxreceipt.dart';
 import '../presentation/temples/cityhistory/cityhistory.dart';
 import '../presentation/temples/emergency/emergencyhome.dart';
 import '../presentation/temples/facilities/facilities.dart';
@@ -968,31 +970,42 @@ class GeneralFunction {
                       ],
                     ),
                   ),
-                  // const SizedBox(height: 15),
-                  // GestureDetector(
-                  //   onTap: () async {
-                  //     //displayToast("Coming Soon");
-                  //
-                  //     Navigator.of(context).pushReplacement(
-                  //       MaterialPageRoute(builder: (context) => AdvertisementBookingStatus()),
-                  //     );
-                  //   },
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.start,
-                  //     children: <Widget>[
-                  //       Image.asset(
-                  //         'assets/images/holdicon.jpeg',
-                  //         width: 25,
-                  //         height: 25,
-                  //         fit: BoxFit.fill,
-                  //       ),
-                  //       const SizedBox(width: 10),
-                  //       Text('Advertisement Booking Status',
-                  //           style: AppTextStyle
-                  //               .font16penSansExtraboldBlackTextStyle),
-                  //     ],
-                  //   ),
-                  // ),
+                  const SizedBox(height: 15),
+                  GestureDetector(
+                    onTap: () async {
+                      //displayToast("Coming Soon");
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => TaxReceipt()),
+                      );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => DownlodeReceipt(pageName: "Download Receipt" ,pageCode: "1",)),
+                      // );
+
+                      //  DownlodeReceipt
+
+                      // Navigator.of(context).pushReplacement(
+                      //   MaterialPageRoute(builder: (context) => TaxReceipt()),
+                      // );
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Image.asset(
+                          'assets/images/holdicon.jpeg',
+                          width: 25,
+                          height: 25,
+                          fit: BoxFit.fill,
+                        ),
+                        const SizedBox(width: 10),
+                        Text('Download Receipt',
+                            style: AppTextStyle
+                                .font16penSansExtraboldBlackTextStyle),
+                      ],
+                    ),
+                  ),
                   const SizedBox(height: 15),
                   GestureDetector(
                     onTap: () {

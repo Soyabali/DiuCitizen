@@ -130,7 +130,9 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                     onTap: () {
                       var sPageName = "Community Hall Status";
                       // Payment URL
-                      var baseurl = "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
+                     // var baseurl = "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
+                     var baseurl = "https://www.diusmartcity.com/root/User/PaymentCommunityHall.aspx?id=";
+
                       var paymentUrl = "$baseurl$sBookingReqId";
                       print(paymentUrl);
 
@@ -847,12 +849,32 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                         onTap: () {
                                           print("-----717---");
                                          // showPaymentGatewayDialog(context);
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext dialogContext) {
-                                              return paymentDialog(dialogContext);
-                                            },
-                                          );
+                                          var sPageName = "Community Hall Status";
+                                          // Payment URL
+                                          // var baseurl = "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
+                                          var baseurl = "https://www.diusmartcity.com/root/User/PaymentCommunityHall.aspx?id=";
+
+                                          var paymentUrl = "$baseurl$sBookingReqId";
+                                          print(paymentUrl);
+                                          if(paymentUrl!=null&& paymentUrl!=''){
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => AboutDiuPage(name: sPageName, sPageLink: paymentUrl),
+                                              ),
+                                            );
+                                          }else{
+                                            print("----Payment url : $paymentUrl");
+                                          }
+
+
+
+                                          // showDialog(
+                                          //   context: context,
+                                          //   builder: (BuildContext dialogContext) {
+                                          //     return paymentDialog(dialogContext);
+                                          //   },
+                                          // );
 
                                           },
                                         child: Container(
