@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:puri/services/SearchLicenseForPaymentRepo.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../app/generalFunction.dart';
 import '../../../../services/SearchPropertyTaxForPaymentRepo.dart';
@@ -610,14 +611,35 @@ class _PropertyTaxState extends State<Onlinelicense> {
                                                     .end, // Aligns the container to the right
                                                 children: [
                                                   InkWell(
-                                                 onTap: () {
+                                                 onTap: () async{
+                                                   SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                   String? sContactNo = prefs.getString('sContactNo');
                                                     print("-----611---");
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext dialogContext) {
-                                                        return paymentDialog(dialogContext);
-                                                      },
-                                                    );
+                                                   // var baseurl = "https://www.diusmartcity.com/LicensePaymentGatewayMobile.aspx?QS=";
+                                                    //var baseurl ="https://www.diusmartcity.com/root/User/PaymentLicenceFee.aspx?id=";
+                                                    var baseurl ="https://www.diusmartcity.com/User/PaymentLicenceFee.aspx?id=";
+
+                                                    var paymentUrl = "$baseurl$licenseRequestId&user=$sContactNo";
+                                                   // var paymentUrl = "$baseurl$licenseRequestId";
+                                                    var sPageName = "Online License";
+                                                    if(licenseRequestId!=null){
+                                                      print("---licenseRequestId----$licenseRequestId");
+                                                      Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(builder: (context) =>
+                                                            AboutDiuPage(name: sPageName, sPageLink: paymentUrl)),
+                                                      );
+                                                    }else{
+                                                      print("---licenseRequestId----$licenseRequestId");
+                                                    }
+
+
+                                                    // showDialog(
+                                                    //   context: context,
+                                                    //   builder: (BuildContext dialogContext) {
+                                                    //     return paymentDialog(dialogContext);
+                                                    //   },
+                                                    // );
                                                     },
                                                     child: Container(
                                                       height: 45,

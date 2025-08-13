@@ -116,10 +116,12 @@ class _SplaceState extends State<SplashView> {
     var loginMap = await VerifyAppVersionRepo().verifyAppVersion(context,'2');
     var result = "${loginMap['Result']}";
     var msg = "${loginMap['Msg']}";
+    var iVersion = "${loginMap['iVersion']}";
+    print("------119---$loginMap");
     // print('---73--$result');
     // print('---74--$msg');
 
-    if(result=="1"){
+    if(iVersion=="9"){
      // LoginScreen_2
       Navigator.pushReplacement(
         context,

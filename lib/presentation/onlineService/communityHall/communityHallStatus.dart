@@ -846,7 +846,10 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                               Visibility(
                                           visible: (iStatus == 1 && iPaymenyDone == 0), // Only show for this condition
                                       child: InkWell(
-                                        onTap: () {
+                                        onTap: () async {
+
+                                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                                          String? sContactNo = prefs.getString('sContactNo');
                                           print("-----717---");
                                          // showPaymentGatewayDialog(context);
                                           var sPageName = "Community Hall Status";
@@ -854,9 +857,11 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                           // var baseurl = "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
                                           var baseurl = "https://www.diusmartcity.com/root/User/PaymentCommunityHall.aspx?id=";
 
-                                          var paymentUrl = "$baseurl$sBookingReqId";
+                                          var paymentUrl = "$baseurl$sBookingReqId&user=$sContactNo";
                                           print(paymentUrl);
                                           if(paymentUrl!=null&& paymentUrl!=''){
+                                            print("--863--: $paymentUrl");
+
                                             Navigator.push(
                                               context,
                                               MaterialPageRoute(

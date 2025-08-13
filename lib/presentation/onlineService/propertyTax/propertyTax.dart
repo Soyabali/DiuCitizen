@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../app/generalFunction.dart';
 import '../../../services/SearchPropertyTaxForPaymentRepo.dart';
@@ -573,7 +574,12 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
                           bottom: 8, // Adjust position as needed
                           right: 10, // Adjust position as needed
                           child: InkWell(
-                            onTap: (){
+                            onTap: ()async{
+                              // to get a contact no from a local dataBase
+
+                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                              String? sContactNo = prefs.getString('sContactNo');
+
                               //
                               // showDialog(
                               //   context: context,
@@ -583,14 +589,21 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
                               // );
 
                               var iWardCode = "${emergencyTitleList![0]['iWardCode']}";
+                                print("----586---$iWardCode");
+                                print("----587---$houseNo");
                               // var houseNo = "${emergencyTitleList![index]['sHouseNo']}";
                               // var baseurl = "https://www.diusmartcity.com/PaymentGatewayMobile.aspx?QS=$houseNo&iWardCode=$iWardCode";
                               //  https://www.diusmartcity.com/root/User/PropertyPayment.aspx?id=1(11)&ward=3
-                              var baseurl = "https://www.diusmartcity.com/root/User/PropertyPayment.aspx?id=$houseNo&ward=$iWardCode";
+
+                             // var baseurl = "https://www.diusmartcity.com/root/User/PropertyPayment.aspx?id=$houseNo&ward=$iWardCode";
+                              //var user ="8755553370";
+                              var baseurl = "https://www.diusmartcity.com/User/PropertyPayment.aspx?id=$houseNo&ward=$iWardCode&user=$sContactNo";
+
                               var sPageName = "Property Tax";
 
                               // close the DialogBox
                              if(baseurl!=null && baseurl!=""){
+                               print("------600---: $baseurl");
                                Navigator.push(
                                  context,
                                  MaterialPageRoute(builder: (context) =>
@@ -600,8 +613,7 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
                                print("----596---baseUrl : $baseurl");
                              }
 
-
-                              },
+                             },
 
                             child: Container(
                               height: 50,

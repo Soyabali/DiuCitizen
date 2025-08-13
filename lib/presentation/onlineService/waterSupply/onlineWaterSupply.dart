@@ -504,47 +504,48 @@ class _PropertyTaxState extends State<OnlineWaterSupply> {
                                         ),
                                       ),
                                       SizedBox(height: 5),
-                                      InkWell(
-                                        onTap: (){
-                                          print('----Payment---');
-                                          var houseNo = "${emergencyTitleList![index]['iWaterTaxReqId']}";
-                                          var baseurl = "https://www.diusmartcity.com/WaterSupplyPaymentGatewayMobile.aspx?QS=";
-                                          var paymentUrl = "$baseurl$houseNo";
-                                          print(paymentUrl);
-
-                                          var sPageName = "Online Water Supply";
-                                          //
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(builder: (context) =>
-                                                AboutDiuPage(
-                                                    name: sPageName, sPageLink: paymentUrl)),
-                                          );
-                                        },
-                                        child: Center(
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.end, // Aligns the container to the right
-                                            children: [
-                                              Container(
-                                                height: 45,
-                                                width: 150, // Set the width of the container
-                                                padding: EdgeInsets.only(right: 16), // Optional padding
-                                                alignment: Alignment.center, // Aligns text inside the container
-                                                decoration: BoxDecoration(
-                                                  color: Colors.blue,
-                                                  borderRadius: BorderRadius.circular(10), // Rounded corners
-                                                ),
-                                                child: Text(
-                                                  "Pay Now",
-                                                  style: AppTextStyle
-                                                      .font14OpenSansRegularWhiteTextStyle,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(height: 5),
+                                      /// todo here you temparaly hide the pay Now button in a futere this should be incomment
+                                      // InkWell(
+                                      //   onTap: (){
+                                      //     print('----Payment---');
+                                      //     var houseNo = "${emergencyTitleList![index]['iWaterTaxReqId']}";
+                                      //     var baseurl = "https://www.diusmartcity.com/WaterSupplyPaymentGatewayMobile.aspx?QS=";
+                                      //     var paymentUrl = "$baseurl$houseNo";
+                                      //     print(paymentUrl);
+                                      //
+                                      //     var sPageName = "Online Water Supply";
+                                      //     //
+                                      //     Navigator.push(
+                                      //       context,
+                                      //       MaterialPageRoute(builder: (context) =>
+                                      //           AboutDiuPage(
+                                      //               name: sPageName, sPageLink: paymentUrl)),
+                                      //     );
+                                      //   },
+                                      //   child: Center(
+                                      //     child: Row(
+                                      //       mainAxisAlignment: MainAxisAlignment.end, // Aligns the container to the right
+                                      //       children: [
+                                      //         Container(
+                                      //           height: 45,
+                                      //           width: 150, // Set the width of the container
+                                      //           padding: EdgeInsets.only(right: 16), // Optional padding
+                                      //           alignment: Alignment.center, // Aligns text inside the container
+                                      //           decoration: BoxDecoration(
+                                      //             color: Colors.blue,
+                                      //             borderRadius: BorderRadius.circular(10), // Rounded corners
+                                      //           ),
+                                      //           child: Text(
+                                      //             "Pay Now",
+                                      //             style: AppTextStyle
+                                      //                 .font14OpenSansRegularWhiteTextStyle,
+                                      //           ),
+                                      //         ),
+                                      //       ],
+                                      //     ),
+                                      //   ),
+                                      // ),
+                                      // SizedBox(height: 5),
                                     ],
                                   )
                               ),

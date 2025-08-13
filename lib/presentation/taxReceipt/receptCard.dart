@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:puri/presentation/taxReceipt/downloadReceiptScreen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../resources/app_text_style.dart';
@@ -28,10 +29,25 @@ class ReceiptCard extends StatelessWidget {
       margin: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       child: InkWell(
         onTap: () async {
-          final uri = Uri.parse(sReceiptURL);
-          if (await canLaunchUrl(uri)) {
-            launchUrl(uri);
+
+          print("-----32----$sReceiptURL");
+          if(sReceiptURL!=null){
+
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => DownloadReceiptScreen(
+                  pdfUrl: sReceiptURL,
+                ),
+              ),
+            );
           }
+
+          // final uri = Uri.parse(sReceiptURL);
+          // if (await canLaunchUrl(uri)) {
+          //   launchUrl(uri);
+          // }
+
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),

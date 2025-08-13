@@ -638,46 +638,45 @@ class _TemplesHomeState extends State<PropertyMutationStatus> {
                                       ),
                                       Spacer(),
                                       pending !="Pending" ?
-                                      Column(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        crossAxisAlignment: CrossAxisAlignment.end,
-                                        children: [
-                                          // payment code
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 4),
-                                            child: InkWell(
-                                              onTap: (){
-                                                // todo here you should open DialogBox..
-                                                 print('----630----');
-
-                                                 showDialog(
-                                                   context: context,
-                                                   builder: (BuildContext dialogContext) {
-                                                     return paymentDialog(dialogContext);
-                                                   },
-                                                 );
-
-
-
-                                              },
-                                              child: Container(
-                                                height: 35,
-                                                padding: const EdgeInsets.symmetric(horizontal: 10),
-                                                decoration: BoxDecoration(
-                                                  color: Colors.blue,
-                                                  borderRadius: BorderRadius.circular(10),
-                                                ),
-                                                alignment: Alignment.center,
-                                                // sStatus
-                                                child: Text('Pay Now',
-                                                    textAlign: TextAlign.center,
-                                                    style: AppTextStyle
-                                                        .font14OpenSansRegularWhiteTextStyle),
-                                              ),
-                                            ),
-                                          )
-                                        ],
-                                      )
+                                          /// todo this is temeraly commeted in a future this is used
+                                      // Column(
+                                      //   mainAxisAlignment: MainAxisAlignment.end,
+                                      //   crossAxisAlignment: CrossAxisAlignment.end,
+                                      //   children: [
+                                      //     // payment code
+                                      //     Padding(
+                                      //       padding: const EdgeInsets.only(top: 4),
+                                      //       child: InkWell(
+                                      //         onTap: (){
+                                      //           // todo here you should open DialogBox..
+                                      //            print('----630----');
+                                      //
+                                      //            showDialog(
+                                      //              context: context,
+                                      //              builder: (BuildContext dialogContext) {
+                                      //                return paymentDialog(dialogContext);
+                                      //              },
+                                      //            );
+                                      //            },
+                                      //         child: Container(
+                                      //           height: 35,
+                                      //           padding: const EdgeInsets.symmetric(horizontal: 10),
+                                      //           decoration: BoxDecoration(
+                                      //             color: Colors.blue,
+                                      //             borderRadius: BorderRadius.circular(10),
+                                      //           ),
+                                      //           alignment: Alignment.center,
+                                      //           // sStatus
+                                      //           child: Text('Pay Now',
+                                      //               textAlign: TextAlign.center,
+                                      //               style: AppTextStyle
+                                      //                   .font14OpenSansRegularWhiteTextStyle),
+                                      //         ),
+                                      //       ),
+                                      //     )
+                                      //   ],
+                                      // )
+                                           Container()
                                           :SizedBox()],
                                   ),
                                   pending !="Pending" ?

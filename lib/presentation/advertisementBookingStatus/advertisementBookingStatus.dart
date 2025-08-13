@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:puri/services/GetAdvertismentRequestStatus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../aboutDiu/Aboutdiupage.dart';
 import '../circle/circle.dart';
 import '../complaints/complaintHomePage.dart';
@@ -430,14 +431,34 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                                               Padding(
                                                 padding: const EdgeInsets.only(top: 4),
                                                 child: InkWell(
-                                                  onTap: (){
+                                                  onTap: () async {
+                                                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                    String? sContactNo = prefs.getString('sContactNo');
                                                     // paymentDialog();
-                                                    showDialog(
-                                                      context: context,
-                                                      builder: (BuildContext dialogContext) {
-                                                        return paymentDialog(dialogContext);
-                                                      },
+                                                    print("----435---$sRequestNo");
+                                                    var sPageName = "Advertisement Booking Status";
+                                                    // call a Payment page
+                                                    //var baseurl = "https://www.diusmartcity.com/AdvertisementPaymentGatewayMobile.aspx?QS=";
+                                                     var baseurl ="https://www.diusmartcity.com/User/AdvertisementPayment.aspx?id=";
+                                                    var paymentUrl = "$baseurl$sRequestNo&user=$sContactNo";
+                                                    print(paymentUrl);
+                                                    // close the dialog
+                                                    // if (Navigator.of(dialogContext).canPop()) {
+                                                    //   Navigator.of(dialogContext).pop();
+                                                    // }
+                                                    // open the payment activity
+                                                    Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(builder: (context) =>
+                                                          AboutDiuPage(
+                                                              name: sPageName, sPageLink: paymentUrl)),
                                                     );
+                                                    // showDialog(
+                                                    //   context: context,
+                                                    //   builder: (BuildContext dialogContext) {
+                                                    //     return paymentDialog(dialogContext);
+                                                    //   },
+                                                    // );
                                                     },
                                                   child: Container(
                                                     height: 35,

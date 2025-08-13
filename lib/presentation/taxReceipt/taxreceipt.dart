@@ -27,6 +27,7 @@ class TaxReceipt extends StatefulWidget {
 }
 
 class _OnlineComplaintState extends State<TaxReceipt> {
+
   GeneralFunction generalFunction = GeneralFunction();
 
   List<Map<String, dynamic>>? emergencyTitleList;

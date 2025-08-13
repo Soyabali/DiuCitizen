@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:puri/presentation/taxReceipt/receptCard.dart';
-
 import '../../../app/generalFunction.dart';
 import '../../../services/SearchPropertyTaxForPaymentRepo.dart';
 import '../../../services/bindCityzenWardRepo.dart';
@@ -9,14 +8,12 @@ import '../../model/downloadReceiptModel.dart';
 import '../../services/downloadPropertyTaxReceiptRepo.dart';
 import '../aboutDiu/Aboutdiupage.dart';
 import '../resources/app_text_style.dart';
-import '../resources/values_manager.dart';
 
 
 class DownlodeReceipt extends StatefulWidget {
 
   final pageName,pageCode;
   const DownlodeReceipt({super.key, required this.pageName, required this.pageCode});
-
 
   @override
   State<DownlodeReceipt> createState() => _PropertyTaxState();
@@ -25,13 +22,46 @@ class DownlodeReceipt extends StatefulWidget {
 class _PropertyTaxState extends State<DownlodeReceipt> {
 
   GeneralFunction generalFunction = GeneralFunction();
-
   List<dynamic> wardList = [];
   var _dropDownWard;
-
   //
   TextEditingController _houseController = TextEditingController();
-  TextEditingController _houseOwnerName = TextEditingController();
+  TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  //   return _future == null
+  //         ? Center(child: Text("Loading..."))
+  //         : FutureBuilder<List<DownloadReceiptModel>>(
+  //       future: _future,
+  //       builder: (context, snapshot) {
+  //         if (snapshot.connectionState == ConnectionState.waiting) {
+  //           return Center(child: CircularProgressIndicator());
+  //         }
+  //
+  //         if (snapshot.hasError) {
+  //
+  //          // return Center(child: Text("❌ Error: ${snapshot.error}"));
+  //           return Center(child: Text("No Data Found"));
+  //
+  //         }
+  //
+  //         final receipts = snapshot.data;
+  //         if (receipts == null || receipts.isEmpty) {
+  //           return Center(child: Text("No Data Found"));
+  //         }
+  //
+  //         return ListView.builder(
+  //           shrinkWrap: true,
+  //           physics: NeverScrollableScrollPhysics(),
+  //           itemCount: receipts.length,
+  //           itemBuilder: (context, index) {
+  //             final receipt = receipts[index];
+  //             return ReceiptCard(
+  //               sReceiptURL: receipt.sReceiptURL,
+  //               sReceiptCode: receipt.sReceiptCode,
+  //               fReceiptAmount: receipt.fReceiptAmount,
+  //               dReceiptDate: receipt.dReceiptDate,
+  //             );
 
   FocusNode _housefocus = FocusNode();
   FocusNode _houseOwnerfocus = FocusNode();
@@ -47,6 +77,9 @@ class _PropertyTaxState extends State<DownlodeReceipt> {
   List<dynamic> empList = [];
   var firstOfMonthDay,lastDayOfCurrentMonth;
   Future<List<DownloadReceiptModel>>? _future;
+  List<DownloadReceiptModel> _allData = []; // Holds original data
+  List<DownloadReceiptModel> _filteredData = [];
+
 
   final List<Color> borderColors = [
     Colors.red,
@@ -62,66 +95,79 @@ class _PropertyTaxState extends State<DownlodeReceipt> {
   ];
   // GeneralFunction generalFunction = GeneralFunction();
 
+
   //
+
   void fromDateSelectLogic() {
-    DateFormat dateFormat = DateFormat("dd/MMM/yyyy");
-    DateTime? fromDate2 = dateFormat.parse(formDate!);
-    DateTime? toDate2 = dateFormat.parse(toDate!);
+    if (formDate != null && formDate!.isNotEmpty &&
+        toDate != null && toDate!.isNotEmpty) {
 
-    if (fromDate2.isAfter(toDate2)) {
-      setState(() {
-        formDate = tempDate;
-      });
-      displayToast("From date can not be greater than To Date");
+      DateFormat dateFormat = DateFormat("dd/MMM/yyyy");
+      DateTime fromDate2 = dateFormat.parse(formDate!);
+      DateTime toDate2 = dateFormat.parse(toDate!);
+
+      if (fromDate2.isAfter(toDate2)) {
+        setState(() {
+          formDate = tempDate; // Reset to previous valid date
+        });
+        displayToast("From date cannot be greater than To Date");
+      } else {
+        // ✅ Call API
+        setState(() {
+          _future = GetPendingforApprovalReimRepo()
+              .getPendingApprovalReim(context, formDate!, toDate!);
+        });
+      }
     } else {
+      print("-- Dates not selected, API not called --");
+    }
+  }
+  // toDateSelectedLogic
+  void toDateSelectLogic() {
+    if (formDate != null && formDate!.isNotEmpty &&
+        toDate != null && toDate!.isNotEmpty) {
 
-      /// todo here you should call a api
+      DateFormat dateFormat = DateFormat("dd/MMM/yyyy");
+      DateTime fromDate2 = dateFormat.parse(formDate!);
+      DateTime toDate2 = dateFormat.parse(toDate!);
 
-      // hrmsLeaveStatus = ApprovedTeamReimbursementRepo().approvedTeamReimbursementList(
-      //     context, formDate!,toDate!,iStatus,empCode);
-      //here apply logic to change tab and update date
+      if (toDate2.isBefore(fromDate2)) {
+        setState(() {
+          toDate = tempDate; // revert to old valid date
+        });
+        displayToast("To Date cannot be less than From Date");
+      } else {
+        // ✅ Call API if both dates are valid
+        setState(() {
+          _future = GetPendingforApprovalReimRepo()
+              .getPendingApprovalReim(context, formDate!, toDate!);
+        });
+      }
+    } else {
+      print("-- To Date not selected, API not called --");
     }
   }
 
   getCurrentdate() async {
     DateTime now = DateTime.now();
     DateTime firstDayOfMonth = DateTime(now.year, now.month, 1);
-    formDate = DateFormat('dd/MM/yyyy').format(firstDayOfMonth); // ✅ Change format
-
     DateTime firstDayOfNextMonth = DateTime(now.year, now.month + 1, 1);
-    DateTime lastDayOfMonth = firstDayOfNextMonth.subtract(Duration(days: 1));
-    toDate = DateFormat('dd/MM/yyyy').format(lastDayOfMonth); // ✅ Change format
-     if(formDate!=null){
-       setState(() {
-         _future = GetPendingforApprovalReimRepo()
-             .getPendingApprovalReim(context, formDate!, toDate!);
-       });
-     }else{
-       print("--Not call api---");
-     }
+    DateTime lastDayOfMonth = firstDayOfNextMonth.subtract(const Duration(days: 1));
 
+    formDate = DateFormat('dd/MM/yyyy').format(firstDayOfMonth);
+    toDate = DateFormat('dd/MM/yyyy').format(lastDayOfMonth);
+
+    // ✅ Check if both fromDate & toDate are set and not empty
+    if (formDate != null && formDate!.isNotEmpty &&
+        toDate != null && toDate!.isNotEmpty) {
+      setState(() {
+        _future = GetPendingforApprovalReimRepo()
+            .getPendingApprovalReim(context, formDate!, toDate!);
+      });
+    } else {
+      print("-- Not calling API, dates missing --");
+    }
   }
-  // getCurrentdate() async {
-  //   DateTime now = DateTime.now();
-  //   DateTime firstDayOfMonth = DateTime(now.year, now.month, 1);
-  //   firstOfMonthDay = DateFormat('dd/MMM/yyyy').format(firstDayOfMonth);
-  //   print("-------480-----xxxxx--firstDayOfMonth----$firstDayOfMonth");
-  //   // last day of the current month
-  //   DateTime firstDayOfNextMonth = DateTime(now.year, now.month + 1, 1);
-  //   DateTime lastDayOfMonth = firstDayOfNextMonth.subtract(Duration(days: 1));
-  //   lastDayOfCurrentMonth = DateFormat('dd/MMM/yyyy').format(lastDayOfMonth);
-  //   print("-------485-------xxxxx----lastDayOfmonth----$firstDayOfMonth");
-  //   setState(() {});
-  //   if (firstDayOfNextMonth != null && lastDayOfCurrentMonth != null) {
-  //     print('You should call api');
-  //
-  //     /// reimbursementStatusList = await Hrmsreimbursementstatusv3Repo().hrmsReimbursementStatusList(context,firstOfMonthDay!,lastDayOfCurrentMonth!);
-  //     // _filteredData = List<Map<String, dynamic>>.from(reimbursementStatusList ?? []);
-  //     hrmsReimbursementStatus(firstOfMonthDay!,lastDayOfCurrentMonth!);
-  //   } else {
-  //     print('You should  not call api');
-  //   }
-  // }
 
 
   getEmergencyTitleResponse(selectedWardId, String houseno, String houseOwnerName) async {
@@ -215,37 +261,12 @@ class _PropertyTaxState extends State<DownlodeReceipt> {
 
   // toDate and fromDate selecredLogic
 
-  void toDateSelectLogic() {
-    DateFormat dateFormat = DateFormat("dd/MMM/yyyy");
-    DateTime? fromDate2 = dateFormat.parse(formDate!);
-    DateTime? toDate2 = dateFormat.parse(toDate!);
 
-    if (toDate2.isBefore(fromDate2)) {
-      setState(() {
-        toDate = tempDate;
-        // call api
-      });
-      print("----227----$toDate");
-      displayToast("To Date can not be less than From Date");
-    } else {
-         /// todo here you call a api
-        setState(() {
-            _future = GetPendingforApprovalReimRepo()
-                .getPendingApprovalReim(context, firstOfMonthDay!, lastDayOfCurrentMonth!);
-          });
-
-      // hrmsLeaveStatus = ApprovedTeamReimbursementRepo().approvedTeamReimbursementList(
-      //     context, formDate!,toDate!,iStatus,empCode);
-
-
-      /// here you change a tab and update date on a ispecific tab
-    }
-  }
 
 
   late Future<List<DownloadReceiptModel>> getPendingApprovalReim;
-  List<DownloadReceiptModel> _allData = []; // Holds original data
-  List<DownloadReceiptModel> _filteredData = [];
+  // List<DownloadReceiptModel> _allData = []; // Holds original data
+  // List<DownloadReceiptModel> _filteredData = [];
 
 
   hrmsReimbursementStatus(String firstOfMonthDay, String lastDayOfCurrentMonth) async {
@@ -263,28 +284,91 @@ class _PropertyTaxState extends State<DownlodeReceipt> {
   void filterData(String query) {
     setState(() {
       if (query.isEmpty) {
-        _filteredData = _allData; // Show all data if search query is empty
+        _filteredData = List.from(_allData); // Show all if search is empty
       } else {
         _filteredData = _allData.where((item) {
-          return item.sReceiptURL
-              .toLowerCase()
-              .contains(query.toLowerCase()) || // Filter by project name
-              item.sReceiptCode.toLowerCase().contains(query.toLowerCase());
-
-          // Filter by employee name
+          final urlMatch = item.sReceiptURL.toLowerCase().contains(query.toLowerCase());
+          final codeMatch = item.sReceiptCode.toLowerCase().contains(query.toLowerCase());
+          return urlMatch || codeMatch;
         }).toList();
       }
     });
   }
+ //  void filterData(String query) {
+ //    setState(() {
+ //      if (query.isEmpty) {
+ //        _filteredData = _allData; // Show all data if search query is empty
+ //      } else {
+ //        _filteredData = _allData.where((item) {
+ //          return item.sReceiptURL
+ //              .toLowerCase()
+ //              .contains(query.toLowerCase()) || // Filter by project name
+ //              item.sReceiptCode.toLowerCase().contains(query.toLowerCase());
+ //
+ //          // Filter by employee name
+ //        }).toList();
+ //      }
+ //    });
+ //  }
+  //
+
+  Future<void> loadData(String? formDate, String? toDate) async {
+    final data = await GetPendingforApprovalReimRepo().getPendingApprovalReim(
+      context,
+      formDate!,
+      toDate!,
+    );
+    setState(() {
+      _allData = data;
+      _filteredData = List.from(data); // Initially show all
+    });
+  }
+
+  Widget dateContainer(String text) {
+    return Container(
+      height: 35,
+      padding: const EdgeInsets.symmetric(horizontal: 14.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Center(
+        child: Text(
+          text,
+          style: const TextStyle(color: Colors.grey, fontSize: 12.0),
+        ),
+      ),
+    );
+  }
+
 
   @override
   void initState() {
     // TODO: implement initState
-    getCurrentdate();
-    bindWard();
+   // getCurrentdate();
+    //bindWard();
     _housefocus = FocusNode();
    // datePickLogic();
     super.initState();
+    DateTime now = DateTime.now();
+    DateTime firstDayOfMonth = DateTime(now.year, now.month, 1);
+    DateTime firstDayOfNextMonth = DateTime(now.year, now.month + 1, 1);
+    DateTime lastDayOfMonth = firstDayOfNextMonth.subtract(const Duration(days: 1));
+
+    formDate = DateFormat('dd/MMM/yyyy').format(firstDayOfMonth);
+    toDate = DateFormat('dd/MMM/yyyy').format(lastDayOfMonth);
+
+    //Initial API call
+    _future = GetPendingforApprovalReimRepo().getPendingApprovalReim(
+      context,
+      formDate!,
+      toDate!,
+    );
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   loadData(formDate,toDate); // ✅ Called after the first frame to avoid setState issues
+    // });
+
+
   }
   @override
   void dispose() {
@@ -292,6 +376,7 @@ class _PropertyTaxState extends State<DownlodeReceipt> {
     _housefocus.dispose();
     _houseController.dispose();
     _houseOwnerfocus.dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
@@ -316,6 +401,19 @@ class _PropertyTaxState extends State<DownlodeReceipt> {
         final receipts = snapshot.data;
         if (receipts == null || receipts.isEmpty) {
           return Center(child: Text("No Data Found"));
+        }
+        // search file
+        final q = _searchQuery.trim().toLowerCase();
+        final visible = q.isEmpty
+            ? receipts
+            : receipts.where((r) {
+          final urlMatch  = r.sReceiptCode.toLowerCase().contains(q);
+          final codeMatch = r.sReceiptCode.toLowerCase().contains(q);
+          return urlMatch || codeMatch;
+        }).toList();
+
+        if (visible.isEmpty) {
+          return const Center(child: Text("No matches"));
         }
 
         return ListView.builder(
@@ -361,18 +459,12 @@ class _PropertyTaxState extends State<DownlodeReceipt> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               const SizedBox(width: 4),
-                              Icon(Icons.calendar_month,
-                                  size: 15, color: Colors.white),
+                              Icon(Icons.calendar_month, size: 15, color: Colors.white),
                               const SizedBox(width: 4),
-                              const Text(
-                                'From',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              SizedBox(width: 4),
-            
+                              const Text('From', style: TextStyle(color: Colors.white, fontSize: 12)),
+                              const SizedBox(width: 4),
+
+                              // FROM DATE PICKER
                               GestureDetector(
                                 onTap: () async {
                                   DateTime? pickedDate = await showDatePicker(
@@ -386,86 +478,31 @@ class _PropertyTaxState extends State<DownlodeReceipt> {
                                     String formattedDate = DateFormat('dd/MMM/yyyy').format(pickedDate);
                                     setState(() {
                                       formDate = formattedDate;
-                                      // 🔥 fallback to current date if toDate is not selected
+                                      // ✅ API call with NEW fromDate and EXISTING toDate
                                       _future = GetPendingforApprovalReimRepo().getPendingApprovalReim(
                                         context,
                                         formDate!,
-                                        toDate ?? DateFormat('dd/MMM/yyyy').format(DateTime.now()),
+                                        toDate!, // Keep initState or latest toDate
                                       );
                                     });
                                   }
                                 },
-
-                                // onTap: () async {
-                                //   /// TODO Open Date picke and get a date
-                                //   DateTime? pickedDate = await showDatePicker(
-                                //     context: context,
-                                //     initialDate: DateTime.now(),
-                                //     firstDate: DateTime(2000),
-                                //     lastDate: DateTime(2100),
-                                //   );
-                                //   if (pickedDate != null) {
-                                //     String formattedDate =
-                                //     DateFormat('dd/MMM/yyyy')
-                                //         .format(pickedDate);
-                                //     setState(() {
-                                //       tempDate = formDate; // Save the current formDate before updating
-                                //       formDate = formattedDate;
-                                //     });
-                                //     print("-----390---$formDate");
-                                //
-                                //     setState(() {
-                                //       _future = GetPendingforApprovalReimRepo()
-                                //           .getPendingApprovalReim(context, formDate!, toDate!);
-                                //     });
-                                //   }
-                                // },
-                                child: Container(
-                                  height: 35,
-                                  padding:
-                                  EdgeInsets.symmetric(horizontal: 14.0),
-                                  // Optional: Adjust padding for horizontal space
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    // Change this to your preferred color
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '$formDate',
-                                      style: const TextStyle(
-                                        color: Colors.grey,
-                                        // Change this to your preferred text color
-                                        fontSize:
-                                        12.0, // Adjust font size as needed
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                child: dateContainer(formDate ?? "Select From Date"),
                               ),
-                              SizedBox(width: 6),
+
+                              const SizedBox(width: 6),
                               Container(
                                 height: 32,
                                 width: 32,
-                                child: Image.asset(
-                                  "assets/images/reimicon_2.png",
-                                  fit: BoxFit
-                                      .contain, // or BoxFit.cover depending on the desired effect
-                                ),
+                                child: Image.asset("assets/images/reimicon_2.png", fit: BoxFit.contain),
                               ),
-                              //Icon(Icons.arrow_back_ios,size: 16,color: Colors.white),
-                              SizedBox(width: 8),
-                              const Icon(Icons.calendar_month,
-                                  size: 16, color: Colors.white),
-                              SizedBox(width: 5),
-                              const Text(
-                                'To',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.normal),
-                              ),
-                              SizedBox(width: 5),
+                              const SizedBox(width: 8),
+                              Icon(Icons.calendar_month, size: 16, color: Colors.white),
+                              const SizedBox(width: 5),
+                              const Text('To', style: TextStyle(color: Colors.white, fontSize: 12)),
+                              const SizedBox(width: 5),
+
+                              // TO DATE PICKER
                               GestureDetector(
                                 onTap: () async {
                                   DateTime? pickedDate = await showDatePicker(
@@ -479,67 +516,152 @@ class _PropertyTaxState extends State<DownlodeReceipt> {
                                     String formattedDate = DateFormat('dd/MMM/yyyy').format(pickedDate);
                                     setState(() {
                                       toDate = formattedDate;
-                                      // 🔥 fallback to current date if formDate is not selected
+                                      // ✅ API call with EXISTING fromDate and NEW toDate
                                       _future = GetPendingforApprovalReimRepo().getPendingApprovalReim(
                                         context,
-                                        formDate ?? DateFormat('dd/MMM/yyyy').format(DateTime.now()),
+                                        formDate!, // Keep initState or latest fromDate
                                         toDate!,
                                       );
                                     });
                                   }
                                 },
-
-                                // onTap: () async {
-                                //   DateTime? pickedDate = await showDatePicker(
-                                //     context: context,
-                                //     initialDate: DateTime.now(),
-                                //     firstDate: DateTime(2000),
-                                //     lastDate: DateTime(2100),
-                                //   );
-                                //   if (pickedDate != null) {
-                                //     String formattedDate =
-                                //     DateFormat('dd/MMM/yyyy')
-                                //         .format(pickedDate);
-                                //     setState(() {
-                                //       tempDate =
-                                //           toDate; // Save the current toDate before updating
-                                //       toDate = formattedDate;
-                                //       // calculateTotalDays();
-                                //     });
-                                //     setState(() {
-                                //       _future = GetPendingforApprovalReimRepo()
-                                //           .getPendingApprovalReim(context, formDate!, toDate!);
-                                //     });
-                                //     //
-                                //     print("-------461----$toDate");
-                                //     toDateSelectLogic();
-                                //   }
-                                // },
-                                child: Container(
-                                  height: 35,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 14.0),
-                                  // Optional: Adjust padding for horizontal space
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    // Change this to your preferred color
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '$toDate',
-                                      style: const TextStyle(
-                                        color: Colors.grey,
-                                        // Change this to your preferred text color
-                                        fontSize:
-                                        12.0, // Adjust font size as needed
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                child: dateContainer(toDate ?? "Select To Date"),
                               ),
                             ],
-                          ),
+                          )
+
+                          // child: Row(
+                          //   mainAxisAlignment: MainAxisAlignment.start,
+                          //   children: [
+                          //     const SizedBox(width: 4),
+                          //     Icon(Icons.calendar_month,
+                          //         size: 15, color: Colors.white),
+                          //     const SizedBox(width: 4),
+                          //     const Text(
+                          //       'From',
+                          //       style: TextStyle(
+                          //           color: Colors.white,
+                          //           fontSize: 12,
+                          //           fontWeight: FontWeight.normal),
+                          //     ),
+                          //     SizedBox(width: 4),
+                          //     GestureDetector(
+                          //       onTap: () async {
+                          //         DateTime? pickedDate = await showDatePicker(
+                          //           context: context,
+                          //           initialDate: DateTime.now(),
+                          //           firstDate: DateTime(2000),
+                          //           lastDate: DateTime(2100),
+                          //         );
+                          //
+                          //         if (pickedDate != null) {
+                          //           String formattedDate = DateFormat('dd/MMM/yyyy').format(pickedDate);
+                          //
+                          //           setState(() {
+                          //             formDate = formattedDate;
+                          //
+                          //             // ✅ Always call API when fromDate is selected
+                          //             _future = GetPendingforApprovalReimRepo().getPendingApprovalReim(
+                          //               context,
+                          //               formDate!,
+                          //               toDate != null && toDate!.isNotEmpty
+                          //                   ? toDate!
+                          //                   : DateFormat('dd/MMM/yyyy').format(DateTime.now()), // fallback
+                          //             );
+                          //            });
+                          //           print("-------450----$formDate");
+                          //           print("-------451----$toDate");
+                          //           print("-------452----${_future}");
+                          //         }
+                          //       },
+                          //       child: Container(
+                          //         height: 35,
+                          //         padding: const EdgeInsets.symmetric(horizontal: 14.0),
+                          //         decoration: BoxDecoration(
+                          //           color: Colors.white,
+                          //           borderRadius: BorderRadius.circular(15),
+                          //         ),
+                          //         child: Center(
+                          //           child: Text(
+                          //             formDate ?? "Select From Date",
+                          //             style: const TextStyle(
+                          //               color: Colors.grey,
+                          //               fontSize: 12.0,
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //
+                          //     SizedBox(width: 6),
+                          //     Container(
+                          //       height: 32,
+                          //       width: 32,
+                          //       child: Image.asset(
+                          //         "assets/images/reimicon_2.png",
+                          //         fit: BoxFit
+                          //             .contain, // or BoxFit.cover depending on the desired effect
+                          //       ),
+                          //     ),
+                          //     //Icon(Icons.arrow_back_ios,size: 16,color: Colors.white),
+                          //     SizedBox(width: 8),
+                          //     const Icon(Icons.calendar_month,
+                          //         size: 16, color: Colors.white),
+                          //     SizedBox(width: 5),
+                          //     const Text(
+                          //       'To',
+                          //       style: TextStyle(
+                          //           color: Colors.white,
+                          //           fontSize: 12,
+                          //           fontWeight: FontWeight.normal),
+                          //     ),
+                          //     SizedBox(width: 5),
+                          //     GestureDetector(
+                          //       onTap: () async {
+                          //         DateTime? pickedDate = await showDatePicker(
+                          //           context: context,
+                          //           initialDate: DateTime.now(),
+                          //           firstDate: DateTime(2000),
+                          //           lastDate: DateTime(2100),
+                          //         );
+                          //
+                          //         if (pickedDate != null) {
+                          //           String formattedDate = DateFormat('dd/MMM/yyyy').format(pickedDate);
+                          //
+                          //           setState(() {
+                          //             toDate = formattedDate;
+                          //
+                          //             // ✅ Always call API when toDate is selected
+                          //             _future = GetPendingforApprovalReimRepo().getPendingApprovalReim(
+                          //               context,
+                          //               formDate != null && formDate!.isNotEmpty
+                          //                   ? formDate!
+                          //                   : DateFormat('dd/MMM/yyyy').format(DateTime.now()), // fallback
+                          //               toDate!,
+                          //             );
+                          //           });
+                          //         }
+                          //       },
+                          //       child: Container(
+                          //         height: 35,
+                          //         padding: const EdgeInsets.symmetric(horizontal: 14.0),
+                          //         decoration: BoxDecoration(
+                          //           color: Colors.white,
+                          //           borderRadius: BorderRadius.circular(15),
+                          //         ),
+                          //         child: Center(
+                          //           child: Text(
+                          //             toDate ?? "Select To Date",
+                          //             style: const TextStyle(
+                          //               color: Colors.grey,
+                          //               fontSize: 12.0,
+                          //             ),
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     )
+                          //   ],
+                          // ),
                       ),
                     ],
                   )
@@ -567,7 +689,7 @@ class _PropertyTaxState extends State<DownlodeReceipt> {
                             children: [
                               Expanded(
                                 child: TextFormField(
-                                 // controller: _searchController,
+                                  controller: _searchController,
                                   autofocus: true,
                                   decoration: const InputDecoration(
                                     hintText: 'Enter Keywords',
@@ -579,11 +701,13 @@ class _PropertyTaxState extends State<DownlodeReceipt> {
                                         fontWeight: FontWeight.bold),
                                     border: InputBorder.none,
                                   ),
-                                  onChanged: (query) {
-                                    ///todo in a future you shold incommetent becouse this si a flutter functionality
-                }
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _searchQuery = value; // <- triggers a rebuild; list will re-filter
+                                      });
+                                    },
                                     //filterData(query); // Call the filter function on text input change
-                ,
+
                                 ),
                               ),
                             ],
