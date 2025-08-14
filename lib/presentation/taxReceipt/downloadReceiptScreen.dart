@@ -1,13 +1,16 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:pdfx/pdfx.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:uuid/uuid.dart';
+import '../resources/app_text_style.dart';
 
 class DownloadReceiptScreen extends StatefulWidget {
+
   final String pdfUrl;
   const DownloadReceiptScreen({super.key, required this.pdfUrl});
 
@@ -91,16 +94,46 @@ class _DownloadReceiptScreenState extends State<DownloadReceiptScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("DownloadReceipt"),
-        actions: [
-          IconButton(
-            icon: _downloading
-                ? const CircularProgressIndicator(color: Colors.white)
-                : const Icon(Icons.download),
-            onPressed: _downloading ? null : _downloadPdf,
-          )
-        ],
+        // statusBarColore
+        systemOverlayStyle: const SystemUiOverlayStyle(
+          statusBarColor: Color(0xFF12375e),
+          statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+          statusBarBrightness: Brightness.light, // For iOS (dark icons)
+        ),
+        // backgroundColor: Colors.blu
+        centerTitle: true,
+        backgroundColor: Color(0xFF255898),
+        leading: GestureDetector(
+          onTap: (){
+            print("------back---");
+            Navigator.pop(context);
+          },
+          child: const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Icon(Icons.arrow_back_ios,
+              color: Colors.white,),
+          ),
+        ),
+        title: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5),
+          child: Text(
+            'Download Receipt',
+            style: AppTextStyle.font16OpenSansRegularWhiteTextStyle,
+            textAlign: TextAlign.center,
+          ),
+        ),
+          actions: [
+            IconButton(
+              icon: _downloading
+                  ? const CircularProgressIndicator(color: Colors.white)
+                  : const Icon(Icons.download,color: Colors.white),
+              onPressed: _downloading ? null : _downloadPdf,
+            )
+          ],
+        //centerTitle: true,
+        elevation: 0, // Removes shadow under the AppBar
       ),
       body: _loadingPdf
           ? const Center(child: CircularProgressIndicator())

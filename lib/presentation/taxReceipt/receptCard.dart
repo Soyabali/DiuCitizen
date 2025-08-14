@@ -51,70 +51,71 @@ class ReceiptCard extends StatelessWidget {
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          child: Column(
-            children: [
-              /// Top Row
-              Row(
-                children: [
-                  Icon(Icons.calendar_month_outlined, size: 16, color: Colors.blueAccent),
-                  SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        dReceiptDate, style: AppTextStyle.font12OpenSansRegularBlack45TextStyle,
+          child: Container(
+            color: Colors.white,
+            child: Column(
+              children: [
+                /// Top Row
+                Row(
+                  children: [
+                    Icon(Icons.calendar_month_outlined, size: 16, color: Colors.blueAccent),
+                    SizedBox(width: 8),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          dReceiptDate, style: AppTextStyle.font12OpenSansRegularBlack45TextStyle,
+                        ),
+                        Text(
+                          "Receipt Date",
+                          style: AppTextStyle.font10OpenSansRegularBlack26TextStyle,
+                        ),
+                      ],
+                    ),
+                    Spacer(),
+                    Row(
+                      children: [
+                        Text(
+                          "Receipt",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.green.shade800,
+                          ),
+                        ),
+                        Icon(Icons.arrow_forward_ios, size: 14, color: Colors.green.shade800),
+                      ],
+                    )
+                  ],
+                ),
+                SizedBox(height: 10),
+                Divider(thickness: 1, color: Colors.grey.shade300),
+                /// Bottom Row
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        sReceiptCode,
+                        style: AppTextStyle.font12OpenSansRegularBlack45TextStyle,
                       ),
-                      Text(
-                        "Receipt Date",
-                        style: AppTextStyle.font10OpenSansRegularBlack26TextStyle,
+                    ),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Colors.blue.shade700,
+                        borderRadius: BorderRadius.circular(4),
                       ),
-                    ],
-                  ),
-                  Spacer(),
-                  Row(
-                    children: [
-                      Text(
-                        "Receipt",
+                      child: Text(
+                        "₹ ${fReceiptAmount.toStringAsFixed(1)}",
                         style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          color: Colors.green.shade800,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Icon(Icons.arrow_forward_ios, size: 14, color: Colors.green.shade800),
-                    ],
-                  )
-                ],
-              ),
-
-              SizedBox(height: 10),
-              Divider(thickness: 1, color: Colors.grey.shade300),
-
-              /// Bottom Row
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      sReceiptCode,
-                      style: AppTextStyle.font12OpenSansRegularBlack45TextStyle,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Colors.blue.shade700,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                    child: Text(
-                      "₹ ${fReceiptAmount.toStringAsFixed(1)}",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ],
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -7,7 +7,6 @@ import '../app/loader_helper.dart';
 import '../model/downloadReceiptModel.dart';
 import 'baseurl.dart';
 
-
 class GetPendingforApprovalReimRepo {
 
   var getPendingForApprovalList = [];
@@ -15,13 +14,14 @@ class GetPendingforApprovalReimRepo {
   GeneralFunction generalFunction = GeneralFunction();
 
   Future<List<DownloadReceiptModel>> getPendingApprovalReim(
-      BuildContext context, String firstOfMonthDay, String lastDayOfCurrentMonth) async {
+      BuildContext context, String firstOfMonthDay, String lastDayOfCurrentMonth, pageCode) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
     String? contactNo = prefs.getString('sContactNo');
     print("------23--$firstOfMonthDay");
     print("------24--$lastDayOfCurrentMonth");
-    print("----24---$contactNo");
+    print("----24----contactNo----$contactNo");
+    print("----25-----pageCode---$pageCode");
 
     showLoader();
 
@@ -39,8 +39,8 @@ class GetPendingforApprovalReimRepo {
       request.body = json.encode({
         "dFromDate": firstOfMonthDay,      //"dFromDate": "01/Aug/2024",     //"dFromDate": firstOfMonthDay,
         "dToDate": lastDayOfCurrentMonth,          //"dToDate": "01/Aug/2025",    //"dToDate": lastDayOfCurrentMonth,
-        "sReceiptTypeCode": "1",
-        "sUserId": "9429432683",
+        "sReceiptTypeCode": pageCode,
+        "sUserId": contactNo,
       });
       request.headers.addAll(headers);
 

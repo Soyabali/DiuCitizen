@@ -205,10 +205,13 @@ class _OnlineComplaintState extends State<TaxReceipt> {
                   final pageName = item['sPageName'] ?? '';
                   // to bind the data on a listview
 
+
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => DownlodeReceipt(pageName:pageName,pageCode:pageCode)),
                   );
+
+
                   // Navigate if pageCode is valid
                   if (pageCode != null) {
                     // Navigate to next page or handle logic
