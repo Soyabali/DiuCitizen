@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:pdfx/pdfx.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:uuid/uuid.dart';
 
 class DownloadReceiptScreen extends StatefulWidget {
@@ -43,13 +44,14 @@ class _DownloadReceiptScreenState extends State<DownloadReceiptScreen> {
   }
 
   /// Download and save PDF file
+
   Future<void> _downloadPdf() async {
     try {
       setState(() => _downloading = true);
 
+      // Save inside app sandbox first
       final dir = await getApplicationDocumentsDirectory();
       final folderPath = "${dir.path}/DownloadReceipt";
-
       final folder = Directory(folderPath);
       if (!await folder.exists()) {
         await folder.create(recursive: true);
@@ -58,12 +60,18 @@ class _DownloadReceiptScreenState extends State<DownloadReceiptScreen> {
       final fileName = "${const Uuid().v4()}.pdf";
       final filePath = "$folderPath/$fileName";
 
+      print("---60 --filePath : $filePath");
+
+      // Download PDF from URL
       final response = await http.get(Uri.parse(widget.pdfUrl));
       final file = File(filePath);
       await file.writeAsBytes(response.bodyBytes);
 
+      // Share Sheet so user can save/open anywhere (iOS-friendly)
+      await Share.shareXFiles([XFile(filePath)], text: 'Here is your PDF receipt');
+
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("File saved: $fileName")),
+        SnackBar(content: Text("File downloaded & ready to save anywhere")),
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
