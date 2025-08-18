@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../../app/generalFunction.dart';
 import 'AbutdiuWebPage.dart';
+import 'package:upi_india/upi_india.dart';
 
 class AboutDiuPage extends StatefulWidget {
 

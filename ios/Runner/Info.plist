@@ -23,17 +23,22 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>13</string>
+	<string>14</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>13.0.0</string>
+	<string>14.0.0</string>
 	<key>FLTEnableImpeller</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>sms</string>
 		<string>tel</string>
+		<string>upi</string>
+		<string>phonepe</string>
+       <string>tez</string>
+       <string>gpay</string>
+       <string>paytmmp</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
