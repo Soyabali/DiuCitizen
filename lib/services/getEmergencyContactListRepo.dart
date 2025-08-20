@@ -22,7 +22,7 @@ class GetEmergencyContactListRepo {
 
     try {
       var baseURL = BaseRepo().baseurl;
-      var endPoint = "GetEmergencyContactList/GetEmergencyContactList";
+      var endPoint = "GetEmergencyContactListV1/GetEmergencyContactListV1";
       var getEmergencyContactListApi = "$baseURL$endPoint";
       showLoader();
 

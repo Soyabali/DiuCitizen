@@ -22,6 +22,7 @@ class EmergencyListPage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<EmergencyListPage> {
+
   List<Map<String, dynamic>>? reimbursementStatusList;
 
   TextEditingController _searchController = TextEditingController();
@@ -45,7 +46,7 @@ class _MyHomePageState extends State<EmergencyListPage> {
   getEmergencyListResponse(String headCode) async {
     emergencyList =
         await GetEmergencyContactListRepo().getEmergencyContactList(context,headCode);
-    print('------48----$emergencyList');
+    print('------48--xxxxxxxx--$emergencyList');
     setState(() {
       isLoading = false;
     });
@@ -241,8 +242,8 @@ class _MyHomePageState extends State<EmergencyListPage> {
                                             height: 35,
                                             width: 35,
                                             color: Colors.grey, // Fallback color if image doesn't load
-                                            child: Image.asset(
-                                              'assets/images/human.png', // Path to your asset image
+                                            child: Image.network(
+                                              emergencyList![index]['sImageUrl']!, // Path to your asset image
                                               fit: BoxFit.cover, // Ensures the image fills the circle properly
                                             ),
                                           ),
