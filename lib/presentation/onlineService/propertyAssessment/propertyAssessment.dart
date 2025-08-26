@@ -1049,7 +1049,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                         focusNode: _houseNofocus,
                         controller: _houseNoController,
                         textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
+                        //keyboardType: TextInputType.number,
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
                         decoration: const InputDecoration(
@@ -1061,12 +1061,12 @@ class _MyHomePageState extends State<PropertyAssessment>
                               0xFFf2f3f5), // Set your desired background color
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          // Allow only digits
-                        //  LengthLimitingTextInputFormatter(10),
-                          // Restrict input to a maximum of 10 digits
-                        ],
+                        // inputFormatters: [
+                        //   FilteringTextInputFormatter.digitsOnly,
+                        //   // Allow only digits
+                        // //  LengthLimitingTextInputFormatter(10),
+                        //   // Restrict input to a maximum of 10 digits
+                        // ],
                       ),
                     ),
                   ],
