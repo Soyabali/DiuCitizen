@@ -12,6 +12,7 @@ import '../resources/app_text_style.dart';
 import '../resources/assets_manager.dart';
 
 class SplashView extends StatefulWidget {
+
   const SplashView({super.key});
 
   @override

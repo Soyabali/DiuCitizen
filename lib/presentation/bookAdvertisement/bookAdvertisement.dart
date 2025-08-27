@@ -189,8 +189,7 @@ class _MyHomePageState extends State<BookAdvertisement> with TickerProviderState
   bindSupportingDocumentApi() async {
     /// todo remove the comment and call Community Hall
     bindDocumentTypeList = await BindDocumentTypeRepo().bindDocumentyType();
-    print(
-        " -----bindDocumnent Repo---->>>>-xx--154-----> $bindDocumentTypeList");
+    print(" -----bindDocumnent Repo---->>>>-xx--154-----> $bindDocumentTypeList");
     setState(() {});
   }
 

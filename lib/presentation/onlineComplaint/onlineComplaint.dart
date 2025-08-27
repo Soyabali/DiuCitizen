@@ -175,7 +175,9 @@ class _OnlineComplaintState extends State<OnlineComplaint> {
                 shrinkWrap: true,
                 itemCount: emergencyTitleList?.length ?? 0,
                 itemBuilder: (context, index) {
+
                   final color = borderColors[index % borderColors.length];
+
                   return Column(
                     children: <Widget>[
                       Padding(

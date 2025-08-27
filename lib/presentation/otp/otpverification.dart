@@ -154,12 +154,10 @@ class _MyHomePageState extends State<OtpPage> {
                             decoration: BoxDecoration(
                               // Set container color
                               color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.circular(20), // Set border radius
+                              borderRadius: BorderRadius.circular(20), // Set border radius
                             ),
                             child: Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 15.0, right: 15.0),
+                              padding: const EdgeInsets.only(left: 15.0, right: 15.0),
                               child: SingleChildScrollView(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.start,
@@ -218,9 +216,8 @@ class _MyHomePageState extends State<OtpPage> {
                                                     onChanged: (value) {
                                                       if (value.isNotEmpty &&
                                                           index < 3) {
-                                                        FocusScope.of(context)
-                                                            .requestFocus(focusNodes?[
-                                                                index + 1]);
+                                                        FocusScope.of(context).requestFocus(focusNodes?[index + 1]);
+
                                                       } else if (value.isEmpty &&
                                                           index > 0) {
                                                         FocusScope.of(context)

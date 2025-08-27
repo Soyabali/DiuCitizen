@@ -12,7 +12,6 @@ import '../presentation/resources/routes_managements.dart';
 import '../presentation/resources/theme_manager.dart';
 import '../provider/bindComplaintProvider.dart';
 
-
 class MyApp extends StatefulWidget {
 
   MyApp._internal(); // private named constructor

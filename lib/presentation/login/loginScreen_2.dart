@@ -16,7 +16,6 @@ import '../resources/values_manager.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginScreen_2 extends StatelessWidget {
-
   const LoginScreen_2({super.key});
 
   @override
@@ -91,8 +90,7 @@ class _LoginPageState extends State<LoginPage> {
     debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
     debugPrint(position.toString());
   }
-
-  turnOnLocationMsg(){
+   turnOnLocationMsg(){
     if((lat==null && lat=='') ||(long==null && long=='')){
       displayToast("Please turn on Location");
     }
@@ -148,7 +146,6 @@ class _LoginPageState extends State<LoginPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-
                           Container(
                             margin: const EdgeInsets.all(AppMargin.m10),
                             // decoration: const BoxDecoration(

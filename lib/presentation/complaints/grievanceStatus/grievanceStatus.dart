@@ -309,19 +309,17 @@ class _TemplesHomeState extends State<GrievanceStatus> {
                                     SizedBox(height: 5),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
+                                      children: <Widget>
+                                      [
                                         SizedBox(width: 5),
                                         CircleWithSpacing(),
-                                        Text('Complaint No',
-                                            style: AppTextStyle
-                                                .font14OpenSansRegularBlack45TextStyle),
+                                        Text('Complaint No', style: AppTextStyle.font14OpenSansRegularBlack45TextStyle),
                                       ],
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 24),
                                       child: Text(item['sCompId'] ?? '',
-                                          style: AppTextStyle
-                                              .font14OpenSansRegularRedTextStyle),
+                                          style: AppTextStyle.font14OpenSansRegularRedTextStyle),
                                     ),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
@@ -341,28 +339,24 @@ class _TemplesHomeState extends State<GrievanceStatus> {
                                     ),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
+                                      children: <Widget>
+                                      [
                                         SizedBox(width: 5),
                                         CircleWithSpacing(),
-                                        Text('Sub Category',
-                                            style: AppTextStyle
-                                                .font14OpenSansRegularBlack45TextStyle),
+                                        Text('Sub Category',style: AppTextStyle.font14OpenSansRegularBlack45TextStyle),
                                       ],
                                     ),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 24),
                                       child: Text(item['sSubCategoryName'] ?? '',
-                                          style: AppTextStyle
-                                              .font14penSansExtraboldBlack26TextStyle),
+                                          style: AppTextStyle.font14penSansExtraboldBlack26TextStyle),
                                     ),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
                                         SizedBox(width: 5),
                                         CircleWithSpacing(),
-                                        Text('Complaint Details',
-                                            style: AppTextStyle
-                                                .font14OpenSansRegularBlack45TextStyle),
+                                        Text('Complaint Details', style: AppTextStyle.font14OpenSansRegularBlack45TextStyle),
                                       ],
                                     ),
                                     Padding(

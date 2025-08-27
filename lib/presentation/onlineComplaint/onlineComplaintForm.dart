@@ -156,7 +156,6 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
     for (int i = 0; i < 10; i++) {
       randomNumber += random.nextInt(10).toString();
     }
-
     return randomNumber;
   }
 
@@ -397,6 +396,7 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
     print("sPostedBy: $sContactNo");
     print("---fLatitude-- :    $lat");
     print("---fLongitude-- :    $long");
+
     // Check Form Validation
     final isFormValid = _formKey.currentState!.validate();
     print("Form Validation: $isFormValid");
@@ -921,8 +921,7 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
                                   ),
                                 ),
                                 Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       image != null
                                           ? Stack(
@@ -941,8 +940,7 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
                                                     //             )));
                                                   },
                                                   child: Container(
-                                                      color:
-                                                          Colors.lightGreenAccent,
+                                                      color: Colors.lightGreenAccent,
                                                       height: 100,
                                                       width: 70,
                                                       child: Image.file(

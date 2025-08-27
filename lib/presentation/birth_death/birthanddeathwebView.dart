@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class BirthAndDeathWebViewStack extends StatefulWidget {
 
-   BirthAndDeathWebViewStack({super.key});
+  BirthAndDeathWebViewStack({super.key});
 
   @override
   State<BirthAndDeathWebViewStack> createState() => _WebViewStackState();
