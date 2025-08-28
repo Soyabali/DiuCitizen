@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:puri/presentation/complaints/grievanceStatus/searchBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../app/generalFunction.dart';
 import '../../../services/CommunityHallStatusRepo.dart';
 import '../../../services/citizenMyPostedComplaint.dart';
@@ -67,7 +68,7 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
   pendingInternalComplaintResponse() async {
     pendingInternalComplaintList =
         await CommunityHallStatusRepo().communityHall(context);
-    print('-----68-----xxx-----$pendingInternalComplaintList');
+    print('-----70-----xxx-----$pendingInternalComplaintList');
     _filteredData =
         List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
 
@@ -357,6 +358,17 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
         fontSize: 16.0);
   }
 
+  // open Pdf
+  void openPdf(BuildContext context, String pdfUrl) async {
+    if (await canLaunchUrl(Uri.parse(pdfUrl))) {
+      await launchUrl(Uri.parse(pdfUrl), mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Cannot open PDF")),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -513,17 +525,19 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                               GestureDetector(
                                                             onTap: () {
                                                               var docUrl = "${item['sCommunityDocUrl'].toString()}";
-
-                                                              print(docUrl);
-
-                                                              Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute(
-                                                                    builder: (context) =>
-                                                                        FullScreenImages(
-                                                                            image:
-                                                                                docUrl)),
-                                                              );
+                                                              if(docUrl.toLowerCase().endsWith('.pdf')){
+                                                               print("----Open Pdf on a new Screen");
+                                                               openPdf(context, docUrl!);
+                                                              }else{
+                                                                Navigator.push(
+                                                                  context,
+                                                                  MaterialPageRoute(
+                                                                      builder: (context) =>
+                                                                          FullScreenImages(
+                                                                              image:
+                                                                              docUrl)),
+                                                                );
+                                                              }
                                                             },
                                                             child: Container(
                                                               width: 30,

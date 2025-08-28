@@ -1,12 +1,17 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:puri/services/bindCommunityHallRepo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../app/generalFunction.dart';
 import '../../../app/loader_helper.dart';
 import '../../../services/BindCommunityHallDateRepo.dart';
@@ -17,6 +22,7 @@ import '../../../services/bindSubCategoryRepo.dart';
 import '../../circle/circle.dart';
 import '../../resources/app_text_style.dart';
 import '../../resources/values_manager.dart';
+import 'PDFViewerScreen.dart';
 
 class CommunityHallRequest extends StatefulWidget {
 
@@ -51,8 +57,7 @@ class _MyHomePageState extends State<CommunityHallRequest> with TickerProviderSt
   final _formKey = GlobalKey<FormState>();
 
   bindSubCategory(String subCategoryCode) async {
-    subCategoryList = (await BindSubCategoryRepo()
-        .bindSubCategory(context, subCategoryCode))!;
+    subCategoryList = (await BindSubCategoryRepo().bindSubCategory(context, subCategoryCode))!;
     print(" -----xxxxx-  subCategoryList--43---> $subCategoryList");
     setState(() {});
   }
@@ -264,7 +269,7 @@ var  firstStatus;
                 },
                 hint: RichText(
                   text: TextSpan(
-                    text: "Select Community Hall",
+                    text: "Select Month",
                     style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
                   ),
                 ),
@@ -495,25 +500,101 @@ var  firstStatus;
   }
 
   // pick Image
-  Future pickImage() async {
-    image=null;
+  // Future pickGallery() async {
+  //   image=null;
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String? sToken = prefs.getString('sToken');
+  //   print('---Token----113--$sToken');
+  //   try {
+  //     final pickFileid = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 50);
+  //     if (pickFileid != null) {
+  //       image = File(pickFileid.path);
+  //       setState(() {});
+  //       print('Image File path Id Proof-------167----->$image');
+  //       // multipartProdecudre();
+  //       uploadImage(sToken!, image!);
+  //     } else {
+  //       print('no image selected');
+  //     }
+  //   } catch (e) {}
+  // }
+  // Future pickGallery() async {
+  //   File? selectedFile;
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String? sToken = prefs.getString('sToken');
+  //   print('---Token----113--$sToken');
+  //
+  //   try {
+  //     FilePickerResult? result = await FilePicker.platform.pickFiles(
+  //       type: FileType.custom,
+  //       allowedExtensions: ['jpg', 'png', 'jpeg', 'pdf'],
+  //     );
+  //
+  //     if (result != null && result.files.isNotEmpty) {
+  //       selectedFile = File(result.files.single.path!);
+  //
+  //       print('Selected File Path: ${selectedFile.path}');
+  //
+  //       if (selectedFile.path.endsWith('.pdf')) {
+  //         print("PDF file selected");
+  //       } else {
+  //         print("Image file selected");
+  //       }
+  //
+  //       // Call your upload method
+  //       uploadImage(sToken!, selectedFile);
+  //     } else {
+  //       print('No file selected');
+  //     }
+  //   } catch (e) {
+  //     print("Error picking file: $e");
+  //   }
+  // }
+
+  Future pickGallery() async {
+    File? selectedFile;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
     print('---Token----113--$sToken');
+
     try {
-      final pickFileid = await ImagePicker()
-          .pickImage(source: ImageSource.gallery, imageQuality: 50);
-      if (pickFileid != null) {
-        image = File(pickFileid.path);
-        setState(() {});
-        print('Image File path Id Proof-------167----->$image');
-        // multipartProdecudre();
-        uploadImage(sToken!, image!);
+      // Open gallery or file picker
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'],
+      );
+
+      if (result != null && result.files.single.path != null) {
+        selectedFile = File(result.files.single.path!);
+        String filePath = selectedFile.path;
+        print('cted File Path: Sele$filePath');
+
+        if (filePath.toLowerCase().endsWith('.pdf')) {
+          print("✅ PDF file selected");
+          print("-----------573---------");
+          // Optionally, show PDF icon or preview
+        } else {
+          print("✅ Image file selected");
+          // Optionally, show image preview in UI
+        }
+
+        // ✅ Upload File
+        if (sToken != null) {
+          print("-----------581---------");
+          print("-----------selectedPath---------$selectedFile");
+
+          uploadImage(sToken, selectedFile);
+        } else {
+          print("❌ Token not found");
+        }
       } else {
-        print('no image selected');
+        print('❌ No file selected');
       }
-    } catch (e) {}
+    } catch (e) {
+      print("❌ Error picking file: $e");
+    }
   }
+
   // pick image camra
   Future pickImageCamra() async {
     image=null;
@@ -566,7 +647,9 @@ var  firstStatus;
       print("---------544--------$responseData");
       if (responseData is Map<String, dynamic>) {
         // Check for specific keys in the response
-        uplodedImage = responseData['Data'][0]['sImagePath'];
+        setState(() {
+          uplodedImage = responseData['Data'][0]['sImagePath'];
+        });
         print('Uploaded Image Path----548----xxxxx----: $uplodedImage');
       } else {
         print('Unexpected response format: $responseData');
@@ -688,7 +771,8 @@ var  firstStatus;
                   child: GestureDetector(
                     onTap: () {
                      // print("------Gallery----");
-                      pickImage();
+                     // pickImage();
+                      pickGallery();
 
                       // print('---sbi----');
                       // var sPageName = "Advertisement Booking Status";
@@ -808,8 +892,8 @@ var  firstStatus;
     print("Community Booking Dates List : $seleccteddates");
     print("------446----${seleccteddates.length}");
     var iDaysOfBooking = "${seleccteddates.length}";
-
     final isFormValid = _formKey.currentState!.validate();
+
     // }
     //
     print("Form Validation: $isFormValid");
@@ -924,7 +1008,6 @@ var  firstStatus;
                 ),
               if (isSelected)
                 SizedBox(width: 8.0), // Space between icon and text
-
               // Always show the date text
               Text(
                 dDate,
@@ -937,6 +1020,172 @@ var  firstStatus;
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+ // pdf dialog
+ // pdfViewFunction
+  void openPdf(BuildContext context, String pdfUrl) async {
+    if (await canLaunchUrl(Uri.parse(pdfUrl))) {
+      await launchUrl(Uri.parse(pdfUrl), mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Cannot open PDF")),
+      );
+    }
+  }
+
+  Widget buildPdfCard({
+    required VoidCallback onCameraTap,
+    required VoidCallback onGalleryTap,
+  }) {
+    return Card(
+      elevation: 6,
+      shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(16),
+      ),
+      color: Colors.grey[300],
+      child: Container(
+        width: 220, // Slightly wider than PDF image
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // PDF Icon Section
+            Container(
+              height: 120,
+              width: MediaQuery.of(context).size.width-30,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  uplodedImage != null && uplodedImage!.isNotEmpty
+                      ? Stack(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          if (uplodedImage!.toLowerCase().endsWith('.pdf')) {
+                            print("PDF tapped: $uplodedImage");
+                            // Open PDF in browser or PDF viewer
+                            openPdf(context, uplodedImage!);
+                          } else {
+                            print("Image tapped: $uplodedImage");
+                            // Open image in full screen
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => Scaffold(
+                                  appBar: AppBar(title: const Text("Image Preview")),
+                                  body: Center(
+                                    child: Image.network(uplodedImage!),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        child: Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.lightGreenAccent,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: uplodedImage!.toLowerCase().endsWith('.pdf')
+                              ? const Center(
+                            child: Icon(
+                              Icons.picture_as_pdf,
+                              size: 80,
+                              color: Colors.red,
+                            ),
+                          )
+                              : ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(
+                              uplodedImage!,
+                              fit: BoxFit.cover,
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return const Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              },
+                              errorBuilder: (context, error, stackTrace) =>
+                              const Icon(Icons.broken_image, size: 50),
+                            ),
+                          ),
+                        ),
+                      ),
+                      // Positioned(
+                      //   top: 0,
+                      //   right: 0,
+                      //   child: IconButton(
+                      //     onPressed: () {
+                      //       setState(() {
+                      //         uplodedImage = null;
+                      //       });
+                      //     },
+                      //     icon: const Icon(Icons.close, color: Colors.red, size: 24),
+                      //   ),
+                      // ),
+                    ],
+                  )
+                      : const Icon(Icons.picture_as_pdf, size: 80, color: Colors.grey),
+                ],
+              ),
+
+            ),
+            const SizedBox(height: 10),
+            const Divider(
+              height: 1,
+              color: Colors.grey,
+            ),
+            SizedBox(height: 10),
+            // Row for Photo and Gallery
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                // Photo Option
+                InkWell(
+                  onTap: onCameraTap,
+                  child: Row(
+                    children: [
+                      Icon(Icons.camera_alt, color: Colors.blueAccent),
+                      SizedBox(width: 5),
+                      Text(
+                        "Photo", style: AppTextStyle.font14OpenSansRegularBlack45TextStyle
+                      ),
+                    ],
+                  ),
+                ),
+                // Divider
+                Container(
+                  height: 20,
+                  width: 1,
+                  color: Colors.grey.shade400,
+                ),
+
+                // Gallery Option
+                InkWell(
+                  onTap: onGalleryTap,
+                  child: Row(
+                    children: [
+                      Icon(Icons.photo_library, color: Colors.green),
+                      SizedBox(width: 5),
+                      Text(
+                        "Gallery",
+                        style: AppTextStyle.font14OpenSansRegularBlack45TextStyle),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
@@ -1003,8 +1252,7 @@ var  firstStatus;
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            "1. Application Details",
+                          child: Text("1. Application Details",
                             style: AppTextStyle
                                 .font14OpenSansRegularBlackTextStyle,
                           ),
@@ -1287,8 +1535,7 @@ var  firstStatus;
                                       // Space between the circle and text
                                       Text(
                                         'Per Day Amount',
-                                        style: AppTextStyle
-                                            .font14OpenSansRegularBlack45TextStyle,
+                                        style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
                                       ),
                                     ],
                                   ),
@@ -1331,7 +1578,7 @@ var  firstStatus;
                                       CircleWithSpacing(),
                                       // Space between the circle and text
                                       Text(
-                                        'Uplode Photo',
+                                        'Uplode Identity Document',
                                         style: AppTextStyle
                                             .font14OpenSansRegularBlack45TextStyle,
                                       ),
@@ -1340,143 +1587,163 @@ var  firstStatus;
                                 ),
                                 SizedBox(height: 5),
                                 //----Card
-                                Card(
-                                  elevation: 5,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Container(
-                                    height: 80,
-                                    color: Colors.white,
-                                    padding: EdgeInsets.all(10),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        // Column Section
-                                        Column(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                          children: [
-                                            Text("Click Photo",
-                                                style: AppTextStyle
-                                                    .font14OpenSansRegularBlack45TextStyle),
-                                            SizedBox(height: 5),
-                                            Row(
-                                              children: [
-                                                Text(
-                                                  "Please click here to take a photo",
-                                                  style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.red[300]),
-                                                ),
-                                                SizedBox(width: 5),
-                                                Icon(
-                                                  Icons.arrow_forward_ios,
-                                                  color: Colors.red[300],
-                                                  size: 16,
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                        // Container Section
-                                        GestureDetector(
-                                          onTap: () {
-                                            print("---------image-----");
-                                           // pickImage();
-                                            // to open Dialog to Choose Gallery and Camra
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext dialogContext) {
-                                                return paymentDialog(dialogContext);
-                                              },
-                                            );
-
-                                            },
-                                          child: Padding(
-                                            padding:
-                                            const EdgeInsets.only(top: 10),
-                                            child: Container(
-                                              padding: EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                color: Colors.grey[300],
-                                                shape: BoxShape.circle,
-                                              ),
-                                              child: Center(
-                                                child: Image.asset("assets/images/ic_camera.PNG",
-                                                  height: 30,
-                                                  width: 30,
-                                                  fit: BoxFit.fill,
-                                                ),
-                                              ),
-                                              // child: const Icon(
-                                              //   Icons.camera_alt,
-                                              //   size: 30,
-                                              //   color: Colors.black45,
-                                              // ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
+                                buildPdfCard(
+                                  onCameraTap: () {
+                                    print("-----1423----Camra---");
+                                   // pickImageCamra();
+                                    pickImageCamra();
+                                                // showDialog(
+                                                //   context: context,
+                                                //   builder: (BuildContext dialogContext) {
+                                                //     return paymentDialog(dialogContext);
+                                                //   },
+                                                // );
+                                  },
+                                  onGalleryTap: () {
+                                    pickGallery();
+                                  }
                                 ),
-                                Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      image != null
-                                          ? Stack(
-                                        children: [
-                                          GestureDetector(
-                                            behavior:
-                                            HitTestBehavior.translucent,
-                                            onTap: () {
-                                              // Navigator.push(
-                                              //     context,
-                                              //     MaterialPageRoute(
-                                              //         builder: (context) =>
-                                              //             FullScreenPage(
-                                              //               child: image!,
-                                              //               dark: true,
-                                              //             )));
-                                            },
-                                            child: Container(
-                                                color:
-                                                Colors.lightGreenAccent,
-                                                height: 100,
-                                                width: 70,
-                                                child: Image.file(
-                                                  image!,
-                                                  fit: BoxFit.fill,
-                                                )),
-                                          ),
-                                          Positioned(
-                                              bottom: 65,
-                                              left: 35,
-                                              child: IconButton(
-                                                onPressed: () {
-                                                  image = null;
-                                                  setState(() {});
-                                                },
-                                                icon: const Icon(
-                                                  Icons.close,
-                                                  color: Colors.red,
-                                                  size: 30,
-                                                ),
-                                              ))
-                                        ],
-                                      )
-                                          : Text(
-                                        "",
-                                        style: TextStyle(
-                                            color: Colors.red[700]),
-                                      )
-                                    ]),
+                                SizedBox(height: 0),
+
+                                // Card(
+                                //   elevation: 5,
+                                //   shape: RoundedRectangleBorder(
+                                //     borderRadius: BorderRadius.circular(10),
+                                //   ),
+                                //   child: Container(
+                                //     height: 80,
+                                //     color: Colors.white,
+                                //     padding: EdgeInsets.all(10),
+                                //     child: Row(
+                                //       mainAxisAlignment:
+                                //       MainAxisAlignment.spaceBetween,
+                                //       children: [
+                                //         // Column Section
+                                //         Column(
+                                //           crossAxisAlignment:
+                                //           CrossAxisAlignment.start,
+                                //           mainAxisAlignment:
+                                //           MainAxisAlignment.center,
+                                //           children: [
+                                //             Text("Click Photo",
+                                //                 style: AppTextStyle
+                                //                     .font14OpenSansRegularBlack45TextStyle),
+                                //             SizedBox(height: 5),
+                                //             Row(
+                                //               children: [
+                                //                 Text(
+                                //                   "Please click here to take a photo",
+                                //                   style: TextStyle(
+                                //                       fontSize: 14,
+                                //                       color: Colors.red[300]),
+                                //                 ),
+                                //                 SizedBox(width: 5),
+                                //                 Icon(
+                                //                   Icons.arrow_forward_ios,
+                                //                   color: Colors.red[300],
+                                //                   size: 16,
+                                //                 ),
+                                //               ],
+                                //             ),
+                                //           ],
+                                //         ),
+                                //         // Container Section
+                                //         GestureDetector(
+                                //           onTap: () {
+                                //             print("---------image-----");
+                                //            // pickImage();
+                                //             // to open Dialog to Choose Gallery and Camra
+                                //             showDialog(
+                                //               context: context,
+                                //               builder: (BuildContext dialogContext) {
+                                //                 return paymentDialog(dialogContext);
+                                //               },
+                                //             );
+                                //
+                                //             },
+                                //           child: Padding(
+                                //             padding:
+                                //             const EdgeInsets.only(top: 10),
+                                //             child: Container(
+                                //               padding: EdgeInsets.all(10),
+                                //               decoration: BoxDecoration(
+                                //                 color: Colors.grey[300],
+                                //                 shape: BoxShape.circle,
+                                //               ),
+                                //               child: Center(
+                                //                 child: Image.asset("assets/images/ic_camera.PNG",
+                                //                   height: 30,
+                                //                   width: 30,
+                                //                   fit: BoxFit.fill,
+                                //                 ),
+                                //               ),
+                                //               // child: const Icon(
+                                //               //   Icons.camera_alt,
+                                //               //   size: 30,
+                                //               //   color: Colors.black45,
+                                //               // ),
+                                //             ),
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     ),
+                                //   ),
+                                // ),
+
+                                // Row(
+                                //     mainAxisAlignment:
+                                //     MainAxisAlignment.spaceBetween,
+                                //     children: <Widget>[
+                                //       image != null
+                                //           ? Stack(
+                                //         children: [
+                                //           GestureDetector(
+                                //             behavior:
+                                //             HitTestBehavior.translucent,
+                                //             onTap: () {
+                                //               // Navigator.push(
+                                //               //     context,
+                                //               //     MaterialPageRoute(
+                                //               //         builder: (context) =>
+                                //               //             FullScreenPage(
+                                //               //               child: image!,
+                                //               //               dark: true,
+                                //               //             )));
+                                //             },
+                                //             child: Container(
+                                //                 color:
+                                //                 Colors.lightGreenAccent,
+                                //                 height: 100,
+                                //                 width: 70,
+                                //                 child: Image.file(
+                                //                   image!,
+                                //                   fit: BoxFit.fill,
+                                //                 )),
+                                //           ),
+                                //           Positioned(
+                                //               bottom: 65,
+                                //               left: 35,
+                                //               child: IconButton(
+                                //                 onPressed: () {
+                                //                   image = null;
+                                //                   setState(() {});
+                                //                 },
+                                //                 icon: const Icon(
+                                //                   Icons.close,
+                                //                   color: Colors.red,
+                                //                   size: 30,
+                                //                 ),
+                                //               ))
+                                //         ],
+                                //       )
+                                //           : Text(
+                                //         "",
+                                //         style: TextStyle(
+                                //             color: Colors.red[700]),
+                                //       )
+                                //     ]),
                                 SizedBox(height: 5),
+
                                 // Purpose of Booking
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10),
