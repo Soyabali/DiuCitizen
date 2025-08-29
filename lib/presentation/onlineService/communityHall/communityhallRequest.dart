@@ -1043,143 +1043,104 @@ var  firstStatus;
     return Card(
       elevation: 6,
       shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(10),
       ),
       color: Colors.grey[300],
       child: Container(
-        width: 220, // Slightly wider than PDF image
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(10),
+        width: double.infinity, // Take full available width
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // PDF Icon Section
-            Container(
-              height: 120,
-              width: MediaQuery.of(context).size.width-30,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  uplodedImage != null && uplodedImage!.isNotEmpty
-                      ? Stack(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          if (uplodedImage!.toLowerCase().endsWith('.pdf')) {
-                            print("PDF tapped: $uplodedImage");
-                            // Open PDF in browser or PDF viewer
-                            openPdf(context, uplodedImage!);
-                          } else {
-                            print("Image tapped: $uplodedImage");
-                            // Open image in full screen
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => Scaffold(
-                                  appBar: AppBar(title: const Text("Image Preview")),
-                                  body: Center(
-                                    child: Image.network(uplodedImage!),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }
-                        },
-                        child: Container(
-                          height: 100,
-                          width: 100,
-                          decoration: BoxDecoration(
-                            color: Colors.lightGreenAccent,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: uplodedImage!.toLowerCase().endsWith('.pdf')
-                              ? const Center(
-                            child: Icon(
-                              Icons.picture_as_pdf,
-                              size: 80,
-                              color: Colors.red,
-                            ),
-                          )
-                              : ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: Image.network(
-                              uplodedImage!,
-                              fit: BoxFit.cover,
-                              loadingBuilder:
-                                  (context, child, loadingProgress) {
-                                if (loadingProgress == null) return child;
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              },
-                              errorBuilder: (context, error, stackTrace) =>
-                              const Icon(Icons.broken_image, size: 50),
-                            ),
-                          ),
-                        ),
-                      ),
-                      // Positioned(
-                      //   top: 0,
-                      //   right: 0,
-                      //   child: IconButton(
-                      //     onPressed: () {
-                      //       setState(() {
-                      //         uplodedImage = null;
-                      //       });
-                      //     },
-                      //     icon: const Icon(Icons.close, color: Colors.red, size: 24),
-                      //   ),
-                      // ),
-                    ],
-                  )
-                      : const Icon(Icons.picture_as_pdf, size: 80, color: Colors.grey),
-                ],
-              ),
+            // Image or PDF section
+            GestureDetector(
+              onTap: (){
+                                      if (uplodedImage!.toLowerCase().endsWith('.pdf')) {
+                                        print("PDF tapped: $uplodedImage");
+                                        // Open PDF in browser or PDF viewer
+                                        openPdf(context, uplodedImage!);
+                                      } else {
+                                        print("Image tapped: $uplodedImage");
+                                        // Open image in full screen
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => Scaffold(
+                                              appBar: AppBar(title: const Text("Image Preview")),
+                                              body: Center(
+                                                child: Image.network(
+                                                  uplodedImage!,
+                                                  width: double.infinity, // take full width
+                                                  fit: BoxFit.cover, // cover the available space
+                                                )
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      }
 
+              },
+              child: Container(
+                height: 200,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: uplodedImage != null && uplodedImage!.isNotEmpty
+                    ? ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: uplodedImage!.toLowerCase().endsWith('.pdf')
+                      ? const Center(
+                    child: Icon(Icons.picture_as_pdf,
+                        size: 100, color: Colors.red),
+                  )
+                      : Image.network(
+                    uplodedImage!,
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.cover, // Fill container
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return const Center(
+                          child: CircularProgressIndicator());
+                    },
+                    errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.broken_image,
+                        size: 100, color: Colors.grey),
+                  ),
+                )
+                    : const Center(
+                  child: Icon(Icons.picture_as_pdf,
+                      size: 100, color: Colors.grey),
+                ),
+              ),
             ),
             const SizedBox(height: 10),
-            const Divider(
-              height: 1,
-              color: Colors.grey,
-            ),
-            SizedBox(height: 10),
-            // Row for Photo and Gallery
+            const Divider(height: 1, color: Colors.grey),
+            const SizedBox(height: 10),
+            // Photo and Gallery options
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                // Photo Option
                 InkWell(
                   onTap: onCameraTap,
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.camera_alt, color: Colors.blueAccent),
                       SizedBox(width: 5),
-                      Text(
-                        "Photo", style: AppTextStyle.font14OpenSansRegularBlack45TextStyle
-                      ),
+                      Text("Photo"),
                     ],
                   ),
                 ),
-                // Divider
-                Container(
-                  height: 20,
-                  width: 1,
-                  color: Colors.grey.shade400,
-                ),
-
-                // Gallery Option
+                Container(height: 20, width: 1, color: Colors.grey.shade400),
                 InkWell(
                   onTap: onGalleryTap,
-                  child: Row(
+                  child: const Row(
                     children: [
                       Icon(Icons.photo_library, color: Colors.green),
                       SizedBox(width: 5),
-                      Text(
-                        "Gallery",
-                        style: AppTextStyle.font14OpenSansRegularBlack45TextStyle),
+                      Text("Gallery"),
                     ],
                   ),
                 ),
@@ -1189,6 +1150,225 @@ var  firstStatus;
         ),
       ),
     );
+
+    // return Card(
+    //   elevation: 6,
+    //   shape: RoundedRectangleBorder(
+    //   borderRadius: BorderRadius.circular(10),
+    //   ),
+    //   color: Colors.grey[300],
+    //   child: Container(
+    //     width: MediaQuery.of(context).size.width - 30,
+    //     height: 200, // Parent container height (you can make this dynamic)
+    //     padding: const EdgeInsets.all(10),
+    //     decoration: BoxDecoration(
+    //       color: Colors.grey.shade200,
+    //       borderRadius: BorderRadius.circular(8),
+    //     ),
+    //     child: GestureDetector(
+    //       onTap: () {
+    //         if (uplodedImage!.toLowerCase().endsWith('.pdf')) {
+    //           openPdf(context, uplodedImage!);
+    //         } else {
+    //           Navigator.push(
+    //             context,
+    //             MaterialPageRoute(
+    //               builder: (_) => Scaffold(
+    //                 appBar: AppBar(title: const Text("Image Preview")),
+    //                 body: Center(
+    //                   child: Image.network(
+    //                     uplodedImage!,
+    //                     width: double.infinity,
+    //                     fit: BoxFit.contain, // Full width with aspect ratio
+    //                   ),
+    //                 ),
+    //               ),
+    //             ),
+    //           );
+    //         }
+    //       },
+    //       child: uplodedImage!.toLowerCase().endsWith('.pdf')
+    //           ? const Center(
+    //         child: Icon(
+    //           Icons.picture_as_pdf,
+    //           size: 100, // Will scale inside padding
+    //           color: Colors.red,
+    //         ),
+    //       )
+    //           : ClipRRect(
+    //         borderRadius: BorderRadius.circular(8),
+    //         child: Image.network(
+    //           uplodedImage!,
+    //           width: double.infinity,
+    //           height: double.infinity,
+    //           fit: BoxFit.cover, // Takes full space and crops if needed
+    //           loadingBuilder: (context, child, loadingProgress) {
+    //             if (loadingProgress == null) return child;
+    //             return const Center(child: CircularProgressIndicator());
+    //           },
+    //           errorBuilder: (context, error, stackTrace) => const Center(
+    //             child: Icon(Icons.broken_image, size: 80),
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //   ),
+    //   // child: Container(
+    //   //   width: 220, // Slightly wider than PDF image
+    //   //   padding: const EdgeInsets.all(10),
+    //   //   child: Column(
+    //   //     mainAxisSize: MainAxisSize.min,
+    //   //     children: [
+    //   //       // PDF Icon Section
+    //   //       Container(
+    //   //         height: 120,
+    //   //         width: MediaQuery.of(context).size.width-30,
+    //   //         decoration: BoxDecoration(
+    //   //           color: Colors.grey.shade200,
+    //   //           borderRadius: BorderRadius.circular(5),
+    //   //         ),
+    //   //         child: Row(
+    //   //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //   //           children: <Widget>[
+    //   //             uplodedImage != null && uplodedImage!.isNotEmpty
+    //   //                 ? Stack(
+    //   //               children: [
+    //   //                 GestureDetector(
+    //   //                   onTap: () {
+    //   //                     if (uplodedImage!.toLowerCase().endsWith('.pdf')) {
+    //   //                       print("PDF tapped: $uplodedImage");
+    //   //                       // Open PDF in browser or PDF viewer
+    //   //                       openPdf(context, uplodedImage!);
+    //   //                     } else {
+    //   //                       print("Image tapped: $uplodedImage");
+    //   //                       // Open image in full screen
+    //   //                       Navigator.push(
+    //   //                         context,
+    //   //                         MaterialPageRoute(
+    //   //                           builder: (_) => Scaffold(
+    //   //                             appBar: AppBar(title: const Text("Image Preview")),
+    //   //                             body: Center(
+    //   //                               child: Image.network(
+    //   //                                 uplodedImage!,
+    //   //                                 width: double.infinity, // take full width
+    //   //                                 fit: BoxFit.cover, // cover the available space
+    //   //                               )
+    //   //                             ),
+    //   //                           ),
+    //   //                         ),
+    //   //                       );
+    //   //                     }
+    //   //                   },
+    //   //                   child: Container(
+    //   //                     height: 200,
+    //   //                    // width: 100,
+    //   //                     decoration: BoxDecoration(
+    //   //                       color: Colors.lightGreenAccent,
+    //   //                       borderRadius: BorderRadius.circular(8),
+    //   //                     ),
+    //   //                     child: uplodedImage!.toLowerCase().endsWith('.pdf')
+    //   //                         ? const Center(
+    //   //                       child: SizedBox(
+    //   //                         width: double.infinity,
+    //   //                         child: Center(
+    //   //                           child: Icon(
+    //   //                             Icons.picture_as_pdf,
+    //   //                             size: 180,
+    //   //                             color: Colors.red,
+    //   //                           ),
+    //   //                         ),
+    //   //                       ),
+    //   //                     )
+    //   //                         : ClipRRect(
+    //   //                       borderRadius: BorderRadius.circular(8),
+    //   //                       child: Image.network(
+    //   //                         uplodedImage!,
+    //   //                         fit: BoxFit.cover,
+    //   //                         loadingBuilder:
+    //   //                             (context, child, loadingProgress) {
+    //   //                           if (loadingProgress == null) return child;
+    //   //                           return const Center(
+    //   //                             child: CircularProgressIndicator(),
+    //   //                           );
+    //   //                         },
+    //   //                         errorBuilder: (context, error, stackTrace) =>
+    //   //                         const SizedBox(
+    //   //                             width: double.infinity,
+    //   //                             child: Center(child: Icon(Icons.broken_image, size: 180))),
+    //   //                       ),
+    //   //                     ),
+    //   //                   ),
+    //   //                 ),
+    //   //                 // Positioned(
+    //   //                 //   top: 0,
+    //   //                 //   right: 0,
+    //   //                 //   child: IconButton(
+    //   //                 //     onPressed: () {
+    //   //                 //       setState(() {
+    //   //                 //         uplodedImage = null;
+    //   //                 //       });
+    //   //                 //     },
+    //   //                 //     icon: const Icon(Icons.close, color: Colors.red, size: 24),
+    //   //                 //   ),
+    //   //                 // ),
+    //   //               ],
+    //   //             )
+    //   //                 : const Icon(Icons.picture_as_pdf, size: 80, color: Colors.grey),
+    //   //           ],
+    //   //         ),
+    //   //
+    //   //       ),
+    //   //       const SizedBox(height: 10),
+    //   //       const Divider(
+    //   //         height: 1,
+    //   //         color: Colors.grey,
+    //   //       ),
+    //   //       SizedBox(height: 10),
+    //   //       // Row for Photo and Gallery
+    //   //       Row(
+    //   //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //   //         children: [
+    //   //           // Photo Option
+    //   //           InkWell(
+    //   //             onTap: onCameraTap,
+    //   //             child: Row(
+    //   //               children: [
+    //   //                 Icon(Icons.camera_alt, color: Colors.blueAccent),
+    //   //                 SizedBox(width: 5),
+    //   //                 Text(
+    //   //                   "Photo", style: AppTextStyle.font14OpenSansRegularBlack45TextStyle
+    //   //                 ),
+    //   //               ],
+    //   //             ),
+    //   //           ),
+    //   //           // Divider
+    //   //           Container(
+    //   //             height: 20,
+    //   //             width: 1,
+    //   //             color: Colors.grey.shade400,
+    //   //           ),
+    //   //
+    //   //           // Gallery Option
+    //   //           InkWell(
+    //   //             onTap: onGalleryTap,
+    //   //             child: Row(
+    //   //               children: [
+    //   //                 Icon(Icons.photo_library, color: Colors.green),
+    //   //                 SizedBox(width: 5),
+    //   //                 Text(
+    //   //                   "Gallery",
+    //   //                   style: AppTextStyle.font14OpenSansRegularBlack45TextStyle),
+    //   //               ],
+    //   //             ),
+    //   //           ),
+    //   //         ],
+    //   //       ),
+    //   //     ],
+    //   //   ),
+    //   // ),
+    //
+    //
+    // );
   }
 
   @override
@@ -1587,163 +1767,7 @@ var  firstStatus;
                                 ),
                                 SizedBox(height: 5),
                                 //----Card
-                                buildPdfCard(
-                                  onCameraTap: () {
-                                    print("-----1423----Camra---");
-                                   // pickImageCamra();
-                                    pickImageCamra();
-                                                // showDialog(
-                                                //   context: context,
-                                                //   builder: (BuildContext dialogContext) {
-                                                //     return paymentDialog(dialogContext);
-                                                //   },
-                                                // );
-                                  },
-                                  onGalleryTap: () {
-                                    pickGallery();
-                                  }
-                                ),
-                                SizedBox(height: 0),
-
-                                // Card(
-                                //   elevation: 5,
-                                //   shape: RoundedRectangleBorder(
-                                //     borderRadius: BorderRadius.circular(10),
-                                //   ),
-                                //   child: Container(
-                                //     height: 80,
-                                //     color: Colors.white,
-                                //     padding: EdgeInsets.all(10),
-                                //     child: Row(
-                                //       mainAxisAlignment:
-                                //       MainAxisAlignment.spaceBetween,
-                                //       children: [
-                                //         // Column Section
-                                //         Column(
-                                //           crossAxisAlignment:
-                                //           CrossAxisAlignment.start,
-                                //           mainAxisAlignment:
-                                //           MainAxisAlignment.center,
-                                //           children: [
-                                //             Text("Click Photo",
-                                //                 style: AppTextStyle
-                                //                     .font14OpenSansRegularBlack45TextStyle),
-                                //             SizedBox(height: 5),
-                                //             Row(
-                                //               children: [
-                                //                 Text(
-                                //                   "Please click here to take a photo",
-                                //                   style: TextStyle(
-                                //                       fontSize: 14,
-                                //                       color: Colors.red[300]),
-                                //                 ),
-                                //                 SizedBox(width: 5),
-                                //                 Icon(
-                                //                   Icons.arrow_forward_ios,
-                                //                   color: Colors.red[300],
-                                //                   size: 16,
-                                //                 ),
-                                //               ],
-                                //             ),
-                                //           ],
-                                //         ),
-                                //         // Container Section
-                                //         GestureDetector(
-                                //           onTap: () {
-                                //             print("---------image-----");
-                                //            // pickImage();
-                                //             // to open Dialog to Choose Gallery and Camra
-                                //             showDialog(
-                                //               context: context,
-                                //               builder: (BuildContext dialogContext) {
-                                //                 return paymentDialog(dialogContext);
-                                //               },
-                                //             );
-                                //
-                                //             },
-                                //           child: Padding(
-                                //             padding:
-                                //             const EdgeInsets.only(top: 10),
-                                //             child: Container(
-                                //               padding: EdgeInsets.all(10),
-                                //               decoration: BoxDecoration(
-                                //                 color: Colors.grey[300],
-                                //                 shape: BoxShape.circle,
-                                //               ),
-                                //               child: Center(
-                                //                 child: Image.asset("assets/images/ic_camera.PNG",
-                                //                   height: 30,
-                                //                   width: 30,
-                                //                   fit: BoxFit.fill,
-                                //                 ),
-                                //               ),
-                                //               // child: const Icon(
-                                //               //   Icons.camera_alt,
-                                //               //   size: 30,
-                                //               //   color: Colors.black45,
-                                //               // ),
-                                //             ),
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     ),
-                                //   ),
-                                // ),
-
-                                // Row(
-                                //     mainAxisAlignment:
-                                //     MainAxisAlignment.spaceBetween,
-                                //     children: <Widget>[
-                                //       image != null
-                                //           ? Stack(
-                                //         children: [
-                                //           GestureDetector(
-                                //             behavior:
-                                //             HitTestBehavior.translucent,
-                                //             onTap: () {
-                                //               // Navigator.push(
-                                //               //     context,
-                                //               //     MaterialPageRoute(
-                                //               //         builder: (context) =>
-                                //               //             FullScreenPage(
-                                //               //               child: image!,
-                                //               //               dark: true,
-                                //               //             )));
-                                //             },
-                                //             child: Container(
-                                //                 color:
-                                //                 Colors.lightGreenAccent,
-                                //                 height: 100,
-                                //                 width: 70,
-                                //                 child: Image.file(
-                                //                   image!,
-                                //                   fit: BoxFit.fill,
-                                //                 )),
-                                //           ),
-                                //           Positioned(
-                                //               bottom: 65,
-                                //               left: 35,
-                                //               child: IconButton(
-                                //                 onPressed: () {
-                                //                   image = null;
-                                //                   setState(() {});
-                                //                 },
-                                //                 icon: const Icon(
-                                //                   Icons.close,
-                                //                   color: Colors.red,
-                                //                   size: 30,
-                                //                 ),
-                                //               ))
-                                //         ],
-                                //       )
-                                //           : Text(
-                                //         "",
-                                //         style: TextStyle(
-                                //             color: Colors.red[700]),
-                                //       )
-                                //     ]),
                                 SizedBox(height: 5),
-
                                 // Purpose of Booking
                                 Padding(
                                   padding: const EdgeInsets.only(left: 10),
@@ -1803,7 +1827,25 @@ var  firstStatus;
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: 0),
+
+                                buildPdfCard(
+                                    onCameraTap: () {
+                                      print("-----1423----Camra---");
+                                      // pickImageCamra();
+                                      pickImageCamra();
+                                      // showDialog(
+                                      //   context: context,
+                                      //   builder: (BuildContext dialogContext) {
+                                      //     return paymentDialog(dialogContext);
+                                      //   },
+                                      // );
+                                    },
+                                    onGalleryTap: () {
+                                      pickGallery();
+                                    }
+                                ),
+                                SizedBox(height: 10)
+
                               ],
                             ),
                           ),
