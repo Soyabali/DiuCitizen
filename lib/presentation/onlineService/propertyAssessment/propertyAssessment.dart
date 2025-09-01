@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../app/generalFunction.dart';
 import '../../../../app/loader_helper.dart';
 import '../../../../services/BindCitizenWardRepo.dart';
@@ -289,6 +291,7 @@ class _MyHomePageState extends State<PropertyAssessment>
           );
   }
 
+
   Future<void> uploadImage(String token, File imageFile) async {
     print("--------225---tolen---$token");
     print("--------226---imageFile---$imageFile");
@@ -300,17 +303,14 @@ class _MyHomePageState extends State<PropertyAssessment>
       showLoader();
       // Create a multipart request
       var request = http.MultipartRequest(
-        'POST',
-        Uri.parse('$uploadImageApi'),
+        'POST', Uri.parse('$uploadImageApi'),
       );
       // Add headers
       //request.headers['token'] = '04605D46-74B1-4766-9976-921EE7E700A6';
       request.headers['token'] = token;
       request.headers['sFolder'] = 'CompImage';
       // Add the image file as a part of the request
-      request.files.add(await http.MultipartFile.fromPath(
-        'sFolder',
-        imageFile.path,
+      request.files.add(await http.MultipartFile.fromPath('sFolder',imageFile.path,
       ));
       // Send the request
       var streamedResponse = await request.send();
@@ -319,36 +319,13 @@ class _MyHomePageState extends State<PropertyAssessment>
 
       // Parse the response JSON
       var responseData = json.decode(response.body); // No explicit type casting
-      print("---------248-----$responseData");
+      print("---------544--------$responseData");
       if (responseData is Map<String, dynamic>) {
         // Check for specific keys in the response
-        uplodedImage = responseData['Data'][0]['sImagePath'];
-        if (uplodedImage != null) {
-          setState(() {
-            uplodedImage = responseData['Data'][0]['sImagePath'];
-            //   buildImageWidget(uplodedImage);
-            //  _imageUrls.add(uplodedImage);
-            // thirdFormCombinedList.add({
-            //   'iDocumentTypeId': "${_dropDownDocument2_code}",
-            //   'sDocumentName': "$_dropDownDocument2",
-            //   'sDocumentUrl': uplodedImage,
-            // });
-          });
-          print("-----283-ThirdList--$thirdFormCombinedList");
-        }
-        //
-        // setState(() {
-        //   thirdFormCombinedList.add({
-        //     'iDocumentTypeId': "${_dropDownDocument2_code}",
-        //     'sDocumentName': "$_dropDownDocument2",
-        //     'sDocumentUrl': uplodedImage,
-        //   });
-        // });
-        print("------250----image list--$_imageUrls");
-
-        /// todo you should store image path here in a list
-        ///
-        print('Uploaded Image Path----222--: $uplodedImage');
+        setState(() {
+          uplodedImage = responseData['Data'][0]['sImagePath'];
+        });
+        print('Uploaded Image Path----548----xxxxx----: $uplodedImage');
       } else {
         print('Unexpected response format: $responseData');
       }
@@ -359,6 +336,72 @@ class _MyHomePageState extends State<PropertyAssessment>
       print('Error uploading image: $error');
     }
   }
+
+  // Future<void> uploadImage(String token, File imageFile) async {
+  //   print("--------225---tolen---$token");
+  //   print("--------226---imageFile---$imageFile");
+  //   var baseURL = BaseRepo().baseurl;
+  //   var endPoint = "PostImage/PostImage";
+  //   var uploadImageApi = "$baseURL$endPoint";
+  //   try {
+  //     print('-----xx-x----214----');
+  //     showLoader();
+  //     // Create a multipart request
+  //     var request = http.MultipartRequest(
+  //       'POST',
+  //       Uri.parse('$uploadImageApi'),
+  //     );
+  //     // Add headers
+  //     //request.headers['token'] = '04605D46-74B1-4766-9976-921EE7E700A6';
+  //     request.headers['token'] = token;
+  //     request.headers['sFolder'] = 'CompImage';
+  //     // Add the image file as a part of the request
+  //     request.files.add(await http.MultipartFile.fromPath(
+  //       'sFolder',
+  //       imageFile.path,
+  //     ));
+  //     // Send the request
+  //     var streamedResponse = await request.send();
+  //     // Get the response
+  //     var response = await http.Response.fromStream(streamedResponse);
+  //
+  //     // Parse the response JSON
+  //     var responseData = json.decode(response.body); // No explicit type casting
+  //     print("---------248-----$responseData");
+  //     if (responseData is Map<String, dynamic>) {
+  //       // Check for specific keys in the response
+  //       uplodedImage = responseData['Data'][0]['sImagePath'];
+  //       setState(() {
+  //       });
+  //       if (uplodedImage != null) {
+  //         setState(() {
+  //           uplodedImage = responseData['Data'][0]['sImagePath'];
+  //           //   buildImageWidget(uplodedImage);
+  //           //  _imageUrls.add(uplodedImage);
+  //           // thirdFormCombinedList.add({
+  //           //   'iDocumentTypeId': "${_dropDownDocument2_code}",
+  //           //   'sDocumentName': "$_dropDownDocument2",
+  //           //   'sDocumentUrl': uplodedImage,
+  //           // });
+  //         });
+  //         print("-----283-ThirdList--$thirdFormCombinedList");
+  //       }
+  //
+  //       print("------250----image list--$_imageUrls");
+  //
+  //       /// todo you should store image path here in a list
+  //       ///
+  //       print('Uploaded Image Path----222--: $uplodedImage');
+  //     } else {
+  //       print('Unexpected response format: $responseData');
+  //     }
+  //
+  //     hideLoader();
+  //   } catch (error) {
+  //     hideLoader();
+  //     print('Error uploading image: $error');
+  //   }
+  // }
 
   // add item to list
   // permises Ward Api call
@@ -715,6 +758,197 @@ class _MyHomePageState extends State<PropertyAssessment>
       }
     }
   }
+  // pick pdf and images form a gallery
+  // ImageCamra code
+  Future pickImageCamra() async {
+    image=null;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? sToken = prefs.getString('sToken');
+    print('---Token----113--$sToken');
+    try {
+      final pickFileid = await ImagePicker()
+          .pickImage(source: ImageSource.camera, imageQuality: 50);
+      if (pickFileid != null) {
+        image = File(pickFileid.path);
+        setState(() {});
+        print('Image File path Id Proof-------167----->$image');
+        // multipartProdecudre();
+        uploadImage(sToken!, image!);
+      } else {
+        print('no image selected');
+      }
+    } catch (e) {}
+  }
+  Future pickGallery() async {
+    File? selectedFile;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? sToken = prefs.getString('sToken');
+    print('---Token----113--$sToken');
+
+    try {
+      // Open gallery or file picker
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['jpg', 'jpeg', 'png', 'pdf'],
+      );
+
+      if (result != null && result.files.single.path != null) {
+        selectedFile = File(result.files.single.path!);
+        String filePath = selectedFile.path;
+        print('cted File Path: Sele$filePath');
+
+        if (filePath.toLowerCase().endsWith('.pdf')) {
+          print("✅ PDF file selected");
+          print("-----------573---------");
+          // Optionally, show PDF icon or preview
+        } else {
+          print("✅ Image file selected");
+          // Optionally, show image preview in UI
+        }
+
+        // ✅ Upload File
+        if (sToken != null) {
+          print("-----------581---------");
+          print("-----------selectedPath---------$selectedFile");
+
+          uploadImage(sToken, selectedFile);
+        } else {
+          print("❌ Token not found");
+        }
+      } else {
+        print('❌ No file selected');
+      }
+    } catch (e) {
+      print("❌ Error picking file: $e");
+    }
+  }
+  // pdf open code
+  void openPdf(BuildContext context, String pdfUrl) async {
+    if (await canLaunchUrl(Uri.parse(pdfUrl))) {
+      await launchUrl(Uri.parse(pdfUrl), mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Cannot open PDF")),
+      );
+    }
+  }
+  // card with photo and gallery with pdf
+  Widget buildPdfCard({
+    required VoidCallback onCameraTap,
+    required VoidCallback onGalleryTap,
+  }) {
+    return Card(
+      elevation: 6,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      color: Colors.grey[300],
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        width: double.infinity, // Take full available width
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // Image or PDF section
+            GestureDetector(
+              onTap: (){
+                if (uplodedImage!.toLowerCase().endsWith('.pdf')) {
+                  print("PDF tapped: $uplodedImage");
+                  // Open PDF in browser or PDF viewer
+                  openPdf(context, uplodedImage!);
+                } else {
+                  print("Image tapped: $uplodedImage");
+                  // Open image in full screen
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => Scaffold(
+                        appBar: AppBar(title: const Text("Image Preview")),
+                        body: Center(
+                            child: Image.network(
+                              uplodedImage!,
+                              width: double.infinity, // take full width
+                              fit: BoxFit.cover, // cover the available space
+                            )
+                        ),
+                      ),
+                    ),
+                  );
+                }
+              },
+              child: Container(
+                height: 200,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: uplodedImage != null && uplodedImage!.isNotEmpty
+                    ? ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: uplodedImage!.toLowerCase().endsWith('.pdf')
+                      ? const Center(
+                    child: Icon(Icons.picture_as_pdf,
+                        size: 100, color: Colors.red),
+                  )
+                      : Image.network(
+                    uplodedImage!,
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.cover, // Fill container
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return const Center(
+                          child: CircularProgressIndicator());
+                    },
+                    errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.broken_image,
+                        size: 100, color: Colors.grey),
+                  ),
+                )
+                    : const Center(
+                  child: Icon(Icons.picture_as_pdf,
+                      size: 100, color: Colors.grey),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            const Divider(height: 1, color: Colors.grey),
+            const SizedBox(height: 10),
+            // Photo and Gallery options
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                InkWell(
+                  onTap: onCameraTap,
+                  child: const Row(
+                    children: [
+                      Icon(Icons.camera_alt, color: Colors.blueAccent),
+                      SizedBox(width: 5),
+                      Text("Photo"),
+                    ],
+                  ),
+                ),
+                Container(height: 20, width: 1, color: Colors.grey.shade400),
+                InkWell(
+                  onTap: onGalleryTap,
+                  child: const Row(
+                    children: [
+                      Icon(Icons.photo_library, color: Colors.green),
+                      SizedBox(width: 5),
+                      Text("Gallery"),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -853,50 +1087,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                         // First Form Content
                         if (isFirstFormVisible)
                           _buildFirstForm(),
-                        // Second Section Header
-                        // _buildSectionHeader(
-                        //   title: "2. Residential Details",
-                        //   isVisible: isSecondFormVisible,
-                        //   isIconRotated: isSecondIconRotated,
-                        //   onToggle: () {
-                        //     setState(() {
-                        //       isSecondFormVisible = !isSecondFormVisible;
-                        //       isSecondIconRotated = !isSecondIconRotated;
-                        //     });
-                        //   },
-                        // ),
-                        // // Second Form Content
-                        // if (isSecondFormVisible)
-                        //   _buildSecondForm(),
-                        // // Commercial Property Detail
-                        // _buildSectionHeader(
-                        //   title: "3. Commercial Property Detail",
-                        //   isVisible: isCommercialFormVisible,
-                        //   isIconRotated: isCommercialIconRotated,
-                        //   onToggle: () {
-                        //     setState(() {
-                        //       isCommercialFormVisible = !isCommercialFormVisible;
-                        //       isCommercialIconRotated = !isCommercialIconRotated;
-                        //     });
-                        //   },
-                        // ),
-                        // // Second Form Content
-                        // if (isCommercialFormVisible)
-                        //   _buildCommercialPropertyDetailForm(),
-                        // // Third Section Header
-                        // _buildSectionHeader(
-                        //   title: "3. Uplode Photos",
-                        //   isVisible: isThirdFormVisible,
-                        //   isIconRotated: isThirdIconRotated,
-                        //   onToggle: () {
-                        //     setState(() {
-                        //       isThirdFormVisible = !isThirdFormVisible;
-                        //       isThirdIconRotated = !isThirdIconRotated;
-                        //     });
-                        //   },
-                        // ),
-                        // // Third Form Content
-                        // if (isThirdFormVisible) _buildThirdForm(),
                       ],
                     ),
                     // Fixed Bottom Button
@@ -1600,7 +1790,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   _buildSectionHeader(
                     title: "${residentialCount}. Residential Details",
                     isVisible: isSecondFormVisible,
@@ -3401,54 +3590,190 @@ class _MyHomePageState extends State<PropertyAssessment>
                                     ),
                                     const SizedBox(height: 5),
                                     // Selected Images
+                                    /// todo here we change the code Photo and gallery
 
-                                    Container(
-                                      height: 150,
-                                      width: 200,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: image != null
-                                          ? ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              child: Image.file(
-                                                image!,
-                                                width: 200,
-                                                height: 150,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            )
-                                          : const Center(
-                                              child: Text(
-                                                'No Image Available',
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.grey),
-                                              ),
-                                            ),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        // First Container
-                                        GestureDetector(
-                                          onTap: () async {
+                                    // Container(
+                                    //   height: 150,
+                                    //   width: 200,
+                                    //   decoration: BoxDecoration(
+                                    //     border: Border.all(color: Colors.grey),
+                                    //     borderRadius: BorderRadius.circular(10),
+                                    //   ),
+                                    //   child: image != null
+                                    //       ? ClipRRect(
+                                    //           borderRadius:
+                                    //               BorderRadius.circular(10),
+                                    //           child: Image.file(
+                                    //             image!,
+                                    //             width: 200,
+                                    //             height: 150,
+                                    //             fit: BoxFit.cover,
+                                    //           ),
+                                    //         )
+                                    //       : const Center(
+                                    //           child: Text(
+                                    //             'No Image Available',
+                                    //             style: TextStyle(
+                                    //                 fontSize: 16,
+                                    //                 color: Colors.grey),
+                                    //           ),
+                                    //         ),
+                                    // ),
+                                    // const SizedBox(height: 10),
+                                    // // row with camra Gallery
+                                    // Row(
+                                    //   mainAxisAlignment:
+                                    //       MainAxisAlignment.spaceEvenly,
+                                    //   children: [
+                                    //     // First Container
+                                    //     GestureDetector(
+                                    //       onTap: () async {
+                                    //         // _pickImageCamra();
+                                    //         // ----PICK IMAGE FROM A Camera--
+                                    //         SharedPreferences prefs =
+                                    //             await SharedPreferences
+                                    //                 .getInstance();
+                                    //         String? sToken =
+                                    //             prefs.getString('sToken');
+                                    //
+                                    //         final pickFileid =
+                                    //             await _picker.pickImage(
+                                    //                 source: ImageSource.camera,
+                                    //                 imageQuality: 65);
+                                    //
+                                    //         setState(() {
+                                    //           image = File(pickFileid!.path);
+                                    //         });
+                                    //         // image2 = ${pickedFile?.path};
+                                    //         // image2 = pickedFile!.path as File?;
+                                    //
+                                    //         print(
+                                    //             "----171----pic path : ---$image");
+                                    //         if (pickFileid != null) {
+                                    //           setState(() {
+                                    //             _imageFiles.add(File(pickFileid
+                                    //                 .path)); // Add selected image to list
+                                    //             uploadImage(sToken!, image!);
+                                    //           });
+                                    //           print(
+                                    //               "---2507--ImageFile--List----$_imageFiles");
+                                    //         }
+                                    //       },
+                                    //       child: Container(
+                                    //         padding: const EdgeInsets.all(8.0),
+                                    //         decoration: BoxDecoration(
+                                    //           color: Colors.black12,
+                                    //           borderRadius:
+                                    //               BorderRadius.circular(8),
+                                    //         ),
+                                    //         child: Row(
+                                    //           children: [
+                                    //             Image.asset(
+                                    //               'assets/images/ic_camera.PNG',
+                                    //               width: 25,
+                                    //               height: 25,
+                                    //               fit: BoxFit.fill,
+                                    //             ),
+                                    //             const SizedBox(width: 8),
+                                    //             const Text(
+                                    //               "Photo",
+                                    //               style: TextStyle(
+                                    //                   fontSize: 16,
+                                    //                   fontWeight:
+                                    //                       FontWeight.bold),
+                                    //             ),
+                                    //           ],
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //     // Second Container
+                                    //     GestureDetector(
+                                    //       onTap: () async {
+                                    //         // _pickImageGallry();
+                                    //         //----PickImage Gallery----
+                                    //         SharedPreferences prefs =
+                                    //             await SharedPreferences
+                                    //                 .getInstance();
+                                    //         String? sToken =
+                                    //             prefs.getString('sToken');
+                                    //
+                                    //         final pickFileid =
+                                    //             await _picker.pickImage(
+                                    //                 source: ImageSource.gallery,
+                                    //                 imageQuality:
+                                    //                     65 // Change to `ImageSource.camera` for camera
+                                    //                 );
+                                    //
+                                    //         setState(() {
+                                    //           image = File(pickFileid!.path);
+                                    //         });
+                                    //         if (pickFileid != null) {
+                                    //           setState(() {
+                                    //             _imageFiles.add(File(pickFileid
+                                    //                 .path)); // Add selected image to list
+                                    //             // to take a image with a path
+                                    //             uploadImage(sToken!, image!);
+                                    //           });
+                                    //           print(
+                                    //               "---185--ImageFile---list---$_imageFiles");
+                                    //         }
+                                    //       },
+                                    //       child: Container(
+                                    //         padding: const EdgeInsets.all(8.0),
+                                    //         decoration: BoxDecoration(
+                                    //           color: Colors.black12,
+                                    //           borderRadius:
+                                    //               BorderRadius.circular(8),
+                                    //         ),
+                                    //         child: Row(
+                                    //           children: [
+                                    //             Image.asset(
+                                    //               'assets/images/ic_camera.PNG',
+                                    //               width: 25,
+                                    //               height: 25,
+                                    //               fit: BoxFit.cover,
+                                    //             ),
+                                    //             const SizedBox(width: 8),
+                                    //             const Text(
+                                    //               "Gallery",
+                                    //               style: TextStyle(
+                                    //                   fontSize: 16,
+                                    //                   fontWeight:
+                                    //                       FontWeight.bold),
+                                    //             ),
+                                    //           ],
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
+
+                                    /// todo her we add photo and gallery with pdf code
+                                    buildPdfCard(
+                                        onCameraTap: () async{
+                                          print("-----1423----Camra---");
+                                          // pickImageCamra();
+                                         // pickImageCamra();
+                                          // showDialog(
+                                          //   context: context,
+                                          //   builder: (BuildContext dialogContext) {
+                                          //     return paymentDialog(dialogContext);
+                                          //   },
+                                          // );
+                                          /// to add a open capra code
+
                                             // _pickImageCamra();
                                             // ----PICK IMAGE FROM A Camera--
                                             SharedPreferences prefs =
                                                 await SharedPreferences
-                                                    .getInstance();
+                                                .getInstance();
                                             String? sToken =
-                                                prefs.getString('sToken');
+                                            prefs.getString('sToken');
 
                                             final pickFileid =
                                                 await _picker.pickImage(
-                                                    source: ImageSource.camera,
-                                                    imageQuality: 65);
+                                                source: ImageSource.camera,
+                                                imageQuality: 65);
 
                                             setState(() {
                                               image = File(pickFileid!.path);
@@ -3467,94 +3792,10 @@ class _MyHomePageState extends State<PropertyAssessment>
                                               print(
                                                   "---2507--ImageFile--List----$_imageFiles");
                                             }
-                                          },
-                                          child: Container(
-                                            padding: const EdgeInsets.all(8.0),
-                                            decoration: BoxDecoration(
-                                              color: Colors.black12,
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Image.asset(
-                                                  'assets/images/ic_camera.PNG',
-                                                  width: 25,
-                                                  height: 25,
-                                                  fit: BoxFit.fill,
-                                                ),
-                                                const SizedBox(width: 8),
-                                                const Text(
-                                                  "Photo",
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                        // Second Container
-                                        GestureDetector(
-                                          onTap: () async {
-                                            // _pickImageGallry();
-                                            //----PickImage Gallery----
-                                            SharedPreferences prefs =
-                                                await SharedPreferences
-                                                    .getInstance();
-                                            String? sToken =
-                                                prefs.getString('sToken');
-
-                                            final pickFileid =
-                                                await _picker.pickImage(
-                                                    source: ImageSource.gallery,
-                                                    imageQuality:
-                                                        65 // Change to `ImageSource.camera` for camera
-                                                    );
-
-                                            setState(() {
-                                              image = File(pickFileid!.path);
-                                            });
-                                            if (pickFileid != null) {
-                                              setState(() {
-                                                _imageFiles.add(File(pickFileid
-                                                    .path)); // Add selected image to list
-                                                // to take a image with a path
-                                                uploadImage(sToken!, image!);
-                                              });
-                                              print(
-                                                  "---185--ImageFile---list---$_imageFiles");
-                                            }
-                                          },
-                                          child: Container(
-                                            padding: const EdgeInsets.all(8.0),
-                                            decoration: BoxDecoration(
-                                              color: Colors.black12,
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                            ),
-                                            child: Row(
-                                              children: [
-                                                Image.asset(
-                                                  'assets/images/ic_camera.PNG',
-                                                  width: 25,
-                                                  height: 25,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                const SizedBox(width: 8),
-                                                const Text(
-                                                  "Gallery",
-                                                  style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                            },
+                                        onGalleryTap: () {
+                                          pickGallery();
+                                        }
                                     ),
                                     const SizedBox(height: 10),
                                     ElevatedButton(
@@ -3635,7 +3876,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: SizedBox(
                   height: 120,
-
                   // Set a fixed height for the horizontal list
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
@@ -3865,7 +4105,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                                     String? sToken = prefs.getString('sToken');
 
                                     final pickFileid = await _picker.pickImage(
-                                        source: ImageSource.camera,
+                                        source: ImageSource.gallery,
                                         imageQuality: 65);
 
                                     setState(() {

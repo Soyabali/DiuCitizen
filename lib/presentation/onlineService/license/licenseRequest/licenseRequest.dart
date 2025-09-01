@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../app/generalFunction.dart';
 import '../../../../app/loader_helper.dart';
 import '../../../../services/BindCitizenWardRepo.dart';
@@ -23,7 +25,6 @@ import '../../../resources/app_text_style.dart';
 import '../../../resources/values_manager.dart';
 
 class LicenseRequest extends StatefulWidget {
-
   var name, iCategoryCode;
   var name2, iCategoryCode2;
   var name3, iCategoryCode3;
@@ -34,8 +35,8 @@ class LicenseRequest extends StatefulWidget {
   State<LicenseRequest> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMixin {
-
+class _MyHomePageState extends State<LicenseRequest>
+    with TickerProviderStateMixin {
   List stateList = [];
   List<dynamic> subCategoryList = [];
 
@@ -65,7 +66,10 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
   final _formKey = GlobalKey<FormState>();
 
   bindSubCategory(String subCategoryCode) async {
-    subCategoryList = (await BindSubCategoryRepo().bindSubCategory(context, subCategoryCode))!;
+    subCategoryList = (await BindSubCategoryRepo().bindSubCategory(
+      context,
+      subCategoryCode,
+    ))!;
     print(" -----xxxxx-  subCategoryList--43---> $subCategoryList");
     setState(() {});
   }
@@ -179,27 +183,22 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
 
   Widget buildImageWidget(String? imageUrl) {
     return imageUrl != null && imageUrl.isNotEmpty
-        ? Image.network(
-            imageUrl,
-            width: 200,
-            height: 200,
-            fit: BoxFit.cover,
-          )
+        ? Image.network(imageUrl, width: 200, height: 200, fit: BoxFit.cover)
         : const Text(
             'No Image',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey,
-            ),
+            style: TextStyle(fontSize: 16, color: Colors.grey),
           );
   }
+
   //
   Future<void> _pickImageCamra() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
 
-    final pickFileid =
-        await _picker.pickImage(source: ImageSource.camera, imageQuality: 65);
+    final pickFileid = await _picker.pickImage(
+      source: ImageSource.camera,
+      imageQuality: 65,
+    );
     setState(() {
       image = File(pickFileid!.path);
     });
@@ -215,6 +214,7 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
       print("---173--ImageFile--List----$_imageFiles");
     }
   }
+
   //
   // PickImage Gallery
   Future<void> _pickImageGallry() async {
@@ -222,9 +222,9 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
     String? sToken = prefs.getString('sToken');
 
     final pickFileid = await _picker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 65 // Change to `ImageSource.camera` for camera
-        );
+      source: ImageSource.gallery,
+      imageQuality: 65, // Change to `ImageSource.camera` for camera
+    );
 
     setState(() {
       image = File(pickFileid!.path);
@@ -250,19 +250,15 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
       print('-----xx-x----214----');
       showLoader();
       // Create a multipart request
-      var request = http.MultipartRequest(
-        'POST',
-        Uri.parse('$uploadImageApi'),
-      );
+      var request = http.MultipartRequest('POST', Uri.parse('$uploadImageApi'));
       // Add headers
       //request.headers['token'] = '04605D46-74B1-4766-9976-921EE7E700A6';
       request.headers['token'] = token;
       request.headers['sFolder'] = 'CompImage';
       // Add the image file as a part of the request
-      request.files.add(await http.MultipartFile.fromPath(
-        'sFolder',
-        imageFile.path,
-      ));
+      request.files.add(
+        await http.MultipartFile.fromPath('sFolder', imageFile.path),
+      );
       // Send the request
       var streamedResponse = await request.send();
       // Get the response
@@ -333,7 +329,9 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
   bindTradeCategoryApi() async {
     /// todo remove the comment and call Community Hall
     bindTradeCategory = await BindTradeCategoryRepo().bindTradeCategory();
-    print(" -----bindTradeCategory Repo---->>>>-xx--154-----> $bindTradeCategory");
+    print(
+      " -----bindTradeCategory Repo---->>>>-xx--154-----> $bindTradeCategory",
+    );
     setState(() {});
   }
 
@@ -341,8 +339,11 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
   bindTradeSubCategoryApi(dropDownTradeCategoryCode) async {
     /// todo remove the comment and call Community Hall
     bindTradeSubCategory = [];
-    bindTradeSubCategory = await BindTradeSubCategoryRepo().bindTradeSubCategory(dropDownTradeCategoryCode);
-    print(" -----bindTradeSubCategory Repo---->>>>-xx--154-----> $bindTradeSubCategory");
+    bindTradeSubCategory = await BindTradeSubCategoryRepo()
+        .bindTradeSubCategory(dropDownTradeCategoryCode);
+    print(
+      " -----bindTradeSubCategory Repo---->>>>-xx--154-----> $bindTradeSubCategory",
+    );
     setState(() {});
   }
 
@@ -350,7 +351,9 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
   bindSupportingDocumentApi() async {
     /// todo remove the comment and call Community Hall
     bindDocumentTypeList = await BindDocumentTypeRepo().bindDocumentyType();
-    print(" -----bindDocumnent Repo---->>>>-xx--154-----> $bindDocumentTypeList");
+    print(
+      " -----bindDocumnent Repo---->>>>-xx--154-----> $bindDocumentTypeList",
+    );
     setState(() {});
   }
 
@@ -433,6 +436,7 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
       ),
     );
   }
+
   // DropDownFinancial Year
   Widget _bindFinacialYear() {
     return Material(
@@ -572,7 +576,8 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
                       print("Invalid Trade Category Code");
                     }
                     print(
-                        "------373--DropDownnCategory Code----$_dropDownTradeCategoryCode");
+                      "------373--DropDownnCategory Code----$_dropDownTradeCategoryCode",
+                    );
                   });
                 },
 
@@ -658,7 +663,8 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
                       //toast
                     }
                     print(
-                        "------373--DropDownnCategory Code----$_dropDownTradeCategoryCode");
+                      "------373--DropDownnCategory Code----$_dropDownTradeCategoryCode",
+                    );
                   });
                 },
 
@@ -745,7 +751,8 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
                       //toast
                     }
                     print(
-                        "------373--DropDownnCategory Code----$_dropDownTradeCategoryCode");
+                      "------373--DropDownnCategory Code----$_dropDownTradeCategoryCode",
+                    );
                   });
                 },
 
@@ -781,7 +788,7 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
 
     try {
       bindcommunityHallDate = await BindCommunityHallDateRepo()
-          .bindCommunityHallDate(context, hallId,selectedMonthCode);
+          .bindCommunityHallDate(context, hallId, selectedMonthCode);
       print('-----232---->>>>---$bindcommunityHallDate');
       // If the response is not empty or null, set isSuccess to true
       if (bindcommunityHallDate.isNotEmpty) {
@@ -832,7 +839,8 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
 
                 if (firstIndex >= bindcommunityHallDate.length)
                   return SizedBox.shrink(); // No item for firstIndex
-                Map<String, dynamic> firstItem = bindcommunityHallDate[firstIndex];
+                Map<String, dynamic> firstItem =
+                    bindcommunityHallDate[firstIndex];
 
                 // Determine color for the first date
                 int firstStatus = firstItem['iStatus'];
@@ -855,10 +863,10 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
                   secondColor = (secondStatus == 0)
                       ? Colors.blue
                       : (secondStatus == 1)
-                          ? Colors.green
-                          : (secondStatus == 2)
-                              ? Colors.red
-                              : Colors.grey;
+                      ? Colors.green
+                      : (secondStatus == 2)
+                      ? Colors.red
+                      : Colors.grey;
                 }
 
                 return Row(
@@ -872,16 +880,25 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
                         setState(() {
                           var status = firstItem['iStatus'];
                           if (status == 0 || status == 1) {
-                            selectedStates[firstIndex] = !selectedStates[firstIndex];
+                            selectedStates[firstIndex] =
+                                !selectedStates[firstIndex];
                             if (selectedStates[firstIndex]) {
                               selectedDates.add(firstItem['dDate']);
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Selected: ${firstItem['dDate']}")),
+                                SnackBar(
+                                  content: Text(
+                                    "Selected: ${firstItem['dDate']}",
+                                  ),
+                                ),
                               );
                             } else {
                               selectedDates.remove(firstItem['dDate']);
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Deselected: ${firstItem['dDate']}")),
+                                SnackBar(
+                                  content: Text(
+                                    "Deselected: ${firstItem['dDate']}",
+                                  ),
+                                ),
                               );
                             }
                           } else {
@@ -901,19 +918,25 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
                           setState(() {
                             var status = secondItem?['iStatus'];
                             if (status == 0 || status == 1) {
-                                 selectedStates[secondIndex] = !selectedStates[secondIndex];
+                              selectedStates[secondIndex] =
+                                  !selectedStates[secondIndex];
                               if (selectedStates[secondIndex]) {
                                 selectedDates.add(secondItem?['dDate']);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                      content: Text("Selected: ${secondItem?['dDate']}")),
+                                    content: Text(
+                                      "Selected: ${secondItem?['dDate']}",
+                                    ),
+                                  ),
                                 );
                               } else {
                                 selectedDates.remove(secondItem?['dDate']);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                      content: Text(
-                                          "Deselected: ${secondItem?['dDate']}")),
+                                    content: Text(
+                                      "Deselected: ${secondItem?['dDate']}",
+                                    ),
+                                  ),
                                 );
                               }
                             } else {
@@ -941,6 +964,17 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
     }
   }
 
+  //
+  void openPdf(BuildContext context, String pdfUrl) async {
+    if (await canLaunchUrl(Uri.parse(pdfUrl))) {
+      await launchUrl(Uri.parse(pdfUrl), mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Cannot open PDF")));
+    }
+  }
+
   @override
   void initState() {
     premisesWard();
@@ -954,7 +988,10 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
     _applicationMobilefocus = FocusNode();
     _applicationAddressfocus = FocusNode();
     if (bindcommunityHallDate.isNotEmpty) {
-      selectedStates = List.generate(bindcommunityHallDate.length, (index) => false);
+      selectedStates = List.generate(
+        bindcommunityHallDate.length,
+        (index) => false,
+      );
     }
   }
 
@@ -969,6 +1006,7 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
     _applicationAddressfocus.dispose();
     FocusScope.of(context).unfocus();
   }
+
   // Api call Function
   void validateAndCallApi() async {
     firstFormCombinedList = [];
@@ -993,8 +1031,9 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
         applicationName.isNotEmpty &&
         applicationMobileNo.isNotEmpty &&
         applicationAddress.isNotEmpty &&
-        secondFormCombinedList !=null && secondFormCombinedList.isNotEmpty && secondFormCombinedList!=[]
-    ) {
+        secondFormCombinedList != null &&
+        secondFormCombinedList.isNotEmpty &&
+        secondFormCombinedList != []) {
       // All conditions met; call the API
       print('---Call API---');
 
@@ -1010,11 +1049,13 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
         "sAddress": applicationAddress,
         "sCreatedBy": sCreatedBy,
         "LicenseTradeList": secondFormCombinedList,
-        "DocumentUploadList": thirdFormCombinedList
+        "DocumentUploadList": thirdFormCombinedList,
       });
       // lIST to convert json string
       String allThreeFormJson = jsonEncode(firstFormCombinedList);
-      print("----1011--->>>>>Xxxxx-----FINAL LIST jsson response---$allThreeFormJson");
+      print(
+        "----1011--->>>>>Xxxxx-----FINAL LIST jsson response---$allThreeFormJson",
+      );
       // Call your API logic here
       var onlineComplaintResponse = await PostlicenseRequestRepo()
           .postLicenseRequest(context, allThreeFormJson);
@@ -1059,7 +1100,8 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
       }
       if (applicationAddress.isEmpty) {
         displayToast('Please Enter Application Address');
-      }if(secondFormCombinedList.isEmpty){
+      }
+      if (secondFormCombinedList.isEmpty) {
         displayToast('Uplode Trade Category Item');
         return;
       }
@@ -1067,7 +1109,11 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
   }
 
   Widget _buildDateTile(
-      String dDate, bool isSelected, Color color, VoidCallback onTap) {
+    String dDate,
+    bool isSelected,
+    Color color,
+    VoidCallback onTap,
+  ) {
     return Expanded(
       child: GestureDetector(
         onTap: onTap,
@@ -1090,8 +1136,9 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
                   width: 24.0, // Circle size
                   height: 24.0,
                   decoration: BoxDecoration(
-                    color: Colors.white
-                        .withOpacity(0.5), // Background color for circle
+                    color: Colors.white.withOpacity(
+                      0.5,
+                    ), // Background color for circle
                     shape: BoxShape.circle, // Ensures the container is circular
                   ),
                   child: const Icon(
@@ -1122,825 +1169,967 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        onWillPop: () async => false,
-        child: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-            },
-            child: Scaffold(
-                backgroundColor: Colors.white,
-                // appBar: getAppBarBack(context,"Online Complaint"),
-                appBar: AppBar(
-                  // statusBarColore
-                  systemOverlayStyle: const SystemUiOverlayStyle(
-                    statusBarColor: Color(0xFF12375e),
-                    statusBarIconBrightness: Brightness.dark,
-                    // For Android (dark icons)
-                    statusBarBrightness:
-                        Brightness.light, // For iOS (dark icons)
-                  ),
-                  // backgroundColor: Colors.blu
-                  centerTitle: true,
-                  backgroundColor: Color(0xFF255898),
-                  leading: GestureDetector(
-                    onTap: () {
-                      print("------back---");
-                      Navigator.pop(context);
+      onWillPop: () async => false,
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          // appBar: getAppBarBack(context,"Online Complaint"),
+          appBar: AppBar(
+            // statusBarColore
+            systemOverlayStyle: const SystemUiOverlayStyle(
+              statusBarColor: Color(0xFF12375e),
+              statusBarIconBrightness: Brightness.dark,
+              // For Android (dark icons)
+              statusBarBrightness: Brightness.light, // For iOS (dark icons)
+            ),
+            // backgroundColor: Colors.blu
+            centerTitle: true,
+            backgroundColor: Color(0xFF255898),
+            leading: GestureDetector(
+              onTap: () {
+                print("------back---");
+                Navigator.pop(context);
+              },
+              child: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            ),
+            title: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              child: Text(
+                "${widget.name}",
+                style: AppTextStyle.font16OpenSansRegularWhiteTextStyle,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            //centerTitle: true,
+            elevation: 0, // Removes shadow under the AppBar
+          ),
+          body: Stack(
+            children: [
+              // Scrollable ListView
+              ListView(
+                padding: EdgeInsets.only(bottom: 80),
+                // Prevent overlap with button
+                children: [
+                  // First Section Header
+                  _buildSectionHeader(
+                    title: "1. Premises Details",
+                    isVisible: isFirstFormVisible,
+                    isIconRotated: isFirstIconRotated,
+                    onToggle: () {
+                      setState(() {
+                        isFirstFormVisible = !isFirstFormVisible;
+                        isFirstIconRotated = !isFirstIconRotated;
+                      });
                     },
-                    child: const Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.white,
-                    ),
                   ),
-                  title: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
-                    child: Text(
-                      "${widget.name}",
-                      style: AppTextStyle.font16OpenSansRegularWhiteTextStyle,
-                      textAlign: TextAlign.center,
-                    ),
+                  // First Form Content
+                  if (isFirstFormVisible) _buildFirstForm(),
+                  // Second Section Header
+                  _buildSectionHeader(
+                    title: "2. Trade Category Detail",
+                    isVisible: isSecondFormVisible,
+                    isIconRotated: isSecondIconRotated,
+                    onToggle: () {
+                      setState(() {
+                        isSecondFormVisible = !isSecondFormVisible;
+                        isSecondIconRotated = !isSecondIconRotated;
+                      });
+                    },
                   ),
-                  //centerTitle: true,
-                  elevation: 0, // Removes shadow under the AppBar
-                ),
-                body: Stack(
-                  children: [
-                    // Scrollable ListView
-                    ListView(
-                      padding: EdgeInsets.only(bottom: 80),
-                      // Prevent overlap with button
-                      children: [
-                        // First Section Header
-                        _buildSectionHeader(
-                          title: "1. Premises Details",
-                          isVisible: isFirstFormVisible,
-                          isIconRotated: isFirstIconRotated,
-                          onToggle: () {
-                            setState(() {
-                              isFirstFormVisible = !isFirstFormVisible;
-                              isFirstIconRotated = !isFirstIconRotated;
-                            });
-                          },
-                        ),
-                        // First Form Content
-                        if (isFirstFormVisible) _buildFirstForm(),
-                        // Second Section Header
-                        _buildSectionHeader(
-                          title: "2. Trade Category Detail",
-                          isVisible: isSecondFormVisible,
-                          isIconRotated: isSecondIconRotated,
-                          onToggle: () {
-                            setState(() {
-                              isSecondFormVisible = !isSecondFormVisible;
-                              isSecondIconRotated = !isSecondIconRotated;
-                            });
-                          },
-                        ),
-                        // Second Form Content
-                        if (isSecondFormVisible) _buildSecondForm(),
+                  // Second Form Content
+                  if (isSecondFormVisible) _buildSecondForm(),
 
-                        // Third Section Header
-                        _buildSectionHeader(
-                          title: "3. Uplode Photos",
-                          isVisible: isThirdFormVisible,
-                          isIconRotated: isThirdIconRotated,
-                          onToggle: () {
-                            setState(() {
-                              isThirdFormVisible = !isThirdFormVisible;
-                              isThirdIconRotated = !isThirdIconRotated;
-                            });
-                          },
-                        ),
-                        // Third Form Content
-                        if (isThirdFormVisible)
-                          // _buildThirdForm(),
+                  // Third Section Header
+                  _buildSectionHeader(
+                    title: "3. Uplode Photos",
+                    isVisible: isThirdFormVisible,
+                    isIconRotated: isThirdIconRotated,
+                    onToggle: () {
+                      setState(() {
+                        isThirdFormVisible = !isThirdFormVisible;
+                        isThirdIconRotated = !isThirdIconRotated;
+                      });
+                    },
+                  ),
+                  // Third Form Content
+                  if (isThirdFormVisible)
+                    // _buildThirdForm(),
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
                           Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10),
-                                  child: Card(
-                                    elevation: 4, // Adjust the shadow level
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5), // Rounded corners for the card
-                                    ),
-                                    child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      // Inner padding for the container
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        // Background color for the container
-                                        borderRadius: BorderRadius.circular(5),
-                                        // Rounded corners for the container
-                                        border: Border.all(
-                                          color: Colors.grey, // Border color
-                                          width: 1, // Border width
-                                        ),
-                                      ),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        // Auto height based on children
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        // Align children to the start
-                                        children: [
-                                          GestureDetector(
-                                            onTap: () {
-                                              print("--pick a image--");
-                                             // thirdFormCombinedList = [];
-                                              showDialog(
-                                                  context: context,
-                                                  builder: (context) => Dialog(
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius.circular(10), // Rounded corners
-                                                        ),
-                                                        child: StatefulBuilder(
-                                                          builder: (BuildContext
-                                                                  context,
-                                                              void Function(
-                                                                      void Function())
-                                                                  setState) {
-                                                            return Stack(
-                                                              clipBehavior:
-                                                                  Clip.none,
-                                                              alignment:
-                                                                  Alignment.topCenter,
-                                                              children: [
-                                                                Container(
-                                                                  padding: const EdgeInsets
-                                                                      .only(
-                                                                      top: 50,
+                            padding: const EdgeInsets.only(top: 10),
+                            child: Card(
+                              elevation: 4, // Adjust the shadow level
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  5,
+                                ), // Rounded corners for the card
+                              ),
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                // Inner padding for the container
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  // Background color for the container
+                                  borderRadius: BorderRadius.circular(5),
+                                  // Rounded corners for the container
+                                  border: Border.all(
+                                    color: Colors.grey, // Border color
+                                    width: 1, // Border width
+                                  ),
+                                ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  // Auto height based on children
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  // Align children to the start
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        print("--pick a image--");
+                                        // thirdFormCombinedList = [];
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => Dialog(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                    10,
+                                                  ), // Rounded corners
+                                            ),
+                                            child: StatefulBuilder(
+                                              builder:
+                                                  (
+                                                    BuildContext context,
+                                                    void Function(
+                                                      void Function(),
+                                                    )
+                                                    setState,
+                                                  ) {
+                                                    return Stack(
+                                                      clipBehavior: Clip.none,
+                                                      alignment:
+                                                          Alignment.topCenter,
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets.only(
+                                                                top: 50,
+                                                                left: 10,
+                                                                right: 10,
+                                                                bottom: 20,
+                                                              ),
+                                                          decoration: BoxDecoration(
+                                                            color: Colors.white,
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                  10,
+                                                                ),
+                                                          ),
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            children: [
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets.only(
                                                                       left: 10,
-                                                                      right: 10,
-                                                                      bottom:
-                                                                          20),
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    color: Colors
-                                                                        .white,
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            10),
-                                                                  ),
-                                                                  child: Column(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .min,
-                                                                    children: [
-                                                                      Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .only(
-                                                                            left:
-                                                                                10),
-                                                                        child:
-                                                                            Row(
-                                                                          crossAxisAlignment:
-                                                                              CrossAxisAlignment.center,
-                                                                          children: <Widget>[
-                                                                            CircleWithSpacing(),
-                                                                            // Space between the circle and text
-                                                                            Text(
-                                                                              "Required Document Type",
+                                                                    ),
+                                                                child: Row(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  children: <Widget>[
+                                                                    CircleWithSpacing(),
+                                                                    // Space between the circle and text
+                                                                    Text(
+                                                                      "Required Document Type",
+                                                                      style: AppTextStyle
+                                                                          .font14OpenSansRegularBlack45TextStyle,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 5,
+                                                              ),
+                                                              // Document DropDown
+                                                              Material(
+                                                                color: Colors
+                                                                    .white,
+                                                                borderRadius:
+                                                                    BorderRadius.circular(
+                                                                      10.0,
+                                                                    ),
+                                                                child: Padding(
+                                                                  padding:
+                                                                      const EdgeInsets.only(
+                                                                        left:
+                                                                            10,
+                                                                      ),
+                                                                  child: Container(
+                                                                    width:
+                                                                        MediaQuery.of(
+                                                                          context,
+                                                                        ).size.width -
+                                                                        50,
+                                                                    height: 42,
+                                                                    color: Color(
+                                                                      0xFFf2f3f5,
+                                                                    ),
+                                                                    child: DropdownButtonHideUnderline(
+                                                                      child: ButtonTheme(
+                                                                        alignedDropdown:
+                                                                            true,
+                                                                        child: DropdownButton(
+                                                                          isDense:
+                                                                              true,
+                                                                          // Reduces the vertical size of the button
+                                                                          isExpanded:
+                                                                              true,
+                                                                          // Allows the DropdownButton to take full width
+                                                                          dropdownColor:
+                                                                              Colors.white,
+                                                                          // Set dropdown list background color
+                                                                          onTap: () {
+                                                                            FocusScope.of(
+                                                                              context,
+                                                                            ).unfocus(); // Dismiss keyboard
+                                                                          },
+                                                                          hint: RichText(
+                                                                            text: TextSpan(
+                                                                              text: "Select Document Type",
                                                                               style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
                                                                             ),
-                                                                          ],
-                                                                        ),
-                                                                      ),
-                                                                      SizedBox(
-                                                                          height:
-                                                                              5),
-                                                                      // Document DropDown
-                                                                      Material(
-                                                                        color: Colors
-                                                                            .white,
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10.0),
-                                                                        child:
-                                                                            Padding(
-                                                                          padding: const EdgeInsets
-                                                                              .only(
-                                                                              left: 10),
-                                                                          child:
-                                                                              Container(
-                                                                            width:
-                                                                                MediaQuery.of(context).size.width - 50,
-                                                                            height:
-                                                                                42,
-                                                                            color:
-                                                                                Color(0xFFf2f3f5),
-                                                                            child:
-                                                                                DropdownButtonHideUnderline(
-                                                                              child: ButtonTheme(
-                                                                                alignedDropdown: true,
-                                                                                child: DropdownButton(
-                                                                                  isDense: true,
-                                                                                  // Reduces the vertical size of the button
-                                                                                  isExpanded: true,
-                                                                                  // Allows the DropdownButton to take full width
-                                                                                  dropdownColor: Colors.white,
-                                                                                  // Set dropdown list background color
-                                                                                  onTap: () {
-                                                                                    FocusScope.of(context).unfocus(); // Dismiss keyboard
-                                                                                  },
-                                                                                  hint: RichText(
-                                                                                    text: TextSpan(
-                                                                                      text: "Select Document Type",
-                                                                                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                                                                                    ),
-                                                                                  ),
-                                                                                  value: _dropDownDocument2,
-                                                                                  onChanged: (newValue) {
-                                                                                    setState(() {
-                                                                                      _dropDownDocument2 = newValue;
-                                                                                      bindDocumentTypeList.forEach((element) {
-                                                                                        if (element["sDocumentTypeName"] == _dropDownDocument2) {
+                                                                          ),
+                                                                          value:
+                                                                              _dropDownDocument2,
+                                                                          onChanged:
+                                                                              (
+                                                                                newValue,
+                                                                              ) {
+                                                                                setState(
+                                                                                  () {
+                                                                                    _dropDownDocument2 = newValue;
+                                                                                    bindDocumentTypeList.forEach(
+                                                                                      (
+                                                                                        element,
+                                                                                      ) {
+                                                                                        if (element["sDocumentTypeName"] ==
+                                                                                            _dropDownDocument2) {
                                                                                           // RatePerDay
                                                                                           //_selectedWardId = element['iCommunityHallId'];
                                                                                           // iTradeCode   fLicenceFees
                                                                                           _dropDownDocument2_code = element['iDocumentTypeCode'];
                                                                                           // _dropDownTradeSubCategoryFeesCode = element['fLicenceFees'];
                                                                                         }
-                                                                                      });
-
-                                                                                      if (_dropDownDocument2_code != null) {
-                                                                                        /// remove the comment
-                                                                                        setState(() {
-                                                                                          // call a api if needs
-                                                                                          print("---585--Fees----$_dropDownDocument2_code");
-                                                                                          //  _dropDownDocument2
-                                                                                          print("---587------$_dropDownDocument2");
-                                                                                          // bindCommunityHallDate(_dropDownPremisesWardCode);
-                                                                                        });
-                                                                                      } else {
-                                                                                        //toast
-                                                                                      }
-                                                                                      print("------373--DropDownnCategory Code----$_dropDownTradeCategoryCode");
-                                                                                    });
-                                                                                  },
-
-                                                                                  items: bindDocumentTypeList.map((dynamic item) {
-                                                                                    return DropdownMenuItem(
-                                                                                      value: item["sDocumentTypeName"].toString(),
-                                                                                      child: Row(
-                                                                                        children: [
-                                                                                          Expanded(
-                                                                                            child: Text(
-                                                                                              item['sDocumentTypeName'].toString(),
-                                                                                              overflow: TextOverflow.ellipsis,
-                                                                                              style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                                                                                            ),
-                                                                                          ),
-                                                                                        ],
-                                                                                      ),
+                                                                                      },
                                                                                     );
-                                                                                  }).toList(),
-                                                                                ),
+
+                                                                                    if (_dropDownDocument2_code !=
+                                                                                        null) {
+                                                                                      /// remove the comment
+                                                                                      setState(
+                                                                                        () {
+                                                                                          // call a api if needs
+                                                                                          print(
+                                                                                            "---585--Fees----$_dropDownDocument2_code",
+                                                                                          );
+                                                                                          //  _dropDownDocument2
+                                                                                          print(
+                                                                                            "---587------$_dropDownDocument2",
+                                                                                          );
+                                                                                          // bindCommunityHallDate(_dropDownPremisesWardCode);
+                                                                                        },
+                                                                                      );
+                                                                                    } else {
+                                                                                      //toast
+                                                                                    }
+                                                                                    print(
+                                                                                      "------373--DropDownnCategory Code----$_dropDownTradeCategoryCode",
+                                                                                    );
+                                                                                  },
+                                                                                );
+                                                                              },
+
+                                                                          items: bindDocumentTypeList.map((
+                                                                            dynamic
+                                                                            item,
+                                                                          ) {
+                                                                            return DropdownMenuItem(
+                                                                              value: item["sDocumentTypeName"].toString(),
+                                                                              child: Row(
+                                                                                children: [
+                                                                                  Expanded(
+                                                                                    child: Text(
+                                                                                      item['sDocumentTypeName'].toString(),
+                                                                                      overflow: TextOverflow.ellipsis,
+                                                                                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
                                                                               ),
+                                                                            );
+                                                                          }).toList(),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 5,
+                                                              ),
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsets.only(
+                                                                      left: 10,
+                                                                    ),
+                                                                child: Row(
+                                                                  crossAxisAlignment:
+                                                                      CrossAxisAlignment
+                                                                          .center,
+                                                                  children: <Widget>[
+                                                                    CircleWithSpacing(),
+                                                                    const SizedBox(
+                                                                      width: 8,
+                                                                    ),
+                                                                    // Space between the circle and text
+                                                                    Text(
+                                                                      'Supporting Document',
+                                                                      style: AppTextStyle
+                                                                          .font14OpenSansRegularBlack45TextStyle,
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                              SizedBox(
+                                                                height: 5,
+                                                              ),
+                                                              // buildImageWidget();
+                                                              //  buildImageWidget(uplodedImage),
+                                                              //   image != null
+                                                              //       ? Image.file(
+                                                              //     image!,
+                                                              //     width: 200,
+                                                              //     height: 200,
+                                                              //     fit: BoxFit.cover,
+                                                              //   )
+                                                              //       : const Text('No image selected'),
+                                                              GestureDetector(
+                                                                onTap: () {
+                                                                  if (uplodedImage!
+                                                                      .toLowerCase()
+                                                                      .endsWith(
+                                                                        '.pdf',
+                                                                      )) {
+                                                                    print(
+                                                                      "PDF tapped: $uplodedImage",
+                                                                    );
+                                                                    // Open PDF in browser or PDF viewer
+                                                                    openPdf(
+                                                                      context,
+                                                                      uplodedImage!,
+                                                                    );
+                                                                  } else {
+                                                                    print(
+                                                                      "Image tapped: $uplodedImage",
+                                                                    );
+                                                                    // Open image in full screen
+                                                                    Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                        builder: (_) => Scaffold(
+                                                                          appBar: AppBar(
+                                                                            title: const Text(
+                                                                              "Image Preview",
+                                                                            ),
+                                                                          ),
+                                                                          body: Center(
+                                                                            child: Image.network(
+                                                                              uplodedImage!,
+                                                                              width: double.infinity, // take full width
+                                                                              fit: BoxFit.cover, // cover the available space
                                                                             ),
                                                                           ),
                                                                         ),
                                                                       ),
-                                                                      const SizedBox(
-                                                                          height:
-                                                                              5),
-                                                                      Padding(
-                                                                        padding: const EdgeInsets
-                                                                            .only(
-                                                                            left:
-                                                                                10),
-                                                                        child:
-                                                                            Row(
-                                                                          crossAxisAlignment:
-                                                                              CrossAxisAlignment.center,
-                                                                          children: <Widget>[
-                                                                            CircleWithSpacing(),
-                                                                            const SizedBox(width: 8),
-                                                                            // Space between the circle and text
-                                                                            Text('Supporting Document',
-                                                                                style: AppTextStyle.font14OpenSansRegularBlack45TextStyle),
-                                                                          ],
+                                                                    );
+                                                                  }
+                                                                },
+                                                                child: Container(
+                                                                  height: 150,
+                                                                  width: 200,
+                                                                  decoration: BoxDecoration(
+                                                                    border: Border.all(
+                                                                      color: Colors
+                                                                          .grey,
+                                                                    ),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                          10,
                                                                         ),
-                                                                      ),
-                                                                      SizedBox(
-                                                                          height:
-                                                                              5),
-                                                                      // buildImageWidget();
-                                                                      //  buildImageWidget(uplodedImage),
-                                                                      //   image != null
-                                                                      //       ? Image.file(
-                                                                      //     image!,
-                                                                      //     width: 200,
-                                                                      //     height: 200,
-                                                                      //     fit: BoxFit.cover,
-                                                                      //   )
-                                                                      //       : const Text('No image selected'),
-                                                                      Container(
-                                                                        height:
-                                                                            150,
-                                                                        width:
-                                                                            200,
-                                                                        decoration:
-                                                                            BoxDecoration(
-                                                                          border:
-                                                                              Border.all(color: Colors.grey),
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(10),
-                                                                        ),
-                                                                        child: image !=
-                                                                                null
-                                                                            ? ClipRRect(
-                                                                                borderRadius: BorderRadius.circular(10),
-                                                                                child: Image.file(
+                                                                  ),
+                                                                  child:
+                                                                      image !=
+                                                                          null
+                                                                      ? ClipRRect(
+                                                                          borderRadius: BorderRadius.circular(
+                                                                            10,
+                                                                          ),
+                                                                          child:
+                                                                              image!.path.toLowerCase().endsWith(
+                                                                                '.pdf',
+                                                                              )
+                                                                              ? Container(
+                                                                                  color: Colors.grey[200],
+                                                                                  child: const Center(
+                                                                                    child: Icon(
+                                                                                      Icons.picture_as_pdf,
+                                                                                      color: Colors.red,
+                                                                                      size: 60,
+                                                                                    ),
+                                                                                  ),
+                                                                                )
+                                                                              : Image.file(
                                                                                   image!,
                                                                                   width: 200,
                                                                                   height: 150,
                                                                                   fit: BoxFit.cover,
                                                                                 ),
-                                                                              )
-                                                                            : const Center(
-                                                                                child: Text(
-                                                                                  'No Image Available',
-                                                                                  style: TextStyle(fontSize: 16, color: Colors.grey),
-                                                                                ),
-                                                                              ),
-                                                                      ),
-
-                                                                      const SizedBox(
-                                                                          height:
-                                                                              10),
-
-                                                                      Row(
-                                                                        mainAxisAlignment:
-                                                                            MainAxisAlignment.spaceEvenly,
-                                                                        children: [
-                                                                          // First Container
-                                                                          GestureDetector(
-                                                                            onTap: () async {
-                                                                                   //_pickImageCamra();
-                                                                                  SharedPreferences prefs = await SharedPreferences.getInstance();
-                                                                                  String? sToken = prefs.getString('sToken');
-
-                                                                                  final pickFileid = await _picker.pickImage(source: ImageSource.camera, imageQuality: 65);
-
-                                                                                  setState(() {
-                                                                                    image = File(pickFileid!.path);
-                                                                                  });
-                                                                                  // image2 = ${pickedFile?.path};
-                                                                                  // image2 = pickedFile!.path as File?;
-
-                                                                                  print("----171----pic path : ---$image");
-                                                                                  if (pickFileid != null) {
-                                                                                    setState(() {
-                                                                                      _imageFiles.add(File(pickFileid.path)); // Add selected image to list
-                                                                                      uploadImage(sToken!, image!);
-                                                                                    });
-                                                                                    print("---173--ImageFile--List----$_imageFiles");
-                                                                                  }
-                                                                                  },
-                                                                            child:
-                                                                                Container(
-                                                                              padding: const EdgeInsets.all(8.0),
-                                                                              decoration: BoxDecoration(
-                                                                                color: Colors.black12,
-                                                                                borderRadius: BorderRadius.circular(8),
-                                                                              ),
-                                                                              child: Row(
-                                                                                children: [
-                                                                                  Image.asset(
-                                                                                    'assets/images/ic_camera.PNG',
-                                                                                    width: 25,
-                                                                                    height: 25,
-                                                                                    fit: BoxFit.fill,
-                                                                                  ),
-                                                                                  const SizedBox(width: 8),
-                                                                                  const Text(
-                                                                                    "Photo",
-                                                                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
+                                                                        )
+                                                                      : const Center(
+                                                                          child: Text(
+                                                                            'No File Available',
+                                                                            style: TextStyle(
+                                                                              fontSize: 16,
+                                                                              color: Colors.grey,
                                                                             ),
                                                                           ),
-                                                                          // Second Container
-                                                                          GestureDetector(
-                                                                            onTap: ()async {
-                                                                             // _pickImageGallry();
-                                                                                  SharedPreferences prefs = await SharedPreferences.getInstance();
-                                                                                  String? sToken = prefs.getString('sToken');
+                                                                        ),
+                                                                ),
+                                                              ),
 
-                                                                                  final pickFileid =
-                                                                                      await _picker.pickImage(source: ImageSource.gallery, imageQuality: 65);
+                                                              const SizedBox(
+                                                                height: 10,
+                                                              ),
 
-                                                                                  setState(() {
-                                                                                    image = File(pickFileid!.path);
-                                                                                  });
-                                                                                  // image2 = ${pickedFile?.path};
-                                                                                  // image2 = pickedFile!.path as File?;
-                                                                                  print("----171----pic path : ---$image");
+                                                              Row(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceEvenly,
+                                                                children: [
+                                                                  // First Container
+                                                                  GestureDetector(
+                                                                    onTap: () async {
+                                                                      //_pickImageCamra();
+                                                                      SharedPreferences
+                                                                      prefs =
+                                                                          await SharedPreferences.getInstance();
+                                                                      String?
+                                                                      sToken = prefs
+                                                                          .getString(
+                                                                            'sToken',
+                                                                          );
 
-                                                                                  if (pickFileid != null) {
-                                                                                    setState(() {
-                                                                                      _imageFiles.add(File(pickFileid.path)); // Add selected image to list
-                                                                                      uploadImage(sToken!, image!);
-                                                                                    });
-                                                                                    print("---173--ImageFile--List----$_imageFiles");
-                                                                                  }
-                                                                            },
-                                                                            child:
-                                                                                Container(
-                                                                              padding: const EdgeInsets.all(8.0),
-                                                                              decoration: BoxDecoration(
-                                                                                color: Colors.black12,
-                                                                                borderRadius: BorderRadius.circular(8),
-                                                                              ),
-                                                                              child: Row(
-                                                                                children: [
-                                                                                  Image.asset(
-                                                                                    'assets/images/ic_camera.PNG',
-                                                                                    width: 25,
-                                                                                    height: 25,
-                                                                                    fit: BoxFit.cover,
-                                                                                  ),
-                                                                                  const SizedBox(width: 8),
-                                                                                  const Text(
-                                                                                    "Gallery",
-                                                                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                                                                  ),
-                                                                                ],
-                                                                              ),
+                                                                      final pickFileid = await _picker.pickImage(
+                                                                        source:
+                                                                            ImageSource.camera,
+                                                                        imageQuality:
+                                                                            65,
+                                                                      );
+
+                                                                      setState(() {
+                                                                        image = File(
+                                                                          pickFileid!
+                                                                              .path,
+                                                                        );
+                                                                      });
+                                                                      print(
+                                                                        "----171----pic path : ---$image",
+                                                                      );
+                                                                      if (pickFileid !=
+                                                                          null) {
+                                                                        setState(() {
+                                                                          _imageFiles.add(
+                                                                            File(
+                                                                              pickFileid.path,
+                                                                            ),
+                                                                          ); // Add selected image to list
+                                                                          uploadImage(
+                                                                            sToken!,
+                                                                            image!,
+                                                                          );
+                                                                        });
+                                                                        print(
+                                                                          "---173--ImageFile--List----$_imageFiles",
+                                                                        );
+                                                                      }
+                                                                    },
+                                                                    child: Container(
+                                                                      padding:
+                                                                          const EdgeInsets.all(
+                                                                            8.0,
+                                                                          ),
+                                                                      decoration: BoxDecoration(
+                                                                        color: Colors
+                                                                            .black12,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                              8,
+                                                                            ),
+                                                                      ),
+                                                                      child: Row(
+                                                                        children: [
+                                                                          Image.asset(
+                                                                            'assets/images/ic_camera.PNG',
+                                                                            width:
+                                                                                25,
+                                                                            height:
+                                                                                25,
+                                                                            fit:
+                                                                                BoxFit.fill,
+                                                                          ),
+                                                                          const SizedBox(
+                                                                            width:
+                                                                                8,
+                                                                          ),
+                                                                          const Text(
+                                                                            "Photo",
+                                                                            style: TextStyle(
+                                                                              fontSize: 16,
+                                                                              fontWeight: FontWeight.bold,
                                                                             ),
                                                                           ),
                                                                         ],
                                                                       ),
-                                                                      const SizedBox(
-                                                                          height:
-                                                                              10),
-                                                                      ElevatedButton(
-                                                                        onPressed:
-                                                                            () async {
+                                                                    ),
+                                                                  ),
+                                                                  // Second Container
+                                                                  GestureDetector(
+                                                                    onTap: () async {
+                                                                      // _pickImageGallry();
+                                                                      File?
+                                                                      selectedFile;
+                                                                      SharedPreferences
+                                                                      prefs =
+                                                                          await SharedPreferences.getInstance();
+                                                                      String?
+                                                                      sToken = prefs
+                                                                          .getString(
+                                                                            'sToken',
+                                                                          );
 
-                                                                          print("-----2463--Doc---$_dropDownDocument2_code");
-                                                                          print("-----2463--Doc---$_dropDownDocument2");
-                                                                          print("-----2463--images---$uplodedImage");
+                                                                      try {
+                                                                        // Open gallery or file picker
+                                                                        FilePickerResult?
+                                                                        result = await FilePicker.platform.pickFiles(
+                                                                          type:
+                                                                              FileType.custom,
+                                                                          allowedExtensions: [
+                                                                            'jpg',
+                                                                            'jpeg',
+                                                                            'png',
+                                                                            'pdf',
+                                                                          ],
+                                                                        );
 
-                                                                          if (_dropDownDocument2_code ==
-                                                                              null) {
-                                                                            displayToast("Please Select Document");
-                                                                          } else if (uplodedImage == null) {
-                                                                            displayToast("Please pick a Document");
+                                                                        if (result !=
+                                                                                null &&
+                                                                            result.files.single.path !=
+                                                                                null) {
+                                                                          image = File(
+                                                                            result.files.single.path!,
+                                                                          );
+                                                                          String
+                                                                          filePath =
+                                                                              image!.path;
+                                                                          print(
+                                                                            'cted File Path: Sele$filePath',
+                                                                          );
+
+                                                                          if (filePath.toLowerCase().endsWith(
+                                                                            '.pdf',
+                                                                          )) {
+                                                                            print(
+                                                                              "✅ PDF file selected",
+                                                                            );
+                                                                            displayToast(
+                                                                              'Pdf file is selected',
+                                                                            );
+                                                                            setState(() {
+                                                                              _imageFiles.add(
+                                                                                File(
+                                                                                  image!.path,
+                                                                                ),
+                                                                              ); // Add selected image to list
+                                                                              uploadImage(
+                                                                                sToken!,
+                                                                                image!,
+                                                                              );
+                                                                            });
+                                                                            // setState(() {
+                                                                            //   _imageFiles.add(File(selectedFile!.path)); // Add selected image to list
+                                                                            //   uploadImage(sToken!, image!);
+                                                                            // });
+
+                                                                            // here you should give the toast pdf file is selected.
+                                                                            print(
+                                                                              "-----------573---------",
+                                                                            );
+                                                                            // Optionally, show PDF icon or preview
                                                                           } else {
-                                                                            // Add this item into the list
-
-                                                                            thirdFormCombinedList.add({
-                                                                              'iDocumentTypeId': "${_dropDownDocument2_code}",
-                                                                              'sDocumentName': "$_dropDownDocument2",
-                                                                              'sDocumentUrl': uplodedImage,
+                                                                            print(
+                                                                              "✅ Image file selected",
+                                                                            );
+                                                                            setState(() {
+                                                                              _imageFiles.add(
+                                                                                File(
+                                                                                  image!.path,
+                                                                                ),
+                                                                              ); // Add selected image to list
+                                                                              uploadImage(
+                                                                                sToken!,
+                                                                                image!,
+                                                                              );
                                                                             });
-                                                                            // add data another list
-                                                                            _imageFiles2.add({
-                                                                              'sDocumentName': "$_dropDownDocument2",
-                                                                              'sDocumentUrl': image,
-                                                                            });
-
-                                                                            Navigator.of(context).pop();
+                                                                            // Optionally, show image preview in UI
                                                                           }
-                                                                          // Navigator.of(context).pop(); // Close dialog
-                                                                        },
-                                                                        style: ElevatedButton
-                                                                            .styleFrom(
-                                                                          backgroundColor:
-                                                                              Colors.blue,
-                                                                          shape:
-                                                                              RoundedRectangleBorder(
-                                                                            borderRadius:
-                                                                                BorderRadius.circular(10),
+
+                                                                          // ✅ Upload File
+                                                                          if (sToken !=
+                                                                              null) {
+                                                                            print(
+                                                                              "-----------581---------",
+                                                                            );
+                                                                            print(
+                                                                              "-----------selectedPath---------$image",
+                                                                            );
+
+                                                                            uploadImage(
+                                                                              sToken,
+                                                                              image!,
+                                                                            );
+                                                                          } else {
+                                                                            print(
+                                                                              "❌ Token not found",
+                                                                            );
+                                                                          }
+                                                                        } else {
+                                                                          print(
+                                                                            '❌ No file selected',
+                                                                          );
+                                                                        }
+                                                                      } catch (
+                                                                        e
+                                                                      ) {
+                                                                        print(
+                                                                          "❌ Error picking file: $e",
+                                                                        );
+                                                                      }
+                                                                    },
+                                                                    child: Container(
+                                                                      padding:
+                                                                          const EdgeInsets.all(
+                                                                            8.0,
                                                                           ),
-                                                                        ),
-                                                                        child:
-                                                                            const Text(
-                                                                          "Save",
-                                                                          style:
-                                                                              TextStyle(color: Colors.white),
-                                                                        ),
+                                                                      decoration: BoxDecoration(
+                                                                        color: Colors
+                                                                            .black12,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(
+                                                                              8,
+                                                                            ),
                                                                       ),
-                                                                    ],
+                                                                      child: Row(
+                                                                        children: [
+                                                                          Image.asset(
+                                                                            'assets/images/ic_camera.PNG',
+                                                                            width:
+                                                                                25,
+                                                                            height:
+                                                                                25,
+                                                                            fit:
+                                                                                BoxFit.cover,
+                                                                          ),
+                                                                          const SizedBox(
+                                                                            width:
+                                                                                8,
+                                                                          ),
+                                                                          const Text(
+                                                                            "Gallery",
+                                                                            style: TextStyle(
+                                                                              fontSize: 16,
+                                                                              fontWeight: FontWeight.bold,
+                                                                            ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              const SizedBox(
+                                                                height: 10,
+                                                              ),
+                                                              ElevatedButton(
+                                                                onPressed: () async {
+                                                                  print(
+                                                                    "-----2463--Doc---$_dropDownDocument2_code",
+                                                                  );
+                                                                  print(
+                                                                    "-----2463--Doc---$_dropDownDocument2",
+                                                                  );
+                                                                  print(
+                                                                    "-----2463--images---$uplodedImage",
+                                                                  );
+
+                                                                  if (_dropDownDocument2_code ==
+                                                                      null) {
+                                                                    displayToast(
+                                                                      "Please Select Document",
+                                                                    );
+                                                                  } else if (uplodedImage ==
+                                                                      null) {
+                                                                    displayToast(
+                                                                      "Please pick a Document",
+                                                                    );
+                                                                  } else {
+                                                                    // Add this item into the list
+
+                                                                    thirdFormCombinedList.add({
+                                                                      'iDocumentTypeId':
+                                                                          "${_dropDownDocument2_code}",
+                                                                      'sDocumentName':
+                                                                          "$_dropDownDocument2",
+                                                                      'sDocumentUrl':
+                                                                          uplodedImage,
+                                                                    });
+                                                                    // add data another list
+                                                                    _imageFiles2.add({
+                                                                      'sDocumentName':
+                                                                          "$_dropDownDocument2",
+                                                                      'sDocumentUrl':
+                                                                          image,
+                                                                    });
+
+                                                                    print("----1977---$thirdFormCombinedList");
+
+                                                                    Navigator.of(
+                                                                      context,
+                                                                    ).pop();
+
+                                                                  }
+                                                                  // Navigator.of(context).pop(); // Close dialog
+                                                                },
+                                                                style: ElevatedButton.styleFrom(
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .blue,
+                                                                  shape: RoundedRectangleBorder(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                          10,
+                                                                        ),
                                                                   ),
                                                                 ),
-                                                                const Positioned(
-                                                                  top: -40,
-                                                                  child:
-                                                                      CircleAvatar(
-                                                                    radius: 40,
-                                                                    backgroundImage:
-                                                                        AssetImage(
-                                                                      'assets/images/licenseRequestuplode.jpeg',
-                                                                    ), // Replace with your image
+                                                                child: const Text(
+                                                                  "Save",
+                                                                  style: TextStyle(
+                                                                    color: Colors
+                                                                        .white,
                                                                   ),
                                                                 ),
-                                                              ],
-                                                            );
-                                                          },
+                                                              ),
+                                                            ],
+                                                          ),
                                                         ),
-                                                      ));
-                                            },
-                                            child: Align(
-                                              alignment: Alignment.centerRight,
-                                              child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    left: 0, right: 0),
-                                                child: Container(
-                                                  margin: EdgeInsets.only(
-                                                      left: 10, right: 10),
-                                                  height: 35,
-                                                  decoration: BoxDecoration(
-                                                    color: Color(0xFF96DFE8),
-                                                    // Background color
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10), // Rounded corners
-                                                  ),
-                                                  //padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20), // Padding
-                                                  child: Row(
-                                                    mainAxisSize:
-                                                        MainAxisSize.min,
-                                                    children: [
-                                                      // Plus icon
-                                                      //SizedBox(width: 8), // Spacing between icon and text
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .only(left: 10),
-                                                        child: Text(
-                                                          "Add Photo",
-                                                          style: AppTextStyle
-                                                              .font14OpenSansRegularBlackTextStyle,
+                                                        const Positioned(
+                                                          top: -40,
+                                                          child: CircleAvatar(
+                                                            radius: 40,
+                                                            backgroundImage: AssetImage(
+                                                              'assets/images/licenseRequestuplode.jpeg',
+                                                            ), // Replace with your image
+                                                          ),
                                                         ),
-                                                      ),
-                                                      SizedBox(width: 10),
-                                                      Icon(Icons.add,
-                                                          color: Colors.white),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
+                                                      ],
+                                                    );
+                                                  },
                                             ),
                                           ),
-                                          SizedBox(height: 10),
-                                          _imageFiles.isNotEmpty
-                                              ? Padding(
-                                            padding: const EdgeInsets.only(left: 10,right: 10),
+                                        );
+                                      },
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 0,
+                                            right: 0,
+                                          ),
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                              left: 10,
+                                              right: 10,
+                                            ),
+                                            height: 35,
+                                            decoration: BoxDecoration(
+                                              color: Color(0xFF96DFE8),
+                                              // Background color
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                    10,
+                                                  ), // Rounded corners
+                                            ),
+                                            //padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20), // Padding
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                // Plus icon
+                                                //SizedBox(width: 8), // Spacing between icon and text
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                        left: 10,
+                                                      ),
+                                                  child: Text(
+                                                    "Add Photo",
+                                                    style: AppTextStyle
+                                                        .font14OpenSansRegularBlackTextStyle,
+                                                  ),
+                                                ),
+                                                SizedBox(width: 10),
+                                                const Icon(
+                                                  Icons.add,
+                                                  color: Colors.white,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    _imageFiles.isNotEmpty
+                                        ? Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 10,
+                                            ),
                                             child: SizedBox(
                                               height: 120,
-
-                                              // Set a fixed height for the horizontal list
                                               child: ListView.builder(
-                                                scrollDirection: Axis.horizontal,
+                                                scrollDirection:
+                                                    Axis.horizontal,
                                                 itemCount: _imageFiles.length,
                                                 itemBuilder: (context, index) {
+                                                  String filePath =
+                                                      _imageFiles[index].path;
+                                                  bool isPdf = filePath
+                                                      .toLowerCase()
+                                                      .endsWith('.pdf');
+
                                                   return Container(
-                                                    margin: EdgeInsets.only(right: 10.0),
-                                                    width: 140, // Set fixed width for the image container
-                                                    height: 140, // Set fixed height for the image container
+                                                    margin:
+                                                        const EdgeInsets.only(
+                                                          right: 10.0,
+                                                        ),
+                                                    width: 140,
+                                                    height: 140,
                                                     decoration: BoxDecoration(
-                                                      border: Border.all(color: Colors.blue, width: 2.0),
-                                                      borderRadius: BorderRadius.circular(10.0),
+                                                      border: Border.all(
+                                                        color: Colors.blue,
+                                                        width: 2.0,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            10.0,
+                                                          ),
                                                     ),
                                                     child: ClipRRect(
-                                                      borderRadius: BorderRadius.circular(8.0),
-                                                      child: Image.file(
-                                                        _imageFiles[index],
-                                                        fit: BoxFit.cover,
-                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            8.0,
+                                                          ),
+                                                      child: isPdf
+                                                          ? Container(
+                                                              color: Colors
+                                                                  .grey[200],
+                                                              child: const Center(
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .picture_as_pdf,
+                                                                  color: Colors
+                                                                      .red,
+                                                                  size: 50,
+                                                                ),
+                                                              ),
+                                                            )
+                                                          : Image.file(
+                                                              _imageFiles[index],
+                                                              fit: BoxFit.cover,
+                                                            ),
                                                     ),
                                                   );
                                                 },
                                               ),
                                             ),
                                           )
-                                              : Center(
-                                            child: Text('No images selected.'),
+                                        : const Center(
+                                            child: Text('No files selected.'),
                                           ),
-                                          // Container(
-                                          //   height: 200,
-                                          //   child: ListView.builder(
-                                          //     scrollDirection: Axis.horizontal, // Horizontal scrolling
-                                          //     itemCount: _imageFiles2.length,
-                                          //     itemBuilder: (context, index) {
-                                          //       final document = _imageFiles2[index];
-                                          //       final File? imageFile = document['sDocumentUrl'] as File?;
-                                          //       final documentName = document['sDocumentName'] as String?;
-                                          //
-                                          //       return Padding(
-                                          //         padding: const EdgeInsets.all(8.0),
-                                          //         child: Column(
-                                          //           mainAxisAlignment: MainAxisAlignment.center,
-                                          //           crossAxisAlignment: CrossAxisAlignment.center,
-                                          //           children: [
-                                          //             Container(
-                                          //               width: 150,
-                                          //               height: 150,
-                                          //               decoration: BoxDecoration(
-                                          //                 borderRadius: BorderRadius.circular(10),
-                                          //                 border: Border.all(color: Colors.grey),
-                                          //               ),
-                                          //               child: imageFile != null
-                                          //                   ? ClipRRect(
-                                          //                 borderRadius: BorderRadius.circular(10),
-                                          //                 child: Image.file(
-                                          //                   imageFile,
-                                          //                   fit: BoxFit.cover,
-                                          //                 ),
-                                          //               )
-                                          //                   : const Center(
-                                          //                 child: Text(
-                                          //                   'No Image',
-                                          //                   style: TextStyle(fontSize: 14, color: Colors.grey),
-                                          //                 ),
-                                          //               ),
-                                          //             ),
-                                          //             const SizedBox(height: 5),
-                                          //             Center(
-                                          //               child: Text(
-                                          //                 documentName ?? 'Unknown Document',
-                                          //                 style: const TextStyle(
-                                          //                   fontSize: 14,
-                                          //                   color: Colors.black,
-                                          //                 ),
-                                          //                 maxLines: 1,
-                                          //                 overflow: TextOverflow.ellipsis, // Handle long names gracefully
-                                          //               ),
-                                          //             ),
-                                          //           ],
-                                          //         ),
-                                          //       );
-                                          //     },
-                                          //   ),
-                                          // ),
-
-                                          // Container(
-                                          //   height: 200,
-                                          //   child: ListView.builder(
-                                          //     scrollDirection: Axis.horizontal,
-                                          //     // Horizontal scrolling
-                                          //     itemCount: _imageFiles2.length,
-                                          //     itemBuilder: (context, index) {
-                                          //       final document = _imageFiles2[index];
-                                          //       final imageUrl = document['sDocumentUrl'] as String?;
-                                          //       final documentName = document['sDocumentName'] as String?;
-                                          //       return Padding(
-                                          //           padding:
-                                          //           const EdgeInsets.all(
-                                          //               8.0),
-                                          //           child: Column(
-                                          //             children: [
-                                          //               Container(
-                                          //                 width: 150,
-                                          //                 height: 150,
-                                          //                 decoration:
-                                          //                 BoxDecoration(
-                                          //                   borderRadius:
-                                          //                   BorderRadius
-                                          //                       .circular(
-                                          //                       10),
-                                          //                   border: Border.all(
-                                          //                       color: Colors
-                                          //                           .grey),
-                                          //                 ),
-                                          //                 child: imageUrl !=
-                                          //                     null
-                                          //                     ? ClipRRect(
-                                          //                   borderRadius:
-                                          //                   BorderRadius
-                                          //                       .circular(
-                                          //                       10),
-                                          //                   child: Image
-                                          //                     .network(
-                                          //                     imageUrl,
-                                          //                     // Display image
-                                          //                     fit: BoxFit
-                                          //                         .cover,
-                                          //                   ),
-                                          //                 )
-                                          //                     : Center(
-                                          //                   child: Text(
-                                          //                       "No Image"),
-                                          //                 ),
-                                          //               ),
-                                          //               SizedBox(height: 5),
-                                          //               Text(
-                                          //                 documentName!,
-                                          //                 style: AppTextStyle
-                                          //                     .font14OpenSansRegularBlackTextStyle,
-                                          //               )
-                                          //             ],
-                                          //           ));
-                                          //     },
-                                          //   ),
-                                          // ),
-                                          // Container(
-                                          //   height: 200,
-                                          //   child: ListView.builder(
-                                          //     scrollDirection: Axis.horizontal,
-                                          //     // Horizontal scrolling
-                                          //     itemCount: _imageFiles.length,
-                                          //     itemBuilder: (context, index) {
-                                          //       return Padding(
-                                          //           padding:
-                                          //               const EdgeInsets.all(
-                                          //                   8.0),
-                                          //           child: Column(
-                                          //             children: [
-                                          //               Container(
-                                          //                 width: 150,
-                                          //                 height: 150,
-                                          //                 decoration:
-                                          //                     BoxDecoration(
-                                          //                   borderRadius:
-                                          //                       BorderRadius
-                                          //                           .circular(
-                                          //                               10),
-                                          //                   border: Border.all(
-                                          //                       color: Colors
-                                          //                           .grey),
-                                          //                 ),
-                                          //                 child: _imageFiles[
-                                          //                             index] !=
-                                          //                         null
-                                          //                     ? ClipRRect(
-                                          //                         borderRadius:
-                                          //                             BorderRadius
-                                          //                                 .circular(
-                                          //                                     10),
-                                          //                         child: Image
-                                          //                             .file(
-                                          //                           _imageFiles[
-                                          //                               index],
-                                          //                           // Display image
-                                          //                           fit: BoxFit
-                                          //                               .cover,
-                                          //                         ),
-                                          //                       )
-                                          //                     : Center(
-                                          //                         child: Text(
-                                          //                             "No Image"),
-                                          //                       ),
-                                          //               ),
-                                          //               SizedBox(height: 5),
-                                          //               Text(
-                                          //                 _dropDownDocument2,
-                                          //                 style: AppTextStyle
-                                          //                     .font14OpenSansRegularBlackTextStyle,
-                                          //               )
-                                          //             ],
-                                          //           ));
-                                          //     },
-                                          //   ),
-                                          // ),
-                                          SizedBox(height: 10),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
+                                    SizedBox(height: 10),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          )
-                      ],
-                    ),
-                    // Fixed Bottom Button
-                    Positioned(
-                      bottom: 20,
-                      left: 16,
-                      right: 16,
-                      child: GestureDetector(
-                        onTap: () {
-                          validateAndCallApi();
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          // Make container fill the width of its parent
-                          height: AppSize.s45,
-                          padding: EdgeInsets.all(AppPadding.p5),
-                          decoration: BoxDecoration(
-                            color: Color(0xFF255898),
-                            // Background color using HEX value
-                            borderRadius: BorderRadius.circular(
-                                AppMargin.m10), // Rounded corners
-                          ),
-                          //  #00b3c7
-                          child: Center(
-                            child: Text(
-                              "Submit",
-                              style: AppTextStyle
-                                  .font16OpenSansRegularWhiteTextStyle,
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
-                  ],
-                ))));
+                ],
+              ),
+              // Fixed Bottom Button
+              Positioned(
+                bottom: 20,
+                left: 16,
+                right: 16,
+                child: GestureDetector(
+                  onTap: () {
+                    validateAndCallApi();
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    // Make container fill the width of its parent
+                    height: AppSize.s45,
+                    padding: EdgeInsets.all(AppPadding.p5),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF255898),
+                      // Background color using HEX value
+                      borderRadius: BorderRadius.circular(
+                        AppMargin.m10,
+                      ), // Rounded corners
+                    ),
+                    //  #00b3c7
+                    child: Center(
+                      child: Text(
+                        "Submit",
+                        style: AppTextStyle.font16OpenSansRegularWhiteTextStyle,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   // Section Header Widget
@@ -2033,7 +2222,8 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
                         text: ' *', // The asterisk
                         style: TextStyle(
                           color: Colors.red, // Red color for the asterisk
-                          fontWeight: FontWeight.bold, // Optional: Make the asterisk bold
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
                       ),
                     ],
@@ -2043,6 +2233,7 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
               ],
             ),
           ),
+
           /// todo apply DropDown
           _bindFinacialYear(),
           // _bindWard(),
@@ -2097,10 +2288,13 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 5.0, horizontal: 10.0),
+                            vertical: 5.0,
+                            horizontal: 10.0,
+                          ),
                           filled: true, // Enable background color
                           fillColor: Color(
-                              0xFFf2f3f5), // Set your desired background color
+                            0xFFf2f3f5,
+                          ), // Set your desired background color
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                       ),
@@ -2161,11 +2355,14 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 5.0, horizontal: 10.0),
+                            vertical: 5.0,
+                            horizontal: 10.0,
+                          ),
                           filled: true,
                           // Enable background color
                           fillColor: Color(
-                              0xFFf2f3f5), // Set your desired background color here
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                       ),
@@ -2226,11 +2423,14 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
+                            vertical: 10.0,
+                            horizontal: 10.0,
+                          ),
                           filled: true,
                           // Enable background color
                           fillColor: Color(
-                              0xFFf2f3f5), // Set your desired background color here
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                       ),
@@ -2291,11 +2491,14 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
+                            vertical: 10.0,
+                            horizontal: 10.0,
+                          ),
                           filled: true,
                           // Enable background color
                           fillColor: Color(
-                              0xFFf2f3f5), // Set your desired background color here
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         inputFormatters: [
@@ -2361,11 +2564,14 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
+                            vertical: 10.0,
+                            horizontal: 10.0,
+                          ),
                           filled: true,
                           // Enable background color
                           fillColor: Color(
-                              0xFFf2f3f5), // Set your desired background color here
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                       ),
@@ -2379,374 +2585,428 @@ class _MyHomePageState extends State<LicenseRequest> with TickerProviderStateMix
       ),
     );
   }
+
   // Second Form
   Widget _buildSecondForm() {
     return Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            // Add a list to added item on a Add Item
-            // if (consuambleItemList!.isNotEmpty)
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Image.asset(
-                      'assets/images/uplodeTrade.jpeg',
-                      height: 25,
-                      width: 25,
-                      fit: BoxFit.fill,
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        children: [
+          // Add a list to added item on a Add Item
+          // if (consuambleItemList!.isNotEmpty)
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Image.asset(
+                    'assets/images/uplodeTrade.jpeg',
+                    height: 25,
+                    width: 25,
+                    fit: BoxFit.fill,
+                  ),
+                  SizedBox(width: 10),
+                  Text(
+                    'Trade Category List',
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              ListView.builder(
+                shrinkWrap: true,
+                // Makes ListView take up only the needed height
+                physics: NeverScrollableScrollPhysics(),
+                // Disable ListView scrolling if the outer widget scrolls
+                itemCount: consuambleItemList?.length ?? 0,
+                itemBuilder: (context, index) {
+                  final item = consuambleItemList![index];
+                  return GestureDetector(
+                    onLongPress: () {
+                      setState(() {
+                        // iTranId = notificationData.iTranId;
+                      });
+                      // showDialog(
+                      //   context: context,
+                      //   builder: (BuildContext context) {
+                      //     return _deleteItemDialog(context);
+                      //   },
+                      // );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(
+                        vertical: 1.0,
+                        horizontal: 1.0,
+                      ),
+                      padding: const EdgeInsets.all(16.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.grey,
+                            spreadRadius: 1,
+                            blurRadius: 3,
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                height: 25,
+                                width: 25,
+                                child: Image.asset(
+                                  'assets/images/uplodeTrade.jpeg',
+                                  fit: BoxFit.fill,
+                                  errorBuilder:
+                                      (
+                                        BuildContext context,
+                                        Object exception,
+                                        StackTrace? stackTrace,
+                                      ) {
+                                        return Icon(Icons.error, size: 25);
+                                      },
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    item['sTradeCategory'],
+                                    style: AppTextStyle
+                                        .font14OpenSansRegularBlack45TextStyle,
+                                  ),
+                                  Text(
+                                    'Category Name',
+                                    style: AppTextStyle
+                                        .font12OpenSansRegularBlack45TextStyle,
+                                  ),
+                                ],
+                              ),
+                              // Spacer(),
+                              // Text(
+                              //     'Quantity: ${item['SrNo']}',
+                              //     style: AppTextStyle
+                              //         .font14OpenSansRegularBlack45TextStyle),
+                            ],
+                          ),
+                          Divider(),
+                          Container(
+                            height: 45,
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 25),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Container(
+                                            height: 14,
+                                            width: 14,
+                                            decoration: BoxDecoration(
+                                              color: Colors.black,
+                                              borderRadius:
+                                                  BorderRadius.circular(7),
+                                            ),
+                                          ),
+                                          SizedBox(width: 5),
+                                          Text(
+                                            item['sTradeSubCategory'],
+                                            style: AppTextStyle
+                                                .font14OpenSansRegularBlackTextStyle,
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 15,
+                                        ),
+                                        child: Text(
+                                          'Trade Name',
+                                          style: AppTextStyle
+                                              .font12OpenSansRegularBlack45TextStyle,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Spacer(),
+                                Container(
+                                  color: Color(0xFF0098a6),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10,
+                                    vertical: 10,
+                                  ),
+                                  child: Text(
+                                    '₹ ${item['feesCode']}',
+                                    style: AppTextStyle
+                                        .font14OpenSansRegularWhiteTextStyle,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(width: 10),
-                    Text('Trade Category List',
-                        style:
-                            AppTextStyle.font14OpenSansRegularBlack45TextStyle),
-                  ],
-                ),
-                SizedBox(height: 10),
-                ListView.builder(
-                  shrinkWrap: true,
-                  // Makes ListView take up only the needed height
-                  physics: NeverScrollableScrollPhysics(),
-                  // Disable ListView scrolling if the outer widget scrolls
-                  itemCount: consuambleItemList?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    final item = consuambleItemList![index];
-                    return GestureDetector(
-                      onLongPress: () {
-                        setState(() {
-                          // iTranId = notificationData.iTranId;
-                        });
-                        // showDialog(
-                        //   context: context,
-                        //   builder: (BuildContext context) {
-                        //     return _deleteItemDialog(context);
-                        //   },
-                        // );
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 1.0),
-                        padding: const EdgeInsets.all(16.0),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                          boxShadow: const [
-                            BoxShadow(
-                              color: Colors.grey,
-                              spreadRadius: 1,
-                              blurRadius: 3,
+                  );
+                },
+              ),
+              SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Card(
+                  elevation: 4, // Adjust the shadow level
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      5,
+                    ), // Rounded corners for the card
+                  ),
+                  child: Container(
+                    padding: const EdgeInsets.all(10),
+                    // Inner padding for the container
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      // Background color for the container
+                      borderRadius: BorderRadius.circular(5),
+                      // Rounded corners for the container
+                      border: Border.all(
+                        color: Colors.grey, // Border color
+                        width: 1, // Border width
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      // Auto height based on children
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      // Align children to the start
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 25,
+                              height: 25,
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                    'assets/images/uplodeTrade.jpeg',
+                                  ),
+                                  // Use AssetImage here
+                                  fit: BoxFit
+                                      .cover, // Adjusts how the image is fitted
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 5),
+                            const Text(
+                              "Uplode Trade Category Item",
+                              style: TextStyle(
+                                color: Colors.black45,
+                                fontSize: 16,
+                              ),
+                            ),
+                            Spacer(),
+                            IconButton(
+                              icon: AnimatedRotation(
+                                turns: isIconRotated4 ? 0.5 : 0.0,
+                                // Rotates the icon
+                                duration: Duration(milliseconds: 300),
+                                child: const Icon(
+                                  Icons.arrow_drop_down,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  // Toggle form visibility and icon rotation
+                                  isFormVisible4 = !isFormVisible4;
+                                  isIconRotated4 = !isIconRotated4;
+                                });
+                              },
                             ),
                           ],
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  height: 25,
-                                  width: 25,
-                                  child: Image.asset(
-                                    'assets/images/uplodeTrade.jpeg',
-                                    fit: BoxFit.fill,
-                                    errorBuilder: (BuildContext context,
-                                        Object exception,
-                                        StackTrace? stackTrace) {
-                                      return Icon(Icons.error, size: 25);
-                                    },
+                        if (isFormVisible4)
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 10),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                // Align items vertically
+                                children: <Widget>[
+                                  CircleWithSpacing(),
+                                  // Space between the circle and text
+                                  Text(
+                                    'Trade Category',
+                                    style: AppTextStyle
+                                        .font14OpenSansRegularBlack45TextStyle,
                                   ),
+                                ],
+                              ),
+                              _bindTradeCategory(),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                // Align items vertically
+                                children: <Widget>[
+                                  CircleWithSpacing(),
+                                  // Space between the circle and text
+                                  Text(
+                                    'Trade Sub Category',
+                                    style: AppTextStyle
+                                        .font14OpenSansRegularBlack45TextStyle,
+                                  ),
+                                ],
+                              ),
+                              _bindTradeSubCategory(),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                // Align items vertically
+                                children: <Widget>[
+                                  CircleWithSpacing(),
+                                  // Space between the circle and text
+                                  Text(
+                                    'Licence Free',
+                                    style: AppTextStyle
+                                        .font14OpenSansRegularBlack45TextStyle,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 5),
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 10,
+                                  right: 0,
                                 ),
-                                SizedBox(width: 10),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(item['sTradeCategory'],
-                                        style: AppTextStyle
-                                            .font14OpenSansRegularBlack45TextStyle),
-                                    Text('Category Name',
-                                        style: AppTextStyle
-                                            .font12OpenSansRegularBlack45TextStyle),
-                                  ],
-                                ),
-                                // Spacer(),
-                                // Text(
-                                //     'Quantity: ${item['SrNo']}',
-                                //     style: AppTextStyle
-                                //         .font14OpenSansRegularBlack45TextStyle),
-                              ],
-                            ),
-                            Divider(),
-                            Container(
-                              height: 45,
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 25),
+                                child: Container(
+                                  height: 70,
+                                  // Increased height to accommodate error message without resizing
+                                  color: Colors.white,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left: 0),
                                     child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
                                       children: [
-                                        Row(
-                                          children: [
-                                            Container(
-                                              height: 14,
-                                              width: 14,
-                                              decoration: BoxDecoration(
-                                                color: Colors.black,
-                                                borderRadius:
-                                                    BorderRadius.circular(7),
-                                              ),
-                                            ),
-                                            SizedBox(width: 5),
-                                            Text(item['sTradeSubCategory'],
-                                                style: AppTextStyle
-                                                    .font14OpenSansRegularBlackTextStyle),
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsets.only(left: 15),
-                                          child: Text('Trade Name',
-                                              style: AppTextStyle
-                                                  .font12OpenSansRegularBlack45TextStyle),
+                                        Expanded(
+                                          child: Text(
+                                            "${_dropDownTradeSubCategoryFeesCode ?? 0}",
+                                            style: AppTextStyle
+                                                .font14penSansBlack45TextStyle,
+                                          ),
                                         ),
                                       ],
                                     ),
                                   ),
-                                  Spacer(),
-                                  Container(
-                                    color: Color(0xFF0098a6),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 10),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  count++;
+                                  // Registration
+                                  // consuambleItemList=[];
+                                  print('-----1354---');
+                                  print(
+                                    "--------1535--fees--$_dropDownTradeSubCategoryFeesCode",
+                                  );
+                                  print(
+                                    "-----DropDown Trade Category-----$_dropDownTradeCategory",
+                                  );
+                                  print(
+                                    "-----DropDown Sub Trade Category-----$_dropDownTradeSubCategory",
+                                  );
+
+                                  if (_dropDownTradeCategoryCode == null) {
+                                    displayToast("Pick a Trade Category");
+                                    return;
+                                  }
+                                  if (_dropDownTradeSubCategory == null) {
+                                    displayToast("Pick a Trade Sub Category");
+                                    return;
+                                  }
+                                  setState(() {
+                                    consuambleItemList ??=
+                                        []; // Initialize the list if it's null
+                                    consuambleItemList!.add({
+                                      'SrNo': count,
+                                      'sTradeCategory': _dropDownTradeCategory,
+                                      'sTradeSubCategory':
+                                          _dropDownTradeSubCategory,
+                                      'feesCode':
+                                          _dropDownTradeSubCategoryFeesCode,
+                                    });
+                                  });
+                                  displayToast("Item Added");
+                                  // Added Item into secondFormList
+                                  secondFormCombinedList.add({
+                                    "TradeCategoryId":
+                                        "$_dropDownTradeCategoryCode",
+                                    "TradeId": "$_dropDownTradeSubCategoryCode",
+                                    "NoOfRoom": "",
+                                    "LicenceFee":
+                                        "$_dropDownTradeSubCategoryFeesCode",
+                                  });
+                                  firstFormCombinedList.addAll(
+                                    secondFormCombinedList,
+                                  );
+                                  print(
+                                    "----2045---com first + second list---$firstFormCombinedList",
+                                  );
+                                  setState(() {
+                                    secondFromjson = jsonEncode(
+                                      secondFormCombinedList,
+                                    );
+                                  });
+                                  print(
+                                    "-----2067---secondFormData--...---: $secondFromjson",
+                                  );
+
+                                  //  _dropDownTradeSubCategory
+                                },
+                                child: Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(10.0),
+                                    // 10dp padding around the text
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: Color(0xFF255899),
+                                      ),
+                                      // Gray border color
+                                      borderRadius: BorderRadius.circular(
+                                        8.0,
+                                      ), // Rounded corners for the border
+                                    ),
                                     child: Text(
-                                      '₹ ${item['feesCode']}',
+                                      "Add Item",
                                       style: AppTextStyle
-                                          .font14OpenSansRegularWhiteTextStyle,
-                                      textAlign: TextAlign.center,
+                                          .font14penSansBlackTextStyle,
                                     ),
                                   ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Card(
-                    elevation: 4, // Adjust the shadow level
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          5), // Rounded corners for the card
-                    ),
-                    child: Container(
-                      padding: const EdgeInsets.all(10),
-                      // Inner padding for the container
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        // Background color for the container
-                        borderRadius: BorderRadius.circular(5),
-                        // Rounded corners for the container
-                        border: Border.all(
-                          color: Colors.grey, // Border color
-                          width: 1, // Border width
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        // Auto height based on children
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        // Align children to the start
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                width: 25,
-                                height: 25,
-                                decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage('assets/images/uplodeTrade.jpeg'),
-                                    // Use AssetImage here
-                                    fit: BoxFit.cover, // Adjusts how the image is fitted
-                                  ),
                                 ),
-                              ),
-                              SizedBox(width: 5),
-                              const Text("Uplode Trade Category Item",
-                                style: TextStyle(
-                                    color: Colors.black45, fontSize: 16),
-                              ),
-                              Spacer(),
-                              IconButton(
-                                icon: AnimatedRotation(
-                                  turns: isIconRotated4 ? 0.5 : 0.0,
-                                  // Rotates the icon
-                                  duration: Duration(milliseconds: 300),
-                                  child: const Icon(
-                                    Icons.arrow_drop_down,
-                                    color: Colors.black,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    // Toggle form visibility and icon rotation
-                                    isFormVisible4 = !isFormVisible4;
-                                    isIconRotated4 = !isIconRotated4;
-                                  });
-                                },
                               ),
                             ],
                           ),
-                          if (isFormVisible4)
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(height: 10),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  // Align items vertically
-                                  children: <Widget>[
-                                    CircleWithSpacing(),
-                                    // Space between the circle and text
-                                    Text(
-                                      'Trade Category',
-                                      style: AppTextStyle
-                                          .font14OpenSansRegularBlack45TextStyle,
-                                    ),
-                                  ],
-                                ),
-                                _bindTradeCategory(),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  // Align items vertically
-                                  children: <Widget>[
-                                    CircleWithSpacing(),
-                                    // Space between the circle and text
-                                    Text('Trade Sub Category',
-                                      style: AppTextStyle
-                                          .font14OpenSansRegularBlack45TextStyle,
-                                    ),
-                                  ],
-                                ),
-                                _bindTradeSubCategory(),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  // Align items vertically
-                                  children: <Widget>[
-                                    CircleWithSpacing(),
-                                    // Space between the circle and text
-                                    Text('Licence Free',
-                                      style: AppTextStyle
-                                          .font14OpenSansRegularBlack45TextStyle,
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 5),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10, right: 0),
-                                  child: Container(
-                                    height: 70,
-                                    // Increased height to accommodate error message without resizing
-                                    color: Colors.white,
-                                    child: Padding(
-                                      padding: const EdgeInsets.only(left: 0),
-                                      child: Column(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              "${_dropDownTradeSubCategoryFeesCode ?? 0}",
-                                              style: AppTextStyle.font14penSansBlack45TextStyle,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    count++;
-                                    // Registration
-                                    // consuambleItemList=[];
-                                    print('-----1354---');
-                                    print("--------1535--fees--$_dropDownTradeSubCategoryFeesCode");
-                                    print("-----DropDown Trade Category-----$_dropDownTradeCategory");
-                                    print("-----DropDown Sub Trade Category-----$_dropDownTradeSubCategory");
-
-                                    if (_dropDownTradeCategoryCode == null) {
-                                      displayToast("Pick a Trade Category");
-                                      return;
-                                    }
-                                    if (_dropDownTradeSubCategory == null) {
-                                      displayToast("Pick a Trade Sub Category");
-                                      return;
-                                    }
-                                    setState(() {
-                                      consuambleItemList ??= []; // Initialize the list if it's null
-                                      consuambleItemList!.add({
-                                        'SrNo': count,
-                                        'sTradeCategory': _dropDownTradeCategory,
-                                        'sTradeSubCategory': _dropDownTradeSubCategory,
-                                        'feesCode': _dropDownTradeSubCategoryFeesCode,
-                                      });
-                                    });
-                                    displayToast("Item Added");
-                                    // Added Item into secondFormList
-                                    secondFormCombinedList.add({
-                                      "TradeCategoryId": "$_dropDownTradeCategoryCode",
-                                      "TradeId": "$_dropDownTradeSubCategoryCode",
-                                      "NoOfRoom": "",
-                                      "LicenceFee":"$_dropDownTradeSubCategoryFeesCode"
-                                    });
-                                    firstFormCombinedList.addAll(secondFormCombinedList);
-                                    print("----2045---com first + second list---$firstFormCombinedList");
-                                    setState(() {
-                                      secondFromjson = jsonEncode(secondFormCombinedList);
-                                    });
-                                    print("-----2067---secondFormData--...---: $secondFromjson");
-
-                                    //  _dropDownTradeSubCategory
-                                  },
-                                  child: Center(
-                                    child: Container(
-                                      padding: EdgeInsets.all(10.0),
-                                      // 10dp padding around the text
-                                      decoration: BoxDecoration(
-                                        border: Border.all(
-                                            color: Color(0xFF255899)),
-                                        // Gray border color
-                                        borderRadius: BorderRadius.circular(
-                                            8.0), // Rounded corners for the border
-                                      ),
-                                      child: Text(
-                                        "Add Item",
-                                        style: AppTextStyle
-                                            .font14penSansBlackTextStyle,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                        ],
-                      ),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
-          ],
-        ));
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

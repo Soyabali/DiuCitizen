@@ -32,7 +32,6 @@ class PostHouseHoldDetailRequestRepo {
       // String jsonResponse = 'sArray":$allThreeFormJson';
       // String jsonResponse = '{"sArray":"$allThreeFormJson"}';
       //------------
-
       // Parse the JSON response
       Map<String, dynamic> parsedResponse = jsonDecode(jsonResponse);
 

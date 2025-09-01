@@ -2066,12 +2066,10 @@ class _MyHomePageState extends State<PropertyMutationRequest>
                                             // image2 = ${pickedFile?.path};
                                             // image2 = pickedFile!.path as File?;
 
-                                            print(
-                                                "----171----pic path : ---$image");
+                                            print("----171----pic path : ---$image");
                                             if (pickFileid != null) {
                                               setState(() {
-                                                _imageFiles.add(File(pickFileid
-                                                    .path)); // Add selected image to list
+                                                _imageFiles.add(File(pickFileid.path)); // Add selected image to list
                                                 uploadImage(sToken!, image!);
                                               });
                                               print(
@@ -2110,17 +2108,12 @@ class _MyHomePageState extends State<PropertyMutationRequest>
                                           onTap: () async {
                                             // _pickImageGallry();
                                             //----PickImage Gallery----
-                                            SharedPreferences prefs =
-                                                await SharedPreferences
+                                            SharedPreferences prefs = await SharedPreferences
                                                     .getInstance();
-                                            String? sToken =
-                                                prefs.getString('sToken');
+                                            String? sToken = prefs.getString('sToken');
 
-                                            final pickFileid =
-                                                await _picker.pickImage(
-                                                    source: ImageSource.gallery,
-                                                    imageQuality:
-                                                        65 // Change to `ImageSource.camera` for camera
+                                            final pickFileid = await _picker.pickImage(source: ImageSource.gallery,
+                                                    imageQuality: 65 // Change to `ImageSource.camera` for camera
                                                     );
 
                                             setState(() {
@@ -2128,9 +2121,9 @@ class _MyHomePageState extends State<PropertyMutationRequest>
                                             });
                                             if (pickFileid != null) {
                                               setState(() {
-                                                _imageFiles.add(File(pickFileid
-                                                    .path)); // Add selected image to list
+                                                _imageFiles.add(File(pickFileid.path)); // Add selected image to list
                                                 // to take a image with a path
+                                                // to update image on a api
                                                 uploadImage(sToken!, image!);
                                               });
                                               print(
@@ -2167,6 +2160,7 @@ class _MyHomePageState extends State<PropertyMutationRequest>
                                       ],
                                     ),
                                     const SizedBox(height: 10),
+
                                     ElevatedButton(
                                       onPressed: () {
                                         if (_dropDownRequiredDocumentTypeCode == null) {
@@ -2200,46 +2194,6 @@ class _MyHomePageState extends State<PropertyMutationRequest>
                                         style: TextStyle(color: Colors.white),
                                       ),
                                     )
-
-                                    // ElevatedButton(
-                                    //   onPressed: () async {
-                                    //
-                                    //     print("-----2463--Doc---$_dropDownDocument2_code");
-                                    //     print("-----2463--Doc---$_dropDownDocument2");
-                                    //     print("-----2463--images---$uplodedImage");
-                                    //
-                                    //     if (_dropDownDocument2_code == null) {
-                                    //       displayToast("Please Select Document");
-                                    //     } else if (uplodedImage == null) {
-                                    //       displayToast("Please pick a Document");
-                                    //     } else {
-                                    //       setState(() {
-                                    //         thirdFormCombinedList.add({
-                                    //           'iDocumentTypeId': "$_dropDownDocument2_code",
-                                    //           'sDocumentName': "$_dropDownDocument2",
-                                    //           'sDocumentUrl': uplodedImage,
-                                    //         });
-                                    //       });
-                                    //       // thirdFormCombinedList.add({
-                                    //       //   'iDocumentTypeId': "${_dropDownDocument2_code}",
-                                    //       //   'sDocumentName': "$_dropDownDocument2",
-                                    //       //   'sDocumentUrl': uplodedImage,
-                                    //       // });
-                                    //       print("ListItem-----2630----$thirdFormCombinedList");
-                                    //       Navigator.of(context).pop();
-                                    //     }
-                                    //     // Navigator.of(context).pop(); // Close dialog
-                                    //   },
-                                    //   style: ElevatedButton.styleFrom(
-                                    //     backgroundColor: Colors.blue,
-                                    //     shape: RoundedRectangleBorder(
-                                    //       borderRadius: BorderRadius.circular(10),
-                                    //     ),
-                                    //   ),
-                                    //   child:
-                                    //   const Text("Save",style: TextStyle(color: Colors.white),
-                                    //   ),
-                                    // ),
                                   ],
                                 ),
                               ),

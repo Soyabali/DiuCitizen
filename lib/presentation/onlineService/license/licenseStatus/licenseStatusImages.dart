@@ -57,7 +57,7 @@ class _LicenseStatusImagesState extends State<LicenseStatusImages> {
           :
 
       Center(
-        child:  GridView.builder(
+        child: GridView.builder(
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2, // 2 items per row
             crossAxisSpacing: 8.0,
@@ -67,6 +67,9 @@ class _LicenseStatusImagesState extends State<LicenseStatusImages> {
           itemCount: pendingInternalComplaintList?.length ?? 0,
           itemBuilder: (context, index) {
             final item = pendingInternalComplaintList![index];
+            final documentUrl = item["sDocumentUrl"] ?? "";
+            final isPdf = documentUrl.toLowerCase().endsWith('.pdf');
+
             return Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -80,26 +83,47 @@ class _LicenseStatusImagesState extends State<LicenseStatusImages> {
                     child: Text(
                       item["sDocumentTypeName"] ?? "Unknown",
                       textAlign: TextAlign.center,
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle
+                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
                     ),
                   ),
                   Expanded(
                     child: GestureDetector(
-                      onTap: (){
-                        print("------89----Open Image---");
-                        // FullScreenImages
-                        // navigate on screen to another screen
-                        var image = "${item["sDocumentUrl"]}";
-                        print("----Image---93-->$image");
+                      onTap: () {
+                        print("------89----Open File---");
+                        var fileUrl = documentUrl;
+                        print("----File URL---93-->$fileUrl");
 
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => FullScreenImages(image:image)),);
-                        },
-                      child: Image.network(
-                        item["sDocumentUrl"] ?? "",
+                        if (!isPdf) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FullScreenImages(image: fileUrl),
+                            ),
+                          );
+                        } else {
+                          // Handle PDF case (e.g., open PDF viewer)
+                          print("PDF tapped");
+                        }
+                      },
+                      child: isPdf
+                          ? Container(
+                        color: Colors.grey[200],
+                        child: const Center(
+                          child: Icon(
+                            Icons.picture_as_pdf,
+                            color: Colors.red,
+                            size: 60,
+                          ),
+                        ),
+                      )
+                          : Image.network(
+                        documentUrl,
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) => Icon(Icons.broken_image, size: 50, color: Colors.grey),
+                        errorBuilder: (context, error, stackTrace) => const Icon(
+                          Icons.broken_image,
+                          size: 50,
+                          color: Colors.grey,
+                        ),
                       ),
                     ),
                   ),
@@ -107,7 +131,7 @@ class _LicenseStatusImagesState extends State<LicenseStatusImages> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       item["dCreatedDate"] ?? "Unknown Date",
-                     style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
                     ),
                   ),
                 ],
