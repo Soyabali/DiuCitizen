@@ -3,29 +3,45 @@ import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../app/generalFunction.dart';
 import '../../../../services/GetLicenceDataDocsRepo.dart';
-import '../../../services/PropertyTransferDocListRepo.dart';
+import '../../../services/assessmentRequestDocListRepo.dart';
+import '../../../services/propertyAssessementPropertyRepo.dart';
 import '../../fullscreen/imageDisplay.dart';
 import '../../nodatavalue/NoDataValue.dart';
 import '../../resources/app_text_style.dart';
 
-class PropertyTransferDocListImages extends StatefulWidget {
+
+class PropertyAssessementImages extends StatefulWidget {
 
   final licenseRequestId;
-  const PropertyTransferDocListImages({super.key, required this.licenseRequestId});
+  const PropertyAssessementImages({super.key, required this.licenseRequestId});
 
   @override
-  State<PropertyTransferDocListImages> createState() => _LicenseStatusImagesState();
+  State<PropertyAssessementImages> createState() => _LicenseStatusImagesState();
 }
 
-class _LicenseStatusImagesState extends State<PropertyTransferDocListImages> {
+class _LicenseStatusImagesState extends State<PropertyAssessementImages> {
 
   // initState
   List<Map<String, dynamic>>? pendingInternalComplaintList;
   List<Map<String, dynamic>> _filteredData = [];
   bool isLoading = true;
 
+  // Api response
 
-  // document
+  pendingInternalComplaintResponse(licenseNO) async {
+    pendingInternalComplaintList = await AssessmentRequestDoclistRepo().getAssessmentDataDocs(context,licenseNO);
+    print('-----32--->>>>>>----$pendingInternalComplaintList');
+    _filteredData = List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
+
+    setState(() {
+      // parkList=[];
+      isLoading = false;
+    });
+  }
+  var licenseNO;
+
+  // pdf Open
+
   void openPdf(BuildContext context, String pdfUrl) async {
     if (await canLaunchUrl(Uri.parse(pdfUrl))) {
       await launchUrl(Uri.parse(pdfUrl), mode: LaunchMode.externalApplication);
@@ -36,25 +52,10 @@ class _LicenseStatusImagesState extends State<PropertyTransferDocListImages> {
     }
   }
 
-  // Api response
-
-  pendingInternalComplaintResponse(licenseNO) async {
-    pendingInternalComplaintList = await PropertyTransferDocListRepo().propertyTransferDocs(context,licenseNO);
-    print('-----27--->>>>>>----$pendingInternalComplaintList');
-    _filteredData = List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
-
-    setState(() {
-      // parkList=[];
-      isLoading = false;
-    });
-  }
-  var licenseNO;
-
   @override
   void initState() {
     // TODO: implement initStatep
     licenseNO = "${widget.licenseRequestId}";
-
     pendingInternalComplaintResponse(licenseNO);
     // pendingInternalComplaintResponse();
     super.initState();
@@ -64,7 +65,7 @@ class _LicenseStatusImagesState extends State<PropertyTransferDocListImages> {
   Widget build(BuildContext context) {
     return Scaffold(
       // appbar
-        appBar: getAppBarBack(context,'${"Document"}'),
+        appBar: getAppBarBack(context,'${"Images"}'),
         body: isLoading
             ? Center(child: Container())
             : (pendingInternalComplaintList == null || pendingInternalComplaintList!.isEmpty)
@@ -72,7 +73,7 @@ class _LicenseStatusImagesState extends State<PropertyTransferDocListImages> {
             :
 
         Center(
-          child:  GridView.builder(
+          child: GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2, // 2 items per row
               crossAxisSpacing: 8.0,
@@ -83,7 +84,7 @@ class _LicenseStatusImagesState extends State<PropertyTransferDocListImages> {
             itemBuilder: (context, index) {
               final item = pendingInternalComplaintList![index];
               final documentUrl = item["sDocumentUrl"] ?? "";
-              final isPdf = documentUrl.toLowerCase().endsWith(".pdf");
+              final isPdf = documentUrl.toLowerCase().endsWith('.pdf');
 
               return Card(
                 shape: RoundedRectangleBorder(
@@ -104,34 +105,43 @@ class _LicenseStatusImagesState extends State<PropertyTransferDocListImages> {
                     Expanded(
                       child: GestureDetector(
                         onTap: () {
-                          print("------89----Open Document---");
-                          if (isPdf) {
-                            print("PDF Document: $documentUrl");
-                            // Navigate to PDF Viewer Screen
-                            openPdf(context,documentUrl);
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) => PdfViewerScreen(url: documentUrl),
-                            //   ),
-                            // );
-                          } else {
-                            print("Image Document: $documentUrl");
+                          print("------89----Open File---");
+                          var fileUrl = documentUrl;
+                          print("----File URL---93-->$fileUrl");
+
+                          if (!isPdf) {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => FullScreenImages(image: documentUrl),
+                                builder: (context) => FullScreenImages(image: fileUrl),
                               ),
                             );
+                          } else {
+                            // Handle PDF case (e.g., open PDF viewer)
+                            var fileUrl = documentUrl;
+                            openPdf(context, fileUrl);
+                            print("PDF tapped");
                           }
                         },
                         child: isPdf
-                            ? Icon(Icons.picture_as_pdf, size: 80, color: Colors.red)
+                            ? Container(
+                          color: Colors.grey[200],
+                          child: const Center(
+                            child: Icon(
+                              Icons.picture_as_pdf,
+                              color: Colors.red,
+                              size: 60,
+                            ),
+                          ),
+                        )
                             : Image.network(
                           documentUrl,
                           fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) =>
-                              Icon(Icons.broken_image, size: 50, color: Colors.grey),
+                          errorBuilder: (context, error, stackTrace) => const Icon(
+                            Icons.broken_image,
+                            size: 50,
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
                     ),
@@ -147,7 +157,6 @@ class _LicenseStatusImagesState extends State<PropertyTransferDocListImages> {
               );
             },
           ),
-
         ));
 
   }

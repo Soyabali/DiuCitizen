@@ -18,7 +18,9 @@ class PostHouseHoldDetailRequestRepo {
     var token = prefs.getString('sToken');
 
     try {
-      print('----allThreeFormJson---->>>---24----$allThreeFormJson');
+     // print('----allThreeFormJson---->>>---21----$allThreeFormJson');
+      print("---response---xxxx---");
+      debugPrint(allThreeFormJson, wrapWidth: 1024);
 
       var baseURL = BaseRepo().baseurl;
 

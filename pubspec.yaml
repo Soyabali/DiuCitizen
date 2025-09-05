@@ -75,6 +75,7 @@ dependencies:
   share_plus: ^11.1.0
   upi_india: ^3.0.1
   file_picker: ^10.3.2
+  dotted_border: ^2.1.0
 
 
 dev_dependencies:

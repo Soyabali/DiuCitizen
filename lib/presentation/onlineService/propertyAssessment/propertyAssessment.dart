@@ -20,7 +20,6 @@ import '../../resources/app_text_style.dart';
 import '../../resources/values_manager.dart';
 
 class PropertyAssessment extends StatefulWidget {
-
   var name;
   PropertyAssessment({super.key, required this.name});
 
@@ -30,7 +29,6 @@ class PropertyAssessment extends StatefulWidget {
 
 class _MyHomePageState extends State<PropertyAssessment>
     with TickerProviderStateMixin {
-
   List stateList = [];
   List<dynamic> subCategoryList = [];
   List<Map<String, dynamic>> bindcommunityHallDate = [];
@@ -63,8 +61,10 @@ class _MyHomePageState extends State<PropertyAssessment>
   final _formKey = GlobalKey<FormState>();
 
   bindSubCategory(String subCategoryCode) async {
-
-    subCategoryList = (await BindSubCategoryRepo().bindSubCategory(context, subCategoryCode))!;
+    subCategoryList = (await BindSubCategoryRepo().bindSubCategory(
+      context,
+      subCategoryCode,
+    ))!;
     print(" -----xxxxx-  subCategoryList--43---> $subCategoryList");
     setState(() {});
   }
@@ -91,25 +91,43 @@ class _MyHomePageState extends State<PropertyAssessment>
   TextEditingController _firstFloorSqFtController = TextEditingController();
   TextEditingController _secondFloorSqFtController = TextEditingController();
   TextEditingController _thirdFloorSqFtController = TextEditingController();
-  TextEditingController _totalResidentialProperySqFtController = TextEditingController();
-  TextEditingController _residentalRentalAreaController = TextEditingController();
-  TextEditingController _rentOfTheResidentialRentalPropertyController = TextEditingController();
-  TextEditingController _nonResidentialPropertyController = TextEditingController();
-  TextEditingController _useOfNonResidentialPropertyController = TextEditingController();
+
+  TextEditingController _totalResidentialProperySqFtController =
+      TextEditingController();
+  TextEditingController _residentalRentalAreaController =
+      TextEditingController();
+  TextEditingController _rentOfTheResidentialRentalPropertyController =
+      TextEditingController();
+  TextEditingController _nonResidentialPropertyController =
+      TextEditingController();
+  TextEditingController _useOfNonResidentialPropertyController =
+      TextEditingController();
 
   //  ------Commercial Property Detail--------
 
-  TextEditingController _basementSqFtCommercialController = TextEditingController();
-  TextEditingController _groundFloorSqFtCommercialController = TextEditingController();
-  TextEditingController _firstFloorSqFtCommercialController = TextEditingController();
-  TextEditingController _secondFloorSqFtCommercialController = TextEditingController();
-  TextEditingController _thirdFloorSqFtCommercialController = TextEditingController();
-  TextEditingController _mezzanineFloorsProperyController = TextEditingController();
-  TextEditingController _totalResidentialPropertyCommercialController = TextEditingController();
-  TextEditingController _residentalRentalAreaCommercialController = TextEditingController();
-  TextEditingController _rentOfTheResidentialRentalPropertyCommercialController = TextEditingController();
-  TextEditingController _nonResidentialPropertyCommercialController = TextEditingController();
-  TextEditingController _useOfNonResidentialCommercialController = TextEditingController();
+  TextEditingController _basementSqFtCommercialController =
+      TextEditingController();
+  TextEditingController _groundFloorSqFtCommercialController =
+      TextEditingController();
+  TextEditingController _firstFloorSqFtCommercialController =
+      TextEditingController();
+  TextEditingController _secondFloorSqFtCommercialController =
+      TextEditingController();
+  TextEditingController _thirdFloorSqFtCommercialController =
+      TextEditingController();
+  TextEditingController _mezzanineFloorsProperyController =
+      TextEditingController();
+  TextEditingController _totalResidentialPropertyCommercialController =
+      TextEditingController();
+  TextEditingController _residentalRentalAreaCommercialController =
+      TextEditingController();
+  TextEditingController
+  _rentOfTheResidentialRentalPropertyCommercialController =
+      TextEditingController();
+  TextEditingController _nonResidentialPropertyCommercialController =
+      TextEditingController();
+  TextEditingController _useOfNonResidentialCommercialController =
+      TextEditingController();
 
   // Focus on a TextForm
 
@@ -142,7 +160,6 @@ class _MyHomePageState extends State<PropertyAssessment>
   FocusNode _rentOfTheResidentialRentalPropertyCommercialfocus = FocusNode();
   FocusNode _nonResidentialPropertyCommercialfocus = FocusNode();
   FocusNode _useOfNonResidentialCommercialfocus = FocusNode();
-
 
   FocusNode _OwnerNamefocus = FocusNode();
   FocusNode _premisesAddressfocus = FocusNode();
@@ -187,6 +204,7 @@ class _MyHomePageState extends State<PropertyAssessment>
   var iCommunityHallName;
   var firstStatus;
   File? image2;
+  //FilePickerResult? result;
 
   //
   final List<Color> borderColors = [
@@ -233,28 +251,28 @@ class _MyHomePageState extends State<PropertyAssessment>
   var sMuttationFees;
   String _selectedOption = "";
   //
-  DateTime? _selectedDate;  // To store the selected date
+  DateTime? _selectedDate; // To store the selected date
   String _formattedDate = '';
-  var countTextFieldValue=0;
+  var countTextFieldValue = 0;
   var residentialCount;
   var commercialCount;
-  var uplodePhoto="3";
+  var uplodePhoto = "3";
   //
-  //int thirdVariable = 0;
-  int thirdVariable = 0;
-  int commercialVariable = 0;
-  int basementPreviousValue = 0;
-  int groundFloorPreviousValue = 0;
-  int firstFloorPreviousValue = 0;
-  int secondFloorPreviousValue = 0;
-  int thirdFloorPreviousValue = 0;
+  num thirdVariable = 0;
+  // int thirdVariable = 0;
+  num commercialVariable = 0;
+  double basementPreviousValue = 0;
+  double groundFloorPreviousValue = 0;
+  double firstFloorPreviousValue = 0;
+  double secondFloorPreviousValue = 0;
+  double thirdFloorPreviousValue = 0;
   // Commercial Property
-  int basementCommercialPreviousValue = 0;
-  int groundFloorCommercialPreviousValue = 0;
-  int firstFloorCommercialPreviousValue = 0;
-  int secondFloorCommercialPreviousValue = 0;
-  int thirdFloorCommercialPreviousValue = 0;
-  int mazzanineCommercialPreviousValue = 0;
+  double basementCommercialPreviousValue = 0;
+  double groundFloorCommercialPreviousValue = 0;
+  double firstFloorCommercialPreviousValue = 0;
+  double secondFloorCommercialPreviousValue = 0;
+  double thirdFloorCommercialPreviousValue = 0;
+  double mazzanineCommercialPreviousValue = 0;
 
   // ---selectDate---
 
@@ -262,13 +280,15 @@ class _MyHomePageState extends State<PropertyAssessment>
     final DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(), // Current date as default
-      firstDate: DateTime(2000),  // Earliest allowed date
-      lastDate: DateTime(2100),  // Latest allowed date
+      firstDate: DateTime(2000), // Earliest allowed date
+      lastDate: DateTime(2100), // Latest allowed date
     );
     if (pickedDate != null && pickedDate != _selectedDate) {
       setState(() {
         _selectedDate = pickedDate; // Update selected date
-        _formattedDate = DateFormat('dd/MMM/yyyy').format(_selectedDate!); // Format the date
+        _formattedDate = DateFormat(
+          'dd/MMM/yyyy',
+        ).format(_selectedDate!); // Format the date
       });
     }
     print("----Selected Date ---- $_formattedDate");
@@ -276,21 +296,12 @@ class _MyHomePageState extends State<PropertyAssessment>
 
   Widget buildImageWidget(String? imageUrl) {
     return imageUrl != null && imageUrl.isNotEmpty
-        ? Image.network(
-            imageUrl,
-            width: 200,
-            height: 200,
-            fit: BoxFit.cover,
-          )
+        ? Image.network(imageUrl, width: 200, height: 200, fit: BoxFit.cover)
         : const Text(
             'No Image',
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.grey,
-            ),
+            style: TextStyle(fontSize: 16, color: Colors.grey),
           );
   }
-
 
   Future<void> uploadImage(String token, File imageFile) async {
     print("--------225---tolen---$token");
@@ -302,16 +313,15 @@ class _MyHomePageState extends State<PropertyAssessment>
       print('-----xx-x----214----');
       showLoader();
       // Create a multipart request
-      var request = http.MultipartRequest(
-        'POST', Uri.parse('$uploadImageApi'),
-      );
+      var request = http.MultipartRequest('POST', Uri.parse('$uploadImageApi'));
       // Add headers
       //request.headers['token'] = '04605D46-74B1-4766-9976-921EE7E700A6';
       request.headers['token'] = token;
       request.headers['sFolder'] = 'CompImage';
       // Add the image file as a part of the request
-      request.files.add(await http.MultipartFile.fromPath('sFolder',imageFile.path,
-      ));
+      request.files.add(
+        await http.MultipartFile.fromPath('sFolder', imageFile.path),
+      );
       // Send the request
       var streamedResponse = await request.send();
       // Get the response
@@ -324,6 +334,8 @@ class _MyHomePageState extends State<PropertyAssessment>
         // Check for specific keys in the response
         setState(() {
           uplodedImage = responseData['Data'][0]['sImagePath'];
+          // update list
+
         });
         print('Uploaded Image Path----548----xxxxx----: $uplodedImage');
       } else {
@@ -337,72 +349,6 @@ class _MyHomePageState extends State<PropertyAssessment>
     }
   }
 
-  // Future<void> uploadImage(String token, File imageFile) async {
-  //   print("--------225---tolen---$token");
-  //   print("--------226---imageFile---$imageFile");
-  //   var baseURL = BaseRepo().baseurl;
-  //   var endPoint = "PostImage/PostImage";
-  //   var uploadImageApi = "$baseURL$endPoint";
-  //   try {
-  //     print('-----xx-x----214----');
-  //     showLoader();
-  //     // Create a multipart request
-  //     var request = http.MultipartRequest(
-  //       'POST',
-  //       Uri.parse('$uploadImageApi'),
-  //     );
-  //     // Add headers
-  //     //request.headers['token'] = '04605D46-74B1-4766-9976-921EE7E700A6';
-  //     request.headers['token'] = token;
-  //     request.headers['sFolder'] = 'CompImage';
-  //     // Add the image file as a part of the request
-  //     request.files.add(await http.MultipartFile.fromPath(
-  //       'sFolder',
-  //       imageFile.path,
-  //     ));
-  //     // Send the request
-  //     var streamedResponse = await request.send();
-  //     // Get the response
-  //     var response = await http.Response.fromStream(streamedResponse);
-  //
-  //     // Parse the response JSON
-  //     var responseData = json.decode(response.body); // No explicit type casting
-  //     print("---------248-----$responseData");
-  //     if (responseData is Map<String, dynamic>) {
-  //       // Check for specific keys in the response
-  //       uplodedImage = responseData['Data'][0]['sImagePath'];
-  //       setState(() {
-  //       });
-  //       if (uplodedImage != null) {
-  //         setState(() {
-  //           uplodedImage = responseData['Data'][0]['sImagePath'];
-  //           //   buildImageWidget(uplodedImage);
-  //           //  _imageUrls.add(uplodedImage);
-  //           // thirdFormCombinedList.add({
-  //           //   'iDocumentTypeId': "${_dropDownDocument2_code}",
-  //           //   'sDocumentName': "$_dropDownDocument2",
-  //           //   'sDocumentUrl': uplodedImage,
-  //           // });
-  //         });
-  //         print("-----283-ThirdList--$thirdFormCombinedList");
-  //       }
-  //
-  //       print("------250----image list--$_imageUrls");
-  //
-  //       /// todo you should store image path here in a list
-  //       ///
-  //       print('Uploaded Image Path----222--: $uplodedImage');
-  //     } else {
-  //       print('Unexpected response format: $responseData');
-  //     }
-  //
-  //     hideLoader();
-  //   } catch (error) {
-  //     hideLoader();
-  //     print('Error uploading image: $error');
-  //   }
-  // }
-
   // add item to list
   // permises Ward Api call
 
@@ -415,8 +361,11 @@ class _MyHomePageState extends State<PropertyAssessment>
 
   bindSupportingDocumentPropertyApi() async {
     /// todo remove the comment and call Community Hall
-    bindDocumentTypePropertyList = await BindDocumentTypePropertyRepo().bindDocumentyTypeProperty();
-    print(" -----bindDocumnent Property Repo---->>>>-xx--154-----> $bindDocumentTypePropertyList");
+    bindDocumentTypePropertyList = await BindDocumentTypePropertyRepo()
+        .bindDocumentyTypeProperty();
+    print(
+      " -----bindDocumnent Property Repo---->>>>-xx--154-----> $bindDocumentTypePropertyList",
+    );
     setState(() {});
   }
 
@@ -498,18 +447,49 @@ class _MyHomePageState extends State<PropertyAssessment>
       ),
     );
   }
+
   // logic to TextFormField to calculate value
-  void _updateValue(String value, int previousValue, Function setPreviousValue) {
-    int newValue = int.tryParse(value) ?? 0;
+  void _updateValue(
+    String value,
+    double previousValue,
+    Function(double) setPreviousValue,
+  ) {
+    double newValue = double.tryParse(value) ?? 0.0;
     setState(() {
       // Adjust the thirdVariable by subtracting the previous value and adding the new one
       thirdVariable = thirdVariable - previousValue + newValue;
       setPreviousValue(newValue);
     });
   }
+
+  // void _updateValue(String value, int previousValue, Function setPreviousValue) {
+  //   int newValue = int.tryParse(value) ?? 0;
+  //   setState(() {
+  //     // Adjust the thirdVariable by subtracting the previous value and adding the new one
+  //     thirdVariable = thirdVariable - previousValue + newValue;
+  //     setPreviousValue(newValue);
+  //   });
+  // }
   // update value Commercial
-  void _updateValueCommercial(String value, int previousValue, Function setPreviousValue) {
-    int newValue = int.tryParse(value) ?? 0;
+  // void _updateValueCommercial(
+  //   String value,
+  //   int previousValue,
+  //   Function setPreviousValue,
+  // ) {
+  //   int newValue = int.tryParse(value) ?? 0;
+  //   setState(() {
+  //     // Adjust the thirdVariable by subtracting the previous value and adding the new one
+  //     commercialVariable = commercialVariable - previousValue + newValue;
+  //     setPreviousValue(newValue);
+  //   });
+  // }
+  void _updateValueCommercial(
+      String value,
+      double previousValue,
+      Function(double) setPreviousValue,
+      ) {
+    //int newValue = int.tryParse(value) ?? 0;
+    double newValue = double.tryParse(value) ?? 0.0;
     setState(() {
       // Adjust the thirdVariable by subtracting the previous value and adding the new one
       commercialVariable = commercialVariable - previousValue + newValue;
@@ -530,8 +510,10 @@ class _MyHomePageState extends State<PropertyAssessment>
     _applicationAddressfocus = FocusNode();
 
     if (bindcommunityHallDate.isNotEmpty) {
-      selectedStates =
-          List.generate(bindcommunityHallDate.length, (index) => false);
+      selectedStates = List.generate(
+        bindcommunityHallDate.length,
+        (index) => false,
+      );
     }
     // Focus node
     _houseNofocus = FocusNode();
@@ -563,7 +545,6 @@ class _MyHomePageState extends State<PropertyAssessment>
     _rentOfTheResidentialRentalPropertyCommercialfocus = FocusNode();
     _nonResidentialPropertyCommercialfocus = FocusNode();
     _useOfNonResidentialCommercialfocus = FocusNode();
-
   }
 
   @override
@@ -606,6 +587,7 @@ class _MyHomePageState extends State<PropertyAssessment>
 
     FocusScope.of(context).unfocus();
   }
+
   // Api call Function
   void validateAndCallApi() async {
     firstFormCombinedList = [];
@@ -628,29 +610,78 @@ class _MyHomePageState extends State<PropertyAssessment>
     var firstFloorSq = _firstFloorSqFtController.text.trim();
     var secondFloorSq = _secondFloorSqFtController.text.trim();
     var thirdFloorSq = _thirdFloorSqFtController.text.trim();
-    var totalResidentialProperty = _totalResidentialProperySqFtController.text.trim();
+    var totalResidentialProperty = _totalResidentialProperySqFtController.text
+        .trim();
     var residentialRentalAreaSf = _residentalRentalAreaController.text.trim();
-    var rentOfTheResidentialRental = _rentOfTheResidentialRentalPropertyController.text.trim();
+
+    print("---602---$residentialRentalAreaSf");
+
+    var rentOfTheResidentialRental =
+        _rentOfTheResidentialRentalPropertyController.text.trim();
     var nonResidentialProperty = _nonResidentialPropertyController.text.trim();
-    var useOfNonResidentialProperty = _useOfNonResidentialPropertyController.text.trim();
+    var useOfNonResidentialProperty = _useOfNonResidentialPropertyController
+        .text
+        .trim();
     // -----Commercial Property-----
     var basementSqFtCommercial = _basementSqFtCommercialController.text.trim();
-    var groundFloorCommercial = _groundFloorSqFtCommercialController.text.trim();
+    var groundFloorCommercial = _groundFloorSqFtCommercialController.text
+        .trim();
     var firstFloorCommercial = _firstFloorSqFtCommercialController.text.trim();
-    var secondFloorCommercial = _secondFloorSqFtCommercialController.text.trim();
+    var secondFloorCommercial = _secondFloorSqFtCommercialController.text
+        .trim();
     var thirdFloorCommercial = _thirdFloorSqFtCommercialController.text.trim();
     var mazzanineFloorsProperty = _mezzanineFloorsProperyController.text.trim();
-    var totalResidentialPropertyCommercial = _totalResidentialPropertyCommercialController.text.trim();
-    var residentialRentalAreaCommercial =   _residentalRentalAreaCommercialController.text.trim(); // _rentOfTheResidentialRentalPropertyCommercialController.text.trim();
-    var rentOfTheResidentialRentalCommercial = _rentOfTheResidentialRentalPropertyCommercialController.text.trim();
-    var nonResidentialPropertyCommercial = _nonResidentialPropertyCommercialController.text.trim();
-    var useOfNonResidentialPropertyCommercial = _useOfNonResidentialCommercialController.text.trim();
+    var totalResidentialPropertyCommercial =
+        _totalResidentialPropertyCommercialController.text.trim();
+    var residentialRentalAreaCommercial = _residentalRentalAreaCommercialController
+        .text
+        .trim(); // _rentOfTheResidentialRentalPropertyCommercialController.text.trim();
+    var rentOfTheResidentialRentalCommercial =
+        _rentOfTheResidentialRentalPropertyCommercialController.text.trim();
+    var nonResidentialPropertyCommercial =
+        _nonResidentialPropertyCommercialController.text.trim();
+    var useOfNonResidentialPropertyCommercial =
+        _useOfNonResidentialCommercialController.text.trim();
 
-  //  String allThreeFormJson = jsonEncode(thirdFormCombinedList);
+    //  String allThreeFormJson = jsonEncode(thirdFormCombinedList);
 
-  //  var sPropertyType="Residential";
-  //  _selectedOption
+    //  var sPropertyType="Residential";
+    //  _selectedOption
 
+    print("---formattedDate-----------------$formattedDate");
+    print("---_dropDownPremisesWardCode-----$_dropDownPremisesWardCode");
+    print("---houseNo-----------------------$houseNo");
+    print("---ownerName-----------------------$ownerName");
+    print("---houseAddress-----------------------$houseAddress");
+    print("---_formattedDate-----------------------$_formattedDate");
+    print("---_selectedOption-----------------------$_selectedOption");
+    print("---grooundFloorSq-----------------------$grooundFloorSq");
+    print("---firstFloorSq-----------------------$firstFloorSq");
+    print("---secondFloorSq-----------------------$secondFloorSq");
+    print("---thirdFloorSq-----------------------$thirdFloorSq");
+    print("---basementSq-----------------------$basementSq");
+    print("---thirdVariable-----------------------$thirdVariable");
+    print("---nonResidentialProperty--------------$nonResidentialProperty");
+    print("---useOfNonResidentialProperty---------$useOfNonResidentialProperty");
+    print("---groundFloorCommercial---------------$groundFloorCommercial");
+    print("---firstFloorCommercial---------------$firstFloorCommercial");
+    print("---secondFloorCommercial---------------$secondFloorCommercial");
+    print("---thirdFloorCommercial---------------$thirdFloorCommercial");
+    print("---mazzanineFloorsProperty---------------$mazzanineFloorsProperty");
+    print("---basementSqFtCommercial---------------$basementSqFtCommercial");
+    print("---basementSqFtCommercial---------------$basementSqFtCommercial");
+    print("---commercialVariable---------------$commercialVariable");
+    print("---residentialRentalAreaCommercial--$residentialRentalAreaCommercial");
+    print("---rentOfTheResidentialRentalCommercial----$rentOfTheResidentialRentalCommercial");
+    print("---nonResidentialPropertyCommercial----$nonResidentialPropertyCommercial");
+    print("---useOfNonResidentialPropertyCommercial----$useOfNonResidentialPropertyCommercial");
+    print("---totalCarpetArea------------------------$totalCarpetArea");
+    print("---mobileNo-------------------------------$mobileNo");
+    print("---sContactNo-------------------------------$sContactNo");
+    print("---residentialRentalAreaSf-------------------$residentialRentalAreaSf");
+    print("---rentOfTheResidentialRental-------------------$rentOfTheResidentialRental");
+    print("---surveyNo-------------------------------------$surveyNo");
+    print("---thirdFormCombinedList------------------------$thirdFormCombinedList");
 
     // contact no
     if (_dropDownPremisesWardCode != null &&
@@ -660,8 +691,7 @@ class _MyHomePageState extends State<PropertyAssessment>
         mobileNo.isNotEmpty &&
         houseAddress.isNotEmpty &&
         totalCarpetArea.isNotEmpty &&
-        _formattedDate.isNotEmpty
-    ) {
+        _formattedDate.isNotEmpty) {
       // All conditions met; call the API
       print('---Call API---');
 
@@ -670,41 +700,45 @@ class _MyHomePageState extends State<PropertyAssessment>
 
       firstFormCombinedList.add({
         "sHouseHoldRequestId": formattedDate,
-        "iWardCode": _dropDownPremisesWardCode,
-        "sHouseNo":houseNo,
-        "sHouseOwnerName":ownerName,
-        "sHouseAddress":houseAddress,
-        "dConstructionYear":_formattedDate,
-        "sPropertyType":_selectedOption,
-        "fGFResidential":grooundFloorSq,
-        "fFFResidential":firstFloorSq,
-        "fSFResidential":secondFloorSq,
-        "fTFResidential":thirdFloorSq,
-        "fBasementResidential":basementSq,
-        "fTotalResidentialArea":thirdVariable,
-        "fTotalNonResidentialArea":nonResidentialProperty,
-        "sUsesNonResidentialArea":useOfNonResidentialProperty,
-        "fGFCommercial":groundFloorCommercial,
-        "fFFCommercial":firstFloorCommercial,
-        "fSFCommercial":secondFloorCommercial,
-        "fTFCommercial":thirdFloorCommercial,
-        "fMezzFCommercial":mazzanineFloorsProperty,
-        "fBasementCommercial":basementSqFtCommercial,
-        "fTotalCommercialArea":commercialVariable,
-        "fTotalRentalCommercialArea":residentialRentalAreaCommercial,
-        "fTotalRentRentalCommercialArea":rentOfTheResidentialRentalCommercial,
-        "fTotalNonCommercialArea":nonResidentialPropertyCommercial,
-        "sUsesNonCommercialArea":useOfNonResidentialPropertyCommercial,
-        "fTotalCarpetArea":totalCarpetArea,
-        "sMobileNo":mobileNo,
-        "sAppliedBy":sContactNo,
-        "fTotalRentalResidentialArea":residentialRentalAreaSf,
-        "RentOfTotalRentalResidentialArea":rentOfTheResidentialRental,
-        "sSurveyNo":surveyNo,
-        "DocumentUploadList":thirdFormCombinedList
+        "iWardCode": "$_dropDownPremisesWardCode",                 //  "iWardCode": _dropDownPremisesWardCode,
+        "sHouseNo": houseNo,
+        "sHouseOwnerName": ownerName,
+        "sHouseAddress": houseAddress,
+        "dConstructionYear": _formattedDate,
+        "sPropertyType": _selectedOption,
+        "fGFResidential": grooundFloorSq,
+        "fFFResidential": firstFloorSq,
+        "fSFResidential": secondFloorSq,
+        "fTFResidential": thirdFloorSq,
+        "fBasementResidential": basementSq,
+        "fTotalResidentialArea": "$thirdVariable",
+        "fTotalNonResidentialArea": nonResidentialProperty,
+        "sUsesNonResidentialArea": useOfNonResidentialProperty,
+        "fGFCommercial": groundFloorCommercial,
+        "fFFCommercial": firstFloorCommercial,
+        "fSFCommercial": secondFloorCommercial,
+        "fTFCommercial": thirdFloorCommercial,
+        "fMezzFCommercial": mazzanineFloorsProperty,
+        "fBasementCommercial": basementSqFtCommercial,
+        "fTotalCommercialArea": "$commercialVariable",
+        "fTotalRentalCommercialArea": residentialRentalAreaCommercial,
+        "fTotalRentRentalCommercialArea": rentOfTheResidentialRentalCommercial,
+        "fTotalNonCommercialArea": nonResidentialPropertyCommercial,
+        "sUsesNonCommercialArea": useOfNonResidentialPropertyCommercial,
+        "fTotalCarpetArea": totalCarpetArea,
+        "sMobileNo": mobileNo,
+        "sAppliedBy": sContactNo,
+        "fTotalRentalResidentialArea": "$residentialRentalAreaSf",             //"fTotalRentalResidentialArea": residentialRentalAreaSf,
+        "RentOfTotalRentalResidentialArea": rentOfTheResidentialRental,
+        "sSurveyNo": surveyNo,
+        "DocumentUploadList": thirdFormCombinedList,
       });
       String allThreeFormJson = jsonEncode(firstFormCombinedList);
-      print("----660 -----$allThreeFormJson");
+      //print("----660 -----$allThreeFormJson");
+     // String allThreeFormJson = const JsonEncoder.withIndent('  ').convert(firstFormCombinedList);
+     // print("----660 -----$allThreeFormJson");
+      print("-------727-------");
+      debugPrint(allThreeFormJson, wrapWidth: 1024);
       // -----call Api ------
 
       var posthouseHoldDetailRequest = await PostHouseHoldDetailRequestRepo()
@@ -712,8 +746,8 @@ class _MyHomePageState extends State<PropertyAssessment>
 
       print('----665---$posthouseHoldDetailRequest');
 
-        result2 = posthouseHoldDetailRequest['Result'];
-        msg2 = posthouseHoldDetailRequest['Msg'];
+      result2 = posthouseHoldDetailRequest['Result'];
+      msg2 = posthouseHoldDetailRequest['Msg'];
 
       if (result2 == "1") {
         displayToast(msg2);
@@ -752,22 +786,26 @@ class _MyHomePageState extends State<PropertyAssessment>
       if (totalCarpetArea.isEmpty) {
         displayToast('Please Total Carpet Area');
         return;
-      }if(_formattedDate.isEmpty){
+      }
+      if (_formattedDate.isEmpty) {
         displayToast('Please Select Date');
         return;
       }
     }
   }
+
   // pick pdf and images form a gallery
   // ImageCamra code
   Future pickImageCamra() async {
-    image=null;
+    image = null;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
     print('---Token----113--$sToken');
     try {
-      final pickFileid = await ImagePicker()
-          .pickImage(source: ImageSource.camera, imageQuality: 50);
+      final pickFileid = await ImagePicker().pickImage(
+        source: ImageSource.camera,
+        imageQuality: 50,
+      );
       if (pickFileid != null) {
         image = File(pickFileid.path);
         setState(() {});
@@ -779,6 +817,7 @@ class _MyHomePageState extends State<PropertyAssessment>
       }
     } catch (e) {}
   }
+
   Future pickGallery() async {
     File? selectedFile;
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -822,16 +861,18 @@ class _MyHomePageState extends State<PropertyAssessment>
       print("❌ Error picking file: $e");
     }
   }
+
   // pdf open code
   void openPdf(BuildContext context, String pdfUrl) async {
     if (await canLaunchUrl(Uri.parse(pdfUrl))) {
       await launchUrl(Uri.parse(pdfUrl), mode: LaunchMode.externalApplication);
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Cannot open PDF")),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Cannot open PDF")));
     }
   }
+
   // card with photo and gallery with pdf
   Widget buildPdfCard({
     required VoidCallback onCameraTap,
@@ -839,9 +880,7 @@ class _MyHomePageState extends State<PropertyAssessment>
   }) {
     return Card(
       elevation: 6,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       color: Colors.grey[300],
       child: Container(
         padding: const EdgeInsets.all(10),
@@ -851,7 +890,7 @@ class _MyHomePageState extends State<PropertyAssessment>
           children: [
             // Image or PDF section
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 if (uplodedImage!.toLowerCase().endsWith('.pdf')) {
                   print("PDF tapped: $uplodedImage");
                   // Open PDF in browser or PDF viewer
@@ -865,11 +904,11 @@ class _MyHomePageState extends State<PropertyAssessment>
                       builder: (_) => Scaffold(
                         appBar: AppBar(title: const Text("Image Preview")),
                         body: Center(
-                            child: Image.network(
-                              uplodedImage!,
-                              width: double.infinity, // take full width
-                              fit: BoxFit.cover, // cover the available space
-                            )
+                          child: Image.network(
+                            uplodedImage!,
+                            width: double.infinity, // take full width
+                            fit: BoxFit.cover, // cover the available space
+                          ),
                         ),
                       ),
                     ),
@@ -885,31 +924,42 @@ class _MyHomePageState extends State<PropertyAssessment>
                 ),
                 child: uplodedImage != null && uplodedImage!.isNotEmpty
                     ? ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: uplodedImage!.toLowerCase().endsWith('.pdf')
-                      ? const Center(
-                    child: Icon(Icons.picture_as_pdf,
-                        size: 100, color: Colors.red),
-                  )
-                      : Image.network(
-                    uplodedImage!,
-                    width: double.infinity,
-                    height: double.infinity,
-                    fit: BoxFit.cover, // Fill container
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return const Center(
-                          child: CircularProgressIndicator());
-                    },
-                    errorBuilder: (context, error, stackTrace) =>
-                    const Icon(Icons.broken_image,
-                        size: 100, color: Colors.grey),
-                  ),
-                )
+                        borderRadius: BorderRadius.circular(8),
+                        child: uplodedImage!.toLowerCase().endsWith('.pdf')
+                            ? const Center(
+                                child: Icon(
+                                  Icons.picture_as_pdf,
+                                  size: 100,
+                                  color: Colors.red,
+                                ),
+                              )
+                            : Image.network(
+                                uplodedImage!,
+                                width: double.infinity,
+                                height: double.infinity,
+                                fit: BoxFit.cover, // Fill container
+                                loadingBuilder:
+                                    (context, child, loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    },
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const Icon(
+                                      Icons.broken_image,
+                                      size: 100,
+                                      color: Colors.grey,
+                                    ),
+                              ),
+                      )
                     : const Center(
-                  child: Icon(Icons.picture_as_pdf,
-                      size: 100, color: Colors.grey),
-                ),
+                        child: Icon(
+                          Icons.picture_as_pdf,
+                          size: 100,
+                          color: Colors.grey,
+                        ),
+                      ),
               ),
             ),
             const SizedBox(height: 10),
@@ -948,180 +998,187 @@ class _MyHomePageState extends State<PropertyAssessment>
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-        onWillPop: () async => false,
-        child: GestureDetector(
-            onTap: () {
-              FocusScope.of(context).unfocus();
-            },
-            child: Scaffold(
-                backgroundColor: Colors.white,
-                // appBar: getAppBarBack(context,"Online Complaint"),
-                appBar: AppBar(
-                  // statusBarColore
-                  systemOverlayStyle: const SystemUiOverlayStyle(
-                    statusBarColor: Color(0xFF12375e),
-                    statusBarIconBrightness: Brightness.dark,
-                    // For Android (dark icons)
-                    statusBarBrightness:
-                        Brightness.light, // For iOS (dark icons)
-                  ),
-                  // backgroundColor: Colors.blu
-                  centerTitle: true,
-                  backgroundColor: Color(0xFF255898),
-                  leading: GestureDetector(
-                    onTap: () {
-                      print("------back---");
-                      Navigator.pop(context);
-                    },
-                    child: const Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.white,
-                    ),
-                  ),
-                  title: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 5),
-                    child: Text(
-                      "${widget.name}",
-                      style: AppTextStyle.font16OpenSansRegularWhiteTextStyle,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                  //centerTitle: true,
-                  elevation: 0, // Removes shadow under the AppBar
-                ),
-                body: Stack(
-                  children: [
-                    // Scrollable ListView
-                    ListView(
-                      padding: EdgeInsets.only(bottom: 80),
-                      // Prevent overlap with button
-                      children: [
-                        // First Section Header
-                        Padding(
-                          padding: const EdgeInsets.only(left: 15,right: 15,top: 5),
-                          child: GestureDetector(
-                            onTap: (){
-                              print("-------722---");
-                              _selectDate(context);
-                            },
-                            // _selectedDate
-                            child: Container(
-                              height: 60,
-                              color: Colors.black12,
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      // First widget: Container with an image
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 5,top: 5,bottom: 5),
-                                        child: Container(
-                                          height: 50,
-                                          width: 50,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(10),
-                                            image: const DecorationImage(
-                                              image: AssetImage('assets/images/datepicker.jpeg'), // Replace with your asset path
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                        ),
+      onWillPop: () async => false,
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          // appBar: getAppBarBack(context,"Online Complaint"),
+          appBar: AppBar(
+            // statusBarColore
+            systemOverlayStyle: const SystemUiOverlayStyle(
+              statusBarColor: Color(0xFF12375e),
+              statusBarIconBrightness: Brightness.dark,
+              // For Android (dark icons)
+              statusBarBrightness: Brightness.light, // For iOS (dark icons)
+            ),
+            // backgroundColor: Colors.blu
+            centerTitle: true,
+            backgroundColor: Color(0xFF255898),
+            leading: GestureDetector(
+              onTap: () {
+                print("------back---");
+                Navigator.pop(context);
+              },
+              child: const Icon(Icons.arrow_back_ios, color: Colors.white),
+            ),
+            title: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              child: Text(
+                "${widget.name}",
+                style: AppTextStyle.font16OpenSansRegularWhiteTextStyle,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            //centerTitle: true,
+            elevation: 0, // Removes shadow under the AppBar
+          ),
+          body: Stack(
+            children: [
+              // Scrollable ListView
+              ListView(
+                padding: EdgeInsets.only(bottom: 80),
+                // Prevent overlap with button
+                children: [
+                  // First Section Header
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 15, top: 5),
+                    child: GestureDetector(
+                      onTap: () {
+                        print("-------722---");
+                        _selectDate(context);
+                      },
+                      // _selectedDate
+                      child: Container(
+                        height: 60,
+                        color: Colors.black12,
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                // First widget: Container with an image
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 5,
+                                    top: 5,
+                                    bottom: 5,
+                                  ),
+                                  child: Container(
+                                    height: 50,
+                                    width: 50,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      image: const DecorationImage(
+                                        image: AssetImage(
+                                          'assets/images/datepicker.jpeg',
+                                        ), // Replace with your asset path
+                                        fit: BoxFit.cover,
                                       ),
-                                      SizedBox(width: 10), // Spacing between widgets
-                                      // Second widget: Column with two Text widgets
-                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start, // Align text to the left
-                                        mainAxisAlignment: MainAxisAlignment.center, // Center vertically
-                                        children: [
-                                          RichText(
-                                            text: TextSpan(
-                                              text: 'Construction Start Date',
-                                              // The normal text
-                                              style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                                              // Default style
-                                              children: const [
-                                                TextSpan(
-                                                  text: ' *', // The asterisk
-                                                  style: TextStyle(
-                                                    color: Colors.red, // Red color for the asterisk
-                                                    fontWeight: FontWeight
-                                                        .bold, // Optional: Make the asterisk bold
-                                                  ),
-                                                ),
-                                              ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 10), // Spacing between widgets
+                                // Second widget: Column with two Text widgets
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment
+                                      .start, // Align text to the left
+                                  mainAxisAlignment: MainAxisAlignment
+                                      .center, // Center vertically
+                                  children: [
+                                    RichText(
+                                      text: TextSpan(
+                                        text: 'Construction Start Date',
+                                        // The normal text
+                                        style: AppTextStyle
+                                            .font14OpenSansRegularBlack45TextStyle,
+                                        // Default style
+                                        children: const [
+                                          TextSpan(
+                                            text: ' *', // The asterisk
+                                            style: TextStyle(
+                                              color: Colors
+                                                  .red, // Red color for the asterisk
+                                              fontWeight: FontWeight
+                                                  .bold, // Optional: Make the asterisk bold
                                             ),
-                                          ),
-                                          SizedBox(height: 2),
-                                          Text(
-                                            _formattedDate == null
-                                                ? 'No date selected'
-                                                : '${_formattedDate}',
-                                            style: AppTextStyle.font16OpenSansRegularBlackTextStyle,
                                           ),
                                         ],
                                       ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                    ),
+                                    SizedBox(height: 2),
+                                    Text(
+                                      _formattedDate == null
+                                          ? 'No date selected'
+                                          : '${_formattedDate}',
+                                      style: AppTextStyle
+                                          .font16OpenSansRegularBlackTextStyle,
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                          ),
-                        ),
-                        _buildSectionHeader(
-                          title: "1. Owner Details",
-                          isVisible: isFirstFormVisible,
-                          isIconRotated: isFirstIconRotated,
-                          color :Color(0xFFdac5e4),
-                          onToggle: () {
-                            setState(() {
-                              isFirstFormVisible = !isFirstFormVisible;
-                              isFirstIconRotated = !isFirstIconRotated;
-                            });
-                          },
-                        ),
-                        // First Form Content
-                        if (isFirstFormVisible)
-                          _buildFirstForm(),
-                      ],
-                    ),
-                    // Fixed Bottom Button
-                    Positioned(
-                      bottom: 20,
-                      left: 16,
-                      right: 16,
-                      child: GestureDetector(
-                        onTap: () {
-                          validateAndCallApi();
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          // Make container fill the width of its parent
-                          height: AppSize.s45,
-                          padding: EdgeInsets.all(AppPadding.p5),
-                          decoration: BoxDecoration(
-                            color: Color(0xFF255898),
-                            // Background color using HEX value
-                            borderRadius: BorderRadius.circular(
-                                AppMargin.m10), // Rounded corners
-                          ),
-                          //  #00b3c7
-                          child: Center(
-                            child: Text(
-                              "Submit",
-                              style: AppTextStyle
-                                  .font16OpenSansRegularWhiteTextStyle,
-                            ),
-                          ),
+                          ],
                         ),
                       ),
                     ),
-                  ],
-                ))));
+                  ),
+                  _buildSectionHeader(
+                    title: "1. Owner Details",
+                    isVisible: isFirstFormVisible,
+                    isIconRotated: isFirstIconRotated,
+                    color: Color(0xFFdac5e4),
+                    onToggle: () {
+                      setState(() {
+                        isFirstFormVisible = !isFirstFormVisible;
+                        isFirstIconRotated = !isFirstIconRotated;
+                      });
+                    },
+                  ),
+                  // First Form Content
+                  if (isFirstFormVisible) _buildFirstForm(),
+                ],
+              ),
+              // Fixed Bottom Button
+              Positioned(
+                bottom: 20,
+                left: 16,
+                right: 16,
+                child: GestureDetector(
+                  onTap: () {
+                    validateAndCallApi();
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    // Make container fill the width of its parent
+                    height: AppSize.s45,
+                    padding: EdgeInsets.all(AppPadding.p5),
+                    decoration: BoxDecoration(
+                      color: Color(0xFF255898),
+                      // Background color using HEX value
+                      borderRadius: BorderRadius.circular(
+                        AppMargin.m10,
+                      ), // Rounded corners
+                    ),
+                    //  #00b3c7
+                    child: Center(
+                      child: Text(
+                        "Submit",
+                        style: AppTextStyle.font16OpenSansRegularWhiteTextStyle,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   // Section Header Widget
@@ -1129,13 +1186,15 @@ class _MyHomePageState extends State<PropertyAssessment>
     required String title,
     required bool isVisible,
     required bool isIconRotated,
-    required VoidCallback onToggle, required Color color,
+    required VoidCallback onToggle,
+    required Color color,
   }) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       padding: EdgeInsets.symmetric(horizontal: 16),
       height: 50,
-      decoration: BoxDecoration(color: color, // Custom background color
+      decoration: BoxDecoration(
+        color: color, // Custom background color
         borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
@@ -1245,18 +1304,15 @@ class _MyHomePageState extends State<PropertyAssessment>
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 5.0, horizontal: 10.0),
+                            vertical: 5.0,
+                            horizontal: 10.0,
+                          ),
                           filled: true, // Enable background color
                           fillColor: Color(
-                              0xFFf2f3f5), // Set your desired background color
+                            0xFFf2f3f5,
+                          ), // Set your desired background color
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        // inputFormatters: [
-                        //   FilteringTextInputFormatter.digitsOnly,
-                        //   // Allow only digits
-                        // //  LengthLimitingTextInputFormatter(10),
-                        //   // Restrict input to a maximum of 10 digits
-                        // ],
                       ),
                     ),
                   ],
@@ -1310,25 +1366,38 @@ class _MyHomePageState extends State<PropertyAssessment>
                         focusNode: _surveyNofocus,
                         controller: _surveyNoController,
                         textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
+                        //keyboardType: TextInputType.number,
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 5.0, horizontal: 10.0),
+                            vertical: 5.0,
+                            horizontal: 10.0,
+                          ),
                           filled: true,
                           // Enable background color
                           fillColor: Color(
-                              0xFFf2f3f5), // Set your desired background color here
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          // Allow only digits
-                          //LengthLimitingTextInputFormatter(10),
-                          // Restrict input to a maximum of 10 digits
-                        ],
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            //return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
+                        // inputFormatters: [
+                        //   FilteringTextInputFormatter.digitsOnly,
+                        // ],
                       ),
                     ),
                   ],
@@ -1387,11 +1456,14 @@ class _MyHomePageState extends State<PropertyAssessment>
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
+                            vertical: 10.0,
+                            horizontal: 10.0,
+                          ),
                           filled: true,
                           // Enable background color
                           fillColor: Color(
-                              0xFFf2f3f5), // Set your desired background color here
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                       ),
@@ -1453,11 +1525,14 @@ class _MyHomePageState extends State<PropertyAssessment>
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
+                            vertical: 10.0,
+                            horizontal: 10.0,
+                          ),
                           filled: true,
                           // Enable background color
                           fillColor: Color(
-                              0xFFf2f3f5), // Set your desired background color here
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         inputFormatters: [
@@ -1518,18 +1593,21 @@ class _MyHomePageState extends State<PropertyAssessment>
                       child: TextFormField(
                         focusNode: _houseAddressfocus,
                         controller: _houseAddressController,
-                       // keyboardType: TextInputType.number,
+                        // keyboardType: TextInputType.number,
                         textInputAction: TextInputAction.next,
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
+                            vertical: 10.0,
+                            horizontal: 10.0,
+                          ),
                           filled: true,
                           // Enable background color
                           fillColor: Color(
-                              0xFFf2f3f5), // Set your desired background color here
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                       ),
@@ -1550,7 +1628,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                 // Space between the circle and text
                 RichText(
                   text: TextSpan(
-                    text: 'Total Carpet Area',
+                    text: 'Total Area of Land/Plot',
                     // The normal text
                     style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
                     // Default style
@@ -1585,25 +1663,39 @@ class _MyHomePageState extends State<PropertyAssessment>
                         focusNode: _totalCarpetAreafocus,
                         controller: _totalCarpetAreaController,
                         textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
+                        // keyboardType: TextInputType.number,
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
+                            vertical: 10.0,
+                            horizontal: 10.0,
+                          ),
                           filled: true,
                           // Enable background color
                           fillColor: Color(
-                              0xFFf2f3f5), // Set your desired background color here
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          // Allow only digits
-                        //  LengthLimitingTextInputFormatter(10),
-                          // Restrict input to a maximum of 10 digits
-                        ],
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        // ✅ Validator
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            // return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
+                        // inputFormatters: [
+                        //   FilteringTextInputFormatter.digitsOnly,
+                        // ],
                       ),
                     ),
                   ],
@@ -1650,11 +1742,9 @@ class _MyHomePageState extends State<PropertyAssessment>
                     value: "Residential",
                     groupValue: _selectedOption,
                     onChanged: (value) {
-
                       setState(() {
                         _selectedOption = value!;
-                        residentialCount="2";
-
+                        residentialCount = "2";
                       });
                       print("-------1427---$_selectedOption");
                     },
@@ -1670,12 +1760,12 @@ class _MyHomePageState extends State<PropertyAssessment>
                     onChanged: (value) {
                       setState(() {
                         _selectedOption = value!;
-                        commercialCount="2";
+                        commercialCount = "2";
                       });
                       print("-------1427---$_selectedOption");
                     },
                   ),
-                 Text("Commercial"),
+                  Text("Commercial"),
                 ],
               ),
               Row(
@@ -1686,64 +1776,63 @@ class _MyHomePageState extends State<PropertyAssessment>
                     onChanged: (value) {
                       setState(() {
                         _selectedOption = value!;
-                        residentialCount="2";
-                        commercialCount="3";
-                        uplodePhoto="4";
+                        residentialCount = "2";
+                        commercialCount = "3";
+                        uplodePhoto = "4";
                       });
                       print("-------1427---$_selectedOption");
                     },
                   ),
-                 Text("Both"),
+                  Text("Both"),
                 ],
               ),
             ],
           ),
           SizedBox(height: 5),
-          if(_selectedOption=="Residential")
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildSectionHeader(
-                  title: "2. Residential Details",
-                  isVisible: isSecondFormVisible,
-                  isIconRotated: isSecondIconRotated,
-                  color :Color(0xFFf0cea9),
-                  onToggle: () {
-                    setState(() {
-                      isSecondFormVisible = !isSecondFormVisible;
-                      isSecondIconRotated = !isSecondIconRotated;
-                    });
-                  },
-                ),
-                // Second Form Content
-                if (isSecondFormVisible)
-                  _buildSecondForm(),
-                //--------ThirdForm----
-                _buildSectionHeader(
-                  title: "3. Uplode Photos",
-                  isVisible: isThirdFormVisible,
-                  isIconRotated: isThirdIconRotated,
-                  color :Color(0xFFdac5e4),
-                  onToggle: () {
-                    setState(() {
-                      isThirdFormVisible = !isThirdFormVisible;
-                      isThirdIconRotated = !isThirdIconRotated;
-                    });
-                  },
-                ),
-                // Third Form Content
-                if (isThirdFormVisible) _buildThirdForm(),
-                SizedBox(height: 5),
-              ],
+          if (_selectedOption == "Residential")
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildSectionHeader(
+                    title: "2. Residential Details",
+                    isVisible: isSecondFormVisible,
+                    isIconRotated: isSecondIconRotated,
+                    color: Color(0xFFf0cea9),
+                    onToggle: () {
+                      setState(() {
+                        isSecondFormVisible = !isSecondFormVisible;
+                        isSecondIconRotated = !isSecondIconRotated;
+                      });
+                    },
+                  ),
+                  // Second Form Content
+                  if (isSecondFormVisible) _buildSecondForm(),
+                  //--------ThirdForm----
+                  _buildSectionHeader(
+                    title: "3. Uplode Photos",
+                    isVisible: isThirdFormVisible,
+                    isIconRotated: isThirdIconRotated,
+                    color: Color(0xFFdac5e4),
+                    onToggle: () {
+                      setState(() {
+                        isThirdFormVisible = !isThirdFormVisible;
+                        isThirdIconRotated = !isThirdIconRotated;
+                      });
+                    },
+                  ),
+                  // Third Form Content
+                  if (isThirdFormVisible) _buildThirdForm(),
+                  SizedBox(height: 5),
+                ],
+              ),
             ),
-          ),
-          if(_selectedOption=="Commercial")
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Column(
+          if (_selectedOption == "Commercial")
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -1752,7 +1841,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                     title: "${commercialCount}. Commercial Property Detail",
                     isVisible: isCommercialFormVisible,
                     isIconRotated: isCommercialIconRotated,
-                    color :Color(0xFFdac5e4),
+                    color: Color(0xFFdac5e4),
                     onToggle: () {
                       setState(() {
                         isCommercialFormVisible = !isCommercialFormVisible;
@@ -1768,7 +1857,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                     title: "3. Uplode Photos",
                     isVisible: isThirdFormVisible,
                     isIconRotated: isThirdIconRotated,
-                    color :Color(0xFFdac5e4),
+                    color: Color(0xFFdac5e4),
                     onToggle: () {
                       setState(() {
                         isThirdFormVisible = !isThirdFormVisible;
@@ -1779,11 +1868,10 @@ class _MyHomePageState extends State<PropertyAssessment>
                   // Third Form Content
                   if (isThirdFormVisible) _buildThirdForm(),
                   SizedBox(height: 5),
-
                 ],
               ),
-          ),
-          if(_selectedOption=="Both")
+            ),
+          if (_selectedOption == "Both")
             Align(
               alignment: Alignment.centerLeft,
               child: Column(
@@ -1794,7 +1882,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                     title: "${residentialCount}. Residential Details",
                     isVisible: isSecondFormVisible,
                     isIconRotated: isSecondIconRotated,
-                    color :Color(0xFFf0cea9),
+                    color: Color(0xFFf0cea9),
                     onToggle: () {
                       setState(() {
                         isSecondFormVisible = !isSecondFormVisible;
@@ -1803,14 +1891,13 @@ class _MyHomePageState extends State<PropertyAssessment>
                     },
                   ),
                   // Second Form Content
-                  if (isSecondFormVisible)
-                    _buildSecondForm(),
+                  if (isSecondFormVisible) _buildSecondForm(),
                   // build Commercil Form
                   _buildSectionHeader(
                     title: "${commercialCount}. Commercial Property Detail",
                     isVisible: isCommercialFormVisible,
                     isIconRotated: isCommercialIconRotated,
-                    color :Color(0xFFdac5e4),
+                    color: Color(0xFFdac5e4),
                     onToggle: () {
                       setState(() {
                         isCommercialFormVisible = !isCommercialFormVisible;
@@ -1826,7 +1913,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                     title: "${uplodePhoto}. Uplode Photos",
                     isVisible: isThirdFormVisible,
                     isIconRotated: isThirdIconRotated,
-                    color :Color(0xFFdac5e4),
+                    color: Color(0xFFdac5e4),
                     onToggle: () {
                       setState(() {
                         isThirdFormVisible = !isThirdFormVisible;
@@ -1848,1580 +1935,1840 @@ class _MyHomePageState extends State<PropertyAssessment>
   // Second Form
   Widget _buildSecondForm() {
     return Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16),
-        child: Column(
-          children: [
-            // Basement (sq.ft.)'
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'Basement (sq.ft.)',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3),
-              child: Container(
-                height: 65,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: _basementSqFtfocus,
-                          controller: _basementSqFtController,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
-                          onChanged: (value) =>
-                              _updateValue(value, basementPreviousValue, (newVal) => basementPreviousValue = newVal),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 5.0, horizontal: 10.0),
-                            filled: true, // Enable background color
-                            fillColor: Color(
-                                0xFFf2f3f5), // Set your desired background color
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            // Allow only digits
-                           // LengthLimitingTextInputFormatter(10),
-                            // Restrict input to a maximum of 10 digits
-                          ],
+      padding: const EdgeInsets.only(left: 16, right: 16),
+      child: Column(
+        children: [
+          // Basement (sq.ft.)'
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Basement (sq.ft.)',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-            // Ground Floor (Sq.ft.
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'Ground Floor (Sq.ft.)',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
-                          ),
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: Container(
+              height: 65,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: _basementSqFtfocus,
+                        controller: _basementSqFtController,
+                        textInputAction: TextInputAction.next,
+                        // keyboardType: TextInputType.num,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
+                        onChanged: (value) => _updateValue(
+                          value,
+                          basementPreviousValue,
+                          (newVal) => basementPreviousValue = newVal,
                         ),
-                      ],
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 5.0,
+                            horizontal: 10.0,
+                          ),
+                          filled: true, // Enable background color
+                          fillColor: Color(
+                            0xFFf2f3f5,
+                          ), // Set your desired background color
+                        ),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        // ✅ Validator
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            // return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3),
-              child: Container(
-                height: 65,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: _groundFloorSqFtfocus,
-                          controller: _groundFloorSqFtController,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
-                          onChanged: (value) =>
-                              _updateValue(value, groundFloorPreviousValue, (newVal) => groundFloorPreviousValue = newVal),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 5.0, horizontal: 10.0),
-                            filled: true,
-                            // Enable background color
-                            fillColor: Color(
-                                0xFFf2f3f5), // Set your desired background color here
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            // Allow only digits
-                            // LengthLimitingTextInputFormatter(10),
-                            // Restrict input to a maximum of 10 digits
-                          ],
+          ),
+          // Ground Floor (Sq.ft.
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Ground Floor (Sq.ft.)',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-            // First Floor (sq.ft.)
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'First Floor (sq.ft.)',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
-                          ),
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: Container(
+              height: 65,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: _groundFloorSqFtfocus,
+                        controller: _groundFloorSqFtController,
+                        textInputAction: TextInputAction.next,
+                        // keyboardType: TextInputType.number,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
+                        onChanged: (value) => _updateValue(
+                          value,
+                          groundFloorPreviousValue,
+                          (newVal) => groundFloorPreviousValue = newVal,
                         ),
-                      ],
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 5.0,
+                            horizontal: 10.0,
+                          ),
+                          filled: true,
+                          // Enable background color
+                          fillColor: Color(
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
+                        ),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        // ✅ Validator
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            // return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3),
-              child: Container(
-                height: 65,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: _firstFloorSqFtfocus,
-                          controller: _firstFloorSqFtController,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
-                          onChanged: (value) =>
-                              _updateValue(value, firstFloorPreviousValue, (newVal) => firstFloorPreviousValue = newVal),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            filled: true,
-                            // Enable background color
-                            fillColor: Color(
-                                0xFFf2f3f5), // Set your desired background color here
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            // Allow only digits
-                            // LengthLimitingTextInputFormatter(10),
-                            // Restrict input to a maximum of 10 digits
-                          ],
+          ),
+          // First Floor (sq.ft.)
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'First Floor (sq.ft.)',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-            // Second Floor (sq.ft.)
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'Second Floor (sq.ft.)',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
-                          ),
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: Container(
+              height: 65,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: _firstFloorSqFtfocus,
+                        controller: _firstFloorSqFtController,
+                        textInputAction: TextInputAction.next,
+                        // keyboardType: TextInputType.number,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
+                        onChanged: (value) => _updateValue(
+                          value,
+                          firstFloorPreviousValue,
+                          (newVal) => firstFloorPreviousValue = newVal,
                         ),
-                      ],
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 10.0,
+                          ),
+                          filled: true,
+                          // Enable background color
+                          fillColor: Color(
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
+                        ),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        // ✅ Validator
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            // return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3),
-              child: Container(
-                height: 65,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: _secondFloorSqFtfocus,
-                          controller: _secondFloorSqFtController,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
-                          onChanged: (value) =>
-                              _updateValue(value, secondFloorPreviousValue, (newVal) => secondFloorPreviousValue = newVal),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            filled: true,
-                            // Enable background color
-                            fillColor: Color(
-                                0xFFf2f3f5), // Set your desired background color here
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            // Allow only digits
-                            // LengthLimitingTextInputFormatter(10),
-                            // Restrict input to a maximum of 10 digits
-                          ],
+          ),
+          // Second Floor (sq.ft.)
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Second Floor (sq.ft.)',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-            // Third Floor (sq.ft)
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'Third Floor (sq.ft)',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
-                          ),
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: Container(
+              height: 65,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: _secondFloorSqFtfocus,
+                        controller: _secondFloorSqFtController,
+                        textInputAction: TextInputAction.next,
+                        // keyboardType: TextInputType.number,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
+                        onChanged: (value) => _updateValue(
+                          value,
+                          secondFloorPreviousValue,
+                          (newVal) => secondFloorPreviousValue = newVal,
                         ),
-                      ],
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 10.0,
+                          ),
+                          filled: true,
+                          // Enable background color
+                          fillColor: Color(
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
+                        ),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        // ✅ Validator
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            // return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3),
-              child: Container(
-                height: 65,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: _thirdFloorSqFtfocus,
-                          controller: _thirdFloorSqFtController,
-                          keyboardType: TextInputType.number,
-                          textInputAction: TextInputAction.next,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
-                          onChanged: (value) =>
-                              _updateValue(value, thirdFloorPreviousValue, (newVal) => thirdFloorPreviousValue = newVal),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            filled: true,
-                            // Enable background color
-                            fillColor: Color(
-                                0xFFf2f3f5), // Set your desired background color here
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            // Allow only digits
-                           // LengthLimitingTextInputFormatter(10),
-                            // Restrict input to a maximum of 10 digits
-                          ],
+          ),
+          // Third Floor (sq.ft)
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Third Floor (sq.ft)',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-            // Total Residential Property (sq.ft.)
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'Total Residential Property (sq.ft.)',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
-                          ),
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: Container(
+              height: 65,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: _thirdFloorSqFtfocus,
+                        controller: _thirdFloorSqFtController,
+                        //keyboardType: TextInputType.number,
+                        textInputAction: TextInputAction.next,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
+                        onChanged: (value) => _updateValue(
+                          value,
+                          thirdFloorPreviousValue,
+                          (newVal) => thirdFloorPreviousValue = newVal,
                         ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15),
-              child: Container(
-                width: MediaQuery.of(context).size.width-60,
-                padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFf2f3f5), // Same background color as the TextFormField
-                  border: Border.all(color: Colors.grey), // Border styling similar to OutlineInputBorder
-                  borderRadius: BorderRadius.circular(4.0), // Rounded corners
-                ),
-                child: Text(
-                  thirdVariable.toString(), // Display the value from the controller
-                  style: const TextStyle(
-                    fontSize: 16.0, // Match the font size as per your need
-                    color: Colors.black, // Adjust text color
-                  ),
-                ),
-              ),
-              // child: Container(
-              //   height: 70,
-              //   // Increased height to accommodate error message without resizing
-              //   color: Colors.white,
-              //   child: Padding(
-              //     padding: const EdgeInsets.only(left: 14, right: 14),
-              //     child: Column(
-              //       children: [
-              //         Expanded(
-              //           child: TextFormField(
-              //             focusNode: _totalResidentialProperySqFtfocus,
-              //             controller: _totalResidentialProperySqFtController,
-              //             textInputAction: TextInputAction.next,
-              //             readOnly: true,
-              //             keyboardType: TextInputType.number,
-              //             onEditingComplete: () => FocusScope.of(context).nextFocus(),
-              //             decoration: const InputDecoration(
-              //               border: OutlineInputBorder(),
-              //               contentPadding: EdgeInsets.symmetric(
-              //               vertical: 10.0, horizontal: 10.0),
-              //               filled: true,
-              //               // Enable background color
-              //               fillColor: Color(0xFFf2f3f5), // Set your desired background color here
-              //             ),
-              //             autovalidateMode: AutovalidateMode.onUserInteraction,
-              //             inputFormatters: [
-              //               FilteringTextInputFormatter.digitsOnly,
-              //               // Allow only digits
-              //               // LengthLimitingTextInputFormatter(10),
-              //               // Restrict input to a maximum of 10 digits
-              //             ],
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-            ),
-            // Residential Rental Area (Square feet)
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'Residential Rental Area (Square feet)',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 10.0,
                           ),
+                          filled: true,
+                          // Enable background color
+                          fillColor: Color(
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
                         ),
-                      ],
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        // ✅ Validator
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            // return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.only(left: 0, right: 0),
-              child: Container(
-                height: 70,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: _residentalRentalAreafocus,
-                          controller: _residentalRentalAreaController,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            filled: true,
-                            // Enable background color
-                            fillColor: Color(
-                                0xFFf2f3f5), // Set your desired background color here
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            // Allow only digits
-                            // LengthLimitingTextInputFormatter(10),
-                            // Restrict input to a maximum of 10 digits
-                          ],
+          ),
+          // Total Residential Property (sq.ft.)
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Total Residential Property (sq.ft.)',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
                       ),
                     ],
                   ),
                 ),
+              ],
+            ),
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.only(left: 15, right: 15),
+            child: Container(
+              width: MediaQuery.of(context).size.width - 60,
+              padding: const EdgeInsets.symmetric(
+                vertical: 10.0,
+                horizontal: 10.0,
+              ),
+              decoration: BoxDecoration(
+                color: const Color(
+                  0xFFf2f3f5,
+                ), // Same background color as the TextFormField
+                border: Border.all(
+                  color: Colors.grey,
+                ), // Border styling similar to OutlineInputBorder
+                borderRadius: BorderRadius.circular(4.0), // Rounded corners
+              ),
+              child: Text(
+                thirdVariable
+                    .toString(), // Display the value from the controller
+                style: const TextStyle(
+                  fontSize: 16.0, // Match the font size as per your need
+                  color: Colors.black, // Adjust text color
+                ),
               ),
             ),
-            // Rent of the Residential Rental Property
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'Rent of the Residential Rental Property',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
-                          ),
+            // child: Container(
+            //   height: 70,
+            //   // Increased height to accommodate error message without resizing
+            //   color: Colors.white,
+            //   child: Padding(
+            //     padding: const EdgeInsets.only(left: 14, right: 14),
+            //     child: Column(
+            //       children: [
+            //         Expanded(
+            //           child: TextFormField(
+            //             focusNode: _totalResidentialProperySqFtfocus,
+            //             controller: _totalResidentialProperySqFtController,
+            //             textInputAction: TextInputAction.next,
+            //             readOnly: true,
+            //             keyboardType: TextInputType.number,
+            //             onEditingComplete: () => FocusScope.of(context).nextFocus(),
+            //             decoration: const InputDecoration(
+            //               border: OutlineInputBorder(),
+            //               contentPadding: EdgeInsets.symmetric(
+            //               vertical: 10.0, horizontal: 10.0),
+            //               filled: true,
+            //               // Enable background color
+            //               fillColor: Color(0xFFf2f3f5), // Set your desired background color here
+            //             ),
+            //             autovalidateMode: AutovalidateMode.onUserInteraction,
+            //             inputFormatters: [
+            //               FilteringTextInputFormatter.digitsOnly,
+            //               // Allow only digits
+            //               // LengthLimitingTextInputFormatter(10),
+            //               // Restrict input to a maximum of 10 digits
+            //             ],
+            //           ),
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+          ),
+          // Residential Rental Area (Square feet)
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Residential Rental Area (Square feet)',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.only(left: 0, right: 0),
+            child: Container(
+              height: 70,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: _residentalRentalAreafocus,
+                        controller: _residentalRentalAreaController,
+                        textInputAction: TextInputAction.next,
+                        // keyboardType: TextInputType.number,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 10.0,
+                          ),
+                          filled: true,
+                          // Enable background color
+                          fillColor: Color(
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
+                        ),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        // ✅ Validator
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            // return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.only(left: 0, right: 0),
-              child: Container(
-                height: 70,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: _rentOfTheResidentialRentalPropertyfocus,
-                          controller: _rentOfTheResidentialRentalPropertyController,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
+          ),
+          // Rent of the Residential Rental Property
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Rent of the Residential Rental Property',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.only(left: 0, right: 0),
+            child: Container(
+              height: 70,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: _rentOfTheResidentialRentalPropertyfocus,
+                        controller:
+                            _rentOfTheResidentialRentalPropertyController,
+                        textInputAction: TextInputAction.next,
 
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            filled: true,
-                            // Enable background color
-                            fillColor: Color(
-                                0xFFf2f3f5), // Set your desired background color here
+                        // keyboardType: TextInputType.number,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 10.0,
                           ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            // Allow only digits
-                            // LengthLimitingTextInputFormatter(10),
-                            // Restrict input to a maximum of 10 digits
-                          ],
+                          filled: true,
+                          // Enable background color
+                          fillColor: Color(
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
                         ),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        // ✅ Validator
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            // return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
                       ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            // Non-Residential Property (sq.ft.)
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'Non-Residential Property (sq.ft.)',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
-                          ),
-                        ),
-                      ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.only(left: 0, right: 0),
-              child: Container(
-                height: 70,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: _nonResidentialPropertyfocus,
-                          controller: _nonResidentialPropertyController,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            filled: true,
-                            // Enable background color
-                            fillColor: Color(
-                                0xFFf2f3f5), // Set your desired background color here
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            // Allow only digits
-                            // LengthLimitingTextInputFormatter(10),
-                            // Restrict input to a maximum of 10 digits
-                          ],
+          ),
+          // Non-Residential Property (sq.ft.)
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Non-Residential Property (sq.ft.)',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-            // Use of Non-Residential Property'
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'Use of Non-Residential Property',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.only(left: 0, right: 0),
+            child: Container(
+              height: 70,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: _nonResidentialPropertyfocus,
+                        controller: _nonResidentialPropertyController,
+                        textInputAction: TextInputAction.next,
+                        // keyboardType: TextInputType.number,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 10.0,
                           ),
+                          filled: true,
+                          // Enable background color
+                          fillColor: Color(
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
                         ),
-                      ],
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        // ✅ Validator
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            // return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.only(left: 0, right: 0),
-              child: Container(
-                height: 70,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: _useOfNonResidentialPropertyfocus,
-                          controller: _useOfNonResidentialPropertyController,
-                          textInputAction: TextInputAction.next,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            filled: true,
-                            // Enable background color
-                            fillColor: Color(
-                                0xFFf2f3f5), // Set your desired background color here
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
+          ),
+          // Use of Non-Residential Property'
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Use of Non-Residential Property',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
                       ),
                     ],
                   ),
                 ),
+              ],
+            ),
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.only(left: 0, right: 0),
+            child: Container(
+              height: 70,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: _useOfNonResidentialPropertyfocus,
+                        controller: _useOfNonResidentialPropertyController,
+                        //  textInputAction: TextInputAction.next,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 10.0,
+                          ),
+                          filled: true,
+                          // Enable background color
+                          fillColor: Color(
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
+                        ),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        // ✅ Validator
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            // return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
+
   // CommercialProperty Detail
   Widget _buildCommercialPropertyDetailForm() {
     return Padding(
-        padding: const EdgeInsets.only(left: 16, right: 16),
-        child: Column(
-          children: [
-            // Basement (sq.ft.)'
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'Basement (sq.ft.)',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
-                          ),
+      padding: const EdgeInsets.only(left: 16, right: 16),
+      child: Column(
+        children: [
+          // Basement (sq.ft.)'
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Basement (sq.ft.)',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3),
-              child: Container(
-                height: 65,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: _basementSqFtCommercialfocus,
-                          controller: _basementSqFtCommercialController,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
-                          onChanged: (value) =>
-                              _updateValueCommercial(value, groundFloorCommercialPreviousValue, (newVal) => groundFloorCommercialPreviousValue = newVal),
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: Container(
+              height: 65,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: _basementSqFtCommercialfocus,
+                        controller: _basementSqFtCommercialController,
+                        textInputAction: TextInputAction.next,
+                        // keyboardType: TextInputType.number,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
+                        onChanged: (value) => _updateValueCommercial(
+                          value,
+                          groundFloorCommercialPreviousValue,
+                          (newVal) =>
+                              groundFloorCommercialPreviousValue = newVal,
+                        ),
 
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 5.0, horizontal: 10.0),
-                            filled: true, // Enable background color
-                            fillColor: Color(0xFFf2f3f5), // Set your desired background color
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 5.0,
+                            horizontal: 10.0,
                           ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            // Allow only digits
-                            // LengthLimitingTextInputFormatter(10),
-                            // Restrict input to a maximum of 10 digits
-                          ],
+                          filled: true, // Enable background color
+                          fillColor: Color(
+                            0xFFf2f3f5,
+                          ), // Set your desired background color
                         ),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        // ✅ Validator
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            // return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
                       ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            // Ground Floor (Sq.ft.
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'Ground Floor (Sq.ft.)',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
-                          ),
-                        ),
-                      ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3),
-              child: Container(
-                height: 65,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: _groundFloorSqFtCommercialfocus,
-                          controller: _groundFloorSqFtCommercialController,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
-                          onChanged: (value) =>
-                              _updateValueCommercial(value, basementCommercialPreviousValue, (newVal) => basementCommercialPreviousValue = newVal),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 5.0, horizontal: 10.0),
-                            filled: true,
-                            // Enable background color
-                            fillColor: Color(
-                                0xFFf2f3f5), // Set your desired background color here
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            // Allow only digits
-                            // LengthLimitingTextInputFormatter(10),
-                            // Restrict input to a maximum of 10 digits
-                          ],
+          ),
+          // Ground Floor (Sq.ft.
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Ground Floor (Sq.ft.)',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-            // First Floor (sq.ft.)
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'First Floor (sq.ft.)',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
-                          ),
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: Container(
+              height: 65,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: _groundFloorSqFtCommercialfocus,
+                        controller: _groundFloorSqFtCommercialController,
+                        textInputAction: TextInputAction.next,
+                        // keyboardType: TextInputType.number,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
+                        onChanged: (value) => _updateValueCommercial(
+                          value,
+                          basementCommercialPreviousValue,
+                          (newVal) => basementCommercialPreviousValue = newVal,
                         ),
-                      ],
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 5.0,
+                            horizontal: 10.0,
+                          ),
+                          filled: true,
+                          // Enable background color
+                          fillColor: Color(
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
+                        ),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            // return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3),
-              child: Container(
-                height: 65,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: _firstFloorSqFtCommercialfocus,
-                          controller: _firstFloorSqFtCommercialController,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
-                          onChanged: (value) =>
-                              _updateValueCommercial(value, firstFloorCommercialPreviousValue, (newVal) => firstFloorCommercialPreviousValue = newVal),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            filled: true,
-                            // Enable background color
-                            fillColor: Color(
-                                0xFFf2f3f5), // Set your desired background color here
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            // Allow only digits
-                            // LengthLimitingTextInputFormatter(10),
-                            // Restrict input to a maximum of 10 digits
-                          ],
+          ),
+          // First Floor (sq.ft.)
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'First Floor (sq.ft.)',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-            // Second Floor (sq.ft.)
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'Second Floor (sq.ft.)',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
-                          ),
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: Container(
+              height: 65,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: _firstFloorSqFtCommercialfocus,
+                        controller: _firstFloorSqFtCommercialController,
+                        textInputAction: TextInputAction.next,
+                        // keyboardType: TextInputType.number,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
+                        onChanged: (value) => _updateValueCommercial(
+                          value,
+                          firstFloorCommercialPreviousValue,
+                          (newVal) =>
+                              firstFloorCommercialPreviousValue = newVal,
                         ),
-                      ],
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 10.0,
+                          ),
+                          filled: true,
+                          // Enable background color
+                          fillColor: Color(
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
+                        ),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            // return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3),
-              child: Container(
-                height: 65,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: _secondFloorSqFtCommercialfocus,
-                          controller: _secondFloorSqFtCommercialController,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
-                          onChanged: (value) =>
-                              _updateValueCommercial(value, secondFloorCommercialPreviousValue, (newVal) => secondFloorCommercialPreviousValue = newVal),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            filled: true,
-                            // Enable background color
-                            fillColor: Color(
-                                0xFFf2f3f5), // Set your desired background color here
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            // Allow only digits
-                            // LengthLimitingTextInputFormatter(10),
-                            // Restrict input to a maximum of 10 digits
-                          ],
+          ),
+          // Second Floor (sq.ft.)
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Second Floor (sq.ft.)',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-            // Third Floor (sq.ft)
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'Third Floor (sq.ft)',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
-                          ),
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: Container(
+              height: 65,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: _secondFloorSqFtCommercialfocus,
+                        controller: _secondFloorSqFtCommercialController,
+                        // textInputAction: TextInputAction.next,
+                        keyboardType: TextInputType.number,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
+                        onChanged: (value) => _updateValueCommercial(
+                          value,
+                          secondFloorCommercialPreviousValue,
+                          (newVal) =>
+                              secondFloorCommercialPreviousValue = newVal,
                         ),
-                      ],
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 10.0,
+                          ),
+                          filled: true,
+                          // Enable background color
+                          fillColor: Color(
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
+                        ),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            // return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3),
-              child: Container(
-                height: 65,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: _thirdFloorSqFtCommercialfocus,
-                          controller: _thirdFloorSqFtCommercialController,
-                          keyboardType: TextInputType.number,
-                          textInputAction: TextInputAction.next,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
-                          onChanged: (value) =>
-                              _updateValueCommercial(value, thirdFloorCommercialPreviousValue, (newVal) => thirdFloorCommercialPreviousValue = newVal),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            filled: true,
-                            // Enable background color
-                            fillColor: Color(
-                                0xFFf2f3f5), // Set your desired background color here
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            // Allow only digits
-                           // LengthLimitingTextInputFormatter(10),
-                            // Restrict input to a maximum of 10 digits
-                          ],
+          ),
+          // Third Floor (sq.ft)
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Third Floor (sq.ft)',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-            // Mezzanice Floors Property
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'Mazzanine Floors Property (sq.ft)',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
-                          ),
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: Container(
+              height: 65,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: _thirdFloorSqFtCommercialfocus,
+                        controller: _thirdFloorSqFtCommercialController,
+                        keyboardType: TextInputType.number,
+                        // textInputAction: TextInputAction.next,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
+                        onChanged: (value) => _updateValueCommercial(
+                          value,
+                          thirdFloorCommercialPreviousValue,
+                          (newVal) =>
+                              thirdFloorCommercialPreviousValue = newVal,
                         ),
-                      ],
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 10.0,
+                          ),
+                          filled: true,
+                          // Enable background color
+                          fillColor: Color(
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
+                        ),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            // return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 3),
-              child: Container(
-                height: 65,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: _mezzanineFloorsProperyCommercialfocus,
-                          controller: _mezzanineFloorsProperyController,
-                          keyboardType: TextInputType.number,
-                          textInputAction: TextInputAction.next,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
-                          onChanged: (value) =>
-                              _updateValueCommercial(value, mazzanineCommercialPreviousValue, (newVal) => mazzanineCommercialPreviousValue = newVal),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            filled: true,
-                            // Enable background color
-                            fillColor: Color(
-                                0xFFf2f3f5), // Set your desired background color here
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            // Allow only digits
-                            // LengthLimitingTextInputFormatter(10),
-                            // Restrict input to a maximum of 10 digits
-                          ],
+          ),
+          // Mezzanice Floors Property
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Mazzanine Floors Property (sq.ft)',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-            // Total Commercial Property (sq.ft.)
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'Total Commercial Property (sq.ft.)',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
-                          ),
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3),
+            child: Container(
+              height: 65,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: _mezzanineFloorsProperyCommercialfocus,
+                        controller: _mezzanineFloorsProperyController,
+                        keyboardType: TextInputType.number,
+                        // textInputAction: TextInputAction.next,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
+                        onChanged: (value) => _updateValueCommercial(
+                          value,
+                          mazzanineCommercialPreviousValue,
+                          (newVal) => mazzanineCommercialPreviousValue = newVal,
                         ),
-                      ],
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 10.0,
+                          ),
+                          filled: true,
+                          // Enable background color
+                          fillColor: Color(
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
+                        ),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            // return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.only(left: 0, right: 0),
-              child: Container(
-                height: 70,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Container(
-                        width: MediaQuery.of(context).size.width-60,
-                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFf2f3f5), // Same background color as the TextFormField
-                          border: Border.all(color: Colors.grey), // Border styling similar to OutlineInputBorder
-                          borderRadius: BorderRadius.circular(4.0), // Rounded corners
-                        ),
-                        child: Text(
-                          commercialVariable.toString(), // Display the value from the controller
-                          style: const TextStyle(
-                            fontSize: 16.0, // Match the font size as per your need
-                            color: Colors.black, // Adjust text color
-                          ),
-                        ),
-                      ),
-                      // Expanded(
-                      //   child: TextFormField(
-                      //     focusNode: _totalResidentialPropertyCommercialfocus,
-                      //     controller: _totalResidentialPropertyCommercialController,
-                      //     textInputAction: TextInputAction.next,
-                      //     keyboardType: TextInputType.number,
-                      //     onEditingComplete: () =>
-                      //         FocusScope.of(context).nextFocus(),
-                      //     decoration: const InputDecoration(
-                      //       border: OutlineInputBorder(),
-                      //       contentPadding: EdgeInsets.symmetric(
-                      //           vertical: 10.0, horizontal: 10.0),
-                      //       filled: true,
-                      //       // Enable background color
-                      //       fillColor: Color(
-                      //           0xFFf2f3f5), // Set your desired background color here
-                      //     ),
-                      //     autovalidateMode: AutovalidateMode.onUserInteraction,
-                      //     inputFormatters: [
-                      //       FilteringTextInputFormatter.digitsOnly,
-                      //       // Allow only digits
-                      //       // LengthLimitingTextInputFormatter(10),
-                      //       // Restrict input to a maximum of 10 digits
-                      //     ],
-                      //   ),
-                      // ),
-                    ],
-                  ),
+                  ],
                 ),
               ),
             ),
-            // Commercial Rental Area (Square feet)
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'Commercial Rental Area (Square feet)',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
-                          ),
+          ),
+          // Total Commercial Property (sq.ft.)
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Total Commercial Property (sq.ft.)',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
-                      ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.only(left: 0, right: 0),
+            child: Container(
+              height: 70,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width - 60,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10.0,
+                        horizontal: 10.0,
+                      ),
+                      decoration: BoxDecoration(
+                        color: const Color(
+                          0xFFf2f3f5,
+                        ), // Same background color as the TextFormField
+                        border: Border.all(
+                          color: Colors.grey,
+                        ), // Border styling similar to OutlineInputBorder
+                        borderRadius: BorderRadius.circular(
+                          4.0,
+                        ), // Rounded corners
+                      ),
+                      child: Text(
+                        commercialVariable
+                            .toString(), // Display the value from the controller
+                        style: const TextStyle(
+                          fontSize:
+                              16.0, // Match the font size as per your need
+                          color: Colors.black, // Adjust text color
+                        ),
+                      ),
                     ),
-                  ),
-                ],
+                    // Expanded(
+                    //   child: TextFormField(
+                    //     focusNode: _totalResidentialPropertyCommercialfocus,
+                    //     controller: _totalResidentialPropertyCommercialController,
+                    //     textInputAction: TextInputAction.next,
+                    //     keyboardType: TextInputType.number,
+                    //     onEditingComplete: () =>
+                    //         FocusScope.of(context).nextFocus(),
+                    //     decoration: const InputDecoration(
+                    //       border: OutlineInputBorder(),
+                    //       contentPadding: EdgeInsets.symmetric(
+                    //           vertical: 10.0, horizontal: 10.0),
+                    //       filled: true,
+                    //       // Enable background color
+                    //       fillColor: Color(
+                    //           0xFFf2f3f5), // Set your desired background color here
+                    //     ),
+                    //     autovalidateMode: AutovalidateMode.onUserInteraction,
+                    //     inputFormatters: [
+                    //       FilteringTextInputFormatter.digitsOnly,
+                    //       // Allow only digits
+                    //       // LengthLimitingTextInputFormatter(10),
+                    //       // Restrict input to a maximum of 10 digits
+                    //     ],
+                    //   ),
+                    // ),
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.only(left: 0, right: 0),
-              child: Container(
-                height: 70,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: _residentalRentalAreaCommercialfocus,
-                          controller: _residentalRentalAreaCommercialController,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            filled: true,
-                            // Enable background color
-                            fillColor: Color(
-                                0xFFf2f3f5), // Set your desired background color here
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            // Allow only digits
-                            // LengthLimitingTextInputFormatter(10),
-                            // Restrict input to a maximum of 10 digits
-                          ],
+          ),
+          // Commercial Rental Area (Square feet)
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Commercial Rental Area (Square feet)',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-            // Rent of the Residential Rental Property
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'Rent of the Commercial Rental Property',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.only(left: 0, right: 0),
+            child: Container(
+              height: 70,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: _residentalRentalAreaCommercialfocus,
+                        controller: _residentalRentalAreaCommercialController,
+                        textInputAction: TextInputAction.next,
+                        //keyboardType: TextInputType.number,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 10.0,
                           ),
+                          filled: true,
+                          // Enable background color
+                          fillColor: Color(
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
                         ),
-                      ],
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            // return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.only(left: 0, right: 0),
-              child: Container(
-                height: 70,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: _rentOfTheResidentialRentalPropertyCommercialfocus,
-                          controller: _rentOfTheResidentialRentalPropertyCommercialController,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            filled: true,
-                            // Enable background color
-                            fillColor: Color(
-                                0xFFf2f3f5), // Set your desired background color here
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            // Allow only digits
-                            // LengthLimitingTextInputFormatter(10),
-                            // Restrict input to a maximum of 10 digits
-                          ],
+          ),
+          // Rent of the Residential Rental Property
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Rent of the Commercial Rental Property',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-            // Non-Residential Property (sq.ft.)
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'Non-Commercial Property (sq.ft.)',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.only(left: 0, right: 0),
+            child: Container(
+              height: 70,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        focusNode:
+                            _rentOfTheResidentialRentalPropertyCommercialfocus,
+                        controller:
+                            _rentOfTheResidentialRentalPropertyCommercialController,
+                        textInputAction: TextInputAction.next,
+                        // keyboardType: TextInputType.number,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 10.0,
                           ),
+                          filled: true,
+                          // Enable background color
+                          fillColor: Color(
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
                         ),
-                      ],
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            // return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.only(left: 0, right: 0),
-              child: Container(
-                height: 70,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: _nonResidentialPropertyCommercialfocus,
-                          controller: _nonResidentialPropertyCommercialController,
-                          textInputAction: TextInputAction.next,
-                          keyboardType: TextInputType.number,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            filled: true,
-                            // Enable background color
-                            fillColor: Color(
-                                0xFFf2f3f5), // Set your desired background color here
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          inputFormatters: [
-                            FilteringTextInputFormatter.digitsOnly,
-                            // Allow only digits
-                            // LengthLimitingTextInputFormatter(10),
-                            // Restrict input to a maximum of 10 digits
-                          ],
+          ),
+          // Non-Residential Property (sq.ft.)
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Non-Commercial Property (sq.ft.)',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
                       ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-            // Use of Non-Residential Property'
-            Padding(
-              padding: const EdgeInsets.only(left: 0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                // Align items vertically
-                children: <Widget>[
-                  CircleWithSpacing(),
-                  // Space between the circle and text
-                  RichText(
-                    text: TextSpan(
-                      text: 'Use of Non-Commercial Property',
-                      // The normal text
-                      style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                      // Default style
-                      children: const [
-                        TextSpan(
-                          text: '', // The asterisk
-                          style: TextStyle(
-                            color: Colors.red, // Red color for the asterisk
-                            fontWeight: FontWeight
-                                .bold, // Optional: Make the asterisk bold
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.only(left: 0, right: 0),
+            child: Container(
+              height: 70,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: _nonResidentialPropertyCommercialfocus,
+                        controller: _nonResidentialPropertyCommercialController,
+                        textInputAction: TextInputAction.next,
+                        // keyboardType: TextInputType.number,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 10.0,
                           ),
+                          filled: true,
+                          // Enable background color
+                          fillColor: Color(
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
                         ),
-                      ],
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a value';
+                          }
+                          // ✅ Check if value is a valid number with up to 2 decimals
+                          if (!RegExp(
+                            r'^\d{1,8}(\.\d{0,2})?$',
+                          ).hasMatch(value)) {
+                            // return 'Enter numbers only (max 2 decimals)';
+                          }
+                          return null;
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.only(left: 0, right: 0),
-              child: Container(
-                height: 70,
-                // Increased height to accommodate error message without resizing
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 14, right: 14),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: TextFormField(
-                          focusNode: _useOfNonResidentialCommercialfocus,
-                          controller: _useOfNonResidentialCommercialController,
-                          textInputAction: TextInputAction.next,
-                         // keyboardType: TextInputType.number,
-                          onEditingComplete: () =>
-                              FocusScope.of(context).nextFocus(),
-                          decoration: const InputDecoration(
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                vertical: 10.0, horizontal: 10.0),
-                            filled: true,
-                            // Enable background color
-                            fillColor: Color(
-                                0xFFf2f3f5), // Set your desired background color here
-                          ),
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          // inputFormatters: [
-                          //   FilteringTextInputFormatter.digitsOnly,
-                          //   // Allow only digits
-                          //   // LengthLimitingTextInputFormatter(10),
-                          //   // Restrict input to a maximum of 10 digits
-                          // ],
+          ),
+          // Use of Non-Residential Property'
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Use of Non-Commercial Property',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: '', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
                         ),
                       ),
                     ],
                   ),
                 ),
+              ],
+            ),
+          ),
+          SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.only(left: 0, right: 0),
+            child: Container(
+              height: 70,
+              // Increased height to accommodate error message without resizing
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 14, right: 14),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: TextFormField(
+                        focusNode: _useOfNonResidentialCommercialfocus,
+                        controller: _useOfNonResidentialCommercialController,
+                        textInputAction: TextInputAction.next,
+                        // keyboardType: TextInputType.number,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).nextFocus(),
+                        decoration: const InputDecoration(
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 10.0,
+                            horizontal: 10.0,
+                          ),
+                          filled: true,
+                          // Enable background color
+                          fillColor: Color(
+                            0xFFf2f3f5,
+                          ), // Set your desired background color here
+                        ),
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+                        // inputFormatters: [
+                        //   FilteringTextInputFormatter.digitsOnly,
+                        //   // Allow only digits
+                        //   // LengthLimitingTextInputFormatter(10),
+                        //   // Restrict input to a maximum of 10 digits
+                        // ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 
   // Third Form
@@ -3435,416 +3782,473 @@ class _MyHomePageState extends State<PropertyAssessment>
             print("------DialogPop----");
             // _openDialog();
             showDialog(
-                context: context,
-                builder: (context) => Dialog(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10), // Rounded corners
-                      ),
-                      child: StatefulBuilder(
-                        builder: (BuildContext context,
-                            void Function(void Function()) setState) {
-                          return Stack(
-                            clipBehavior: Clip.none,
-                            alignment: Alignment.topCenter,
+              context: context,
+              builder: (context) => Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10), // Rounded corners
+                ),
+                child: StatefulBuilder(
+                  builder: (BuildContext context, void Function(void Function()) setState) {
+                    return Stack(
+                      clipBehavior: Clip.none,
+                      alignment: Alignment.topCenter,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.only(
+                            top: 50,
+                            left: 10,
+                            right: 10,
+                            bottom: 20,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
                             children: [
-                              Container(
-                                padding: const EdgeInsets.only(
-                                    top: 50, left: 10, right: 10, bottom: 20),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(10),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    CircleWithSpacing(),
+                                    // Space between the circle and text
+                                    Text(
+                                      "Required Document Type",
+                                      style: AppTextStyle
+                                          .font14OpenSansRegularBlack45TextStyle,
+                                    ),
+                                  ],
                                 ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          CircleWithSpacing(),
-                                          // Space between the circle and text
-                                          Text(
-                                            "Required Document Type",
-                                            style: AppTextStyle
-                                                .font14OpenSansRegularBlack45TextStyle,
+                              ),
+                              const SizedBox(height: 5),
+                              // Document DropDown
+                              Material(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width - 50,
+                                    height: 42,
+                                    color: Color(0xFFf2f3f5),
+                                    child: DropdownButtonHideUnderline(
+                                      child: ButtonTheme(
+                                        alignedDropdown: true,
+                                        child: DropdownButton(
+                                          isDense: true,
+                                          // Reduces the vertical size of the button
+                                          isExpanded: true,
+                                          // Allows the DropdownButton to take full width
+                                          dropdownColor: Colors.white,
+                                          // Set dropdown list background color
+                                          onTap: () {
+                                            FocusScope.of(
+                                              context,
+                                            ).unfocus(); // Dismiss keyboard
+                                          },
+                                          hint: RichText(
+                                            text: TextSpan(
+                                              text: "Select Document Type",
+                                              style: AppTextStyle
+                                                  .font14OpenSansRegularBlack45TextStyle,
+                                            ),
                                           ),
-                                        ],
+                                          value: _dropDownRequiredDocumentType,
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              _dropDownRequiredDocumentType =
+                                                  newValue;
+                                              bindDocumentTypePropertyList.forEach((
+                                                element,
+                                              ) {
+                                                if (element["sDocumentTypeName"] ==
+                                                    _dropDownRequiredDocumentType) {
+                                                  // RatePerDay
+                                                  //_selectedWardId = element['iCommunityHallId'];
+                                                  // iTradeCode   fLicenceFees
+                                                  _dropDownRequiredDocumentTypeCode =
+                                                      element['iDocumentTypeCode'];
+                                                  print("----$_dropDownRequiredDocumentTypeCode",
+                                                  );
+                                                  // _dropDownTradeSubCategoryFeesCode = element['fLicenceFees'];
+                                                }
+                                              });
+                                              if (_dropDownRequiredDocumentTypeCode !=
+                                                  null) {
+                                                /// remove the comment
+                                                setState(() {
+                                                  // call a api if needs
+                                                  print("---2497--Fees----$_dropDownRequiredDocumentTypeCode",
+                                                  );
+                                                  //  _dropDownDocument2
+                                                  //print("---587------$_dropDownDocument2");
+                                                  // bindCommunityHallDate(_dropDownPremisesWardCode);
+                                                });
+                                              } else {
+                                                //toast
+                                              }
+                                              // print("------373--DropDownnCategory Code----$_dropDownTradeCategoryCode");
+                                            });
+                                          },
+                                          items: bindDocumentTypePropertyList.map((
+                                            dynamic item,
+                                          ) {
+                                            return DropdownMenuItem(
+                                              value: item["sDocumentTypeName"]
+                                                  .toString(),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      item['sDocumentTypeName']
+                                                          .toString(),
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: AppTextStyle
+                                                          .font14OpenSansRegularBlack45TextStyle,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          }).toList(),
+                                        ),
                                       ),
                                     ),
-                                    const SizedBox(height: 5),
-                                    // Document DropDown
-                                    Material(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.only(left: 10),
-                                        child: Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width -
-                                              50,
-                                          height: 42,
-                                          color: Color(0xFFf2f3f5),
-                                          child: DropdownButtonHideUnderline(
-                                            child: ButtonTheme(
-                                              alignedDropdown: true,
-                                              child: DropdownButton(
-                                                isDense: true,
-                                                // Reduces the vertical size of the button
-                                                isExpanded: true,
-                                                // Allows the DropdownButton to take full width
-                                                dropdownColor: Colors.white,
-                                                // Set dropdown list background color
-                                                onTap: () {
-                                                  FocusScope.of(context)
-                                                      .unfocus(); // Dismiss keyboard
-                                                },
-                                                hint: RichText(
-                                                  text: TextSpan(
-                                                    text:
-                                                        "Select Document Type",
-                                                    style: AppTextStyle
-                                                        .font14OpenSansRegularBlack45TextStyle,
-                                                  ),
-                                                ),
-                                                value:
-                                                    _dropDownRequiredDocumentType,
-                                                onChanged: (newValue) {
-                                                  setState(() {
-                                                    _dropDownRequiredDocumentType =
-                                                        newValue;
-                                                    bindDocumentTypePropertyList
-                                                        .forEach((element) {
-                                                      if (element["sDocumentTypeName"] ==
-                                                          _dropDownRequiredDocumentType) {
-                                                        // RatePerDay
-                                                        //_selectedWardId = element['iCommunityHallId'];
-                                                        // iTradeCode   fLicenceFees
-                                                        _dropDownRequiredDocumentTypeCode = element['iDocumentTypeCode'];
-                                                        print("----$_dropDownRequiredDocumentTypeCode");
-                                                        // _dropDownTradeSubCategoryFeesCode = element['fLicenceFees'];
-                                                      }
-                                                    });
-
-                                                    if (_dropDownRequiredDocumentTypeCode !=
-                                                        null) {
-                                                      /// remove the comment
-                                                      setState(() {
-                                                        // call a api if needs
-                                                        print(
-                                                            "---2497--Fees----$_dropDownRequiredDocumentTypeCode");
-                                                        //  _dropDownDocument2
-                                                        //print("---587------$_dropDownDocument2");
-                                                        // bindCommunityHallDate(_dropDownPremisesWardCode);
-                                                      });
-                                                    } else {
-                                                      //toast
-                                                    }
-                                                    // print("------373--DropDownnCategory Code----$_dropDownTradeCategoryCode");
-                                                  });
-                                                },
-                                                items: bindDocumentTypePropertyList
-                                                    .map((dynamic item) {
-                                                  return DropdownMenuItem(
-                                                    value: item["sDocumentTypeName"].toString(),
-                                                    child: Row(
-                                                      children: [
-                                                        Expanded(
-                                                          child: Text(
-                                                            item['sDocumentTypeName'].toString(),
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style: AppTextStyle
-                                                                .font14OpenSansRegularBlack45TextStyle,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  );
-                                                }).toList(),
-                                              ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: <Widget>[
+                                    CircleWithSpacing(),
+                                    const SizedBox(width: 8),
+                                    // Space between the circle and text
+                                    Text(
+                                      'Supporting Document',
+                                      style: AppTextStyle
+                                          .font14OpenSansRegularBlack45TextStyle,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 5),
+                              // Selected Images
+                              /// todo here we change the code Photo and gallery
+                              GestureDetector(
+                                onTap: () {
+                                  if (uplodedImage!.toLowerCase().endsWith(
+                                    '.pdf',
+                                  )) {
+                                    print("PDF tapped: $uplodedImage");
+                                    // Open PDF in browser or PDF viewer
+                                    openPdf(context, uplodedImage!);
+                                  } else {
+                                    print("Image tapped: $uplodedImage");
+                                    // Open image in full screen
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => Scaffold(
+                                          appBar: AppBar(
+                                            title: const Text("Image Preview"),
+                                          ),
+                                          body: Center(
+                                            child: Image.network(
+                                              uplodedImage!,
+                                              width: double
+                                                  .infinity, // take full width
+                                              fit: BoxFit
+                                                  .cover, // cover the available space
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 5),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 10),
+                                    );
+                                  }
+                                },
+                                child: Container(
+                                  height: 150,
+                                  width: 200,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: image != null
+                                      ? ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
+                                          child: image!.path.toLowerCase().endsWith('.pdf')
+                                              ? Container(
+                                                  color: Colors.grey[200],
+                                                  child: const Center(
+                                                    child: Icon(
+                                                      Icons.picture_as_pdf,
+                                                      color: Colors.red,
+                                                      size: 60,
+                                                    ),
+                                                  ),
+                                                )
+                                              : Image.file(
+                                                  image!,
+                                                  width: 200,
+                                                  height: 150,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                        )
+                                      : const Center(
+                                          child: Text(
+                                            'No File Available',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                        ),
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  // First Container
+                                  GestureDetector(
+                                    onTap: () async {
+                                      //_pickImageCamra();
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      String? sToken = prefs.getString(
+                                        'sToken',
+                                      );
+
+                                      final pickFileid = await _picker
+                                          .pickImage(
+                                            source: ImageSource.camera,
+                                            imageQuality: 65,
+                                          );
+
+                                      setState(() {
+                                        image = File(pickFileid!.path);
+                                      });
+                                      print("----171----pic path : ---$image");
+                                      if (pickFileid != null) {
+                                        setState(() {
+                                          _imageFiles.add(
+                                            File(pickFileid.path),
+                                          ); // Add selected image to list
+                                          uploadImage(sToken!, image!);
+                                        });
+                                        print(
+                                          "---173--ImageFile--List----$_imageFiles",
+                                        );
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8.0),
+                                      decoration: BoxDecoration(
+                                        color: Colors.black12,
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
                                       child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          CircleWithSpacing(),
+                                        children: [
+                                          Image.asset(
+                                            'assets/images/ic_camera.PNG',
+                                            width: 25,
+                                            height: 25,
+                                            fit: BoxFit.fill,
+                                          ),
                                           const SizedBox(width: 8),
-                                          // Space between the circle and text
-                                          Text('Supporting Document',
-                                              style: AppTextStyle
-                                                  .font14OpenSansRegularBlack45TextStyle),
+                                          const Text(
+                                            "Photo",
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
-                                    const SizedBox(height: 5),
-                                    // Selected Images
-                                    /// todo here we change the code Photo and gallery
+                                  ),
+                                  // Second Container
+                                  GestureDetector(
+                                    onTap: () async {
+                                      // _pickImageGallry();
+                                      File? selectedFile;
+                                      SharedPreferences prefs =
+                                          await SharedPreferences.getInstance();
+                                      String? sToken = prefs.getString(
+                                        'sToken',
+                                      );
 
-                                    // Container(
-                                    //   height: 150,
-                                    //   width: 200,
-                                    //   decoration: BoxDecoration(
-                                    //     border: Border.all(color: Colors.grey),
-                                    //     borderRadius: BorderRadius.circular(10),
-                                    //   ),
-                                    //   child: image != null
-                                    //       ? ClipRRect(
-                                    //           borderRadius:
-                                    //               BorderRadius.circular(10),
-                                    //           child: Image.file(
-                                    //             image!,
-                                    //             width: 200,
-                                    //             height: 150,
-                                    //             fit: BoxFit.cover,
-                                    //           ),
-                                    //         )
-                                    //       : const Center(
-                                    //           child: Text(
-                                    //             'No Image Available',
-                                    //             style: TextStyle(
-                                    //                 fontSize: 16,
-                                    //                 color: Colors.grey),
-                                    //           ),
-                                    //         ),
-                                    // ),
-                                    // const SizedBox(height: 10),
-                                    // // row with camra Gallery
-                                    // Row(
-                                    //   mainAxisAlignment:
-                                    //       MainAxisAlignment.spaceEvenly,
-                                    //   children: [
-                                    //     // First Container
-                                    //     GestureDetector(
-                                    //       onTap: () async {
-                                    //         // _pickImageCamra();
-                                    //         // ----PICK IMAGE FROM A Camera--
-                                    //         SharedPreferences prefs =
-                                    //             await SharedPreferences
-                                    //                 .getInstance();
-                                    //         String? sToken =
-                                    //             prefs.getString('sToken');
-                                    //
-                                    //         final pickFileid =
-                                    //             await _picker.pickImage(
-                                    //                 source: ImageSource.camera,
-                                    //                 imageQuality: 65);
-                                    //
-                                    //         setState(() {
-                                    //           image = File(pickFileid!.path);
-                                    //         });
-                                    //         // image2 = ${pickedFile?.path};
-                                    //         // image2 = pickedFile!.path as File?;
-                                    //
-                                    //         print(
-                                    //             "----171----pic path : ---$image");
-                                    //         if (pickFileid != null) {
-                                    //           setState(() {
-                                    //             _imageFiles.add(File(pickFileid
-                                    //                 .path)); // Add selected image to list
-                                    //             uploadImage(sToken!, image!);
-                                    //           });
-                                    //           print(
-                                    //               "---2507--ImageFile--List----$_imageFiles");
-                                    //         }
-                                    //       },
-                                    //       child: Container(
-                                    //         padding: const EdgeInsets.all(8.0),
-                                    //         decoration: BoxDecoration(
-                                    //           color: Colors.black12,
-                                    //           borderRadius:
-                                    //               BorderRadius.circular(8),
-                                    //         ),
-                                    //         child: Row(
-                                    //           children: [
-                                    //             Image.asset(
-                                    //               'assets/images/ic_camera.PNG',
-                                    //               width: 25,
-                                    //               height: 25,
-                                    //               fit: BoxFit.fill,
-                                    //             ),
-                                    //             const SizedBox(width: 8),
-                                    //             const Text(
-                                    //               "Photo",
-                                    //               style: TextStyle(
-                                    //                   fontSize: 16,
-                                    //                   fontWeight:
-                                    //                       FontWeight.bold),
-                                    //             ),
-                                    //           ],
-                                    //         ),
-                                    //       ),
-                                    //     ),
-                                    //     // Second Container
-                                    //     GestureDetector(
-                                    //       onTap: () async {
-                                    //         // _pickImageGallry();
-                                    //         //----PickImage Gallery----
-                                    //         SharedPreferences prefs =
-                                    //             await SharedPreferences
-                                    //                 .getInstance();
-                                    //         String? sToken =
-                                    //             prefs.getString('sToken');
-                                    //
-                                    //         final pickFileid =
-                                    //             await _picker.pickImage(
-                                    //                 source: ImageSource.gallery,
-                                    //                 imageQuality:
-                                    //                     65 // Change to `ImageSource.camera` for camera
-                                    //                 );
-                                    //
-                                    //         setState(() {
-                                    //           image = File(pickFileid!.path);
-                                    //         });
-                                    //         if (pickFileid != null) {
-                                    //           setState(() {
-                                    //             _imageFiles.add(File(pickFileid
-                                    //                 .path)); // Add selected image to list
-                                    //             // to take a image with a path
-                                    //             uploadImage(sToken!, image!);
-                                    //           });
-                                    //           print(
-                                    //               "---185--ImageFile---list---$_imageFiles");
-                                    //         }
-                                    //       },
-                                    //       child: Container(
-                                    //         padding: const EdgeInsets.all(8.0),
-                                    //         decoration: BoxDecoration(
-                                    //           color: Colors.black12,
-                                    //           borderRadius:
-                                    //               BorderRadius.circular(8),
-                                    //         ),
-                                    //         child: Row(
-                                    //           children: [
-                                    //             Image.asset(
-                                    //               'assets/images/ic_camera.PNG',
-                                    //               width: 25,
-                                    //               height: 25,
-                                    //               fit: BoxFit.cover,
-                                    //             ),
-                                    //             const SizedBox(width: 8),
-                                    //             const Text(
-                                    //               "Gallery",
-                                    //               style: TextStyle(
-                                    //                   fontSize: 16,
-                                    //                   fontWeight:
-                                    //                       FontWeight.bold),
-                                    //             ),
-                                    //           ],
-                                    //         ),
-                                    //       ),
-                                    //     ),
-                                    //   ],
-                                    // ),
+                                      try {
+                                        // Open gallery or file picker
+                                        FilePickerResult? result =
+                                            await FilePicker.platform.pickFiles(
+                                              type: FileType.custom,
+                                              allowedExtensions: [
+                                                'jpg',
+                                                'jpeg',
+                                                'png',
+                                                'pdf',
+                                              ],
+                                            );
 
-                                    /// todo her we add photo and gallery with pdf code
-                                    buildPdfCard(
-                                        onCameraTap: () async{
-                                          print("-----1423----Camra---");
-                                          // pickImageCamra();
-                                         // pickImageCamra();
-                                          // showDialog(
-                                          //   context: context,
-                                          //   builder: (BuildContext dialogContext) {
-                                          //     return paymentDialog(dialogContext);
-                                          //   },
-                                          // );
-                                          /// to add a open capra code
+                                        if (result != null &&
+                                            result.files.single.path != null) {
+                                          image = File(result.files.single.path!,
+                                          );
 
-                                            // _pickImageCamra();
-                                            // ----PICK IMAGE FROM A Camera--
-                                            SharedPreferences prefs =
-                                                await SharedPreferences
-                                                .getInstance();
-                                            String? sToken =
-                                            prefs.getString('sToken');
+                                          String filePath = image!.path;
+                                          print('cted File Path: Sele$filePath',
+                                          );
 
-                                            final pickFileid =
-                                                await _picker.pickImage(
-                                                source: ImageSource.camera,
-                                                imageQuality: 65);
-
+                                          if (filePath.toLowerCase().endsWith(
+                                            '.pdf',
+                                          )) {
+                                            print("✅ PDF file selected");
+                                            displayToast(
+                                              'Pdf file is selected',
+                                            );
                                             setState(() {
-                                              image = File(pickFileid!.path);
+                                              _imageFiles.add(
+                                                File(image!.path),
+                                              ); // Add selected image to list
+                                              uploadImage(sToken!, image!);
                                             });
-                                            // image2 = ${pickedFile?.path};
-                                            // image2 = pickedFile!.path as File?;
+                                            // Optionally, show PDF icon or preview
+                                          } else {
+                                            print("✅ Image file selected");
+                                            // setState(() {
+                                            //   _imageFiles.add(
 
-                                            print(
-                                                "----171----pic path : ---$image");
-                                            if (pickFileid != null) {
-                                              setState(() {
-                                                _imageFiles.add(File(pickFileid
-                                                    .path)); // Add selected image to list
-                                                uploadImage(sToken!, image!);
-                                              });
-                                              print(
-                                                  "---2507--ImageFile--List----$_imageFiles");
-                                            }
-                                            },
-                                        onGalleryTap: () {
-                                          pickGallery();
-                                        }
-                                    ),
-                                    const SizedBox(height: 10),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        if (_dropDownRequiredDocumentTypeCode == null) {
-                                          displayToast("Please Select Document");
-                                        } else if (uplodedImage == null) {
-                                          displayToast("Please pick a Document");
+                                          }
+
+                                          // ✅ Upload File
+                                          if (sToken != null) {
+                                            uploadImage(sToken, image!);
+                                          } else {
+                                            print("❌ Token not found");
+                                          }
                                         } else {
-                                          setState(() {
-                                            thirdFormCombinedList.add({
-                                              'iDocumentTypeId': "$_dropDownRequiredDocumentTypeCode",
-                                              'sDocumentName': "$_dropDownRequiredDocumentType",
-                                              'sDocumentUrl': uplodedImage,
-                                            });
-                                          });
-                                          print("Updated List: $thirdFormCombinedList");
-                                          Navigator.of(context).pop(); // Close dialog after updating state
+                                          print('❌ No file selected');
                                         }
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.blue,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
+                                      } catch (e) {
+                                        print("❌ Error picking file: $e");
+                                      }
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(8.0),
+                                      decoration: BoxDecoration(
+                                        color: Colors.black12,
+                                        borderRadius: BorderRadius.circular(8),
                                       ),
-                                      child: const Text(
-                                        "Save",
-                                        style: TextStyle(color: Colors.white),
+                                      child: Row(
+                                        children: [
+                                          Image.asset(
+                                            'assets/images/ic_camera.PNG',
+                                            width: 25,
+                                            height: 25,
+                                            fit: BoxFit.cover,
+                                          ),
+                                          const SizedBox(width: 8),
+                                          const Text(
+                                            "Gallery",
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                    )
-                                  ],
-                                ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                              const Positioned(
-                                top: -40,
-                                child: CircleAvatar(
-                                  radius: 40,
-                                  backgroundImage: AssetImage(
-                                    'assets/images/licenseRequestuplode.jpeg',
-                                  ), // Replace with your image
+                              const SizedBox(height: 10),
+
+                              const SizedBox(height: 10),
+                              ElevatedButton(
+                                onPressed: () {
+                                  if (_dropDownRequiredDocumentTypeCode ==
+                                      null) {
+                                    displayToast("Please Select Document");
+                                  } else if (uplodedImage == null) {
+                                    displayToast("Please pick a Document");
+                                  } else {
+                                    setState(() {
+                                      thirdFormCombinedList.add({
+                                        'iDocumentTypeId':
+                                            "$_dropDownRequiredDocumentTypeCode",
+                                        'sDocumentName':
+                                            "$_dropDownRequiredDocumentType",
+                                        'sDocumentUrl': uplodedImage,
+                                        //
+
+                                      });
+                                      // clear all values
+                                      image = null;
+                                      uplodedImage = null;
+                                      _dropDownRequiredDocumentTypeCode = null;
+                                      _dropDownRequiredDocumentType = null;
+
+                                    });
+                                    // here clear DropDown and images such as again dialgoBOX
+                                    // not selected images and DropDown value
+
+                                    print(
+                                      "Updated List: $thirdFormCombinedList",
+                                    );
+                                    //image==null;
+
+                                    // setState(() {
+                                    //   image = null;
+                                    //   uplodedImage = null;
+                                    //   _dropDownRequiredDocumentTypeCode = null;
+                                    //   _dropDownRequiredDocumentType = null;
+                                    // });
+
+                                    Navigator.of(
+                                      context,
+                                    ).pop(); // Close dialog after updating state
+                                  }
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.blue,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: const Text(
+                                  "Save",
+                                  style: TextStyle(color: Colors.white),
                                 ),
                               ),
                             ],
-                          );
-                        },
-                      ),
-                    ));
+                          ),
+                        ),
+                        const Positioned(
+                          top: -40,
+                          child: CircleAvatar(
+                            radius: 40,
+                            backgroundImage: AssetImage(
+                              'assets/images/licenseRequestuplode.jpeg',
+                            ), // Replace with your image
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            );
           },
           child: Padding(
             padding: const EdgeInsets.only(right: 20),
@@ -3858,10 +4262,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                 children: [
                   Text(
                     "Add Photo",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                    ),
+                    style: TextStyle(color: Colors.white, fontSize: 14),
                   ),
                   SizedBox(width: 5),
                   Icon(Icons.add, size: 20, color: Colors.white),
@@ -3871,400 +4272,525 @@ class _MyHomePageState extends State<PropertyAssessment>
           ),
         ),
         SizedBox(height: 10),
-        _imageFiles.isNotEmpty
+        // horizontal list
+        thirdFormCombinedList.isNotEmpty
             ? Padding(
-                padding: const EdgeInsets.only(left: 10, right: 10),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: SizedBox(
-                  height: 120,
-                  // Set a fixed height for the horizontal list
+                  height: 160, // Increased height to fit image + text
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: _imageFiles.length,
+                    itemCount: thirdFormCombinedList.length,
                     itemBuilder: (context, index) {
+                      var item = thirdFormCombinedList[index];
+                      String fileUrl = item['sDocumentUrl'] ?? '';
+                      String docName = item['sDocumentName'] ?? '';
+                      bool isPdf = fileUrl.toLowerCase().endsWith('.pdf');
+
                       return Container(
-                        margin: EdgeInsets.only(right: 10.0),
+                        margin: const EdgeInsets.only(right: 10.0),
                         width: 140,
-                        // Set fixed width for the image container
-                        height: 140,
-                        // Set fixed height for the image container
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.blue, width: 2.0),
                           borderRadius: BorderRadius.circular(10.0),
                         ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.file(
-                            _imageFiles[index],
-                            fit: BoxFit.cover,
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ClipRRect(
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(8),
+                                topRight: Radius.circular(8),
+                              ),
+                              child: isPdf
+                                  ? Container(
+                                      height: 100,
+                                      width: double.infinity,
+                                      color: Colors.grey[200],
+                                      child: const Center(
+                                        child: Icon(
+                                          Icons.picture_as_pdf,
+                                          color: Colors.red,
+                                          size: 50,
+                                        ),
+                                      ),
+                                    )
+                                  : Image.network(
+                                      fileUrl,
+                                      height: 100,
+                                      width: double.infinity,
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              const Icon(
+                                                Icons.broken_image,
+                                                size: 50,
+                                              ),
+                                    ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.all(5),
+                              child: Text(
+                                docName,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black87,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2, // Handle long names
+                              ),
+                            ),
+                          ],
                         ),
                       );
                     },
                   ),
                 ),
               )
-            : Center(
-                child: Text('No images selected.'),
-              ),
+            : const Center(child: Text('No documents found.')),
+
+        // _imageFiles.isNotEmpty
+        //     ? Padding(
+        //   padding: const EdgeInsets.symmetric(
+        //     horizontal: 10,
+        //   ),
+        //   child: SizedBox(
+        //     height: 120,
+        //     child: ListView.builder(
+        //       scrollDirection:
+        //       Axis.horizontal,
+        //       itemCount: _imageFiles.length,
+        //       itemBuilder: (context, index) {
+        //         String filePath =
+        //             _imageFiles[index].path;
+        //         bool isPdf = filePath
+        //             .toLowerCase()
+        //             .endsWith('.pdf');
+        //
+        //         return Container(
+        //           margin:
+        //           const EdgeInsets.only(
+        //             right: 10.0,
+        //           ),
+        //           width: 140,
+        //           height: 140,
+        //           decoration: BoxDecoration(
+        //             border: Border.all(
+        //               color: Colors.blue,
+        //               width: 2.0,
+        //             ),
+        //             borderRadius:
+        //             BorderRadius.circular(
+        //               10.0,
+        //             ),
+        //           ),
+        //           child: ClipRRect(
+        //             borderRadius:
+        //             BorderRadius.circular(
+        //               8.0,
+        //             ),
+        //             child: isPdf
+        //                 ? Container(
+        //               color: Colors
+        //                   .grey[200],
+        //               child: const Center(
+        //                 child: Icon(
+        //                   Icons
+        //                       .picture_as_pdf,
+        //                   color: Colors
+        //                       .red,
+        //                   size: 50,
+        //                 ),
+        //               ),
+        //             )
+        //                 : Image.file(
+        //               _imageFiles[index],
+        //               fit: BoxFit.cover,
+        //             ),
+        //           ),
+        //         );
+        //       },
+        //     ),
+        //   ),
+        // )
+        //     : const Center(
+        //   child: Text('No files selected.'),
+        // ),
       ],
     );
   }
 
-//Open DialogBox
+  //Open DialogBox
 
   void _openDialog() {
     showDialog(
-        context: context,
-        builder: (context) => Dialog(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10), // Rounded corners
-              ),
-              child: StatefulBuilder(
-                builder: (BuildContext context,
-                    void Function(void Function()) setState) {
-                  return Stack(
-                    clipBehavior: Clip.none,
-                    alignment: Alignment.topCenter,
+      context: context,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10), // Rounded corners
+        ),
+        child: StatefulBuilder(
+          builder: (BuildContext context, void Function(void Function()) setState) {
+            return Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.topCenter,
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(
+                    top: 50,
+                    left: 10,
+                    right: 10,
+                    bottom: 20,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.only(
-                            top: 50, left: 10, right: 10, bottom: 20),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  CircleWithSpacing(),
-                                  // Space between the circle and text
-                                  Text(
-                                    "Required Document Type",
-                                    style: AppTextStyle
-                                        .font14OpenSansRegularBlack45TextStyle,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            // Document DropDown
-                            Material(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10.0),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width - 50,
-                                  height: 42,
-                                  color: Color(0xFFf2f3f5),
-                                  child: DropdownButtonHideUnderline(
-                                    child: ButtonTheme(
-                                      alignedDropdown: true,
-                                      child: DropdownButton(
-                                        isDense: true,
-                                        // Reduces the vertical size of the button
-                                        isExpanded: true,
-                                        // Allows the DropdownButton to take full width
-                                        dropdownColor: Colors.white,
-                                        // Set dropdown list background color
-                                        onTap: () {
-                                          FocusScope.of(context)
-                                              .unfocus(); // Dismiss keyboard
-                                        },
-                                        hint: RichText(
-                                          text: TextSpan(
-                                            text: "Select Document Type",
-                                            style: AppTextStyle
-                                                .font14OpenSansRegularBlack45TextStyle,
-                                          ),
-                                        ),
-                                        value: _dropDownDocument2,
-                                        onChanged: (newValue) {
-                                          setState(() {
-                                            _dropDownDocument2 = newValue;
-                                            bindDocumentTypeList
-                                                .forEach((element) {
-                                              if (element[
-                                                      "sDocumentTypeName"] ==
-                                                  _dropDownDocument2) {
-                                                // RatePerDay
-                                                //_selectedWardId = element['iCommunityHallId'];
-                                                // iTradeCode   fLicenceFees
-                                                _dropDownDocument2_code =
-                                                    element[
-                                                        'iDocumentTypeCode'];
-                                                // _dropDownTradeSubCategoryFeesCode = element['fLicenceFees'];
-                                              }
-                                            });
-
-                                            if (_dropDownDocument2_code !=
-                                                null) {
-                                              /// remove the comment
-                                              setState(() {
-                                                // call a api if needs
-                                                print(
-                                                    "---585--Fees----$_dropDownDocument2_code");
-                                                //  _dropDownDocument2
-                                                print(
-                                                    "---587------$_dropDownDocument2");
-                                                // bindCommunityHallDate(_dropDownPremisesWardCode);
-                                              });
-                                            } else {
-                                              //toast
-                                            }
-                                            print(
-                                                "------373--DropDownnCategory Code----$_dropDownTradeCategoryCode");
-                                          });
-                                        },
-                                        items: bindDocumentTypeList
-                                            .map((dynamic item) {
-                                          return DropdownMenuItem(
-                                            value: item["sDocumentTypeName"]
-                                                .toString(),
-                                            child: Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    item['sDocumentTypeName']
-                                                        .toString(),
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: AppTextStyle
-                                                        .font14OpenSansRegularBlack45TextStyle,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        }).toList(),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  CircleWithSpacing(),
-                                  const SizedBox(width: 8),
-                                  // Space between the circle and text
-                                  Text('Supporting Document',
-                                      style: AppTextStyle
-                                          .font14OpenSansRegularBlack45TextStyle),
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            // Selected Images
-
-                            Container(
-                              height: 150,
-                              width: 200,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: image != null
-                                  ? ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.file(
-                                        image!,
-                                        width: 200,
-                                        height: 150,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    )
-                                  : const Center(
-                                      child: Text(
-                                        'No Image Available',
-                                        style: TextStyle(
-                                            fontSize: 16, color: Colors.grey),
-                                      ),
-                                    ),
-                            ),
-                            const SizedBox(height: 10),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                // First Container
-                                GestureDetector(
-                                  onTap: () async {
-                                    // _pickImageCamra();
-                                    // ----PICK IMAGE FROM A Camera--
-                                    SharedPreferences prefs =
-                                        await SharedPreferences.getInstance();
-                                    String? sToken = prefs.getString('sToken');
-
-                                    final pickFileid = await _picker.pickImage(
-                                        source: ImageSource.gallery,
-                                        imageQuality: 65);
-
-                                    setState(() {
-                                      image = File(pickFileid!.path);
-                                    });
-                                    // image2 = ${pickedFile?.path};
-                                    // image2 = pickedFile!.path as File?;
-
-                                    print("----171----pic path : ---$image");
-                                    if (pickFileid != null) {
-                                      setState(() {
-                                        _imageFiles.add(File(pickFileid
-                                            .path)); // Add selected image to list
-                                        uploadImage(sToken!, image!);
-                                      });
-                                      print(
-                                          "---173--ImageFile--List----$_imageFiles");
-                                    }
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.all(8.0),
-                                    decoration: BoxDecoration(
-                                      color: Colors.black12,
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Image.asset(
-                                          'assets/images/ic_camera.PNG',
-                                          width: 25,
-                                          height: 25,
-                                          fit: BoxFit.fill,
-                                        ),
-                                        const SizedBox(width: 8),
-                                        const Text(
-                                          "Photo",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                // Second Container
-                                GestureDetector(
-                                  onTap: () async {
-                                    // _pickImageGallry();
-                                    //----PickImage Gallery----
-                                    SharedPreferences prefs =
-                                        await SharedPreferences.getInstance();
-                                    String? sToken = prefs.getString('sToken');
-
-                                    final pickFileid = await _picker.pickImage(
-                                        source: ImageSource.gallery,
-                                        imageQuality:
-                                            65 // Change to `ImageSource.camera` for camera
-                                        );
-
-                                    setState(() {
-                                      image = File(pickFileid!.path);
-                                    });
-                                    if (pickFileid != null) {
-                                      setState(() {
-                                        _imageFiles.add(File(pickFileid
-                                            .path)); // Add selected image to list
-                                        // to take a image with a path
-                                        uploadImage(sToken!, image!);
-                                      });
-                                      print(
-                                          "---185--ImageFile---list---$_imageFiles");
-                                    }
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.all(8.0),
-                                    decoration: BoxDecoration(
-                                      color: Colors.black12,
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Row(
-                                      children: [
-                                        Image.asset(
-                                          'assets/images/ic_camera.PNG',
-                                          width: 25,
-                                          height: 25,
-                                          fit: BoxFit.cover,
-                                        ),
-                                        const SizedBox(width: 8),
-                                        const Text(
-                                          "Gallery",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 10),
-                            ElevatedButton(
-                              onPressed: () async {
-                                print(
-                                    "-----2463--Doc---$_dropDownDocument2_code");
-                                print("-----2463--Doc---$_dropDownDocument2");
-                                print("-----2463--images---$uplodedImage");
-
-                                if (_dropDownRequiredDocumentTypeCode == null) {
-                                  displayToast("Please Select Document");
-                                } else if (uplodedImage == null) {
-                                  displayToast("Please pick a Document");
-                                } else {
-                                  setState(() {
-                                    thirdFormCombinedList.add({
-                                      'iDocumentTypeId':
-                                          "$_dropDownDocument2_code",
-                                      'sDocumentName': "$_dropDownDocument2",
-                                      'sDocumentUrl': uplodedImage,
-                                    });
-                                  });
-                                  // thirdFormCombinedList.add({
-                                  //   'iDocumentTypeId': "${_dropDownDocument2_code}",
-                                  //   'sDocumentName': "$_dropDownDocument2",
-                                  //   'sDocumentUrl': uplodedImage,
-                                  // });
-                                  print(
-                                      "ListItem-----2630----$thirdFormCombinedList");
-                                  Navigator.of(context).pop();
-                                }
-                                // Navigator.of(context).pop(); // Close dialog
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: const Text(
-                                "Save",
-                                style: TextStyle(color: Colors.white),
-                              ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            CircleWithSpacing(),
+                            // Space between the circle and text
+                            Text(
+                              "Required Document Type",
+                              style: AppTextStyle
+                                  .font14OpenSansRegularBlack45TextStyle,
                             ),
                           ],
                         ),
                       ),
-                      const Positioned(
-                        top: -40,
-                        child: CircleAvatar(
-                          radius: 40,
-                          backgroundImage: AssetImage(
-                            'assets/images/licenseRequestuplode.jpeg',
-                          ), // Replace with your image
+                      const SizedBox(height: 5),
+                      // Document DropDown
+                      Material(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width - 50,
+                            height: 42,
+                            color: Color(0xFFf2f3f5),
+                            child: DropdownButtonHideUnderline(
+                              child: ButtonTheme(
+                                alignedDropdown: true,
+                                child: DropdownButton(
+                                  isDense: true,
+                                  // Reduces the vertical size of the button
+                                  isExpanded: true,
+                                  // Allows the DropdownButton to take full width
+                                  dropdownColor: Colors.white,
+                                  // Set dropdown list background color
+                                  onTap: () {
+                                    FocusScope.of(
+                                      context,
+                                    ).unfocus(); // Dismiss keyboard
+                                  },
+                                  hint: RichText(
+                                    text: TextSpan(
+                                      text: "Select Document Type",
+                                      style: AppTextStyle
+                                          .font14OpenSansRegularBlack45TextStyle,
+                                    ),
+                                  ),
+                                  value: _dropDownDocument2,
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      _dropDownDocument2 = newValue;
+                                      bindDocumentTypeList.forEach((element) {
+                                        if (element["sDocumentTypeName"] ==
+                                            _dropDownDocument2) {
+                                          // RatePerDay
+                                          //_selectedWardId = element['iCommunityHallId'];
+                                          // iTradeCode   fLicenceFees
+                                          _dropDownDocument2_code =
+                                              element['iDocumentTypeCode'];
+                                          // _dropDownTradeSubCategoryFeesCode = element['fLicenceFees'];
+                                        }
+                                      });
+
+                                      if (_dropDownDocument2_code != null) {
+                                        /// remove the comment
+                                        setState(() {
+                                          // call a api if needs
+                                          print(
+                                            "---585--Fees----$_dropDownDocument2_code",
+                                          );
+                                          //  _dropDownDocument2
+                                          print(
+                                            "---587------$_dropDownDocument2",
+                                          );
+                                          // bindCommunityHallDate(_dropDownPremisesWardCode);
+                                        });
+                                      } else {
+                                        //toast
+                                      }
+                                      print(
+                                        "------373--DropDownnCategory Code----$_dropDownTradeCategoryCode",
+                                      );
+                                    });
+                                  },
+                                  items: bindDocumentTypeList.map((
+                                    dynamic item,
+                                  ) {
+                                    return DropdownMenuItem(
+                                      value: item["sDocumentTypeName"]
+                                          .toString(),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              item['sDocumentTypeName']
+                                                  .toString(),
+                                              overflow: TextOverflow.ellipsis,
+                                              style: AppTextStyle
+                                                  .font14OpenSansRegularBlack45TextStyle,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            CircleWithSpacing(),
+                            const SizedBox(width: 8),
+                            // Space between the circle and text
+                            Text(
+                              'Supporting Document',
+                              style: AppTextStyle
+                                  .font14OpenSansRegularBlack45TextStyle,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+
+                      // Selected Images
+                      Container(
+                        height: 150,
+                        width: 200,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: image != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.file(
+                                  image!,
+                                  width: 200,
+                                  height: 150,
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            : const Center(
+                                child: Text(
+                                  'No Image Available',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                              ),
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          // First Container
+                          GestureDetector(
+                            onTap: () async {
+                              // _pickImageCamra();
+                              // ----PICK IMAGE FROM A Camera--
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              String? sToken = prefs.getString('sToken');
+
+                              final pickFileid = await _picker.pickImage(
+                                source: ImageSource.gallery,
+                                imageQuality: 65,
+                              );
+
+                              setState(() {
+                                image = File(pickFileid!.path);
+                              });
+                              // image2 = ${pickedFile?.path};
+                              // image2 = pickedFile!.path as File?;
+
+                              print("----171----pic path : ---$image");
+                              if (pickFileid != null) {
+                                setState(() {
+                                  _imageFiles.add(
+                                    File(pickFileid.path),
+                                  ); // Add selected image to list
+                                  uploadImage(sToken!, image!);
+                                });
+                                print(
+                                  "---173--ImageFile--List----$_imageFiles",
+                                );
+                              }
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                color: Colors.black12,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/ic_camera.PNG',
+                                    width: 25,
+                                    height: 25,
+                                    fit: BoxFit.fill,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  const Text(
+                                    "Photo",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          // Second Container
+                          GestureDetector(
+                            onTap: () async {
+                              // _pickImageGallry();
+                              //----PickImage Gallery----
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              String? sToken = prefs.getString('sToken');
+
+                              final pickFileid = await _picker.pickImage(
+                                source: ImageSource.gallery,
+                                imageQuality:
+                                    65, // Change to `ImageSource.camera` for camera
+                              );
+
+                              setState(() {
+                                image = File(pickFileid!.path);
+                              });
+                              if (pickFileid != null) {
+                                setState(() {
+                                  _imageFiles.add(
+                                    File(pickFileid.path),
+                                  ); // Add selected image to list
+                                  // to take a image with a path
+                                  uploadImage(sToken!, image!);
+                                });
+                                print(
+                                  "---185--ImageFile---list---$_imageFiles",
+                                );
+                              }
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8.0),
+                              decoration: BoxDecoration(
+                                color: Colors.black12,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                children: [
+                                  Image.asset(
+                                    'assets/images/ic_camera.PNG',
+                                    width: 25,
+                                    height: 25,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  const Text(
+                                    "Gallery",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      ElevatedButton(
+                        onPressed: () async {
+                          print("-----2463--Doc---$_dropDownDocument2_code");
+                          print("-----2463--Doc---$_dropDownDocument2");
+                          print("-----2463--images---$uplodedImage");
+
+                          if (_dropDownRequiredDocumentTypeCode == null) {
+                            displayToast("Please Select Document");
+                          } else if (uplodedImage == null) {
+                            displayToast("Please pick a Document");
+                          } else {
+                            setState(() {
+                              thirdFormCombinedList.add({
+                                'iDocumentTypeId': "$_dropDownDocument2_code",
+                                'sDocumentName': "$_dropDownDocument2",
+                                'sDocumentUrl': uplodedImage,
+                              });
+                            });
+                            // thirdFormCombinedList.add({
+                            //   'iDocumentTypeId': "${_dropDownDocument2_code}",
+                            //   'sDocumentName': "$_dropDownDocument2",
+                            //   'sDocumentUrl': uplodedImage,
+                            // });
+                            print(
+                              "ListItem-----2630----$thirdFormCombinedList",
+                            );
+                            Navigator.of(context).pop();
+                          }
+                          // Navigator.of(context).pop(); // Close dialog
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blue,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: const Text(
+                          "Save",
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
                     ],
-                  );
-                },
-              ),
-            ));
+                  ),
+                ),
+                const Positioned(
+                  top: -40,
+                  child: CircleAvatar(
+                    radius: 40,
+                    backgroundImage: AssetImage(
+                      'assets/images/licenseRequestuplode.jpeg',
+                    ), // Replace with your image
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
   }
 }

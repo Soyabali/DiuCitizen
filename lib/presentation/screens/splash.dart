@@ -122,7 +122,7 @@ class _SplaceState extends State<SplashView> {
     // print('---73--$result');
     // print('---74--$msg');
 
-    if(iVersion=="10"){
+    if(iVersion=="11"){
      // LoginScreen_2
       Navigator.pushReplacement(
         context,

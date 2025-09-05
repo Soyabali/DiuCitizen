@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:puri/presentation/onlineService/propertyAssessment/propertyAssessment.dart';
+import 'package:puri/presentation/onlineService/propertyAssessment/property_AssessmentHome.dart';
 import 'package:puri/presentation/onlineService/propertyMutation/propertyMutation.dart';
 import 'package:puri/presentation/onlineService/propertyTax/propertyTax.dart';
 import 'package:puri/presentation/onlineService/waterSupply/waterSupply.dart';
@@ -240,10 +241,16 @@ class _OnlineComplaintState extends State<OnlineServives> {
                             }else if(title=="Property Assessment"){
                               // PropertyAssessment
                               var sName = "Property Assessment";
+                              //  PropertyAssessmentHome
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(builder: (context) => PropertyAssessment(name:sName)),
+                              // );
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => PropertyAssessment(name:sName)),
+                                MaterialPageRoute(builder: (context) => PropertyAssessmentHome(name:sName)),
                               );
+
                               print('------213---Property Assessment');
                             }else if(title=="License"){
 

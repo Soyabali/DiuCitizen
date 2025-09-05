@@ -25,6 +25,7 @@ import '../../../resources/app_text_style.dart';
 import '../../../resources/values_manager.dart';
 
 class LicenseRequest extends StatefulWidget {
+
   var name, iCategoryCode;
   var name2, iCategoryCode2;
   var name3, iCategoryCode3;
@@ -148,7 +149,7 @@ class _MyHomePageState extends State<LicenseRequest>
   var iCommunityHallName;
   var firstStatus;
   File? image2;
-
+  var pickFileid;
   //  --
 
   // Track selected states
@@ -1059,6 +1060,7 @@ class _MyHomePageState extends State<LicenseRequest>
       // Call your API logic here
       var onlineComplaintResponse = await PostlicenseRequestRepo()
           .postLicenseRequest(context, allThreeFormJson);
+
       print('----1020---$onlineComplaintResponse');
       result2 = onlineComplaintResponse['Result'];
       msg2 = onlineComplaintResponse['Msg'];
@@ -1356,7 +1358,7 @@ class _MyHomePageState extends State<LicenseRequest>
                                                                   ],
                                                                 ),
                                                               ),
-                                                              SizedBox(
+                                                              const SizedBox(
                                                                 height: 5,
                                                               ),
                                                               // Document DropDown
@@ -1509,19 +1511,10 @@ class _MyHomePageState extends State<LicenseRequest>
                                                                   ],
                                                                 ),
                                                               ),
-                                                              SizedBox(
+                                                              const SizedBox(
                                                                 height: 5,
                                                               ),
-                                                              // buildImageWidget();
-                                                              //  buildImageWidget(uplodedImage),
-                                                              //   image != null
-                                                              //       ? Image.file(
-                                                              //     image!,
-                                                              //     width: 200,
-                                                              //     height: 200,
-                                                              //     fit: BoxFit.cover,
-                                                              //   )
-                                                              //       : const Text('No image selected'),
+
                                                               GestureDetector(
                                                                 onTap: () {
                                                                   if (uplodedImage!
@@ -1774,15 +1767,6 @@ class _MyHomePageState extends State<LicenseRequest>
                                                                                 image!,
                                                                               );
                                                                             });
-                                                                            // setState(() {
-                                                                            //   _imageFiles.add(File(selectedFile!.path)); // Add selected image to list
-                                                                            //   uploadImage(sToken!, image!);
-                                                                            // });
-
-                                                                            // here you should give the toast pdf file is selected.
-                                                                            print(
-                                                                              "-----------573---------",
-                                                                            );
                                                                             // Optionally, show PDF icon or preview
                                                                           } else {
                                                                             print(
@@ -1911,6 +1895,7 @@ class _MyHomePageState extends State<LicenseRequest>
                                                                       'sDocumentUrl':
                                                                           uplodedImage,
                                                                     });
+                                                                    // clear
                                                                     // add data another list
                                                                     _imageFiles2.add({
                                                                       'sDocumentName':
@@ -1918,8 +1903,13 @@ class _MyHomePageState extends State<LicenseRequest>
                                                                       'sDocumentUrl':
                                                                           image,
                                                                     });
-
                                                                     print("----1977---$thirdFormCombinedList");
+                                                                    // clear all fields
+                                                                    image = null;
+                                                                    uplodedImage = null;
+                                                                    _dropDownDocument2_code = null;
+                                                                    _dropDownDocument2 = null;
+                                                                    // to store list data here
 
                                                                     Navigator.of(
                                                                       context,
@@ -1974,7 +1964,7 @@ class _MyHomePageState extends State<LicenseRequest>
                                             right: 0,
                                           ),
                                           child: Container(
-                                            margin: EdgeInsets.only(
+                                            margin: const EdgeInsets.only(
                                               left: 10,
                                               right: 10,
                                             ),

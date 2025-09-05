@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -7,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:puri/services/BindMutationTypeRepo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../app/generalFunction.dart';
 import '../../../../app/loader_helper.dart';
 import '../../../../services/BindCitizenWardRepo.dart';
@@ -17,6 +19,7 @@ import '../../../../services/BindTadeSubCategoryRepo.dart';
 import '../../../../services/BindTradeCategoryRepo.dart';
 import '../../../../services/baseurl.dart';
 import '../../../../services/bindSubCategoryRepo.dart';
+import '../../../services/BindDocumentTypePropertyRepo.dart';
 import '../../../services/BindMutationRateListRepo.dart';
 import '../../../services/PostMutationRequestRepo.dart';
 import '../../../services/bindMutationDocListRepo.dart';
@@ -59,6 +62,7 @@ class _MyHomePageState extends State<PropertyMutationRequest>
   List blockList = [];
   List shopTypeList = [];
   var result2, msg2;
+  List<dynamic> bindDocumentTypePropertyList = [];
 
   bool isFormVisible = true; // Track the visibility of the form
   bool isIconRotated = false;
@@ -325,6 +329,12 @@ class _MyHomePageState extends State<PropertyMutationRequest>
     print(" -----bindMutationDocList Repo---->>>>-xx--360-----> $bindMutationDocList");
     setState(() {});
   }
+  bindSupportingDocumentPropertyApi() async {
+    /// todo remove the comment and call Community Hall
+    bindDocumentTypePropertyList = await BindDocumentTypePropertyRepo().bindDocumentyTypeProperty();
+    print(" -----bindDocumnent Property Repo---->>>>-xx--154-----> $bindDocumentTypePropertyList");
+    setState(() {});
+  }
   // BindMutationRateList Api
   BindMutationRateListApi(_dropDownTypeOfMutationCode) async {
     /// todo remove the comment and call Community Hall
@@ -476,7 +486,7 @@ class _MyHomePageState extends State<PropertyMutationRequest>
                       setState(() {
                         // call a api if needs
                         BindMutationRateListApi(_dropDownTypeOfMutationCode);
-                        BindMutationDocsListApi(_dropDownTypeOfMutationCode);
+                        //BindMutationDocsListApi(_dropDownTypeOfMutationCode);
                       //  BindMutationDocsListApi(_dropDownTypeOfMutationCode);
                        // bindTradeSubCategoryApi(_dropDownTradeCategoryCode);
 
@@ -685,6 +695,16 @@ class _MyHomePageState extends State<PropertyMutationRequest>
     }
   }
 
+  void openPdf(BuildContext context, String pdfUrl) async {
+    if (await canLaunchUrl(Uri.parse(pdfUrl))) {
+      await launchUrl(Uri.parse(pdfUrl), mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Cannot open PDF")),
+      );
+    }
+  }
+
   @override
   void initState() {
     premisesWard();
@@ -692,6 +712,7 @@ class _MyHomePageState extends State<PropertyMutationRequest>
     bindTradeCategoryApi();
     bindSupportingDocumentApi();
     bindMutationApi();
+    bindSupportingDocumentPropertyApi();
     thirdFormCombinedList = [];
     super.initState();
     _OwnerNamefocus = FocusNode();
@@ -1909,10 +1930,12 @@ class _MyHomePageState extends State<PropertyMutationRequest>
                                       color: Colors.white,
                                       borderRadius: BorderRadius.circular(10.0),
                                       child: Padding(
-                                        padding: const EdgeInsets.only(left: 10),
+                                        padding:
+                                        const EdgeInsets.only(left: 10),
                                         child: Container(
-                                          width: MediaQuery.of(context).size
-                                                  .width -
+                                          width: MediaQuery.of(context)
+                                              .size
+                                              .width -
                                               50,
                                           height: 42,
                                           color: Color(0xFFf2f3f5),
@@ -1933,30 +1956,37 @@ class _MyHomePageState extends State<PropertyMutationRequest>
                                                 hint: RichText(
                                                   text: TextSpan(
                                                     text:
-                                                        "Select Document Type",
+                                                    "Select Document Type",
                                                     style: AppTextStyle
                                                         .font14OpenSansRegularBlack45TextStyle,
                                                   ),
                                                 ),
-                                                value: _dropDownRequiredDocumentType,
+                                                value:
+                                                _dropDownRequiredDocumentType,
                                                 onChanged: (newValue) {
                                                   setState(() {
-                                                    _dropDownRequiredDocumentType = newValue;
-                                                    bindMutationDocList.forEach((element) {
-                                                      if (element["sDocReq"] == _dropDownRequiredDocumentType) {
+                                                    _dropDownRequiredDocumentType =
+                                                        newValue;
+                                                    bindDocumentTypePropertyList
+                                                        .forEach((element) {
+                                                      if (element["sDocumentTypeName"] ==
+                                                          _dropDownRequiredDocumentType) {
                                                         // RatePerDay
                                                         //_selectedWardId = element['iCommunityHallId'];
                                                         // iTradeCode   fLicenceFees
-                                                         _dropDownRequiredDocumentTypeCode = element['iDocCode'];
+                                                        _dropDownRequiredDocumentTypeCode = element['iDocumentTypeCode'];
+                                                        print("----$_dropDownRequiredDocumentTypeCode");
                                                         // _dropDownTradeSubCategoryFeesCode = element['fLicenceFees'];
                                                       }
                                                     });
 
-                                                    if (_dropDownRequiredDocumentTypeCode != null) {
+                                                    if (_dropDownRequiredDocumentTypeCode !=
+                                                        null) {
                                                       /// remove the comment
                                                       setState(() {
                                                         // call a api if needs
-                                                        print("---2497--Fees----$_dropDownRequiredDocumentTypeCode");
+                                                        print(
+                                                            "---2497--Fees----$_dropDownRequiredDocumentTypeCode");
                                                         //  _dropDownDocument2
                                                         //print("---587------$_dropDownDocument2");
                                                         // bindCommunityHallDate(_dropDownPremisesWardCode);
@@ -1964,21 +1994,21 @@ class _MyHomePageState extends State<PropertyMutationRequest>
                                                     } else {
                                                       //toast
                                                     }
-                                                   // print("------373--DropDownnCategory Code----$_dropDownTradeCategoryCode");
+                                                    // print("------373--DropDownnCategory Code----$_dropDownTradeCategoryCode");
                                                   });
                                                 },
-                                                items: bindMutationDocList.map((dynamic item) {
+                                                items: bindDocumentTypePropertyList
+                                                    .map((dynamic item) {
                                                   return DropdownMenuItem(
-                                                    value: item["sDocReq"].toString(),
+                                                    value: item["sDocumentTypeName"].toString(),
                                                     child: Row(
                                                       children: [
                                                         Expanded(
                                                           child: Text(
-                                                            item['sDocReq']
-                                                                .toString(),
+                                                            item['sDocumentTypeName'].toString(),
                                                             overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
+                                                            TextOverflow
+                                                                .ellipsis,
                                                             style: AppTextStyle
                                                                 .font14OpenSansRegularBlack45TextStyle,
                                                           ),
@@ -1993,6 +2023,95 @@ class _MyHomePageState extends State<PropertyMutationRequest>
                                         ),
                                       ),
                                     ),
+                                    // Material(
+                                    //   color: Colors.white,
+                                    //   borderRadius: BorderRadius.circular(10.0),
+                                    //   child: Padding(
+                                    //     padding: const EdgeInsets.only(left: 10),
+                                    //     child: Container(
+                                    //       width: MediaQuery.of(context).size
+                                    //               .width -
+                                    //           50,
+                                    //       height: 42,
+                                    //       color: Color(0xFFf2f3f5),
+                                    //
+                                    //       child: DropdownButtonHideUnderline(
+                                    //         child: ButtonTheme(
+                                    //           alignedDropdown: true,
+                                    //           child: DropdownButton(
+                                    //             isDense: true,
+                                    //             // Reduces the vertical size of the button
+                                    //             isExpanded: true,
+                                    //             // Allows the DropdownButton to take full width
+                                    //             dropdownColor: Colors.white,
+                                    //             // Set dropdown list background color
+                                    //             onTap: () {
+                                    //               FocusScope.of(context)
+                                    //                   .unfocus(); // Dismiss keyboard
+                                    //             },
+                                    //             hint: RichText(
+                                    //               text: TextSpan(
+                                    //                 text:
+                                    //                     "Select Document Type",
+                                    //                 style: AppTextStyle
+                                    //                     .font14OpenSansRegularBlack45TextStyle,
+                                    //               ),
+                                    //             ),
+                                    //             value: _dropDownRequiredDocumentType,
+                                    //             onChanged: (newValue) {
+                                    //               setState(() {
+                                    //                 _dropDownRequiredDocumentType = newValue;
+                                    //                 bindMutationDocList.forEach((element) {
+                                    //                   if (element["sDocReq"] == _dropDownRequiredDocumentType) {
+                                    //                     // RatePerDay
+                                    //                     //_selectedWardId = element['iCommunityHallId'];
+                                    //                     // iTradeCode   fLicenceFees
+                                    //                      _dropDownRequiredDocumentTypeCode = element['iDocCode'];
+                                    //                     // _dropDownTradeSubCategoryFeesCode = element['fLicenceFees'];
+                                    //                   }
+                                    //                 });
+                                    //
+                                    //                 if (_dropDownRequiredDocumentTypeCode != null) {
+                                    //                   /// remove the comment
+                                    //                   setState(() {
+                                    //                     // call a api if needs
+                                    //                     print("---2497--Fees----$_dropDownRequiredDocumentTypeCode");
+                                    //                     //  _dropDownDocument2
+                                    //                     //print("---587------$_dropDownDocument2");
+                                    //                     // bindCommunityHallDate(_dropDownPremisesWardCode);
+                                    //                   });
+                                    //                 } else {
+                                    //                   //toast
+                                    //                 }
+                                    //                // print("------373--DropDownnCategory Code----$_dropDownTradeCategoryCode");
+                                    //               });
+                                    //             },
+                                    //             items: bindMutationDocList.map((dynamic item) {
+                                    //               return DropdownMenuItem(
+                                    //                 value: item["sDocReq"].toString(),
+                                    //                 child: Row(
+                                    //                   children: [
+                                    //                     Expanded(
+                                    //                       child: Text(
+                                    //                         item['sDocReq']
+                                    //                             .toString(),
+                                    //                         overflow:
+                                    //                             TextOverflow
+                                    //                                 .ellipsis,
+                                    //                         style: AppTextStyle
+                                    //                             .font14OpenSansRegularBlack45TextStyle,
+                                    //                       ),
+                                    //                     ),
+                                    //                   ],
+                                    //                 ),
+                                    //               );
+                                    //             }).toList(),
+                                    //           ),
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ),
+                                    // ),
                                     const SizedBox(height: 5),
                                     Padding(
                                       padding: const EdgeInsets.only(left: 10),
@@ -2011,93 +2130,188 @@ class _MyHomePageState extends State<PropertyMutationRequest>
                                     ),
                                     const SizedBox(height: 5),
                                     // Selected Images
-
-                                    Container(
-                                      height: 150,
-                                      width: 200,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Colors.grey),
-                                        borderRadius: BorderRadius.circular(10),
-                                      ),
-                                      child: image != null
-                                          ? ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              child: Image.file(
-                                                image!,
-                                                width: 200,
-                                                height: 150,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            )
-                                          : const Center(
-                                              child: Text(
-                                                'No Image Available',
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.grey),
+                                    GestureDetector(
+                                      onTap: () {
+                                        if (uplodedImage!
+                                            .toLowerCase()
+                                            .endsWith(
+                                          '.pdf',
+                                        )) {
+                                          print(
+                                            "PDF tapped: $uplodedImage",
+                                          );
+                                          // Open PDF in browser or PDF viewer
+                                          openPdf(
+                                            context,
+                                            uplodedImage!,
+                                          );
+                                        } else {
+                                          print(
+                                            "Image tapped: $uplodedImage",
+                                          );
+                                          // Open image in full screen
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (_) => Scaffold(
+                                                appBar: AppBar(
+                                                  title: const Text(
+                                                    "Image Preview",
+                                                  ),
+                                                ),
+                                                body: Center(
+                                                  child: Image.network(
+                                                    uplodedImage!,
+                                                    width: double.infinity, // take full width
+                                                    fit: BoxFit.cover, // cover the available space
+                                                  ),
+                                                ),
                                               ),
                                             ),
+                                          );
+                                        }
+                                      },
+                                      child: Container(
+                                        height: 150,
+                                        width: 200,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: Colors
+                                                .grey,
+                                          ),
+                                          borderRadius:
+                                          BorderRadius.circular(
+                                            10,
+                                          ),
+                                        ),
+                                        child:
+                                        image !=
+                                            null
+                                            ? ClipRRect(
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
+                                          child:
+                                          image!.path.toLowerCase().endsWith(
+                                            '.pdf',
+                                          )
+                                              ? Container(
+                                            color: Colors.grey[200],
+                                            child: const Center(
+                                              child: Icon(
+                                                Icons.picture_as_pdf,
+                                                color: Colors.red,
+                                                size: 60,
+                                              ),
+                                            ),
+                                          )
+                                              : Image.file(
+                                            image!,
+                                            width: 200,
+                                            height: 150,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        )
+                                            : const Center(
+                                          child: Text(
+                                            'No File Available',
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.grey,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                    const SizedBox(height: 10),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
                                     Row(
                                       mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                      MainAxisAlignment
+                                          .spaceEvenly,
                                       children: [
                                         // First Container
                                         GestureDetector(
                                           onTap: () async {
-                                            // _pickImageCamra();
-                                            // ----PICK IMAGE FROM A Camera--
-                                            SharedPreferences prefs =
-                                                await SharedPreferences
-                                                    .getInstance();
-                                            String? sToken =
-                                                prefs.getString('sToken');
+                                            //_pickImageCamra();
+                                            SharedPreferences
+                                            prefs =
+                                            await SharedPreferences.getInstance();
+                                            String?
+                                            sToken = prefs
+                                                .getString(
+                                              'sToken',
+                                            );
 
-                                            final pickFileid =
-                                                await _picker.pickImage(
-                                                    source: ImageSource.camera,
-                                                    imageQuality: 65);
+                                            final pickFileid = await _picker.pickImage(
+                                              source:
+                                              ImageSource.camera,
+                                              imageQuality:
+                                              65,
+                                            );
 
                                             setState(() {
-                                              image = File(pickFileid!.path);
+                                              image = File(
+                                                pickFileid!
+                                                    .path,
+                                              );
                                             });
-                                            // image2 = ${pickedFile?.path};
-                                            // image2 = pickedFile!.path as File?;
-
-                                            print("----171----pic path : ---$image");
-                                            if (pickFileid != null) {
+                                            print(
+                                              "----171----pic path : ---$image",
+                                            );
+                                            if (pickFileid !=
+                                                null) {
                                               setState(() {
-                                                _imageFiles.add(File(pickFileid.path)); // Add selected image to list
-                                                uploadImage(sToken!, image!);
+                                                _imageFiles.add(
+                                                  File(
+                                                    pickFileid.path,
+                                                  ),
+                                                ); // Add selected image to list
+                                                uploadImage(
+                                                  sToken!,
+                                                  image!,
+                                                );
                                               });
                                               print(
-                                                  "---2507--ImageFile--List----$_imageFiles");
+                                                "---173--ImageFile--List----$_imageFiles",
+                                              );
                                             }
                                           },
                                           child: Container(
-                                            padding: const EdgeInsets.all(8.0),
+                                            padding:
+                                            const EdgeInsets.all(
+                                              8.0,
+                                            ),
                                             decoration: BoxDecoration(
-                                              color: Colors.black12,
+                                              color: Colors
+                                                  .black12,
                                               borderRadius:
-                                                  BorderRadius.circular(8),
+                                              BorderRadius.circular(
+                                                8,
+                                              ),
                                             ),
                                             child: Row(
                                               children: [
                                                 Image.asset(
                                                   'assets/images/ic_camera.PNG',
-                                                  width: 25,
-                                                  height: 25,
-                                                  fit: BoxFit.fill,
+                                                  width:
+                                                  25,
+                                                  height:
+                                                  25,
+                                                  fit:
+                                                  BoxFit.fill,
                                                 ),
-                                                const SizedBox(width: 8),
+                                                const SizedBox(
+                                                  width:
+                                                  8,
+                                                ),
                                                 const Text(
                                                   "Photo",
                                                   style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -2107,51 +2321,150 @@ class _MyHomePageState extends State<PropertyMutationRequest>
                                         GestureDetector(
                                           onTap: () async {
                                             // _pickImageGallry();
-                                            //----PickImage Gallery----
-                                            SharedPreferences prefs = await SharedPreferences
-                                                    .getInstance();
-                                            String? sToken = prefs.getString('sToken');
+                                            File?
+                                            selectedFile;
+                                            SharedPreferences
+                                            prefs =
+                                            await SharedPreferences.getInstance();
+                                            String?
+                                            sToken = prefs
+                                                .getString(
+                                              'sToken',
+                                            );
 
-                                            final pickFileid = await _picker.pickImage(source: ImageSource.gallery,
-                                                    imageQuality: 65 // Change to `ImageSource.camera` for camera
+                                            try {
+                                              // Open gallery or file picker
+                                              FilePickerResult?
+                                              result = await FilePicker.platform.pickFiles(
+                                                type:
+                                                FileType.custom,
+                                                allowedExtensions: [
+                                                  'jpg',
+                                                  'jpeg',
+                                                  'png',
+                                                  'pdf',
+                                                ],
+                                              );
+
+                                              if (result !=
+                                                  null &&
+                                                  result.files.single.path !=
+                                                      null) {
+                                                image = File(
+                                                  result.files.single.path!,
+                                                );
+                                                String
+                                                filePath =
+                                                    image!.path;
+                                                print(
+                                                  'cted File Path: Sele$filePath',
+                                                );
+
+                                                if (filePath.toLowerCase().endsWith(
+                                                  '.pdf',
+                                                )) {
+                                                  print(
+                                                    "✅ PDF file selected",
+                                                  );
+                                                  displayToast(
+                                                    'Pdf file is selected',
+                                                  );
+                                                  setState(() {
+                                                    _imageFiles.add(
+                                                      File(
+                                                        image!.path,
+                                                      ),
+                                                    ); // Add selected image to list
+                                                    uploadImage(
+                                                      sToken!,
+                                                      image!,
                                                     );
+                                                  });
+                                                  // Optionally, show PDF icon or preview
+                                                } else {
+                                                  print(
+                                                    "✅ Image file selected",
+                                                  );
+                                                  setState(() {
+                                                    _imageFiles.add(
+                                                      File(
+                                                        image!.path,
+                                                      ),
+                                                    ); // Add selected image to list
+                                                    uploadImage(
+                                                      sToken!,
+                                                      image!,
+                                                    );
+                                                  });
+                                                  // Optionally, show image preview in UI
+                                                }
 
-                                            setState(() {
-                                              image = File(pickFileid!.path);
-                                            });
-                                            if (pickFileid != null) {
-                                              setState(() {
-                                                _imageFiles.add(File(pickFileid.path)); // Add selected image to list
-                                                // to take a image with a path
-                                                // to update image on a api
-                                                uploadImage(sToken!, image!);
-                                              });
+                                                // ✅ Upload File
+                                                if (sToken !=
+                                                    null) {
+                                                  print(
+                                                    "-----------581---------",
+                                                  );
+                                                  print(
+                                                    "-----------selectedPath---------$image",
+                                                  );
+
+                                                  uploadImage(
+                                                    sToken,
+                                                    image!,
+                                                  );
+                                                } else {
+                                                  print(
+                                                    "❌ Token not found",
+                                                  );
+                                                }
+                                              } else {
+                                                print(
+                                                  '❌ No file selected',
+                                                );
+                                              }
+                                            } catch (
+                                            e
+                                            ) {
                                               print(
-                                                  "---185--ImageFile---list---$_imageFiles");
+                                                "❌ Error picking file: $e",
+                                              );
                                             }
                                           },
                                           child: Container(
-                                            padding: const EdgeInsets.all(8.0),
+                                            padding:
+                                            const EdgeInsets.all(
+                                              8.0,
+                                            ),
                                             decoration: BoxDecoration(
-                                              color: Colors.black12,
+                                              color: Colors
+                                                  .black12,
                                               borderRadius:
-                                                  BorderRadius.circular(8),
+                                              BorderRadius.circular(
+                                                8,
+                                              ),
                                             ),
                                             child: Row(
                                               children: [
                                                 Image.asset(
                                                   'assets/images/ic_camera.PNG',
-                                                  width: 25,
-                                                  height: 25,
-                                                  fit: BoxFit.cover,
+                                                  width:
+                                                  25,
+                                                  height:
+                                                  25,
+                                                  fit:
+                                                  BoxFit.cover,
                                                 ),
-                                                const SizedBox(width: 8),
+                                                const SizedBox(
+                                                  width:
+                                                  8,
+                                                ),
                                                 const Text(
                                                   "Gallery",
                                                   style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold),
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                                 ),
                                               ],
                                             ),
@@ -2159,6 +2472,156 @@ class _MyHomePageState extends State<PropertyMutationRequest>
                                         ),
                                       ],
                                     ),
+
+                                    // Container(
+                                    //   height: 150,
+                                    //   width: 200,
+                                    //   decoration: BoxDecoration(
+                                    //     border: Border.all(color: Colors.grey),
+                                    //     borderRadius: BorderRadius.circular(10),
+                                    //   ),
+                                    //   child: image != null
+                                    //       ? ClipRRect(
+                                    //           borderRadius:
+                                    //               BorderRadius.circular(10),
+                                    //           child: Image.file(
+                                    //             image!,
+                                    //             width: 200,
+                                    //             height: 150,
+                                    //             fit: BoxFit.cover,
+                                    //           ),
+                                    //         )
+                                    //       : const Center(
+                                    //           child: Text(
+                                    //             'No Image Available',
+                                    //             style: TextStyle(
+                                    //                 fontSize: 16,
+                                    //                 color: Colors.grey),
+                                    //           ),
+                                    //         ),
+                                    // ),
+                                    // const SizedBox(height: 10),
+                                    // Row(
+                                    //   mainAxisAlignment:
+                                    //       MainAxisAlignment.spaceEvenly,
+                                    //   children: [
+                                    //     // First Container
+                                    //     GestureDetector(
+                                    //       onTap: () async {
+                                    //         // _pickImageCamra();
+                                    //         // ----PICK IMAGE FROM A Camera--
+                                    //         SharedPreferences prefs =
+                                    //             await SharedPreferences
+                                    //                 .getInstance();
+                                    //         String? sToken =
+                                    //             prefs.getString('sToken');
+                                    //
+                                    //         final pickFileid =
+                                    //             await _picker.pickImage(
+                                    //                 source: ImageSource.camera,
+                                    //                 imageQuality: 65);
+                                    //
+                                    //         setState(() {
+                                    //           image = File(pickFileid!.path);
+                                    //         });
+                                    //         // image2 = ${pickedFile?.path};
+                                    //         // image2 = pickedFile!.path as File?;
+                                    //
+                                    //         print("----171----pic path : ---$image");
+                                    //         if (pickFileid != null) {
+                                    //           setState(() {
+                                    //             _imageFiles.add(File(pickFileid.path)); // Add selected image to list
+                                    //             uploadImage(sToken!, image!);
+                                    //           });
+                                    //           print(
+                                    //               "---2507--ImageFile--List----$_imageFiles");
+                                    //         }
+                                    //       },
+                                    //       child: Container(
+                                    //         padding: const EdgeInsets.all(8.0),
+                                    //         decoration: BoxDecoration(
+                                    //           color: Colors.black12,
+                                    //           borderRadius:
+                                    //               BorderRadius.circular(8),
+                                    //         ),
+                                    //         child: Row(
+                                    //           children: [
+                                    //             Image.asset(
+                                    //               'assets/images/ic_camera.PNG',
+                                    //               width: 25,
+                                    //               height: 25,
+                                    //               fit: BoxFit.fill,
+                                    //             ),
+                                    //             const SizedBox(width: 8),
+                                    //             const Text(
+                                    //               "Photo",
+                                    //               style: TextStyle(
+                                    //                   fontSize: 16,
+                                    //                   fontWeight:
+                                    //                       FontWeight.bold),
+                                    //             ),
+                                    //           ],
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //     // Second Container
+                                    //     GestureDetector(
+                                    //       onTap: () async {
+                                    //         // _pickImageGallry();
+                                    //         //----PickImage Gallery----
+                                    //         SharedPreferences prefs = await SharedPreferences
+                                    //                 .getInstance();
+                                    //         String? sToken = prefs.getString('sToken');
+                                    //
+                                    //         final pickFileid = await _picker.pickImage(source: ImageSource.gallery,
+                                    //                 imageQuality: 65 // Change to `ImageSource.camera` for camera
+                                    //                 );
+                                    //
+                                    //         setState(() {
+                                    //           image = File(pickFileid!.path);
+                                    //         });
+                                    //         if (pickFileid != null) {
+                                    //           setState(() {
+                                    //             _imageFiles.add(File(pickFileid.path)); // Add selected image to list
+                                    //             // to take a image with a path
+                                    //             // to update image on a api
+                                    //             uploadImage(sToken!, image!);
+                                    //           });
+                                    //           print(
+                                    //               "---185--ImageFile---list---$_imageFiles");
+                                    //         }
+                                    //       },
+                                    //       child: Container(
+                                    //         padding: const EdgeInsets.all(8.0),
+                                    //         decoration: BoxDecoration(
+                                    //           color: Colors.black12,
+                                    //           borderRadius:
+                                    //               BorderRadius.circular(8),
+                                    //         ),
+                                    //         child: Row(
+                                    //           children: [
+                                    //             Image.asset(
+                                    //               'assets/images/ic_camera.PNG',
+                                    //               width: 25,
+                                    //               height: 25,
+                                    //               fit: BoxFit.cover,
+                                    //             ),
+                                    //             const SizedBox(width: 8),
+                                    //             const Text(
+                                    //               "Gallery",
+                                    //               style: TextStyle(
+                                    //                   fontSize: 16,
+                                    //                   fontWeight:
+                                    //                       FontWeight.bold),
+                                    //             ),
+                                    //           ],
+                                    //         ),
+                                    //       ),
+                                    //     ),
+                                    //   ],
+                                    // ),
+
+
                                     const SizedBox(height: 10),
 
                                     ElevatedButton(
@@ -2176,8 +2639,12 @@ class _MyHomePageState extends State<PropertyMutationRequest>
                                               'sDocUrl': uplodedImage,
                                             });
                                           });
-                                          print(
-                                              "Updated List: $thirdFormCombinedList");
+                                          print("Updated List: $thirdFormCombinedList");
+                                          // clear parameter
+                                          image = null;
+                                          uplodedImage = null;
+                                          _dropDownRequiredDocumentType = null;
+                                          _dropDownRequiredDocumentTypeCode = null;
                                           Navigator.of(context)
                                               .pop(); // Close dialog after updating state
                                         }
@@ -2239,38 +2706,111 @@ class _MyHomePageState extends State<PropertyMutationRequest>
         SizedBox(height: 10),
         _imageFiles.isNotEmpty
             ? Padding(
-              padding: const EdgeInsets.only(left: 10,right: 10),
-              child: SizedBox(
-                        height: 120,
-
-                // Set a fixed height for the horizontal list
-                        child: ListView.builder(
-              scrollDirection: Axis.horizontal,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+          ),
+          child: SizedBox(
+            height: 120,
+            child: ListView.builder(
+              scrollDirection:
+              Axis.horizontal,
               itemCount: _imageFiles.length,
               itemBuilder: (context, index) {
+                String filePath =
+                    _imageFiles[index].path;
+                bool isPdf = filePath.toLowerCase().endsWith('.pdf');
+
                 return Container(
-                  margin: EdgeInsets.only(right: 10.0),
-                  width: 140, // Set fixed width for the image container
-                  height: 140, // Set fixed height for the image container
+                  margin:
+                  const EdgeInsets.only(
+                    right: 10.0,
+                  ),
+                  width: 140,
+                  height: 140,
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.blue, width: 2.0),
-                    borderRadius: BorderRadius.circular(10.0),
+                    border: Border.all(
+                      color: Colors.blue,
+                      width: 2.0,
+                    ),
+                    borderRadius:
+                    BorderRadius.circular(
+                      10.0,
+                    ),
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8.0),
-                    child: Image.file(
+                    borderRadius:
+                    BorderRadius.circular(
+                      8.0,
+                    ),
+                    child: isPdf
+                        ? GestureDetector(
+                      onTap: (){
+                        print('-----Open Pdf--');
+                        var pdfFile =   _imageFiles[index];
+                        print("pdf path : $pdfFile");
+
+                      },
+                          child: Container(
+                                                color: Colors
+                            .grey[200],
+                                                child: const Center(
+                          child: Icon(
+                            Icons
+                                .picture_as_pdf,
+                            color: Colors
+                                .red,
+                            size: 50,
+                          ),
+                                                ),
+                                              ),
+                        )
+                        : Image.file(
                       _imageFiles[index],
                       fit: BoxFit.cover,
                     ),
                   ),
                 );
               },
-                        ),
-                      ),
-            )
-            : Center(
-          child: Text('No images selected.'),
+            ),
+          ),
+        )
+            : const Center(
+          child: Text('No files selected.'),
         ),
+        // _imageFiles.isNotEmpty
+        //     ? Padding(
+        //       padding: const EdgeInsets.only(left: 10,right: 10),
+        //       child: SizedBox(
+        //                 height: 120,
+        //
+        //         // Set a fixed height for the horizontal list
+        //                 child: ListView.builder(
+        //       scrollDirection: Axis.horizontal,
+        //       itemCount: _imageFiles.length,
+        //       itemBuilder: (context, index) {
+        //         return Container(
+        //           margin: EdgeInsets.only(right: 10.0),
+        //           width: 140, // Set fixed width for the image container
+        //           height: 140, // Set fixed height for the image container
+        //           decoration: BoxDecoration(
+        //             border: Border.all(color: Colors.blue, width: 2.0),
+        //             borderRadius: BorderRadius.circular(10.0),
+        //           ),
+        //           child: ClipRRect(
+        //             borderRadius: BorderRadius.circular(8.0),
+        //             child: Image.file(
+        //               _imageFiles[index],
+        //               fit: BoxFit.cover,
+        //             ),
+        //           ),
+        //         );
+        //       },
+        //                 ),
+        //               ),
+        //     )
+        //     : Center(
+        //   child: Text('No images selected.'),
+        // ),
 
 
         // if (thirdFormCombinedList != null && thirdFormCombinedList.isNotEmpty)

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../../app/generalFunction.dart';
 import '../../../../services/GetLicenceDataDocsRepo.dart';
 import '../../../fullscreen/imageDisplay.dart';
@@ -45,11 +46,21 @@ class _LicenseStatusImagesState extends State<LicenseStatusImages> {
     super.initState();
   }
 
+  void openPdf(BuildContext context, String pdfUrl) async {
+    if (await canLaunchUrl(Uri.parse(pdfUrl))) {
+      await launchUrl(Uri.parse(pdfUrl), mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Cannot open PDF")));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       // appbar
-      appBar: getAppBarBack(context,'${"Images"}'),
+      appBar: getAppBarBack(context,'${"Document"}'),
       body: isLoading
           ? Center(child: Container())
           : (pendingInternalComplaintList == null || pendingInternalComplaintList!.isEmpty)
@@ -102,7 +113,10 @@ class _LicenseStatusImagesState extends State<LicenseStatusImages> {
                           );
                         } else {
                           // Handle PDF case (e.g., open PDF viewer)
+                          var fileUrl = documentUrl;
+                          openPdf(context, fileUrl);
                           print("PDF tapped");
+
                         }
                       },
                       child: isPdf

@@ -23,7 +23,6 @@ class PropertyTaxDiu extends StatefulWidget {
 class _PropertyTaxState extends State<PropertyTaxDiu> {
 
   GeneralFunction generalFunction = GeneralFunction();
-
   List<dynamic> wardList = [];
   var _dropDownWard;
 
@@ -258,6 +257,9 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
                     // Your onTap logic here
 
                     var houseno = _houseController.text.trim();
+                   // var houseno = Uri.encodeComponent(_houseController.text.trim());
+                   // var houseno = Uri.decodeComponent(_houseController.text.trim());
+                    print("----261 : $houseno");
                     var houseOwnerName = _houseOwnerName.text.trim();
                     print("----Selected Ward-----236---$_selectedWardId");
                     print("----houseno----240---$houseno");
@@ -576,17 +578,12 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
                           child: InkWell(
                             onTap: ()async{
                               // to get a contact no from a local dataBase
+                              var encodedHouseNo = Uri.encodeComponent(houseNo.toString());
+                              print("---582--: $encodedHouseNo");
 
                               SharedPreferences prefs = await SharedPreferences.getInstance();
                               String? sContactNo = prefs.getString('sContactNo');
 
-                              //
-                              // showDialog(
-                              //   context: context,
-                              //   builder: (BuildContext dialogContext) {
-                              //     return paymentDialog(dialogContext);
-                              //   },
-                              // );
 
                               var iWardCode = "${emergencyTitleList![0]['iWardCode']}";
                                 print("----586---$iWardCode");
@@ -597,18 +594,23 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
 
                              // var baseurl = "https://www.diusmartcity.com/root/User/PropertyPayment.aspx?id=$houseNo&ward=$iWardCode";
                               //var user ="8755553370";
-                              var baseurl = "https://www.diusmartcity.com/User/PropertyPayment.aspx?id=$houseNo&ward=$iWardCode&user=$sContactNo";
+                             // var baseurl = "https://www.diusmartcity.com/User/PropertyPayment.aspx?id=$houseNo&ward=$iWardCode&user=$sContactNo";
+
+                              var baseurl = "https://www.diusmartcity.com/User/PropertyPayment.aspx?id=$encodedHouseNo&ward=$iWardCode&user=$sContactNo";
 
                               var sPageName = "Property Tax";
+                              print("--baseUrl : $baseurl");
 
                               // close the DialogBox
                              if(baseurl!=null && baseurl!=""){
                                print("------600---: $baseurl");
+
                                Navigator.push(
                                  context,
                                  MaterialPageRoute(builder: (context) =>
                                      AboutDiuPage(name: sPageName, sPageLink: baseurl)),
                                );
+
                              }else{
                                print("----596---baseUrl : $baseurl");
                              }
