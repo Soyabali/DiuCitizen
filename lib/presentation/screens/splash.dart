@@ -75,16 +75,47 @@ class _SplaceState extends State<SplashView> {
     // TODO: implement initState
     checkUserConnection();
     // versionAliCall();
-    getlocalDataBaseValue();
+   // getlocalDataBaseValue();
     print('------78--->>>Xx>....xxx-------');
+   // navigateBasedOnToken();
     super.initState();
   }
+
+
+
+  Future<void> navigateBasedOnToken() async {
+    await Future.delayed(const Duration(seconds: 2)); // Splash delay
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? sContactNo = prefs.getString('sContactNo');
+    print('------90--ContactNo----$sContactNo');
+
+    if (sContactNo != null && sContactNo.isNotEmpty) {
+      // Token found → Navigate to Home
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => ComplaintHomePage()),
+            (Route<dynamic> route) => false,
+      );
+    } else {
+      // No token → Navigate to Login
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen_2()),
+            (Route<dynamic> route) => false,
+      );
+    }
+
+  }
+
   getlocalDataBaseValue() async {
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('sToken');
     print('----TOKEN---87---$token');
     if(token!=null && token!=''){
+
       print('-----89---HomeScreen');
+
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) => ComplaintHomePage()),
@@ -123,11 +154,35 @@ class _SplaceState extends State<SplashView> {
     // print('---74--$msg');
 
     if(iVersion=="11"){
+      // to check token is store or not
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('sToken');
+      // sContactNo
+      var sContactNo = prefs.getString('sContactNo');
+      print("------162---ContactNo---$sContactNo");
+      if(sContactNo!=null && sContactNo!=''){
+        print("----Home Page------");
+        print("------162---ContactNo---$sContactNo");
+
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => ComplaintHomePage()),
+              (Route<dynamic> route) => false, // This condition removes all previous routes
+        );
+      }else{
+        print("----login-------");
+        print("------162---ContactNo---$sContactNo");
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) =>  const LoginScreen_2()),
+        );
+      }
+
      // LoginScreen_2
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) =>  const LoginScreen_2()),
-      );
+     //  Navigator.pushReplacement(
+     //    context,
+     //    MaterialPageRoute(builder: (context) =>  const LoginScreen_2()),
+     //  );
       // Navigator.pushReplacement(
       //   context,
       //   MaterialPageRoute(builder: (context) =>  const HomePage()),

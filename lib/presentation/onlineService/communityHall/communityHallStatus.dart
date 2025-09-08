@@ -62,6 +62,7 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
   var iStatus2=1;
   var iPaymenyDone2=1;
   var sBookingReqId;
+  var sContactNo,sCitizenName;
 
   // Api response
 
@@ -240,7 +241,17 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
     // TODO: implement initState
     pendingInternalComplaintResponse();
     _searchController.addListener(_search);
+    getLocalData();
     super.initState();
+  }
+
+  getLocalData() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // sContactNo
+     sContactNo = prefs.getString('sContactNo');
+     sCitizenName = prefs.getString('sCitizenName');
+    print("------162---ContactNo--xxx--$sContactNo");
+    print("------162---sCitizenName----xxxx-$sCitizenName");
   }
 
   @override
@@ -369,6 +380,119 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
     }
   }
 
+  //
+  Widget _buildDocumentSection(String title, String docUrl) {
+    return Padding(
+      padding: const EdgeInsets.all(12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              )),
+          const SizedBox(height: 12),
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey.shade300),
+              ),
+              child: _getDocumentWidget(docUrl),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  Widget _getDocumentWidget(String docUrl) {
+    if (docUrl.isEmpty) {
+      return const Center(
+        child: Text(
+          "No Document Available",
+          style: TextStyle(fontSize: 16, color: Colors.black54),
+        ),
+      );
+    }
+
+    if (docUrl.toLowerCase().endsWith(".pdf")) {
+      return Center(
+        child: IconButton(
+          icon: const Icon(Icons.picture_as_pdf, color: Colors.red, size: 60),
+          onPressed: () {
+            debugPrint("Open PDF: $docUrl");
+            openPdf(context,docUrl);
+            // TODO: Implement PDF Viewer logic here
+
+          },
+        ),
+      );
+    } else {
+      return GestureDetector(
+        onTap: () {
+          //
+          debugPrint("Open Image: $docUrl");
+          // Navigator.pop(context);
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (context) => FullScreenImages(image: docUrl),
+          //   ),
+          // );
+
+          // TODO: Implement Image Viewer logic here
+        },
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: Image.network(
+            docUrl,
+            fit: BoxFit.cover,
+            errorBuilder: (context, error, stackTrace) {
+              return const Center(
+                child: Icon(Icons.broken_image, size: 50, color: Colors.grey),
+              );
+            },
+          ),
+        ),
+      );
+    }
+  }
+  // fullScreenDialogBox
+  void showFullScreenDialog(BuildContext context, String docUrl, String docUrl2) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            title: const Text("Documents"),
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () => Navigator.pop(context),
+            ),
+            backgroundColor: Colors.blue,
+            elevation: 0,
+          ),
+          body: Column(
+            children: [
+              Expanded(
+                child: _buildDocumentSection("Document 1", docUrl),
+              ),
+              const Divider(thickness: 1),
+              Expanded(
+                child: _buildDocumentSection("Document 2", docUrl2),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -379,8 +503,7 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
         backgroundColor: Colors.white,
          appBar: getAppBarBack(context, '${widget.name}'),
         // appBar: getAppBarBack(context,'jjsjsjsj'),
-        drawer:
-            generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
+        drawer: generalFunction.drawerFunction(context, '$sCitizenName', '$sContactNo'),
         body:
             // pendingInternalComplaintList == null
             //   ? NoDataScreen()
@@ -525,20 +648,29 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                               GestureDetector(
                                                             onTap: () {
                                                               var docUrl = "${item['sCommunityDocUrl'].toString()}";
-                                                              if(docUrl.toLowerCase().endsWith('.pdf')){
-                                                               print("----Open Pdf on a new Screen");
-                                                               openPdf(context, docUrl!);
-                                                              }else{
-                                                                Navigator.push(
-                                                                  context,
-                                                                  MaterialPageRoute(
-                                                                      builder: (context) =>
-                                                                          FullScreenImages(
-                                                                              image:
-                                                                              docUrl)),
-                                                                );
-                                                              }
-                                                            },
+                                                              var docUrl2 = "${item['sCommunityDoc2Url'].toString()}";
+                                                              print("--docURL : $docUrl");
+                                                              print("--docURL2 : $docUrl2");
+                                                              showFullScreenDialog(context, docUrl, docUrl2);
+
+                                                              // var docUrl = "${item['sCommunityDocUrl'].toString()}";
+                                                              //
+                                                              // if(docUrl.toLowerCase().endsWith('.pdf')){
+                                                              //  print("----Open Pdf on a new Screen");
+                                                              //  openPdf(context, docUrl!);
+                                                              // }else{
+                                                              //   Navigator.push(
+                                                              //     context,
+                                                              //     MaterialPageRoute(
+                                                              //         builder: (context) =>
+                                                              //             FullScreenImages(
+                                                              //                 image:
+                                                              //                 docUrl)),
+                                                              //   );
+                                                              // }
+
+
+                                                              },
                                                             child: Container(
                                                               width: 30,
                                                               height: 30,

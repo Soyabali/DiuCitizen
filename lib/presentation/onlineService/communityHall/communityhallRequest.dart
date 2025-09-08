@@ -20,6 +20,7 @@ import '../../../services/PostCommunityBookingHallReqRepo.dart';
 import '../../../services/baseurl.dart';
 import '../../../services/bindSubCategoryRepo.dart';
 import '../../circle/circle.dart';
+import '../../fullscreen/imageDisplay.dart';
 import '../../resources/app_text_style.dart';
 import '../../resources/values_manager.dart';
 import 'PDFViewerScreen.dart';
@@ -118,16 +119,23 @@ class _MyHomePageState extends State<CommunityHallRequest> with TickerProviderSt
   var slat;
   var slong;
   File? image;
+  File? image2;
   var uplodedImage;
+  var uplodedImage2;
   double? lat, long;
   //List<String> selectedDates = []; // List to store selected dates
   List<Map<String, dynamic>> seleccteddates = [];
   List<Map<String, dynamic>> thirdFormCombinedList = [];
   List<Map<String, dynamic>> firstFormCombinedList = [];
+  final List<File> _imageFiles = [];
   bool isSuccess = false;
   bool isLoading = false;
   var iCommunityHallName;
 var  firstStatus;
+  File? _imageFile1; // For first column
+  File? _imageFile2; // For second column
+  final ImagePicker _picker = ImagePicker();
+   bool isFirstColumn = true;
 
   final List<Color> borderColors = [
     Colors.red,
@@ -146,6 +154,15 @@ var  firstStatus;
   List<bool> selectedStates = [];
   Set<int> selectedIndices = {}; // To track selected items by index
 
+  void openPdf(BuildContext context, String pdfUrl) async {
+    if (await canLaunchUrl(Uri.parse(pdfUrl))) {
+      await launchUrl(Uri.parse(pdfUrl), mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Cannot open PDF")));
+    }
+  }
 
   // function
   bindWard() async {
@@ -499,58 +516,6 @@ var  firstStatus;
     }
   }
 
-  // pick Image
-  // Future pickGallery() async {
-  //   image=null;
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String? sToken = prefs.getString('sToken');
-  //   print('---Token----113--$sToken');
-  //   try {
-  //     final pickFileid = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 50);
-  //     if (pickFileid != null) {
-  //       image = File(pickFileid.path);
-  //       setState(() {});
-  //       print('Image File path Id Proof-------167----->$image');
-  //       // multipartProdecudre();
-  //       uploadImage(sToken!, image!);
-  //     } else {
-  //       print('no image selected');
-  //     }
-  //   } catch (e) {}
-  // }
-  // Future pickGallery() async {
-  //   File? selectedFile;
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String? sToken = prefs.getString('sToken');
-  //   print('---Token----113--$sToken');
-  //
-  //   try {
-  //     FilePickerResult? result = await FilePicker.platform.pickFiles(
-  //       type: FileType.custom,
-  //       allowedExtensions: ['jpg', 'png', 'jpeg', 'pdf'],
-  //     );
-  //
-  //     if (result != null && result.files.isNotEmpty) {
-  //       selectedFile = File(result.files.single.path!);
-  //
-  //       print('Selected File Path: ${selectedFile.path}');
-  //
-  //       if (selectedFile.path.endsWith('.pdf')) {
-  //         print("PDF file selected");
-  //       } else {
-  //         print("Image file selected");
-  //       }
-  //
-  //       // Call your upload method
-  //       uploadImage(sToken!, selectedFile);
-  //     } else {
-  //       print('No file selected');
-  //     }
-  //   } catch (e) {
-  //     print("Error picking file: $e");
-  //   }
-  // }
-
   Future pickGallery() async {
     File? selectedFile;
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -651,6 +616,51 @@ var  firstStatus;
           uplodedImage = responseData['Data'][0]['sImagePath'];
         });
         print('Uploaded Image Path----548----xxxxx----: $uplodedImage');
+      } else {
+        print('Unexpected response format: $responseData');
+      }
+
+      hideLoader();
+    } catch (error) {
+      hideLoader();
+      print('Error uploading image: $error');
+    }
+  }
+  // uplode photo
+  Future<void> uploadImage2(String token, File imageFile) async {
+    print("--------225---tolen---$token");
+    print("--------226---imageFile---$imageFile");
+    var baseURL = BaseRepo().baseurl;
+    var endPoint = "PostImage/PostImage";
+    var uploadImageApi = "$baseURL$endPoint";
+    try {
+      print('-----xx-x----214----');
+      showLoader();
+      // Create a multipart request
+      var request = http.MultipartRequest(
+        'POST', Uri.parse('$uploadImageApi'),
+      );
+      // Add headers
+      //request.headers['token'] = '04605D46-74B1-4766-9976-921EE7E700A6';
+      request.headers['token'] = token;
+      request.headers['sFolder'] = 'CompImage';
+      // Add the image file as a part of the request
+      request.files.add(await http.MultipartFile.fromPath('sFolder',imageFile.path,
+      ));
+      // Send the request
+      var streamedResponse = await request.send();
+      // Get the response
+      var response = await http.Response.fromStream(streamedResponse);
+
+      // Parse the response JSON
+      var responseData = json.decode(response.body); // No explicit type casting
+      print("---------544--------$responseData");
+      if (responseData is Map<String, dynamic>) {
+        // Check for specific keys in the response
+        setState(() {
+          uplodedImage2 = responseData['Data'][0]['sImagePath'];
+        });
+        print('Uploaded Image Path----548----xxxxx----: $uplodedImage2');
       } else {
         print('Unexpected response format: $responseData');
       }
@@ -922,13 +932,14 @@ var  firstStatus;
         "dPurposeOfBooking": "$dPurposeOfBooking",
         "sCreatedBy": sCreatedBy,
         "sCommunityDocUrl":uplodedImage,
+        "sCommunityDoc2Url":uplodedImage2,
         "sBookingDateArray": seleccteddates,
       });
 
       // lIST to convert json string
       String allThreeFormJson = jsonEncode(firstFormCombinedList);
 
-      print('----572--->>.---$allThreeFormJson');
+      print('----941--->>.---$allThreeFormJson');
 
       var onlineComplaintResponse = await PostCommunityBookingHallReqRepo()
           .postCommunityBookingHall(context, allThreeFormJson);
@@ -965,7 +976,7 @@ var  firstStatus;
         return;
       }
       if(uplodedImage==null || uplodedImage==""){
-      displayToast('Please pic image');
+      displayToast('Select Document 1');
       return;
     }
       if (dPurposeOfBooking.isEmpty) {
@@ -1026,14 +1037,31 @@ var  firstStatus;
   }
  // pdf dialog
  // pdfViewFunction
-  void openPdf(BuildContext context, String pdfUrl) async {
-    if (await canLaunchUrl(Uri.parse(pdfUrl))) {
-      await launchUrl(Uri.parse(pdfUrl), mode: LaunchMode.externalApplication);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Cannot open PDF")),
-      );
-    }
+
+
+  //
+  Widget _buildImageButton(String text, String assetPath, {required VoidCallback onTap}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+        decoration: BoxDecoration(
+          color: Colors.black12,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Image.asset(assetPath, width: 16, height: 16, fit: BoxFit.cover),
+            const SizedBox(width: 6),
+            Text(
+              text,
+              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget buildPdfCard({
@@ -1610,16 +1638,536 @@ var  firstStatus;
                                     ),
                                   ),
                                 ),
+                                Container(
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.shade200,
+                                    border: Border.all(color: Colors.grey.shade400),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      /// First Column
+                                      Expanded(
+                                        child: Container(
+                                          color: Colors.blue.shade100,
+                                          child: Center(
+                                            child: RichText(
+                                              text: const TextSpan(
+                                                children: [
+                                                  TextSpan(
+                                                    text: "Document 1 ",
+                                                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.black),
+                                                  ),
+                                                  TextSpan(
+                                                    text: "*",
+                                                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.red),
+                                                  ),
+                                                ],
+                                              ),
+                                            )
 
-                                buildPdfCard(
-                                    onCameraTap: () {
-                                      print("-----1423----Camra---");
-                                      pickImageCamra();
-                                      },
-                                    onGalleryTap: () {
-                                      pickGallery();
-                                    }
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(width: 5),
+
+                                      /// Second Column
+                                      Expanded(
+                                        child: Container(
+                                          color: Colors.green.shade100,
+                                          child: const Center(
+                                            child: Text(
+                                              "Document 2",
+                                              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                                SizedBox(height: 5),
+                                Container(
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(color: Colors.grey.shade400),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      /// First Column
+                                      Expanded(
+                                        child: GestureDetector(
+                                          onTap:(){
+                                            if (uplodedImage != null) {
+                                              final filePath = uplodedImage.toLowerCase();
+                                              if (filePath.endsWith('.pdf')) {
+                                                print("Opening PDF: $uplodedImage");
+                                                openPdf(context, uplodedImage); // Your PDF opening function
+                                              } else {
+                                                print("Opening Image: $uplodedImage");
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => FullScreenImages(image: uplodedImage),
+                                                  ),
+                                                );
+                                               // openImage(context, uplodedImage); // Your Image opening function
+                                              }
+                                            } else {
+                                              print("❌ No file to open");
+                                            }
+                                        //print('-----1652----');
+                                       // print("pdf : $uplodedImage");
+                                        // open Pdf
+                                       // openPdf(context,uplodedImage);
+
+                                        },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              border: Border.all(color: Colors.grey),
+                                              borderRadius: BorderRadius.circular(0),
+                                            ),
+                                            child: image != null
+                                                ? ClipRRect(
+                                              borderRadius: BorderRadius.circular(10),
+                                              child: image!.path.toLowerCase().endsWith('.pdf')
+                                                  ? Container(
+                                                color: Colors.grey[200],
+                                                child: const Center(
+                                                  child: Icon(
+                                                    Icons.picture_as_pdf,
+                                                    color: Colors.red,
+                                                    size: 50, // smaller for responsiveness
+                                                  ),
+                                                ),
+                                              )
+                                                  : Image.file(
+                                                image!,
+                                                fit: BoxFit.cover,
+                                                width: double.infinity,  // full width
+                                                height: double.infinity, // full height
+                                              ),
+                                            )
+                                                : const Center(
+                                              child: Text(
+                                                'No File Available',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.grey,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+
+                                      ),
+                                      SizedBox(width: 5),
+                                      /// Second Column
+                                      Expanded(
+                                        child: GestureDetector(
+                                          onTap: (){
+                                            if (uplodedImage2 != null) {
+                                              final filePath = uplodedImage2.toLowerCase();
+                                              if (filePath.endsWith('.pdf')) {
+                                                print("Opening PDF: $uplodedImage2");
+                                                openPdf(context, uplodedImage2); // Your PDF opening function
+                                              } else {
+                                                print("Opening Image: $uplodedImage2");
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => FullScreenImages(image: uplodedImage),
+                                                  ),
+                                                );
+                                                // openImage(context, uplodedImage); // Your Image opening function
+                                              }
+                                            } else {
+                                              print("❌ No file to open");
+                                            }
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              border: Border.all(color: Colors.grey),
+                                              borderRadius: BorderRadius.circular(0),
+                                            ),
+                                            child: image2 != null
+                                                ? ClipRRect(
+                                              borderRadius: BorderRadius.circular(10),
+                                              child: image2!.path.toLowerCase().endsWith('.pdf')
+                                                  ? Container(
+                                                color: Colors.grey[200],
+                                                child: const Center(
+                                                  child: Icon(
+                                                    Icons.picture_as_pdf,
+                                                    color: Colors.red,
+                                                    size: 50, // smaller for responsiveness
+                                                  ),
+                                                ),
+                                              )
+                                                  : Image.file(
+                                                image2!,
+                                                fit: BoxFit.cover,
+                                                width: double.infinity,  // full width
+                                                height: double.infinity, // full height
+                                              ),
+                                            )
+                                                : const Center(
+                                              child: Text(
+                                                'No File Available',
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: Colors.grey,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 5),
+                                // Container with images and gallery
+                                Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                /// First Column
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      _buildImageButton("Photo", "assets/images/ic_camera.PNG", onTap: () async{
+                                        print("----1686--- Camra");
+                                        // Camera Logic
+                                        SharedPreferences
+                                        prefs = await SharedPreferences.getInstance();
+                                        String?
+                                        sToken = prefs
+                                            .getString(
+                                          'sToken',
+                                        );
+
+                                        final pickFileid = await _picker.pickImage(
+                                          source:
+                                          ImageSource.camera,
+                                          imageQuality:
+                                          65,
+                                        );
+
+                                        setState(() {
+                                          image = File(
+                                            pickFileid!
+                                                .path,
+                                          );
+                                        });
+                                        print(
+                                          "----171----pic path : ---$image",
+                                        );
+                                        if (pickFileid !=
+                                            null) {
+                                          setState(() {
+                                            _imageFiles.add(
+                                              File(
+                                                pickFileid.path,
+                                              ),
+                                            ); // Add selected image to list
+                                            uploadImage(
+                                              sToken!,
+                                              image!,
+                                            );
+                                          });
+                                          print(
+                                            "---173--ImageFile--List----$_imageFiles",
+                                          );
+                                        }
+
+                                      }),
+                                      const SizedBox(width: 8),
+                                      _buildImageButton("Gallery", "assets/images/ic_camera.PNG", onTap: () async {
+                                        // Gallery Logic
+                                        print("----1686--- Gallery");
+                                        File?
+                                        selectedFile;
+                                        SharedPreferences
+                                        prefs =
+                                            await SharedPreferences.getInstance();
+                                        String?
+                                        sToken = prefs
+                                            .getString(
+                                          'sToken',
+                                        );
+
+                                        try {
+                                          // Open gallery or file picker
+                                          FilePickerResult?
+                                          result = await FilePicker.platform.pickFiles(
+                                            type:
+                                            FileType.custom,
+                                            allowedExtensions: [
+                                              'jpg',
+                                              'jpeg',
+                                              'png',
+                                              'pdf',
+                                            ],
+                                          );
+
+                                          if (result !=
+                                              null &&
+                                              result.files.single.path !=
+                                                  null) {
+                                            image = File(
+                                              result.files.single.path!,
+                                            );
+                                            String
+                                            filePath =
+                                                image!.path;
+                                            print(
+                                              'cted File Path: Sele$filePath',
+                                            );
+
+                                            if (filePath.toLowerCase().endsWith(
+                                              '.pdf',
+                                            )) {
+                                              print(
+                                                "✅ PDF file selected",
+                                              );
+                                              displayToast(
+                                                'Pdf file is selected',
+                                              );
+                                              setState(() {
+                                                _imageFiles.add(
+                                                  File(
+                                                    image!.path,
+                                                  ),
+                                                ); // Add selected image to list
+                                                uploadImage(
+                                                  sToken!,
+                                                  image!,
+                                                );
+                                              });
+                                              // Optionally, show PDF icon or preview
+                                            } else {
+                                              print(
+                                                "✅ Image file selected",
+                                              );
+                                              setState(() {
+                                                _imageFiles.add(
+                                                  File(
+                                                    image!.path,
+                                                  ),
+                                                ); // Add selected image to list
+                                                uploadImage(
+                                                  sToken!,
+                                                  image!,
+                                                );
+                                              });
+                                              // Optionally, show image preview in UI
+                                            }
+
+                                            // ✅ Upload File
+                                            if (sToken !=
+                                                null) {
+                                              print(
+                                                "-----------581---------",
+                                              );
+                                              print(
+                                                "-----------selectedPath---------$image",
+                                              );
+
+                                              uploadImage(
+                                                sToken,
+                                                image!,
+                                              );
+                                            } else {
+                                              print(
+                                                "❌ Token not found",
+                                              );
+                                            }
+                                          } else {
+                                            print(
+                                              '❌ No file selected',
+                                            );
+                                          }
+                                        } catch (
+                                        e
+                                        ) {
+                                          print(
+                                            "❌ Error picking file: $e",
+                                          );
+                                        }
+                                      }),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(width: 10), // Gap between columns
+                                /// Second Column
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      _buildImageButton("Photo", "assets/images/ic_camera.PNG", onTap: () async {
+                                        // Camera Logic for second column
+                                        print('---Second Colume Camra --');
+                                        SharedPreferences
+                                        prefs = await SharedPreferences.getInstance();
+                                        String?
+                                        sToken = prefs
+                                            .getString(
+                                          'sToken',
+                                        );
+
+                                        final pickFileid = await _picker.pickImage(
+                                          source:
+                                          ImageSource.camera,
+                                          imageQuality:
+                                          65,
+                                        );
+                                        setState(() {
+                                          image2 = File(
+                                            pickFileid!
+                                                .path,
+                                          );
+                                        });
+                                        print(
+                                          "----171----pic path : ---$image2",
+                                        );
+                                        if (pickFileid !=
+                                            null) {
+                                          setState(() {
+                                            _imageFiles.add(
+                                              File(
+                                                image2!.path,
+                                              ),
+                                            // _imageFiles.add(
+                                            //   File(
+                                            //     pickFileid.path,
+                                            //   ),
+                                            ); // Add selected image to list
+                                            uploadImage2(
+                                              sToken!,
+                                              image2!,
+                                            );
+                                          });
+                                        }
+                                      }),
+                                      const SizedBox(width: 8),
+                                      _buildImageButton("Gallery", "assets/images/ic_camera.PNG", onTap: () async {
+                                        // Gallery Logic for second column
+                                        print('---Second Colume Gallery --');
+                                        SharedPreferences
+                                        prefs = await SharedPreferences.getInstance();
+                                        String? sToken = prefs.getString('sToken');
+
+                                        try {
+                                          // Open gallery or file picker
+                                          FilePickerResult?
+                                          result = await FilePicker.platform.pickFiles(
+                                            type:
+                                            FileType.custom,
+                                            allowedExtensions: [
+                                              'jpg',
+                                              'jpeg',
+                                              'png',
+                                              'pdf',
+                                            ],
+                                          );
+
+                                          if (result !=
+                                              null &&
+                                              result.files.single.path !=
+                                                  null) {
+                                            image2 = File(result.files.single.path!);
+                                            String filePath = image2!.path;
+                                            print(
+                                              'cted File Path: Sele$filePath',
+                                            );
+
+                                            if (filePath.toLowerCase().endsWith(
+                                              '.pdf',
+                                            )) {
+                                              print(
+                                                "✅ PDF file selected",
+                                              );
+                                              displayToast(
+                                                'Pdf file is selected',
+                                              );
+                                              setState(() {
+                                                _imageFiles.add(
+                                                  File(
+                                                    image2!.path,
+                                                  ),
+                                                ); // Add selected image to list
+                                                uploadImage2(
+                                                  sToken!,
+                                                  image2!,
+                                                );
+                                              });
+                                              // Optionally, show PDF icon or preview
+                                            } else {
+                                              print(
+                                                "✅ Image file selected",
+                                              );
+                                              setState(() {
+                                                _imageFiles.add(
+                                                  File(
+                                                    image2!.path,
+                                                  ),
+                                                ); // Add selected image to list
+                                                uploadImage2(
+                                                  sToken!,
+                                                  image2!,
+                                                );
+                                              });
+                                              // Optionally, show image preview in UI
+                                            }
+
+                                            // ✅ Upload File
+                                            if (sToken !=
+                                                null) {
+                                              print(
+                                                "-----------581---------",
+                                              );
+                                              print(
+                                                "-----------selectedPath---------$image",
+                                              );
+
+                                              uploadImage2(
+                                                sToken,
+                                                image2!,
+                                              );
+                                            } else {
+                                              print(
+                                                "❌ Token not found",
+                                              );
+                                            }
+                                          } else {
+                                            print(
+                                              '❌ No file selected',
+                                            );
+                                          }
+                                        } catch (
+                                        e
+                                        ) {
+                                          print(
+                                            "❌ Error picking file: $e",
+                                          );
+                                        }
+                                      }),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                                // buildPdfCard(
+                                //     onCameraTap: () {
+                                //       print("-----1423----Camra---");
+                                //       pickImageCamra();
+                                //       },
+                                //     onGalleryTap: () {
+                                //       pickGallery();
+                                //     }
+                                // ),
                                 SizedBox(height: 10)
 
                               ],
@@ -1900,6 +2448,141 @@ var  firstStatus;
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+  // CAMRA
+  Future<void> _pickImage(isFirstColumn) async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.camera);
+
+    if (pickedFile != null) {
+      setState(() {
+        if (isFirstColumn) {
+          _imageFile1 = File(pickedFile.path);
+          isFirstColumn=false;
+        } else {
+          _imageFile2 = File(pickedFile.path);
+        }
+      });
+    }
+  }
+
+  Widget buildDocumentCard(String title, File? imageFile, bool isFirstDoc) {
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+        side: BorderSide(color: Colors.grey.shade300, width: 1),
+      ),
+      elevation: 3,
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          children: [
+            /// Title
+            Text(title, style: AppTextStyle.font14OpenSansRegularBlack45TextStyle),
+            SizedBox(height: 10),
+            /// Image Container
+            Container(
+              height: 100,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.grey.shade300),
+              ),
+              child: imageFile == null
+                  ? Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.camera_alt, size: 30, color: Colors.grey),
+                  SizedBox(height: 8),
+                  Text(
+                    "Image Not Available",
+                    style: AppTextStyle
+                        .font14OpenSansRegularBlack45TextStyle
+                  ),
+                ],
+              )
+                  : ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: Image.file(
+                  imageFile,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                ),
+              ),
+            ),
+            SizedBox(height: 10),
+
+            /// Row with two action buttons
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                /// Camera Button
+                Expanded(
+                  child: GestureDetector(
+                    child: GestureDetector(
+                      onTap: (){
+                       // bool isFirstColumn;
+                        _pickImage(isFirstColumn);
+                        print('----1945---');
+
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8), // reduced padding
+                        decoration: BoxDecoration(
+                          color: Colors.blue.shade50,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.blue.shade200),
+                        ),
+                        child: const FittedBox( // This will auto-scale icon + text
+                          fit: BoxFit.scaleDown,
+                          child: Row(
+                            children: [
+                              Icon(Icons.camera_alt, color: Colors.blue, size: 18), // reduced icon size
+                              SizedBox(width: 6),
+                              Text(
+                                "Photo",
+                                style: TextStyle(color: Colors.blue, fontSize: 14), // smaller font
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 4),
+                /// Gallery Button
+                Expanded(
+                  child: GestureDetector(
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                      decoration: BoxDecoration(
+                        color: Colors.green.shade50,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.green.shade200),
+                      ),
+                      child: const FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Row(
+                          children: [
+                            Icon(Icons.image, color: Colors.green, size: 18),
+                            SizedBox(width: 6),
+                            Text(
+                              "Gallery",
+                              style: TextStyle(color: Colors.green, fontSize: 14),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
         ),
       ),
     );

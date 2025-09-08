@@ -4273,151 +4273,151 @@ class _MyHomePageState extends State<PropertyAssessment>
         ),
         SizedBox(height: 10),
         // horizontal list
-        thirdFormCombinedList.isNotEmpty
-            ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: SizedBox(
-                  height: 160, // Increased height to fit image + text
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: thirdFormCombinedList.length,
-                    itemBuilder: (context, index) {
-                      var item = thirdFormCombinedList[index];
-                      String fileUrl = item['sDocumentUrl'] ?? '';
-                      String docName = item['sDocumentName'] ?? '';
-                      bool isPdf = fileUrl.toLowerCase().endsWith('.pdf');
-
-                      return Container(
-                        margin: const EdgeInsets.only(right: 10.0),
-                        width: 140,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.blue, width: 2.0),
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ClipRRect(
-                              borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(8),
-                                topRight: Radius.circular(8),
-                              ),
-                              child: isPdf
-                                  ? Container(
-                                      height: 100,
-                                      width: double.infinity,
-                                      color: Colors.grey[200],
-                                      child: const Center(
-                                        child: Icon(
-                                          Icons.picture_as_pdf,
-                                          color: Colors.red,
-                                          size: 50,
-                                        ),
-                                      ),
-                                    )
-                                  : Image.network(
-                                      fileUrl,
-                                      height: 100,
-                                      width: double.infinity,
-                                      fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) =>
-                                              const Icon(
-                                                Icons.broken_image,
-                                                size: 50,
-                                              ),
-                                    ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.all(5),
-                              child: Text(
-                                docName,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black87,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 2, // Handle long names
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              )
-            : const Center(child: Text('No documents found.')),
-
-        // _imageFiles.isNotEmpty
+        // thirdFormCombinedList.isNotEmpty
         //     ? Padding(
-        //   padding: const EdgeInsets.symmetric(
-        //     horizontal: 10,
-        //   ),
-        //   child: SizedBox(
-        //     height: 120,
-        //     child: ListView.builder(
-        //       scrollDirection:
-        //       Axis.horizontal,
-        //       itemCount: _imageFiles.length,
-        //       itemBuilder: (context, index) {
-        //         String filePath =
-        //             _imageFiles[index].path;
-        //         bool isPdf = filePath
-        //             .toLowerCase()
-        //             .endsWith('.pdf');
+        //         padding: const EdgeInsets.symmetric(horizontal: 10),
+        //         child: SizedBox(
+        //           height: 160, // Increased height to fit image + text
+        //           child: ListView.builder(
+        //             scrollDirection: Axis.horizontal,
+        //             itemCount: thirdFormCombinedList.length,
+        //             itemBuilder: (context, index) {
+        //               var item = thirdFormCombinedList[index];
+        //               String fileUrl = item['sDocumentUrl'] ?? '';
+        //               String docName = item['sDocumentName'] ?? '';
+        //               bool isPdf = fileUrl.toLowerCase().endsWith('.pdf');
         //
-        //         return Container(
-        //           margin:
-        //           const EdgeInsets.only(
-        //             right: 10.0,
-        //           ),
-        //           width: 140,
-        //           height: 140,
-        //           decoration: BoxDecoration(
-        //             border: Border.all(
-        //               color: Colors.blue,
-        //               width: 2.0,
-        //             ),
-        //             borderRadius:
-        //             BorderRadius.circular(
-        //               10.0,
-        //             ),
-        //           ),
-        //           child: ClipRRect(
-        //             borderRadius:
-        //             BorderRadius.circular(
-        //               8.0,
-        //             ),
-        //             child: isPdf
-        //                 ? Container(
-        //               color: Colors
-        //                   .grey[200],
-        //               child: const Center(
-        //                 child: Icon(
-        //                   Icons
-        //                       .picture_as_pdf,
-        //                   color: Colors
-        //                       .red,
-        //                   size: 50,
+        //               return Container(
+        //                 margin: const EdgeInsets.only(right: 10.0),
+        //                 width: 140,
+        //                 decoration: BoxDecoration(
+        //                   border: Border.all(color: Colors.blue, width: 2.0),
+        //                   borderRadius: BorderRadius.circular(10.0),
         //                 ),
-        //               ),
-        //             )
-        //                 : Image.file(
-        //               _imageFiles[index],
-        //               fit: BoxFit.cover,
-        //             ),
+        //                 child: Column(
+        //                   crossAxisAlignment: CrossAxisAlignment.center,
+        //                   children: [
+        //                     ClipRRect(
+        //                       borderRadius: const BorderRadius.only(
+        //                         topLeft: Radius.circular(8),
+        //                         topRight: Radius.circular(8),
+        //                       ),
+        //                       child: isPdf
+        //                           ? Container(
+        //                               height: 100,
+        //                               width: double.infinity,
+        //                               color: Colors.grey[200],
+        //                               child: const Center(
+        //                                 child: Icon(
+        //                                   Icons.picture_as_pdf,
+        //                                   color: Colors.red,
+        //                                   size: 50,
+        //                                 ),
+        //                               ),
+        //                             )
+        //                           : Image.network(
+        //                               fileUrl,
+        //                               height: 100,
+        //                               width: double.infinity,
+        //                               fit: BoxFit.cover,
+        //                               errorBuilder:
+        //                                   (context, error, stackTrace) =>
+        //                                       const Icon(
+        //                                         Icons.broken_image,
+        //                                         size: 50,
+        //                                       ),
+        //                             ),
+        //                     ),
+        //                     Container(
+        //                       padding: const EdgeInsets.all(5),
+        //                       child: Text(
+        //                         docName,
+        //                         textAlign: TextAlign.center,
+        //                         style: const TextStyle(
+        //                           fontSize: 12,
+        //                           fontWeight: FontWeight.w500,
+        //                           color: Colors.black87,
+        //                         ),
+        //                         overflow: TextOverflow.ellipsis,
+        //                         maxLines: 2, // Handle long names
+        //                       ),
+        //                     ),
+        //                   ],
+        //                 ),
+        //               );
+        //             },
         //           ),
-        //         );
-        //       },
-        //     ),
-        //   ),
-        // )
-        //     : const Center(
-        //   child: Text('No files selected.'),
-        // ),
+        //         ),
+        //       )
+        //     : const Center(child: Text('No documents found.')),
+
+        _imageFiles.isNotEmpty
+            ? Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+          ),
+          child: SizedBox(
+            height: 120,
+            child: ListView.builder(
+              scrollDirection:
+              Axis.horizontal,
+              itemCount: _imageFiles.length,
+              itemBuilder: (context, index) {
+                String filePath =
+                    _imageFiles[index].path;
+                bool isPdf = filePath
+                    .toLowerCase()
+                    .endsWith('.pdf');
+
+                return Container(
+                  margin:
+                  const EdgeInsets.only(
+                    right: 10.0,
+                  ),
+                  width: 140,
+                  height: 140,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.blue,
+                      width: 2.0,
+                    ),
+                    borderRadius:
+                    BorderRadius.circular(
+                      10.0,
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius:
+                    BorderRadius.circular(
+                      8.0,
+                    ),
+                    child: isPdf
+                        ? Container(
+                      color: Colors
+                          .grey[200],
+                      child: const Center(
+                        child: Icon(
+                          Icons
+                              .picture_as_pdf,
+                          color: Colors
+                              .red,
+                          size: 50,
+                        ),
+                      ),
+                    )
+                        : Image.file(
+                      _imageFiles[index],
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        )
+            : const Center(
+          child: Text('No files selected.'),
+        ),
       ],
     );
   }
