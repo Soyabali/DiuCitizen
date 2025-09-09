@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:puri/app/generalFunction.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../app/loader_helper.dart';
@@ -13,7 +14,7 @@ class BindCitizenWardRepo
 {
   GeneralFunction generalFunction = GeneralFunction();
   List bindCitizenWardList = [];
-  Future<List> bindCityZenWard() async
+  Future<List> bindCityZenWard(BuildContext context) async
   {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
@@ -37,8 +38,8 @@ class BindCitizenWardRepo
 
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
-      if(response.statusCode==401){
-
+      if(response.statusCode ==401){
+        generalFunction.logout(context);
       }
       if (response.statusCode == 200)
       {

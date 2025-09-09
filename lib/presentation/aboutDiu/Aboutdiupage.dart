@@ -1,10 +1,8 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import '../../app/generalFunction.dart';
 import 'AbutdiuWebPage.dart';
-import 'package:upi_india/upi_india.dart';
+
 
 class AboutDiuPage extends StatefulWidget {
 
@@ -25,14 +23,6 @@ class _BirthAndDeathState extends State<AboutDiuPage> {
   void initState() {
     super.initState();
      webPage="${widget.sPageLink}";
-     print("-----26--WebLink---$webPage");
-     print("----27----WebName--${widget.name}");
-    // BackButtonInterceptor.add(myInterceptor);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   @override
@@ -45,9 +35,7 @@ class _BirthAndDeathState extends State<AboutDiuPage> {
       body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
-        //child: Container(),
          child: AbutDiuWebPage(webPage)
-         // child: BirthAndDeathWebViewStack()),
     ));
   }
 }

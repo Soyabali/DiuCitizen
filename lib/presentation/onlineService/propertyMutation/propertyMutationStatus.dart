@@ -59,6 +59,7 @@ class _TemplesHomeState extends State<PropertyMutationStatus> {
       isLoading = false;
     });
   }
+
   //  payment Dialog
   Widget paymentDialog(BuildContext dialogContext){
     return Dialog(

@@ -24,7 +24,6 @@ class PostCommunityBookingHallReqRepo {
 
     try {
       print('----allThreeFormJson---->>>---24----$allThreeFormJson');
-
       var baseURL = BaseRepo().baseurl;
 
       /// TODO CHANGE HERE
@@ -79,6 +78,9 @@ class PostCommunityBookingHallReqRepo {
       // var response;
       // var map;
       //print('----------20---LOGINaPI RESPONSE----$map');
+       if(response.statusCode==401){
+         generalFunction.logout(context);
+       }
       if (response.statusCode == 200) {
         print('------92----xxxxxxxxxxxxxxx----');
         hideLoader();

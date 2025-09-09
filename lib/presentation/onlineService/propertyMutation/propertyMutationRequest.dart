@@ -104,6 +104,7 @@ class _MyHomePageState extends State<PropertyMutationRequest>
   FocusNode _applicationAddressfocus = FocusNode();
   var sUploadBuildingPlanPath;
   var sUploadSupportingDocPath;
+  GeneralFunction? generalFunction;
 
   String? todayDate;
   String? consumableList;
@@ -188,9 +189,7 @@ class _MyHomePageState extends State<PropertyMutationRequest>
 
   get selectedMonthCode => null;
   var sMuttationFees;
-
   // set image function
-
   Widget buildImageWidget(String? imageUrl) {
     return imageUrl != null && imageUrl.isNotEmpty
         ? Image.network(
@@ -239,6 +238,9 @@ class _MyHomePageState extends State<PropertyMutationRequest>
       // Parse the response JSON
       var responseData = json.decode(response.body); // No explicit type casting
       print("---------248-----$responseData");
+      if(response.statusCode==401){
+        generalFunction?.logout(context);
+      }
       if (responseData is Map<String, dynamic>) {
         // Check for specific keys in the response
         uplodedImage = responseData['Data'][0]['sImagePath'];
@@ -283,7 +285,7 @@ class _MyHomePageState extends State<PropertyMutationRequest>
 
   premisesWard() async {
     /// todo remove the comment and call Community Hall
-    premisesWardDropDown = await BindCitizenWardRepo().bindCityZenWard();
+    premisesWardDropDown = await BindCitizenWardRepo().bindCityZenWard(context);
     print(" -----Premissesward---->>>>-xx--143-----> $premisesWardDropDown");
     setState(() {});
   }
@@ -291,7 +293,7 @@ class _MyHomePageState extends State<PropertyMutationRequest>
   // Financial Year Api call
   finalYearApi() async {
     /// todo remove the comment and call Community Hall
-    finalYearDropDown = await BindFinalYearRepo().bindFinalYearWard();
+    finalYearDropDown = await BindFinalYearRepo().bindFinalYearWard(context);
     print(" -----finalYearDropDown---->>>>-xx--154-----> $finalYearDropDown");
     setState(() {});
   }

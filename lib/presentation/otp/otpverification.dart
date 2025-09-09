@@ -1,13 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../app/generalFunction.dart';
 import '../../services/verifyCitizenOTP.dart';
 import '../complaints/complaintHomePage.dart';
 import '../login/loginScreen_2.dart';
 import '../resources/app_text_style.dart';
-
 
 class OtpPage extends StatefulWidget {
 
@@ -26,10 +24,8 @@ class _MyHomePageState extends State<OtpPage> {
   List<TextEditingController>? controllers;
   List<FocusNode>? focusNodes;
   FocusNode _contactNofocus = FocusNode();
-  FocusNode _confirmpasswordfoucs = FocusNode();
-  var otpverificationResponse;
-  var result ;
-  var msg ;
+  var result;
+  var msg;
   var verifyCitizenOtpMap;
 
   void clearText() {
@@ -40,7 +36,6 @@ class _MyHomePageState extends State<OtpPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print('------45----${widget.phone}');
     phoneNumber = "${widget.phone}";
     _contactNofocus = FocusNode();
     controllers = List.generate(4, (_) => TextEditingController());
@@ -62,25 +57,17 @@ class _MyHomePageState extends State<OtpPage> {
     }
     super.dispose();
   }
-
-  final TextEditingController _phoneNumberController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      //appBar: getAppBarBack(context,"OTP Verification"),
       appBar: AppBar(
-       // backgroundColor: Colors.red,
         backgroundColor: Color(0xFF255899),
         elevation: 10,
         shadowColor: Colors.orange,
         toolbarOpacity: 0.5,
         leading: InkWell(
           onTap: () {
-            //  HomePage
-            //Navigator.pop(context);
-
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const LoginScreen_2()),
@@ -113,7 +100,6 @@ class _MyHomePageState extends State<OtpPage> {
                 padding: const EdgeInsets.all(15.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
-                  // crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
                       child: Column(
@@ -140,7 +126,7 @@ class _MyHomePageState extends State<OtpPage> {
                           ),
                           Text(
                             'OTP has been sent on : ${widget.phone}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: 'Montserrat',
                               color: Color(0xff3f617d),
                               fontSize: 12.0,
@@ -149,7 +135,6 @@ class _MyHomePageState extends State<OtpPage> {
                           ),
                           SizedBox(height: 120.0),
                           Container(
-                            //color: Colors.white,
                             height: 300,
                             decoration: BoxDecoration(
                               // Set container color
@@ -171,8 +156,6 @@ class _MyHomePageState extends State<OtpPage> {
                                           width: 50,
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(40),
-                                            // border: Border.all(color: Colors.black),
-                                            // Just for visualization
                                             boxShadow: [
                                               BoxShadow(
                                                 color: Colors.white.withOpacity(0.5), // Set shadow color
@@ -185,7 +168,6 @@ class _MyHomePageState extends State<OtpPage> {
                                           child: const Icon(
                                             Icons.phone,
                                             size: 35,
-                                            //color: Color(0xFF255899),
                                             color: Colors.red,
                                           ),
                                         ),
@@ -225,7 +207,6 @@ class _MyHomePageState extends State<OtpPage> {
                                                                 index - 1]);
                                                       }
                                                     },
-                                                   // maxLength: 1,
                                                     textAlign: TextAlign.center,
                                                     keyboardType: TextInputType.number,
                                                   ),
@@ -245,7 +226,6 @@ class _MyHomePageState extends State<OtpPage> {
                                               SizedBox(height: 10),
                                               InkWell(
                                                 onTap: () async {
-
                                                   String otp = '';
                                                   for (var controller in controllers!)
                                                   {
@@ -253,23 +233,13 @@ class _MyHomePageState extends State<OtpPage> {
                                                   }
                                                   // Now you have the OTP value in the 'otp' variable
                                                   print('OTP---260: $otp');
-
-                                                  var contactNo = _nameController.text;
-
-
                                                   if (_formKey.currentState!.validate() &&
                                                       otp != null && phoneNumber != null)
                                                     {
                                                       print('----otp----276---$otp');
-                                                      print('----contactNo----269---${{widget.phone}}');
-
                                                       verifyCitizenOtpMap = await VerifyCitizenOtpRepo().verifyCitizenOtp(context, otp!, '${widget.phone}');
-                                                      print('-----verifyCityzen----270---$verifyCitizenOtpMap');
-
                                                           result = "${verifyCitizenOtpMap['Result']}";
                                                           msg = "${verifyCitizenOtpMap['Msg']}";
-                                                          print('---410----$result');
-
                                                     }
                                                    else{
                                                     if(_nameController.text.isEmpty){
@@ -279,7 +249,7 @@ class _MyHomePageState extends State<OtpPage> {
                                                   if(result=="1"){
 
                                                         var iCitizenCode = "${verifyCitizenOtpMap['Data'][0]['iCitizenCode']}";
-                                                        print('-----otp----$iCitizenCode');
+                                                       // print('-----otp----$iCitizenCode');
                                                         var sContactNo =
                                                             "${verifyCitizenOtpMap['Data'][0]['sContactNo']}";
                                                         var sCitizenName =
@@ -293,25 +263,16 @@ class _MyHomePageState extends State<OtpPage> {
                                                         prefs.setString('sContactNo',sContactNo);
                                                         prefs.setString('sCitizenName',sCitizenName);
                                                         prefs.setString('sToken',sToken);
-                                                        String? token = prefs.getString('sToken');
-                                                        print('---321-----token---$token');
+                                                        // navigate to home page
 
-                                                        // Navigator.push(
-                                                        //   context,
-                                                        //   MaterialPageRoute(builder: (context) => const ComplaintHomePage()),
-                                                        // );
                                                         Navigator.pushAndRemoveUntil(
                                                           context,
                                                           MaterialPageRoute(builder: (context) => ComplaintHomePage()),
                                                               (Route<dynamic> route) => false, // This condition removes all previous routes
                                                         );
-
-
                                                         controllers?.clear();
-
-
                                                   }else{
-                                                    _showToast(context,msg);
+                                                    showToast(context,msg);
                                                   }
                                                   },
 
@@ -357,15 +318,6 @@ class _MyHomePageState extends State<OtpPage> {
             ],
           ),
         ),
-      ),
-    );
-  }
-  void _showToast(BuildContext context,String msg) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        content:  Text('$msg'),
-        action: SnackBarAction(label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
       ),
     );
   }

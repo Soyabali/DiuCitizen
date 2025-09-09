@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,9 +25,8 @@ import '../../../resources/values_manager.dart';
 
 class LicenseRequest extends StatefulWidget {
 
-  var name, iCategoryCode;
-  var name2, iCategoryCode2;
-  var name3, iCategoryCode3;
+  var name;
+
 
   LicenseRequest({super.key, required this.name});
 
@@ -38,21 +36,14 @@ class LicenseRequest extends StatefulWidget {
 
 class _MyHomePageState extends State<LicenseRequest>
     with TickerProviderStateMixin {
-  List stateList = [];
+ // List stateList = [];
   List<dynamic> subCategoryList = [];
-
-  //List<dynamic> bindcommunityHallDate = [];
-
   List<Map<String, dynamic>> bindcommunityHallDate = [];
   List<dynamic> premisesWardDropDown = [];
   List<dynamic> finalYearDropDown = [];
   List<dynamic> bindTradeCategory = [];
   List<dynamic> bindTradeSubCategory = [];
-  List<dynamic> bindreimouList = [];
   List<dynamic> bindDocumentTypeList = [];
-
-  List blockList = [];
-  List shopTypeList = [];
   var result2, msg2;
 
   bool isFormVisible = true; // Track the visibility of the form
@@ -64,23 +55,13 @@ class _MyHomePageState extends State<LicenseRequest>
   bool isFormVisible4 = true; // Track the visibility of the form
   bool isIconRotated4 = false;
 
-  final _formKey = GlobalKey<FormState>();
-
   bindSubCategory(String subCategoryCode) async {
     subCategoryList = (await BindSubCategoryRepo().bindSubCategory(
       context,
       subCategoryCode,
     ))!;
-    print(" -----xxxxx-  subCategoryList--43---> $subCategoryList");
     setState(() {});
   }
-
-  // bindCommunityHallDate(var hallId) async {
-  //   bindcommunityHallDate = (await BindCommunityHallDateRepo()
-  //       .bindCommunityHallDate(context, hallId))!;
-  //   print(" -----xxxxx-  bindcommunityHallDate--53--> $bindcommunityHallDate");
-  //   setState(() {});
-  // }
 
   var msg;
   var result;
@@ -102,27 +83,17 @@ class _MyHomePageState extends State<LicenseRequest>
   var sUploadBuildingPlanPath;
   var sUploadSupportingDocPath;
 
-  String? todayDate;
-  String? consumableList;
   int count = 0;
-  List? data;
-  List? listCon;
   int selectedIndex = -1;
 
-  //var _dropDownSector;
   var dropDownSubCategory;
   var _dropDownPremisesWard;
-  var _dropDownDocument;
-  var _dropDownDocumentCode;
   var _dropDownFinalYear;
   var sectorresponse;
   String? sec;
   final distDropdownFocus = GlobalKey();
   final subCategoryFocus = GlobalKey();
   final wardFocus = GlobalKey();
-  File? _imageFile;
-  var _selectedShopId;
-  var _selectedSubCategoryId;
 
   //var _selectedWardId;
   var _dropDownPremisesWardCode;
@@ -134,14 +105,10 @@ class _MyHomePageState extends State<LicenseRequest>
   var _dropDownTradeCategory;
   var _dropDownTradeSubCategory;
   var _dropDownFinalYearCode;
-  var _selectedRatePerDay;
-  var iUserTypeCode;
-  var userId;
-  var slat;
-  var slong;
+
   File? image;
   var uplodedImage;
-  double? lat, long;
+ // double? lat, long;
   List<String> selectedDates = []; // List to store selected dates
 
   bool isSuccess = false;
@@ -177,10 +144,7 @@ class _MyHomePageState extends State<LicenseRequest>
   List<Map<String, dynamic>> _imageFiles2 = [];
   var secondFromjson;
   var thirdFromJsonData;
-
   get selectedMonthCode => null;
-
-  // set image function
 
   Widget buildImageWidget(String? imageUrl) {
     return imageUrl != null && imageUrl.isNotEmpty
@@ -191,69 +155,14 @@ class _MyHomePageState extends State<LicenseRequest>
           );
   }
 
-  //
-  Future<void> _pickImageCamra() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? sToken = prefs.getString('sToken');
-
-    final pickFileid = await _picker.pickImage(
-      source: ImageSource.camera,
-      imageQuality: 65,
-    );
-    setState(() {
-      image = File(pickFileid!.path);
-    });
-    // image2 = ${pickedFile?.path};
-    // image2 = pickedFile!.path as File?;
-
-    print("----171----pic path : ---$image");
-    if (pickFileid != null) {
-      setState(() {
-        _imageFiles.add(File(pickFileid.path)); // Add selected image to list
-        uploadImage(sToken!, image!);
-      });
-      print("---173--ImageFile--List----$_imageFiles");
-    }
-  }
-
-  //
-  // PickImage Gallery
-  Future<void> _pickImageGallry() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? sToken = prefs.getString('sToken');
-
-    final pickFileid = await _picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 65, // Change to `ImageSource.camera` for camera
-    );
-
-    setState(() {
-      image = File(pickFileid!.path);
-    });
-
-    if (pickFileid != null) {
-      setState(() {
-        _imageFiles.add(File(pickFileid.path)); // Add selected image to list
-        // to take a image with a path
-        uploadImage(sToken!, image!);
-      });
-      print("---185--ImageFile---list---$_imageFiles");
-    }
-  }
-
   Future<void> uploadImage(String token, File imageFile) async {
-    print("--------225---tolen---$token");
-    print("--------226---imageFile---$imageFile");
     var baseURL = BaseRepo().baseurl;
     var endPoint = "PostImage/PostImage";
     var uploadImageApi = "$baseURL$endPoint";
     try {
       print('-----xx-x----214----');
       showLoader();
-      // Create a multipart request
       var request = http.MultipartRequest('POST', Uri.parse('$uploadImageApi'));
-      // Add headers
-      //request.headers['token'] = '04605D46-74B1-4766-9976-921EE7E700A6';
       request.headers['token'] = token;
       request.headers['sFolder'] = 'CompImage';
       // Add the image file as a part of the request
@@ -264,38 +173,17 @@ class _MyHomePageState extends State<LicenseRequest>
       var streamedResponse = await request.send();
       // Get the response
       var response = await http.Response.fromStream(streamedResponse);
-
       // Parse the response JSON
       var responseData = json.decode(response.body); // No explicit type casting
-      print("---------248-----$responseData");
       if (responseData is Map<String, dynamic>) {
         // Check for specific keys in the response
         uplodedImage = responseData['Data'][0]['sImagePath'];
         if (uplodedImage != null) {
           setState(() {
             uplodedImage = responseData['Data'][0]['sImagePath'];
-            //   buildImageWidget(uplodedImage);
-            //  _imageUrls.add(uplodedImage);
-            // thirdFormCombinedList.add({
-            //   'iDocumentTypeId': "${_dropDownDocument2_code}",
-            //   'sDocumentName': "$_dropDownDocument2",
-            //   'sDocumentUrl': uplodedImage,
-            // });
           });
           print("-----283-ThirdList--$thirdFormCombinedList");
         }
-        //
-        // setState(() {
-        //   thirdFormCombinedList.add({
-        //     'iDocumentTypeId': "${_dropDownDocument2_code}",
-        //     'sDocumentName': "$_dropDownDocument2",
-        //     'sDocumentUrl': uplodedImage,
-        //   });
-        // });
-        print("------250----image list--$_imageUrls");
-
-        /// todo you should store image path here in a list
-        ///
         print('Uploaded Image Path----222--: $uplodedImage');
       } else {
         print('Unexpected response format: $responseData');
@@ -308,21 +196,17 @@ class _MyHomePageState extends State<LicenseRequest>
     }
   }
 
-  // add item to list
-
   // permises Ward Api call
   premisesWard() async {
     /// todo remove the comment and call Community Hall
-    premisesWardDropDown = await BindCitizenWardRepo().bindCityZenWard();
-    print(" -----Premissesward---->>>>-xx--143-----> $premisesWardDropDown");
+    premisesWardDropDown = await BindCitizenWardRepo().bindCityZenWard(context);
     setState(() {});
   }
 
   // Financial Year Api call
   finalYearApi() async {
     /// todo remove the comment and call Community Hall
-    finalYearDropDown = await BindFinalYearRepo().bindFinalYearWard();
-    print(" -----finalYearDropDown---->>>>-xx--154-----> $finalYearDropDown");
+    finalYearDropDown = await BindFinalYearRepo().bindFinalYearWard(context);
     setState(() {});
   }
 
@@ -330,9 +214,6 @@ class _MyHomePageState extends State<LicenseRequest>
   bindTradeCategoryApi() async {
     /// todo remove the comment and call Community Hall
     bindTradeCategory = await BindTradeCategoryRepo().bindTradeCategory();
-    print(
-      " -----bindTradeCategory Repo---->>>>-xx--154-----> $bindTradeCategory",
-    );
     setState(() {});
   }
 
@@ -342,9 +223,6 @@ class _MyHomePageState extends State<LicenseRequest>
     bindTradeSubCategory = [];
     bindTradeSubCategory = await BindTradeSubCategoryRepo()
         .bindTradeSubCategory(dropDownTradeCategoryCode);
-    print(
-      " -----bindTradeSubCategory Repo---->>>>-xx--154-----> $bindTradeSubCategory",
-    );
     setState(() {});
   }
 
@@ -352,12 +230,8 @@ class _MyHomePageState extends State<LicenseRequest>
   bindSupportingDocumentApi() async {
     /// todo remove the comment and call Community Hall
     bindDocumentTypeList = await BindDocumentTypeRepo().bindDocumentyType();
-    print(
-      " -----bindDocumnent Repo---->>>>-xx--154-----> $bindDocumentTypeList",
-    );
     setState(() {});
   }
-
   // DropdownButton Ward
   Widget _bindPremisesWard() {
     return Material(
@@ -402,9 +276,6 @@ class _MyHomePageState extends State<LicenseRequest>
                     if (_dropDownPremisesWardCode != null) {
                       /// remove the comment
                       setState(() {
-                        // call a api if needs
-
-                        // bindCommunityHallDate(_dropDownPremisesWardCode);
                       });
                     } else {
                       //toast
@@ -694,94 +565,6 @@ class _MyHomePageState extends State<LicenseRequest>
     );
   }
 
-  // bind Select Document Type
-  Widget _bindDocumentType() {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(10.0),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10),
-        child: Container(
-          width: MediaQuery.of(context).size.width - 50,
-          height: 42,
-          color: Color(0xFFf2f3f5),
-          child: DropdownButtonHideUnderline(
-            child: ButtonTheme(
-              alignedDropdown: true,
-              child: DropdownButton(
-                isDense: true,
-                // Reduces the vertical size of the button
-                isExpanded: true,
-                // Allows the DropdownButton to take full width
-                dropdownColor: Colors.white,
-                // Set dropdown list background color
-                onTap: () {
-                  FocusScope.of(context).unfocus(); // Dismiss keyboard
-                },
-                hint: RichText(
-                  text: TextSpan(
-                    text: "Select Document Type",
-                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                  ),
-                ),
-                value: _dropDownDocument2,
-                onChanged: (newValue) {
-                  setState(() {
-                    _dropDownDocument2 = newValue;
-                    bindDocumentTypeList.forEach((element) {
-                      if (element["sDocumentTypeName"] == _dropDownDocument2) {
-                        // RatePerDay
-                        //_selectedWardId = element['iCommunityHallId'];
-                        // iTradeCode   fLicenceFees
-                        _dropDownDocument2_code = element['iDocumentTypeCode'];
-                        // _dropDownTradeSubCategoryFeesCode = element['fLicenceFees'];
-                      }
-                    });
-
-                    if (_dropDownDocument2_code != null) {
-                      /// remove the comment
-                      setState(() {
-                        // call a api if needs
-                        print("---585--Fees----$_dropDownDocument2_code");
-                        //  _dropDownDocument2
-                        print("---587------$_dropDownDocument2");
-
-                        // bindCommunityHallDate(_dropDownPremisesWardCode);
-                      });
-                    } else {
-                      //toast
-                    }
-                    print(
-                      "------373--DropDownnCategory Code----$_dropDownTradeCategoryCode",
-                    );
-                  });
-                },
-
-                items: bindDocumentTypeList.map((dynamic item) {
-                  return DropdownMenuItem(
-                    value: item["sDocumentTypeName"].toString(),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            item['sDocumentTypeName'].toString(),
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTextStyle
-                                .font14OpenSansRegularBlack45TextStyle,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Future<void> bindCommunityHallDate(var hallId) async {
     setState(() {
       isLoading = true; // Start the progress bar
@@ -791,7 +574,6 @@ class _MyHomePageState extends State<LicenseRequest>
       bindcommunityHallDate = await BindCommunityHallDateRepo()
           .bindCommunityHallDate(context, hallId, selectedMonthCode);
       print('-----232---->>>>---$bindcommunityHallDate');
-      // If the response is not empty or null, set isSuccess to true
       if (bindcommunityHallDate.isNotEmpty) {
         setState(() {
           isSuccess = true; // API call was successful
@@ -815,7 +597,7 @@ class _MyHomePageState extends State<LicenseRequest>
 
   Widget buildContent() {
     if (isLoading) {
-      return Center(
+      return const Center(
         child: CircularProgressIndicator(), // Show progress bar while loading
       );
     }
@@ -855,7 +637,6 @@ class _MyHomePageState extends State<LicenseRequest>
                 } else {
                   firstColor = Colors.grey;
                 }
-
                 Map<String, dynamic>? secondItem;
                 Color? secondColor;
                 if (secondIndex < bindcommunityHallDate.length) {

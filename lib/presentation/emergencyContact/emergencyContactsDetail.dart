@@ -1,16 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'dart:async';
 import '../../../app/generalFunction.dart';
-import '../../model/emergencyListModel.dart';
-import '../../services/employeeList.dart';
 import '../../services/getEmergencyContactListRepo.dart';
 import '../nodatavalue/NoDataValue.dart';
 import '../resources/app_text_style.dart';
-import 'emergencyContact.dart';
+
 
 class EmergencyListPage extends StatefulWidget {
   var name, iHeadCode;
@@ -24,24 +18,8 @@ class EmergencyListPage extends StatefulWidget {
 class _MyHomePageState extends State<EmergencyListPage> {
 
   List<Map<String, dynamic>>? reimbursementStatusList;
-
-  TextEditingController _searchController = TextEditingController();
-  double? lat;
-  double? long;
-  GeneralFunction generalfunction = GeneralFunction();
-
-  DateTime? _date;
-
-  List stateList = [];
-  List hrmsReimbursementList = [];
-  List blockList = [];
-  List shopTypeList = [];
-  var result2, msg2;
   List<Map<String, dynamic>>? emergencyList;
   bool isLoading = true;
-  String? sName, sContactNo;
-
-  // GeneralFunction generalFunction = GeneralFunction();
 
   getEmergencyListResponse(String headCode) async {
     emergencyList =
@@ -51,101 +29,15 @@ class _MyHomePageState extends State<EmergencyListPage> {
       isLoading = false;
     });
   }
-
-  late Future<List<EmployeeListModel>> reimbursementStatusV3;
-  List<EmployeeListModel> _allData = []; // Holds original data
-  List<EmployeeListModel> _filteredData = []; // Holds filtered data
-
-  // Distic List
-  hrmsReimbursementStatus() async {
-    reimbursementStatusV3 = StaffListRepo().staffList(context);
-
-    reimbursementStatusV3.then((data) {
-      setState(() {
-        _allData = data; // Store the data
-        _filteredData = _allData; // Initially, no filter applied
-      });
-    });
-  }
-
-  // filter data
-  void filterData(String query) {
-    setState(() {
-      if (query.isEmpty) {
-        _filteredData = _allData; // Show all data if search query is empty
-      } else {
-        _filteredData = _allData.where((item) {
-          return item.sEmpName
-                  .toLowerCase()
-                  .contains(query.toLowerCase()) || // Filter by project name
-              item.sDsgName.toLowerCase().contains(query.toLowerCase()) ||
-              item.sContactNo.toLowerCase().contains(query.toLowerCase());
-          // Filter by employee name
-        }).toList();
-      }
-    });
-  }
-
-  // postImage
-
   var msg;
-  var result;
-  var SectorData;
-  var stateblank;
-  final stateDropdownFocus = GlobalKey();
-  String? todayDate;
-
-  List? data;
-  var sectorresponse;
-  String? sec;
-  final distDropdownFocus = GlobalKey();
-  final sectorFocus = GlobalKey();
-  File? _imageFile;
-  var iUserTypeCode;
-  var userId;
-  var slat;
-  var slong;
-  File? image;
-  var uplodedImage;
-  String? firstOfMonthDay;
-  String? lastDayOfCurrentMonth;
-  var fromPicker;
-  var toPicker;
-  var sTranCode;
-  Color? containerColor;
-  String? status;
-  String? tempDate;
-  String? formDate;
-  String? toDate;
-
-  // toast
-  void displayToast(String msg) {
-    Fluttertoast.showToast(
-        msg: msg,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.black,
-        textColor: Colors.white,
-        fontSize: 16.0);
-  }
-
-  // InitState
 
   @override
   void initState() {
-    //hrmsReimbursementStatus();
+    super.initState();
     var headCode = "${widget.iHeadCode}";
-    print("----136----xxxxxxxxx-----$headCode");
     getEmergencyListResponse(headCode);
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    _searchController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -169,14 +61,7 @@ class _MyHomePageState extends State<EmergencyListPage> {
               backgroundColor: Color(0xFF255898),
               leading: GestureDetector(
                 onTap: (){
-                  print("------back---");
-                  //Navigator.pop(context);
                   Navigator.pop(context);
-
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => EmergencyContacts()),
-                  // );
                 },
                 child: const Icon(Icons.arrow_back_ios,
                   color: Colors.white,),
@@ -232,7 +117,6 @@ class _MyHomePageState extends State<EmergencyListPage> {
                                   Row(
                                     children: [
                                       // change a image
-
                                       GestureDetector(
                                         onTap: () {
                                           // Handle image tap
@@ -347,76 +231,5 @@ class _MyHomePageState extends State<EmergencyListPage> {
             ),
           ),
         ));
-  }
-
-  // Opend Full Screen DialogbOX
-  void openFullScreenDialog(
-      BuildContext context, String imageUrl, String billDate) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          backgroundColor: Colors.transparent, // Makes the dialog full screen
-          insetPadding: EdgeInsets.all(0),
-          child: Stack(
-            children: [
-              // Fullscreen Image
-              Positioned.fill(
-                child: Image.network(
-                  imageUrl,
-                  fit: BoxFit.cover, // Adjust the image to fill the dialog
-                ),
-              ),
-
-              // White container with Bill Date at the bottom
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  padding: EdgeInsets.all(16),
-                  color: Colors.white.withOpacity(0.8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        child: Text(
-                          billDate,
-                          style:
-                              AppTextStyle.font12OpenSansRegularBlackTextStyle,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              // Close button in the bottom-right corner
-              Positioned(
-                right: 16,
-                bottom: 10,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).pop(); // Close the dialog
-                  },
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.redAccent,
-                    ),
-                    padding: EdgeInsets.all(8),
-                    child: const Icon(
-                      Icons.close,
-                      color: Colors.white,
-                      size: 24,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
   }
 }

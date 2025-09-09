@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:puri/presentation/onlineService/license/licenseStatus/tradedetails.dart';
 import '../../../../app/generalFunction.dart';
 import '../../../../services/BindLicenseStatusRepo.dart';
@@ -89,45 +86,6 @@ class _TemplesHomeState extends State<LicenseStatus> {
     });
   }
 
-  // location
-  void getLocation() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    lat = position.latitude;
-    long = position.longitude;
-    setState(() {
-
-    });
-  }
-
-  void displayToast(String msg) {
-    Fluttertoast.showToast(
-        msg: msg,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
-  }
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -137,12 +95,7 @@ class _TemplesHomeState extends State<LicenseStatus> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: getAppBarBack(context,'${widget.name}'),
-        // appBar: getAppBarBack(context,'jjsjsjsj'),
-        drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
         body :
-        // pendingInternalComplaintList == null
-        //   ? NoDataScreen()
-        //   :
         isLoading
             ? Center(child:
         Container())
@@ -496,7 +449,6 @@ class _TemplesHomeState extends State<LicenseStatus> {
                                                 AboutDiuPage(
                                                     name: sPageName, sPageLink: paymentUrl)),
                                           );
-                                          //print("----613---$licenseRequestId");
                                         },
                                         child: Column(
                                           mainAxisAlignment: MainAxisAlignment.end,

@@ -1,10 +1,7 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import '../../app/generalFunction.dart';
 import 'birthanddeathwebView.dart';
-
 
 class BirthAndDeathCertificate extends StatefulWidget {
 
@@ -22,7 +19,6 @@ class _BirthAndDeathState extends State<BirthAndDeathCertificate> {
   @override
   void initState() {
     super.initState();
-   // BackButtonInterceptor.add(myInterceptor);
   }
 
   @override
@@ -39,7 +35,6 @@ class _BirthAndDeathState extends State<BirthAndDeathCertificate> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: getAppBarBack(context,"Birth & Death Certificate"),
-        //drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
         body: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:puri/services/SearchLicenseForPaymentRepo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../../app/generalFunction.dart';
-import '../../../../services/SearchPropertyTaxForPaymentRepo.dart';
 import '../../../../services/bindCityzenWardRepo.dart';
 import '../../../aboutDiu/Aboutdiupage.dart';
 import '../../../circle/circle.dart';
@@ -28,7 +26,6 @@ class _PropertyTaxState extends State<Onlinelicense> {
   List<dynamic> wardList = [];
   var _dropDownWard;
 
-  //
   TextEditingController _houseController = TextEditingController();
   TextEditingController _houseOwnerName = TextEditingController();
 
@@ -52,7 +49,6 @@ class _PropertyTaxState extends State<Onlinelicense> {
     Colors.cyan,
     Colors.amber,
   ];
-
   // GeneralFunction generalFunction = GeneralFunction();
 
   getEmergencyTitleResponse(selectedWardId, String licenseRequestID, String mobileNo) async {
@@ -63,24 +59,10 @@ class _PropertyTaxState extends State<Onlinelicense> {
       isLoading = false;
     });
   }
-
-  // online title
-  var OnlineTitle = [
-    "Property Tax",
-    "Building Plan",
-    "Property Assessment",
-    "License",
-    "Community Hall",
-    "Water Supply",
-    "Electricity Bill",
-    "Mamlatdar Diu"
-  ];
-
   var _selectedWardId;
   // dropDown
   bindWard() async {
     wardList = await BindCityzenWardRepo().getbindWard(context);
-    print(" -----xxxxx-  wardList--50---> $wardList");
     setState(() {});
   }
 
@@ -178,9 +160,7 @@ class _PropertyTaxState extends State<Onlinelicense> {
       child: Scaffold(
           backgroundColor: Colors.white,
           appBar: getAppBarBack(context, '${widget.name}'),
-         // appBar: getAppBarBack(context, '${"skksk"}'),
-          drawer: generalFunction.drawerFunction(
-              context, 'Suaib Ali', '9871950881'),
+         // drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
           body: Column(
             children: [
               SizedBox(height: 5),
@@ -288,9 +268,7 @@ class _PropertyTaxState extends State<Onlinelicense> {
 
                     var licenseRequestID = _houseController.text.trim();
                     var mobileNo = _houseOwnerName.text.trim();
-                    print("----Selected Ward-----236---$_selectedWardId");
-                    print("----houseno----240---$licenseRequestID");
-                    print("----houseOwnerName-----241---$mobileNo");
+
                     if (_selectedWardId != null &&
                             _selectedWardId != "" &&
                         licenseRequestID.isNotEmpty ||
@@ -331,16 +309,13 @@ class _PropertyTaxState extends State<Onlinelicense> {
                   : (emergencyTitleList == null || emergencyTitleList!.isEmpty)
                       ? NoDataScreenPage()
                       : Container(
-                          //height: MediaQuery.of(context).size.height * 0.8,
                           child: Expanded(
                             child: ListView.builder(
                                 shrinkWrap: true,
                                 itemCount: emergencyTitleList?.length ?? 0,
-                                // itemCount: OnlineTitle?.length ?? 0,
                                 itemBuilder: (context, index) {
                                   licenseRequestId = "${emergencyTitleList![index]['sLicenseRequestCode']}";
-                                  final color =
-                                      borderColors[index % borderColors.length];
+                                  final color = borderColors[index % borderColors.length];
                                   return Column(
                                     children: [
                                       Padding(
@@ -542,7 +517,7 @@ class _PropertyTaxState extends State<Onlinelicense> {
                                                 child: Row(
                                                   children: [
                                                     Padding(
-                                                      padding: EdgeInsets.only(
+                                                      padding: const EdgeInsets.only(
                                                           top: 15, left: 10),
                                                       child: Center(
                                                         child: Column(
@@ -632,14 +607,6 @@ class _PropertyTaxState extends State<Onlinelicense> {
                                                     }else{
                                                       print("---licenseRequestId----$licenseRequestId");
                                                     }
-
-
-                                                    // showDialog(
-                                                    //   context: context,
-                                                    //   builder: (BuildContext dialogContext) {
-                                                    //     return paymentDialog(dialogContext);
-                                                    //   },
-                                                    // );
                                                     },
                                                     child: Container(
                                                       height: 45,
@@ -676,159 +643,6 @@ class _PropertyTaxState extends State<Onlinelicense> {
                         ),
             ],
           )),
-    );
-  }
-  //  Open Payment DialogBOX
-  Widget paymentDialog(BuildContext dialogContext){
-    return Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // 🔶 Gradient Header
-          Container(
-            height: 45,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0xFFF15C3B), // First color: #ff5e62 (a warm coral)
-                  Color(0xFF005BAC), // Second color: #005BAC (a deep blue)
-                ],
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-              ),
-              borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
-                  child: Text(
-                    'Choose Payment Gateway',
-                    style: TextStyle(color: Colors.white, fontSize: 16),
-                  ),
-                ),
-                IconButton(
-                    icon: Icon(Icons.close, color: Colors.white),
-                    onPressed: () {
-                      if (Navigator.of(dialogContext).canPop()) {
-                        Navigator.of(dialogContext).pop();
-                      }
-                    }
-                ),
-              ],
-            ),
-          ),
-          // 💳 Payment Options
-          Container(
-            height: 100,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                // First Card
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      var baseurl = "https://www.diusmartcity.com/LicensePaymentGatewayMobile.aspx?QS=";
-                      var paymentUrl = "$baseurl$licenseRequestId";
-                      var sPageName = "Online License";
-
-                      // close the DialogBox
-                      if (Navigator.of(dialogContext).canPop()) {
-                        Navigator.of(dialogContext).pop();
-                      }
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>
-                            AboutDiuPage(name: sPageName, sPageLink: paymentUrl)),
-                      );
-                    },
-                    child: Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/images/bankborda.png',
-                              height: 30,
-                            ),
-                            SizedBox(width: 10),
-                            const Text(
-                              'BOB',
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-                SizedBox(width: 12),
-
-                // Second Card
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () {
-                      var iWardCode = "${emergencyTitleList![0]['iWardCode']}";
-                      print('-----737---Sbi---');
-                      var baseurl = "https://www.diusmartcity.com/SBILicenseDataformGetewayMobile.aspx?QS=";
-                      var paymentUrl = "$baseurl$licenseRequestId";
-                      var sPageName = "Online License";
-
-                      if (Navigator.of(dialogContext).canPop()) {
-                        Navigator.of(dialogContext).pop();
-                      }
-
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>
-                            AboutDiuPage(name: sPageName, sPageLink: paymentUrl)),
-                      );
-                    },
-                    child: Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              'assets/images/banksbi.png',
-                              height: 30,
-                            ),
-                            SizedBox(width: 10),
-                            const Text(
-                              'SBI',
-                              style: TextStyle(
-                                color: Colors.black54,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
     );
   }
 }

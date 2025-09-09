@@ -1,17 +1,11 @@
 
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import '../../app/generalFunction.dart';
-import '../../services/bindComplaintCategoryRepo.dart';
 import '../aboutDiu/Aboutdiupage.dart';
 import '../birth_death/birthanddeath.dart';
-import '../complaints/complaintHomePage.dart';
 import '../resources/app_text_style.dart';
-import '../nodatavalue/NoDataValue.dart';
-
 
 class Importantlink extends StatefulWidget {
 
@@ -30,62 +24,23 @@ class _OnlineComplaintState extends State<Importantlink> {
 
   bool isLoading = true; // logic
   String? sName, sContactNo;
-  // GeneralFunction generalFunction = GeneralFunction();
-
-  getEmergencyTitleResponse() async {
-    emergencyTitleList = await BindComplaintCategoryRepo().bindComplaintCategory(context);
-    print('------31----$emergencyTitleList');
-    setState(() {
-      isLoading = false;
-    });
-  }
 
 
   final List<Map<String, dynamic>> itemList2 = [
     {
-      //'leadingIcon': Icons.account_balance_wallet,
-      'leadingIcon': 'assets/images/credit-card.png',
       'title': 'Birth & Death Certificate',
-      'subtitle': 'Utility & Bill Payments',
-      'transactions': '1 transaction',
-      'amount': ' 7,86,698',
-      'temple': 'Fire Emergency'
     },
     {
-      //  'leadingIcon': Icons.ac_unit_outlined,
-      'leadingIcon': 'assets/images/shopping-bag.png',
       'title': 'Collectorate Diu',
-      'subtitle': 'Shopping',
-      'transactions': '1 transaction',
-      'amount': '@ 1,69,800',
-      'temple': 'Police'
     },
     {
-      //'leadingIcon': Icons.account_box,
-      'leadingIcon': 'assets/images/shopping-bag2.png',
       'title': 'Electricity Bill',
-      'subtitle': 'Shopping',
-      'transactions': '1 transaction',
-      'amount': '@ 30,752',
-      'temple': 'Women Help'
     },
     {
-      //'leadingIcon': Icons.account_balance_wallet,
-      'leadingIcon': 'assets/images/credit-card.png',
       'title': 'E-Procurement',
-      'subtitle': 'Medical',
-      'transactions': '1 transaction',
-      'amount': '@ 27,556',
-      'temple': 'Medical Emergency'
     },
     {
-      //  'leadingIcon': Icons.ac_unit_outlined,
-      'leadingIcon': 'assets/images/shopping-bag.png',
       'title': 'Mamlatdar Diu',
-      'subtitle': 'UPI Payment',
-      'transactions': '1 transaction',
-      'amount': '@ 25,000',
-      'temple': 'Other Important Numbers'
     },
   ];
 
@@ -109,15 +64,7 @@ class _OnlineComplaintState extends State<Importantlink> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    getEmergencyTitleResponse();
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    // BackButtonInterceptor.remove(myInterceptor);
-    super.dispose();
   }
 
   @override
@@ -127,25 +74,19 @@ class _OnlineComplaintState extends State<Importantlink> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          // statusBarColore
           systemOverlayStyle: const SystemUiOverlayStyle(
             statusBarColor: Color(0xFF12375e),
             statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
             statusBarBrightness: Brightness.light, // For iOS (dark icons)
           ),
-          // backgroundColor: Colors.blu
           backgroundColor: Color(0xFF255898),
           centerTitle: true,
           leading: GestureDetector(
             onTap: (){
               print("------back---");
               Navigator.pop(context);
-              //  Navigator.push(
-              //    context,
-              //    MaterialPageRoute(builder: (context) => const ComplaintHomePage()),
-              //  );
             },
-            child: Icon(Icons.arrow_back_ios,
+            child: const Icon(Icons.arrow_back_ios,
               color: Colors.white,),
           ),
           title: Padding(
@@ -159,17 +100,10 @@ class _OnlineComplaintState extends State<Importantlink> {
           //centerTitle: true,
           elevation: 0, // Removes shadow under the AppBar
         ),
-        //appBar: getAppBarBack(context, '${widget.name}'),
-        // drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
-        body: isLoading
-            ? Center(child: Container())
-            : (emergencyTitleList == null || emergencyTitleList!.isEmpty)
-            ? NoDataScreenPage()
-            :
+        body:
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            // middleHeader(context, '${widget.name}'),
             Container(
               height: MediaQuery.of(context).size.height * 0.8, // Adjust the height as needed
               child: ListView.builder(
@@ -205,7 +139,6 @@ class _OnlineComplaintState extends State<Importantlink> {
                                     AboutDiuPage(
                                         name: sPageName, sPageLink: sPageLink)),
                               );
-                              print("----Collectroate Diu---");
                               return;
                             }else if(title=="Electricity Bill")
                             {
@@ -217,7 +150,6 @@ class _OnlineComplaintState extends State<Importantlink> {
                                 context,
                                 MaterialPageRoute(builder: (context) => AboutDiuPage(name:sPageName,sPageLink:sPageLink)),
                               );
-                              print('----Electricity Bill---');
                               return;
                             }else if(title=="E-Procurement"){
                               var eProcurement="E-Procurement";
@@ -230,8 +162,6 @@ class _OnlineComplaintState extends State<Importantlink> {
                                     AboutDiuPage(
                                         name: sPageName, sPageLink: sPageLink)),
                               );
-
-                              print("----E- Procurement---");
                               return;
                             }else{
                               var sPageName = "Mamlatdar Diu";
@@ -244,18 +174,8 @@ class _OnlineComplaintState extends State<Importantlink> {
                                     AboutDiuPage(
                                         name: sPageName, sPageLink: sPageLink)),
                               );
-
                             }
-
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) =>
-                            //         OnlineComplaintForm(name:sCategoryName,iCategoryCode:iCategoryCode),
-                            //   ),
-                            // );
-
-                          },
+                            },
                           child: ListTile(
                             // leading Icon
                             leading: Container(

@@ -1,15 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import '../../app/generalFunction.dart';
 import '../../services/getEmergencyContactTitleRepo.dart';
-import '../complaints/complaintHomePage.dart';
 import '../nodatavalue/NoDataValue.dart';
 import '../resources/app_text_style.dart';
 import 'emergencyContactsDetail.dart';
-import 'fireemergency/fireemergency.dart';
 
 class EmergencyContacts extends StatefulWidget {
   final name;
@@ -21,12 +18,12 @@ class EmergencyContacts extends StatefulWidget {
 }
 
 class _TemplesHomeState extends State<EmergencyContacts> {
+
   GeneralFunction generalFunction = GeneralFunction();
 
   List<Map<String, dynamic>>? emergencyTitleList;
   bool isLoading = true;
   String? sName, sContactNo;
-  // GeneralFunction generalFunction = GeneralFunction();
   final List<Color> borderColors = [
     Colors.red,
     Colors.blue,
@@ -49,55 +46,6 @@ class _TemplesHomeState extends State<EmergencyContacts> {
   }
 
 
-  final List<Map<String, dynamic>> itemList2 = [
-    {
-      //'leadingIcon': Icons.account_balance_wallet,
-      'leadingIcon': 'assets/images/credit-card.png',
-      'title': 'ICICI BANK CC PAYMENT',
-      'subtitle': 'Utility & Bill Payments',
-      'transactions': '1 transaction',
-      'amount': ' 7,86,698',
-      'temple': 'Fire Emergency'
-    },
-    {
-      //  'leadingIcon': Icons.ac_unit_outlined,
-      'leadingIcon': 'assets/images/shopping-bag.png',
-      'title': 'APTRONIX',
-      'subtitle': 'Shopping',
-      'transactions': '1 transaction',
-      'amount': '@ 1,69,800',
-      'temple': 'Police'
-    },
-    {
-      //'leadingIcon': Icons.account_box,
-      'leadingIcon': 'assets/images/shopping-bag2.png',
-      'title': 'MICROSOFT INDIA',
-      'subtitle': 'Shopping',
-      'transactions': '1 transaction',
-      'amount': '@ 30,752',
-      'temple': 'Women Help'
-    },
-    {
-      //'leadingIcon': Icons.account_balance_wallet,
-      'leadingIcon': 'assets/images/credit-card.png',
-      'title': 'SARVODAYA HOSPITAL U O',
-      'subtitle': 'Medical',
-      'transactions': '1 transaction',
-      'amount': '@ 27,556',
-      'temple': 'Medical Emergency'
-    },
-    {
-      //  'leadingIcon': Icons.ac_unit_outlined,
-      'leadingIcon': 'assets/images/shopping-bag.png',
-      'title': 'MOHAMMED ZUBER',
-      'subtitle': 'UPI Payment',
-      'transactions': '1 transaction',
-      'amount': '@ 25,000',
-      'temple': 'Other Important Numbers'
-    },
-    ];
-
-
   Color getRandomBorderColor() {
     final random = Random();
     return borderColors[random.nextInt(borderColors.length)];
@@ -112,7 +60,6 @@ class _TemplesHomeState extends State<EmergencyContacts> {
 
   @override
   void dispose() {
-    // BackButtonInterceptor.remove(myInterceptor);
     super.dispose();
   }
 
@@ -122,7 +69,6 @@ class _TemplesHomeState extends State<EmergencyContacts> {
       onWillPop: () async => false,
       child: Scaffold(
         backgroundColor: Colors.white,
-        // appBar: getAppBarBack(context, '${widget.name}'),
         appBar: AppBar(
           systemOverlayStyle: const SystemUiOverlayStyle(
             statusBarColor: Color(0xFF12375e),
@@ -135,10 +81,6 @@ class _TemplesHomeState extends State<EmergencyContacts> {
           leading: GestureDetector(
             onTap: (){
               Navigator.pop(context);
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => ComplaintHomePage()),
-              // );
             },
             child: const Icon(Icons.arrow_back_ios,
               color: Colors.white,),
@@ -154,8 +96,6 @@ class _TemplesHomeState extends State<EmergencyContacts> {
           //centerTitle: true,
           elevation: 0, // Removes shadow under the AppBar
         ),
-
-       // drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
         body:
         isLoading
             ? Center(child: Container())

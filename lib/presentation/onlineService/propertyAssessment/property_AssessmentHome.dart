@@ -1,13 +1,9 @@
 
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:puri/presentation/onlineService/propertyAssessment/propertyAssessment.dart';
 import 'package:puri/presentation/onlineService/propertyAssessment/propertyAssessmentStatus.dart';
-import '../../../app/generalFunction.dart';
-import '../../../services/getEmergencyContactTitleRepo.dart';
-import '../../nodatavalue/NoDataValue.dart';
 import '../../resources/app_text_style.dart';
 
 class PropertyAssessmentHome extends StatefulWidget {
@@ -21,28 +17,10 @@ class PropertyAssessmentHome extends StatefulWidget {
 
 class _OnlineComplaintState extends State<PropertyAssessmentHome> {
 
-  GeneralFunction generalFunction = GeneralFunction();
-
-  List<Map<String,dynamic>>? emergencyTitleList;
-  bool isLoading = true; // logic
-  String? sName, sContactNo;
-  // GeneralFunction generalFunction = GeneralFunction();
-
-  getEmergencyTitleResponse() async {
-    emergencyTitleList = await GetEmergencyContactTitleRepo().getEmergencyContactTitle(context);
-    print('------34----$emergencyTitleList');
-    setState(() {
-      isLoading = false;
-    });
-  }
-
   var OnlineTitle = [
     "Property Assessment Request",
     "Property Assessment Status",
   ];
-  // "Water Supply",
-  // "Electricity Bill",
-  // "Mamlatdar Diu"
 
   final List<Color> borderColors = [
     Colors.red,
@@ -57,22 +35,10 @@ class _OnlineComplaintState extends State<PropertyAssessmentHome> {
     Colors.amber,
   ];
 
-  Color getRandomBorderColor() {
-    final random = Random();
-    return borderColors[random.nextInt(borderColors.length)];
-  }
-
   @override
   void initState() {
     // TODO: implement initState
-    getEmergencyTitleResponse();
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    // BackButtonInterceptor.remove(myInterceptor);
-    super.dispose();
   }
 
   @override
@@ -117,15 +83,7 @@ class _OnlineComplaintState extends State<PropertyAssessmentHome> {
         //centerTitle: true,
         elevation: 0, // Removes shadow under the AppBar
       ),
-      //appBar: getAppBarBack(context, '${widget.name}'),
-      //drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
-
       body:
-      isLoading
-          ? Center(child: Container())
-          : (OnlineTitle == null || OnlineTitle!.isEmpty)
-          ? NoDataScreenPage()
-          :
       Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -134,7 +92,6 @@ class _OnlineComplaintState extends State<PropertyAssessmentHome> {
             height: MediaQuery.of(context).size.height * 0.8, // Adjust the height as needed
             child: ListView.builder(
               shrinkWrap: true,
-              //itemCount: 2 ?? 0,
               itemCount: OnlineTitle?.length ?? 0,
               itemBuilder: (context, index) {
                 final color = borderColors[index % borderColors.length];
@@ -145,26 +102,17 @@ class _OnlineComplaintState extends State<PropertyAssessmentHome> {
                       child: GestureDetector(
                         onTap: () {
                           var title = OnlineTitle[index];
-                          // sIcon
-                          print('----title---207---$title');
                           if(title=="Property Assessment Request"){
                             //  PropertyTax
                             var name = "Property Assessment Request";
-                            var iCategoryCode ="3";
-
                             /// todo here open a new activity
 
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => PropertyAssessment(name:name)),
                             );
-
-                            // BuildingPlanStatus
                           }else{
                             var name = "Property Assessment Status";
-                            var iCategoryCode ="3";
-                            //displayToast('Coming soon');
-                            // PropertyAssessmentStatus
                             Navigator.push(
                               context,
                               MaterialPageRoute(builder: (context) => PropertyAssessmentStatus(name:name)),

@@ -1,16 +1,12 @@
 
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import '../../app/generalFunction.dart';
 import '../../services/bindComplaintCategoryRepo.dart';
-import '../complaints/complaintHomePage.dart';
 import '../resources/app_text_style.dart';
 import 'onlineComplaintForm.dart';
 import '../nodatavalue/NoDataValue.dart';
-
 
 class OnlineComplaint extends StatefulWidget {
 
@@ -24,11 +20,10 @@ class OnlineComplaint extends StatefulWidget {
 class _OnlineComplaintState extends State<OnlineComplaint> {
 
   GeneralFunction generalFunction = GeneralFunction();
-
   List<Map<String, dynamic>>? emergencyTitleList;
 
   bool isLoading = true; // logic
-  String? sName, sContactNo;
+  //String? sName, sContactNo;
   // GeneralFunction generalFunction = GeneralFunction();
 
   getEmergencyTitleResponse() async {
@@ -38,55 +33,6 @@ class _OnlineComplaintState extends State<OnlineComplaint> {
       isLoading = false;
     });
   }
-
-
-  final List<Map<String, dynamic>> itemList2 = [
-    {
-      //'leadingIcon': Icons.account_balance_wallet,
-      'leadingIcon': 'assets/images/credit-card.png',
-      'title': 'ICICI BANK CC PAYMENT',
-      'subtitle': 'Utility & Bill Payments',
-      'transactions': '1 transaction',
-      'amount': ' 7,86,698',
-      'temple': 'Fire Emergency'
-    },
-    {
-      //  'leadingIcon': Icons.ac_unit_outlined,
-      'leadingIcon': 'assets/images/shopping-bag.png',
-      'title': 'APTRONIX',
-      'subtitle': 'Shopping',
-      'transactions': '1 transaction',
-      'amount': '@ 1,69,800',
-      'temple': 'Police'
-    },
-    {
-      //'leadingIcon': Icons.account_box,
-      'leadingIcon': 'assets/images/shopping-bag2.png',
-      'title': 'MICROSOFT INDIA',
-      'subtitle': 'Shopping',
-      'transactions': '1 transaction',
-      'amount': '@ 30,752',
-      'temple': 'Women Help'
-    },
-    {
-      //'leadingIcon': Icons.account_balance_wallet,
-      'leadingIcon': 'assets/images/credit-card.png',
-      'title': 'SARVODAYA HOSPITAL U O',
-      'subtitle': 'Medical',
-      'transactions': '1 transaction',
-      'amount': '@ 27,556',
-      'temple': 'Medical Emergency'
-    },
-    {
-      //  'leadingIcon': Icons.ac_unit_outlined,
-      'leadingIcon': 'assets/images/shopping-bag.png',
-      'title': 'MOHAMMED ZUBER',
-      'subtitle': 'UPI Payment',
-      'transactions': '1 transaction',
-      'amount': '@ 25,000',
-      'temple': 'Other Important Numbers'
-    },
-  ];
 
   final List<Color> borderColors = [
     Colors.red,
@@ -114,12 +60,6 @@ class _OnlineComplaintState extends State<OnlineComplaint> {
   }
 
   @override
-  void dispose() {
-    // BackButtonInterceptor.remove(myInterceptor);
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => false,
@@ -137,14 +77,9 @@ class _OnlineComplaintState extends State<OnlineComplaint> {
           centerTitle: true,
           leading: GestureDetector(
             onTap: (){
-              print("------back---");
               Navigator.pop(context);
-             //  Navigator.push(
-             //    context,
-             //    MaterialPageRoute(builder: (context) => const ComplaintHomePage()),
-             //  );
-            },
-            child: Icon(Icons.arrow_back_ios,
+              },
+            child: const Icon(Icons.arrow_back_ios,
               color: Colors.white,),
           ),
           title: Padding(
@@ -158,9 +93,7 @@ class _OnlineComplaintState extends State<OnlineComplaint> {
           //centerTitle: true,
           elevation: 0, // Removes shadow under the AppBar
         ),
-        //appBar: getAppBarBack(context, '${widget.name}'),
-       // drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
-        body: isLoading
+            body: isLoading
             ? Center(child: Container())
             : (emergencyTitleList == null || emergencyTitleList!.isEmpty)
             ? NoDataScreenPage()
@@ -175,7 +108,6 @@ class _OnlineComplaintState extends State<OnlineComplaint> {
                 shrinkWrap: true,
                 itemCount: emergencyTitleList?.length ?? 0,
                 itemBuilder: (context, index) {
-
                   final color = borderColors[index % borderColors.length];
 
                   return Column(
@@ -184,12 +116,8 @@ class _OnlineComplaintState extends State<OnlineComplaint> {
                         padding: const EdgeInsets.symmetric(vertical: 1.0),
                         child: GestureDetector(
                           onTap: () {
-                            var iCategoryCode = emergencyTitleList![index]['iCategoryCode'];
-                            var sCategoryName = emergencyTitleList![index]['sCategoryName'];
-
-                            // sIcon
-                            print('----sCategoryName---$sCategoryName');
-                            print('----iCategoryCode---$iCategoryCode');
+                            final iCategoryCode = emergencyTitleList![index]['iCategoryCode'];
+                            final sCategoryName = emergencyTitleList![index]['sCategoryName'];
 
                             Navigator.push(
                               context,
@@ -218,7 +146,6 @@ class _OnlineComplaintState extends State<OnlineComplaint> {
                               emergencyTitleList![index]['sCategoryName']!,
                               style: AppTextStyle.font14OpenSansRegularBlackTextStyle,
                             ),
-                            //  traling icon
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [

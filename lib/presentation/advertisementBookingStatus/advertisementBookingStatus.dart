@@ -8,6 +8,7 @@ import '../complaints/complaintHomePage.dart';
 import '../nodatavalue/NoDataValue.dart';
 import '../resources/app_text_style.dart';
 
+
 class AdvertisementBookingStatus extends StatelessWidget {
   const AdvertisementBookingStatus({super.key});
 
@@ -74,7 +75,6 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
         centerTitle: true,
         leading: GestureDetector(
           onTap: () {
-            print("------back---");
             // Navigator.pop(context);
             Navigator.push(
               context,
@@ -111,7 +111,7 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                             itemBuilder: (context, index) {
                               Map<String, dynamic> item = _filteredData![index];
                               var sStatus = item['sStatus'];
-                             sRequestNo = item['sRequestNo'];
+                              sRequestNo = item['sRequestNo'];
                               // to change a colore behafe of sStatus
                               Color color;
                               if (sStatus == "Pending") {
@@ -353,9 +353,6 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                                                               .font14OpenSansRegularBlack26TextStyle),
                                                     ],
                                                   )
-                                                  // Text('Complaint Details',
-                                                  //     style: AppTextStyle
-                                                  //         .font14OpenSansRegularBlack45TextStyle),
                                                 ],
                                               ),
                                               Padding(
@@ -391,9 +388,6 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                                                                 .font14OpenSansRegularBlack26TextStyle),
                                                       ],
                                                     )
-                                                    // Text('Complaint Details',
-                                                    //     style: AppTextStyle
-                                                    //         .font14OpenSansRegularBlack45TextStyle),
                                                   ],
                                                 ),
                                               ),
@@ -427,7 +421,6 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                                               ),
                                               // Apply a payment
                                               sStatus=="Approved" ?
-
                                               Padding(
                                                 padding: const EdgeInsets.only(top: 4),
                                                 child: InkWell(
@@ -438,14 +431,9 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                                                     print("----435---$sRequestNo");
                                                     var sPageName = "Advertisement Booking Status";
                                                     // call a Payment page
-                                                    //var baseurl = "https://www.diusmartcity.com/AdvertisementPaymentGatewayMobile.aspx?QS=";
                                                      var baseurl ="https://www.diusmartcity.com/User/AdvertisementPayment.aspx?id=";
                                                     var paymentUrl = "$baseurl$sRequestNo&user=$sContactNo";
                                                     print(paymentUrl);
-                                                    // close the dialog
-                                                    // if (Navigator.of(dialogContext).canPop()) {
-                                                    //   Navigator.of(dialogContext).pop();
-                                                    // }
                                                     // open the payment activity
                                                     Navigator.push(
                                                       context,
@@ -453,12 +441,6 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                                                           AboutDiuPage(
                                                               name: sPageName, sPageLink: paymentUrl)),
                                                     );
-                                                    // showDialog(
-                                                    //   context: context,
-                                                    //   builder: (BuildContext dialogContext) {
-                                                    //     return paymentDialog(dialogContext);
-                                                    //   },
-                                                    // );
                                                     },
                                                   child: Container(
                                                     height: 35,

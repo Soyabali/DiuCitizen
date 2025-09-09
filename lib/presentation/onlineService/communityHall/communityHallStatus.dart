@@ -1,30 +1,21 @@
-import 'package:back_button_interceptor/back_button_interceptor.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:puri/presentation/complaints/grievanceStatus/searchBar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../app/generalFunction.dart';
 import '../../../services/CommunityHallStatusRepo.dart';
-import '../../../services/citizenMyPostedComplaint.dart';
 import '../../../services/communityHallBookingCancel.dart';
-import '../../../services/feedbackRepo.dart';
 import '../../aboutDiu/Aboutdiupage.dart';
 import '../../circle/circle.dart';
-import '../../complaints/complaintHomePage.dart';
-import '../../fullscreen/imageDisplay.dart';
 import '../../nodatavalue/NoDataValue.dart';
 import '../../resources/app_text_style.dart';
 import '../../resources/assets_manager.dart';
 import '../../resources/values_manager.dart';
-import '../license/licenseStatus/licenseStatusImages.dart';
+
 
 class CommunityHallStatus extends StatefulWidget {
   final name;
-
   CommunityHallStatus({super.key, this.name});
 
   @override
@@ -33,27 +24,13 @@ class CommunityHallStatus extends StatefulWidget {
 
 class _TemplesHomeState extends State<CommunityHallStatus> {
 
-  GeneralFunction generalFunction = GeneralFunction();
-
-  var variableName;
-  var variableName2;
   List<Map<String, dynamic>>? pendingInternalComplaintList;
   List<Map<String, dynamic>> _filteredData = [];
-  List bindAjencyList = [];
-  List userAjencyList = [];
-  var iAgencyCode;
-  var agencyUserId;
+
   TextEditingController _searchController = TextEditingController();
   TextEditingController _remarksController = TextEditingController();
-  double? lat;
-  double? long;
-  var _dropDownAgency2;
-  var _dropDownValueUserAgency;
   final distDropdownFocus = GlobalKey();
   var result, msg;
-  var userAjencyData;
-  var result1;
-  var msg1;
   GeneralFunction generalfunction = GeneralFunction();
   bool isLoading = true;
   var communityHallBookingResponse;
@@ -64,15 +41,11 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
   var sBookingReqId;
   var sContactNo,sCitizenName;
 
-  // Api response
-
   pendingInternalComplaintResponse() async {
     pendingInternalComplaintList =
         await CommunityHallStatusRepo().communityHall(context);
-    print('-----70-----xxx-----$pendingInternalComplaintList');
     _filteredData =
         List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
-
     setState(() {
       // parkList=[];
       isLoading = false;
@@ -250,9 +223,8 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
     // sContactNo
      sContactNo = prefs.getString('sContactNo');
      sCitizenName = prefs.getString('sCitizenName');
-    print("------162---ContactNo--xxx--$sContactNo");
-    print("------162---sCitizenName----xxxx-$sCitizenName");
   }
+
 
   @override
   void dispose() {
@@ -276,8 +248,6 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
       displayToast('Please enter Remarks');
       return; // Stop execution if validation fails
     }
-
-    print('---Calling API---');
     print("---Booking Request ID: $bookingRequestId");
 
     // Call API
@@ -316,7 +286,6 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
       print("--- API Response is null ---");
     }
   }
-
   void _search() {
     String query = _searchController.text.toLowerCase();
     setState(() {
@@ -331,43 +300,42 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
           [];
     });
   }
-
   // location
-  void getLocation() async {
-    bool serviceEnabled;
-    LocationPermission permission;
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      return Future.error('Location services are disabled.');
-    }
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        return Future.error('Location permissions are denied');
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
-    }
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    lat = position.latitude;
-    long = position.longitude;
-    setState(() {});
-  }
+  // void getLocation() async {
+  //   bool serviceEnabled;
+  //   LocationPermission permission;
+  //   serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  //   if (!serviceEnabled) {
+  //     return Future.error('Location services are disabled.');
+  //   }
+  //   permission = await Geolocator.checkPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     permission = await Geolocator.requestPermission();
+  //     if (permission == LocationPermission.denied) {
+  //       return Future.error('Location permissions are denied');
+  //     }
+  //   }
+  //   if (permission == LocationPermission.deniedForever) {
+  //     return Future.error(
+  //         'Location permissions are permanently denied, we cannot request permissions.');
+  //   }
+  //   Position position = await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.high);
+  //   lat = position.latitude;
+  //   long = position.longitude;
+  //   setState(() {});
+  // }
 
-  void displayToast(String msg) {
-    Fluttertoast.showToast(
-        msg: msg,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
-  }
+  // void displayToast(String msg) {
+  //   Fluttertoast.showToast(
+  //       msg: msg,
+  //       toastLength: Toast.LENGTH_SHORT,
+  //       gravity: ToastGravity.CENTER,
+  //       timeInSecForIosWeb: 1,
+  //       backgroundColor: Colors.red,
+  //       textColor: Colors.white,
+  //       fontSize: 16.0);
+  // }
 
   // open Pdf
   void openPdf(BuildContext context, String pdfUrl) async {
@@ -379,7 +347,6 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
       );
     }
   }
-
   //
   Widget _buildDocumentSection(String title, String docUrl) {
     return Padding(
@@ -502,13 +469,8 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
       child: Scaffold(
         backgroundColor: Colors.white,
          appBar: getAppBarBack(context, '${widget.name}'),
-        // appBar: getAppBarBack(context,'jjsjsjsj'),
-        drawer: generalFunction.drawerFunction(context, '$sCitizenName', '$sContactNo'),
-        body:
-            // pendingInternalComplaintList == null
-            //   ? NoDataScreen()
-            //   :
-            isLoading
+         body:
+         isLoading
                 ? Center(child: Container())
                 : (pendingInternalComplaintList == null ||
                         pendingInternalComplaintList!.isEmpty)
@@ -608,7 +570,7 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                                       .circular(
                                                                           5.0),
                                                               // Adjust the radius as needed
-                                                              color: Color(
+                                                              color: const Color(
                                                                   0xFFF5F5F5),
                                                             ),
                                                             child: ListTile(
@@ -652,24 +614,6 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                               print("--docURL : $docUrl");
                                                               print("--docURL2 : $docUrl2");
                                                               showFullScreenDialog(context, docUrl, docUrl2);
-
-                                                              // var docUrl = "${item['sCommunityDocUrl'].toString()}";
-                                                              //
-                                                              // if(docUrl.toLowerCase().endsWith('.pdf')){
-                                                              //  print("----Open Pdf on a new Screen");
-                                                              //  openPdf(context, docUrl!);
-                                                              // }else{
-                                                              //   Navigator.push(
-                                                              //     context,
-                                                              //     MaterialPageRoute(
-                                                              //         builder: (context) =>
-                                                              //             FullScreenImages(
-                                                              //                 image:
-                                                              //                 docUrl)),
-                                                              //   );
-                                                              // }
-
-
                                                               },
                                                             child: Container(
                                                               width: 30,
@@ -996,14 +940,10 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
 
                                           SharedPreferences prefs = await SharedPreferences.getInstance();
                                           String? sContactNo = prefs.getString('sContactNo');
-                                          print("-----717---");
-                                         // showPaymentGatewayDialog(context);
                                           var sPageName = "Community Hall Status";
                                           // Payment URL
-                                          // var baseurl = "https://www.diusmartcity.com/CommunityHallPaymentGatewayMobile.aspx?QS=";
-                                          var baseurl = "https://www.diusmartcity.com/root/User/PaymentCommunityHall.aspx?id=";
-
-                                          var paymentUrl = "$baseurl$sBookingReqId&user=$sContactNo";
+                                           var baseurl = "https://www.diusmartcity.com/root/User/PaymentCommunityHall.aspx?id=";
+                                           var paymentUrl = "$baseurl$sBookingReqId&user=$sContactNo";
                                           print(paymentUrl);
                                           if(paymentUrl!=null&& paymentUrl!=''){
                                             print("--863--: $paymentUrl");
@@ -1017,16 +957,6 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                           }else{
                                             print("----Payment url : $paymentUrl");
                                           }
-
-
-
-                                          // showDialog(
-                                          //   context: context,
-                                          //   builder: (BuildContext dialogContext) {
-                                          //     return paymentDialog(dialogContext);
-                                          //   },
-                                          // );
-
                                           },
                                         child: Container(
                                           height: 40,
@@ -1044,10 +974,7 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                         ),
                                       ),
                                     )
-
-
-
-                                              ],
+                                     ],
                                             ),
                                           ),
                                         ),
@@ -1069,7 +996,7 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
       context: context,
       isScrollControlled: true,
       // Ensures the bottom sheet adjusts for the keyboard
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
             top: Radius.circular(20)), // Rounded top corners
       ),
@@ -1158,19 +1085,12 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                     print("---1018---$remarkController");
                     if (remarkController.isNotEmpty) {
                       print("-----call Api-----");
-                      // displayToast("Call Api");
-                      //open Confirm Dialiog here
-
                       showCancelBookingDialog(context, bookingRequuestId);
                     } else {
                       print("----- Not call Api-----");
                       displayToast("Please enter Remarks");
                     }
-                    //  call Api
-                    // print("---729--$bookingRequuestId");
-
-                    //validateAndCallRemarksApi(bookingRequuestId); // Your validation logic
-                  },
+                    },
                   child: Container(
                     width: double.infinity, // Make the button fill the width
                     height: AppSize.s45,
@@ -1233,10 +1153,6 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                 SizedBox(width: 10),
                 ElevatedButton(
                   onPressed: () {
-                    /// you should call api dialog box
-                    /// todo remove comments
-
-                    // _showCustomBottomSheet(context, bookingRequuestId);
                     validateAndCallRemarksApi(bookingRequuestId);
                     Navigator.pop(dialogContext); // Close Dialog
                   },
@@ -1259,7 +1175,7 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
 class NoDataScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text(
         'No Record Found',
         style: TextStyle(fontSize: 24),

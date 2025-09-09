@@ -276,7 +276,7 @@ class _MyHomePageState extends State<WaterSupplyRequest>
   // permises Ward Api call
   premisesWard() async {
     /// todo remove the comment and call Community Hall
-    premisesWardDropDown = await BindCitizenWardRepo().bindCityZenWard();
+    premisesWardDropDown = await BindCitizenWardRepo().bindCityZenWard(context);
     print(" -----Premissesward---->>>>-xx--143-----> $premisesWardDropDown");
     setState(() {});
   }
@@ -292,7 +292,7 @@ class _MyHomePageState extends State<WaterSupplyRequest>
   // Financial Year Api call
   finalYearApi() async {
     /// todo remove the comment and call Community Hall
-    finalYearDropDown = await BindFinalYearRepo().bindFinalYearWard();
+    finalYearDropDown = await BindFinalYearRepo().bindFinalYearWard(context);
     print(" -----finalYearDropDown---->>>>-xx--154-----> $finalYearDropDown");
     setState(() {});
   }

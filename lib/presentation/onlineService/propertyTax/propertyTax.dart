@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../app/generalFunction.dart';
 import '../../../services/SearchPropertyTaxForPaymentRepo.dart';
 import '../../../services/bindCityzenWardRepo.dart';
-import '../../../services/getEmergencyContactTitleRepo.dart';
 import '../../aboutDiu/Aboutdiupage.dart';
 import '../../circle/circle.dart';
 import '../../nodatavalue/NoDataValue.dart';
@@ -34,9 +32,9 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
   FocusNode _houseOwnerfocus = FocusNode();
   //
   List<Map<String,dynamic>>? emergencyTitleList;
-  List<Map<String,dynamic>>? emergencyTitleList2;
+  //List<Map<String,dynamic>>? emergencyTitleList2;
   bool isLoading = true; // logic
-  String? sName, sContactNo;
+  //String? sName, sContactNo;
   var houseNo;
 
   final List<Color> borderColors = [
@@ -57,6 +55,11 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
    // final List<dynamic> list = await SearchPropertyTaxForPaymentRepo().searchPropertyTaxForPayment(context,selectedWardId,houseno,houseOwnerName);
     emergencyTitleList = await SearchPropertyTaxForPaymentRepo().searchPropertyTaxForPayment(context,selectedWardId,houseno,houseOwnerName);
     print('------57-----xxxx---xx----$emergencyTitleList');
+    if(emergencyTitleList==null || emergencyTitleList!.isEmpty){
+
+      displayToast('Note: Please submit the property assessment request details and proceed.');
+
+    }
     setState(() {
       isLoading = false;
     });
@@ -77,7 +80,6 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
   // dropDown
   bindWard() async {
     wardList = await BindCityzenWardRepo().getbindWard(context);
-    print(" -----xxxxx-  wardList--50---> $wardList");
     setState(() {});
   }
   // bind
@@ -114,7 +116,6 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
                         _selectedWardId = element['sWardCode'];
                       }
                     });
-                    print("------99-----$_selectedWardId");
                   });
                 },
                 style: TextStyle(color: Colors.white), // Selected item text color
@@ -167,9 +168,7 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: getAppBarBack(context,'${widget.name}'),
-        // appBar: getAppBarBack(context,'ssss999'),
-        //drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
-        body: Column(
+           body: Column(
             children: [
               SizedBox(height: 5),
               _bindWard(),
@@ -257,13 +256,7 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
                     // Your onTap logic here
 
                     var houseno = _houseController.text.trim();
-                   // var houseno = Uri.encodeComponent(_houseController.text.trim());
-                   // var houseno = Uri.decodeComponent(_houseController.text.trim());
-                    print("----261 : $houseno");
                     var houseOwnerName = _houseOwnerName.text.trim();
-                    print("----Selected Ward-----236---$_selectedWardId");
-                    print("----houseno----240---$houseno");
-                    print("----houseOwnerName-----241---$houseOwnerName");
                     if(_selectedWardId!=null && _selectedWardId!="" && houseno.isNotEmpty || houseOwnerName.isNotEmpty){
                        print("---Call APi---");
                        getEmergencyTitleResponse(_selectedWardId,houseno,houseOwnerName);

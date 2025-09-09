@@ -9,10 +9,8 @@ import '../../services/verifyAppVersion.dart';
 import '../complaints/complaintHomePage.dart';
 import '../login/loginScreen_2.dart';
 import '../resources/app_text_style.dart';
-import '../resources/assets_manager.dart';
 
 class SplashView extends StatefulWidget {
-
   const SplashView({super.key});
 
   @override
@@ -161,8 +159,6 @@ class _SplaceState extends State<SplashView> {
       var sContactNo = prefs.getString('sContactNo');
       print("------162---ContactNo---$sContactNo");
       if(sContactNo!=null && sContactNo!=''){
-        print("----Home Page------");
-        print("------162---ContactNo---$sContactNo");
 
         Navigator.pushAndRemoveUntil(
           context,
@@ -170,24 +166,11 @@ class _SplaceState extends State<SplashView> {
               (Route<dynamic> route) => false, // This condition removes all previous routes
         );
       }else{
-        print("----login-------");
-        print("------162---ContactNo---$sContactNo");
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) =>  const LoginScreen_2()),
         );
       }
-
-     // LoginScreen_2
-     //  Navigator.pushReplacement(
-     //    context,
-     //    MaterialPageRoute(builder: (context) =>  const LoginScreen_2()),
-     //  );
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(builder: (context) =>  const HomePage()),
-      // );
-
       // displayToast(msg);
     }else{
       showDialog(context: context,

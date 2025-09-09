@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
@@ -15,7 +14,6 @@ import '../../services/bindCityzenWardRepo.dart';
 import '../../services/bindSubCategoryRepo.dart';
 import '../../services/markpointSubmit.dart';
 import '../circle/circle.dart';
-import 'onlineComplaint.dart';
 import '../resources/app_text_style.dart';
 import '../resources/values_manager.dart';
 import 'dart:math';
@@ -23,7 +21,6 @@ import 'dart:math';
 class OnlineComplaintForm extends StatefulWidget {
 
   var name, iCategoryCode;
-
   OnlineComplaintForm({super.key, required this.name, required this.iCategoryCode});
 
   @override
@@ -32,63 +29,35 @@ class OnlineComplaintForm extends StatefulWidget {
 
 class _MyHomePageState extends State<OnlineComplaintForm> {
 
-  List stateList = [];
   List<dynamic> subCategoryList = [];
   List<dynamic> wardList = [];
-  List<dynamic> bindreimouList = [];
-  List blockList = [];
-  List shopTypeList = [];
   var result2, msg2;
 
+  // BindCategory
   bindSubCategory(String subCategoryCode) async {
     subCategoryList = (await BindSubCategoryRepo().bindSubCategory(context,subCategoryCode))!;
-    print(" -----xxxxx-  subCategoryList--43---> $subCategoryList");
     setState(() {});
   }
-
+  // BindWard
   bindWard() async {
     wardList = await BindCityzenWardRepo().getbindWard(context);
-    print(" -----xxxxx-  wardList--50---> $wardList");
     setState(() {});
   }
-
-  var msg;
-  var result;
-  var SectorData;
-  var stateblank;
-  final stateDropdownFocus = GlobalKey();
-
-  TextEditingController _addressController = TextEditingController();
-  TextEditingController _landmarkController = TextEditingController();
-  TextEditingController _mentionController = TextEditingController();
+ // final stateDropdownFocus = GlobalKey();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _landmarkController = TextEditingController();
+  final TextEditingController _mentionController = TextEditingController();
 
   FocusNode _addressfocus = FocusNode();
   FocusNode _landmarkfocus = FocusNode();
-  FocusNode _wardfocus = FocusNode();
-
-  String? todayDate;
-  String? consumableList;
-  int count = 0;
-  List? data;
-  List? listCon;
 
   //var _dropDownSector;
   var dropDownSubCategory;
   var _dropDownWard;
-  var sectorresponse;
-  String? sec;
-  final distDropdownFocus = GlobalKey();
   final subCategoryFocus = GlobalKey();
-  final wardFocus = GlobalKey();
-  File? _imageFile;
-  var _selectedShopId;
   var _selectedSubCategoryId;
   var _selectedWardId;
   final _formKey = GlobalKey<FormState>();
-  var iUserTypeCode;
-  var userId;
-  var slat;
-  var slong;
   File? image;
   var uplodedImage;
   double? lat, long;
@@ -98,18 +67,14 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
   Future pickImage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');
-    print('---Token----113--$sToken');
     try {
       final pickFileid = await ImagePicker()
           .pickImage(source: ImageSource.camera, imageQuality: 65);
       if (pickFileid != null) {
         image = File(pickFileid.path);
         setState(() {});
-        print('Image File path Id Proof-------167----->$image');
-        // multipartProdecudre();
         uploadImage(sToken!, image!);
       } else {
-        print('no image selected');
       }
     } catch (e) {}
   }
@@ -140,14 +105,9 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
 
     lat = position.latitude;
     long = position.longitude;
-    print('-----------105----$lat');
-    print('-----------106----$long');
-    // setState(() {
-    // });
     debugPrint("Latitude: ----1056--- $lat and Longitude: $long");
     debugPrint(position.toString());
   }
-
   // generateRandomNumber
   String generateRandom20DigitNumber() {
     final Random random = Random();
@@ -160,13 +120,10 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
   }
 
   Future<void> uploadImage(String token, File imageFile) async {
-    print("--------225---tolen---$token");
-    print("--------226---imageFile---$imageFile");
     var baseURL = BaseRepo().baseurl;
     var endPoint = "PostImage/PostImage";
     var uploadImageApi = "$baseURL$endPoint";
     try {
-      print('-----xx-x----214----');
       showLoader();
       // Create a multipart request
       var request = http.MultipartRequest(
@@ -204,10 +161,7 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    // updatedSector();
     var subCategoryCode = "${widget.iCategoryCode}";
-    print("---------240-------$subCategoryCode");
     bindSubCategory(subCategoryCode);
     bindWard();
     getLocation();
@@ -227,7 +181,6 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
     FocusScope.of(context).unfocus();
   }
 
-  // Todo bind sector code
   Widget _bindSubCategory() {
     return Material(
       color: Colors.white,
@@ -254,10 +207,6 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
                   text: TextSpan(
                     text: "Select Sub Category",
                     style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                    // style: TextStyle(
-                    //     color: Colors.black,
-                    //     fontSize: 14,
-                    //     fontWeight: FontWeight.normal),
                   ),
                 ),
                 value: dropDownSubCategory,
@@ -285,10 +234,6 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
                             // Handles long text
                             style: AppTextStyle
                                 .font14OpenSansRegularBlack45TextStyle,
-                            // style: TextStyle(
-                            //   fontSize: 16,
-                            //   fontWeight: FontWeight.normal,
-                            // ),
                           ),
                         ),
                       ],
@@ -302,7 +247,6 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
       ),
     );
   }
-
   // bind Ward
   Widget _bindWard() {
     return Material(
@@ -319,7 +263,6 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
               alignedDropdown: true,
               child: DropdownButton(
                 isDense: true,
-                // Reduces the vertical size of the button
                 isExpanded: true,
                 // Allows the DropdownButton to take full width
                 dropdownColor: Colors.white,
@@ -368,13 +311,7 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
       ),
     );
   }
-
-  /// Algo.  First of all create repo, secodn get repo data in the main page after that apply list data on  dropdown.
-  // function call
-
   void validateAndCallApi() async {
-    // Trim values to remove leading/trailing spaces
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // Contact No
     String? sContactNo = prefs.getString('sContactNo');
@@ -385,22 +322,9 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
     var address = _addressController.text.trim();
     var landmark = _landmarkController.text.trim();
     var mentionYourConcerns = _mentionController.text.trim();
-    // Debug logs
-    print('---iCompCode----$random20DigitNumber');
-    print("--iSubCategoryCode--: $_selectedSubCategoryId");
-    print("---sWardCode--: $_selectedWardId");
-    print("---sAddress---: $address");
-    print("---sLandmark---: $landmark");
-    print("---sComplaintDetails--: $mentionYourConcerns");
-    print('---sComplaintPhoto----$uplodedImage');
-    print("sPostedBy: $sContactNo");
-    print("---fLatitude-- :    $lat");
-    print("---fLongitude-- :    $long");
-
     // Check Form Validation
     final isFormValid = _formKey.currentState!.validate();
     print("Form Validation: $isFormValid");
-
     // Validate all conditions
     if (isFormValid &&
         _selectedSubCategoryId != null &&
@@ -425,7 +349,6 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
         lat,
         long
       );
-      print('----562---$onlineComplaintResponse');
       result2 = onlineComplaintResponse['Result'];
       msg2 = onlineComplaintResponse['Msg'];
       if(result2=="1"){
@@ -434,12 +357,6 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
       }else{
         displayToast(msg2);
       }
-      //displayToast(msg2);
-     // print('---806---xxxxx----$result');
-      //print('---807--$msg');
-
-      // call here to api
-      // Your API call logic here
     } else {
       // If conditions fail, display appropriate error messages
       print('--Not Call API--');
@@ -467,7 +384,6 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
         displayToast('Please Upload an Image');
       }
     }
-
   }
 
   @override
@@ -480,9 +396,7 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
         },
         child: Scaffold(
           backgroundColor: Colors.white,
-          // appBar: getAppBarBack(context,"Online Complaint"),
           appBar: AppBar(
-            // statusBarColore
             systemOverlayStyle: const SystemUiOverlayStyle(
               statusBarColor: Color(0xFF12375e),
               statusBarIconBrightness: Brightness.dark,
@@ -494,12 +408,7 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
             backgroundColor: Color(0xFF255898),
             leading: GestureDetector(
               onTap: () {
-                print("------back---");
                  Navigator.pop(context);
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => OnlineComplaint()),
-                // );
               },
               child: const Icon(
                 Icons.arrow_back_ios,
@@ -908,11 +817,6 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
                                                   fit: BoxFit.fill,
                                                 ),
                                               ),
-                                              // child: const Icon(
-                                              //   Icons.camera_alt,
-                                              //   size: 30,
-                                              //   color: Colors.black45,
-                                              // ),
                                             ),
                                           ),
                                         ),

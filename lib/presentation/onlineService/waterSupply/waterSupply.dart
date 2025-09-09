@@ -1,17 +1,12 @@
 
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:puri/presentation/onlineService/waterSupply/waterSupplyRequest.dart';
 import 'package:puri/presentation/onlineService/waterSupply/waterSupplyStatus.dart';
 import '../../../app/generalFunction.dart';
-import '../../../services/getEmergencyContactTitleRepo.dart';
-import '../../nodatavalue/NoDataValue.dart';
 import '../../resources/app_text_style.dart';
-import '../onlineService.dart';
 import 'onlineWaterSupply.dart';
-
 
 
 class WaterSupply extends StatefulWidget {
@@ -33,70 +28,12 @@ class _OnlineComplaintState extends State<WaterSupply> {
   String? sName, sContactNo;
   // GeneralFunction generalFunction = GeneralFunction();
 
-  getEmergencyTitleResponse() async {
-    emergencyTitleList = await GetEmergencyContactTitleRepo().getEmergencyContactTitle(context);
-    print('------34----$emergencyTitleList');
-    setState(() {
-      isLoading = false;
-    });
-  }
-
-
-  final List<Map<String, dynamic>> itemList2 = [
-    {
-      //'leadingIcon': Icons.account_balance_wallet,
-      'leadingIcon': 'assets/images/credit-card.png',
-      'title': 'ICICI BANK CC PAYMENT',
-      'subtitle': 'Utility & Bill Payments',
-      'transactions': '1 transaction',
-      'amount': ' 7,86,698',
-      'temple': 'Fire Emergency'
-    },
-    {
-      //  'leadingIcon': Icons.ac_unit_outlined,
-      'leadingIcon': 'assets/images/shopping-bag.png',
-      'title': 'APTRONIX',
-      'subtitle': 'Shopping',
-      'transactions': '1 transaction',
-      'amount': '@ 1,69,800',
-      'temple': 'Police'
-    },
-    {
-      //'leadingIcon': Icons.account_box,
-      'leadingIcon': 'assets/images/shopping-bag2.png',
-      'title': 'MICROSOFT INDIA',
-      'subtitle': 'Shopping',
-      'transactions': '1 transaction',
-      'amount': '@ 30,752',
-      'temple': 'Women Help'
-    },
-    {
-      //'leadingIcon': Icons.account_balance_wallet,
-      'leadingIcon': 'assets/images/credit-card.png',
-      'title': 'SARVODAYA HOSPITAL U O',
-      'subtitle': 'Medical',
-      'transactions': '1 transaction',
-      'amount': '@ 27,556',
-      'temple': 'Medical Emergency'
-    },
-    {
-      //  'leadingIcon': Icons.ac_unit_outlined,
-      'leadingIcon': 'assets/images/shopping-bag.png',
-      'title': 'MOHAMMED ZUBER',
-      'subtitle': 'UPI Payment',
-      'transactions': '1 transaction',
-      'amount': '@ 25,000',
-      'temple': 'Other Important Numbers'
-    },
-  ];
   var OnlineTitle = [
     "Water Supply Request",
     "Online Water Supply",
     "Water Supply Status"
   ];
-  // "Water Supply",
-  // "Electricity Bill",
-  // "Mamlatdar Diu"
+
 
   final List<Color> borderColors = [
     Colors.red,
@@ -119,14 +56,8 @@ class _OnlineComplaintState extends State<WaterSupply> {
   @override
   void initState() {
     // TODO: implement initState
-    getEmergencyTitleResponse();
+   // getEmergencyTitleResponse();
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    // BackButtonInterceptor.remove(myInterceptor);
-    super.dispose();
   }
 
   @override
@@ -147,12 +78,8 @@ class _OnlineComplaintState extends State<WaterSupply> {
           onTap: (){
             print("------back---");
              Navigator.pop(context);
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) =>  OnlineServives()),
-            // );
           },
-          child: Icon(Icons.arrow_back_ios,
+          child: const Icon(Icons.arrow_back_ios,
             color: Colors.white,),
         ),
         title: const Padding(
@@ -171,21 +98,11 @@ class _OnlineComplaintState extends State<WaterSupply> {
         //centerTitle: true,
         elevation: 0, // Removes shadow under the AppBar
       ),
-      //appBar: getAppBarBack(context, '${widget.name}'),
-
-      drawer:
-      generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
 
       body:
-      isLoading
-          ? Center(child: Container())
-          : (OnlineTitle == null || OnlineTitle!.isEmpty)
-          ? NoDataScreenPage()
-          :
       Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          // middleHeader(context, '${widget.name}'),
           Container(
             height: MediaQuery.of(context).size.height * 0.8, // Adjust the height as needed
             child: ListView.builder(

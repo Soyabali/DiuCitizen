@@ -20,6 +20,7 @@ import '../../resources/app_text_style.dart';
 import '../../resources/values_manager.dart';
 
 class PropertyAssessment extends StatefulWidget {
+
   var name;
   PropertyAssessment({super.key, required this.name});
 
@@ -349,12 +350,9 @@ class _MyHomePageState extends State<PropertyAssessment>
     }
   }
 
-  // add item to list
-  // permises Ward Api call
-
   premisesWard() async {
     /// todo remove the comment and call Community Hall
-    premisesWardDropDown = await BindCitizenWardRepo().bindCityZenWard();
+    premisesWardDropDown = await BindCitizenWardRepo().bindCityZenWard(context);
     print(" -----Premissesward---->>>>-xx--143-----> $premisesWardDropDown");
     setState(() {});
   }
@@ -1362,6 +1360,35 @@ class _MyHomePageState extends State<PropertyAssessment>
                 child: Column(
                   children: [
                     Expanded(
+                      // child: TextFormField(
+                      //   focusNode: _surveyNofocus,
+                      //   controller: _surveyNoController,
+                      //   textInputAction: TextInputAction.next,
+                      //   keyboardType: const TextInputType.numberWithOptions(decimal: true), // ✅ Numeric keyboard with dot
+                      //   onEditingComplete: () => FocusScope.of(context).nextFocus(),
+                      //   decoration: const InputDecoration(
+                      //     border: OutlineInputBorder(),
+                      //     contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+                      //     filled: true,
+                      //     fillColor: Color(0xFFf2f3f5),
+                      //   ),
+                      //   autovalidateMode: AutovalidateMode.onUserInteraction,
+                      //   inputFormatters: [
+                      //     LengthLimitingTextInputFormatter(10),
+                      //     FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')), // ✅ Allow numbers & max 2 decimals
+                      //   ],
+                      //   validator: (value) {
+                      //     if (value == null || value.isEmpty) {
+                      //       return 'Please enter a value';
+                      //     }
+                      //     // ✅ Check if value is a valid number (max 2 decimal places)
+                      //     if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value)) {
+                      //       return 'Enter a valid number (max 2 decimals)';
+                      //     }
+                      //     return null;
+                      //   },
+                      // ),
+
                       child: TextFormField(
                         focusNode: _surveyNofocus,
                         controller: _surveyNoController,
@@ -1395,9 +1422,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                           }
                           return null;
                         },
-                        // inputFormatters: [
-                        //   FilteringTextInputFormatter.digitsOnly,
-                        // ],
                       ),
                     ),
                   ],
@@ -1663,6 +1687,8 @@ class _MyHomePageState extends State<PropertyAssessment>
                         focusNode: _totalCarpetAreafocus,
                         controller: _totalCarpetAreaController,
                         textInputAction: TextInputAction.next,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+
                         // keyboardType: TextInputType.number,
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
@@ -1679,23 +1705,22 @@ class _MyHomePageState extends State<PropertyAssessment>
                           ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                        ],
                         // ✅ Validator
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
                           }
                           // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
+                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                          {
                             // return 'Enter numbers only (max 2 decimals)';
                           }
                           return null;
                         },
-                        // inputFormatters: [
-                        //   FilteringTextInputFormatter.digitsOnly,
-                        // ],
                       ),
                     ),
                   ],
@@ -1985,6 +2010,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                         controller: _basementSqFtController,
                         textInputAction: TextInputAction.next,
                         // keyboardType: TextInputType.num,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
                         onChanged: (value) => _updateValue(
@@ -2004,16 +2030,30 @@ class _MyHomePageState extends State<PropertyAssessment>
                           ), // Set your desired background color
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                        ],
+                        // inputFormatters: [LengthLimitingTextInputFormatter(10)],
                         // ✅ Validator
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter a value';
+                        //   }
+                        //   // ✅ Check if value is a valid number with up to 2 decimals
+                        //   if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                        //   {
+                        //     // return 'Enter numbers only (max 2 decimals)';
+                        //   }
+                        //   return null;
+                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
                           }
                           // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
+                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                          {
                             // return 'Enter numbers only (max 2 decimals)';
                           }
                           return null;
@@ -2072,6 +2112,8 @@ class _MyHomePageState extends State<PropertyAssessment>
                         controller: _groundFloorSqFtController,
                         textInputAction: TextInputAction.next,
                         // keyboardType: TextInputType.number,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
                         onChanged: (value) => _updateValue(
@@ -2092,16 +2134,31 @@ class _MyHomePageState extends State<PropertyAssessment>
                           ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                        ],
                         // ✅ Validator
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter a value';
+                        //   }
+                        //   // ✅ Check if value is a valid number with up to 2 decimals
+                        //   if (!RegExp(
+                        //     r'^\d{1,8}(\.\d{0,2})?$',
+                        //   ).hasMatch(value)) {
+                        //     // return 'Enter numbers only (max 2 decimals)';
+                        //   }
+                        //   return null;
+                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
                           }
                           // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
+                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                          {
                             // return 'Enter numbers only (max 2 decimals)';
                           }
                           return null;
@@ -2160,6 +2217,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                         controller: _firstFloorSqFtController,
                         textInputAction: TextInputAction.next,
                         // keyboardType: TextInputType.number,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
                         onChanged: (value) => _updateValue(
@@ -2180,20 +2238,37 @@ class _MyHomePageState extends State<PropertyAssessment>
                           ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                        ],
+
                         // ✅ Validator
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter a value';
+                        //   }
+                        //   // ✅ Check if value is a valid number with up to 2 decimals
+                        //   if (!RegExp(
+                        //     r'^\d{1,8}(\.\d{0,2})?$',
+                        //   ).hasMatch(value)) {
+                        //     // return 'Enter numbers only (max 2 decimals)';
+                        //   }
+                        //   return null;
+                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
                           }
                           // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
+                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                          {
                             // return 'Enter numbers only (max 2 decimals)';
                           }
                           return null;
                         },
+
                       ),
                     ),
                   ],
@@ -2248,6 +2323,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                         controller: _secondFloorSqFtController,
                         textInputAction: TextInputAction.next,
                         // keyboardType: TextInputType.number,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
                         onChanged: (value) => _updateValue(
@@ -2268,16 +2344,31 @@ class _MyHomePageState extends State<PropertyAssessment>
                           ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                      //  inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                        ],
                         // ✅ Validator
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter a value';
+                        //   }
+                        //   // ✅ Check if value is a valid number with up to 2 decimals
+                        //   if (!RegExp(
+                        //     r'^\d{1,8}(\.\d{0,2})?$',
+                        //   ).hasMatch(value)) {
+                        //     // return 'Enter numbers only (max 2 decimals)';
+                        //   }
+                        //   return null;
+                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
                           }
                           // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
+                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                          {
                             // return 'Enter numbers only (max 2 decimals)';
                           }
                           return null;
@@ -2335,6 +2426,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                         focusNode: _thirdFloorSqFtfocus,
                         controller: _thirdFloorSqFtController,
                         //keyboardType: TextInputType.number,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         textInputAction: TextInputAction.next,
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
@@ -2356,16 +2448,31 @@ class _MyHomePageState extends State<PropertyAssessment>
                           ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                        ],
                         // ✅ Validator
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter a value';
+                        //   }
+                        //   // ✅ Check if value is a valid number with up to 2 decimals
+                        //   if (!RegExp(
+                        //     r'^\d{1,8}(\.\d{0,2})?$',
+                        //   ).hasMatch(value)) {
+                        //     // return 'Enter numbers only (max 2 decimals)';
+                        //   }
+                        //   return null;
+                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
                           }
                           // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
+                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                          {
                             // return 'Enter numbers only (max 2 decimals)';
                           }
                           return null;
@@ -2520,6 +2627,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                         controller: _residentalRentalAreaController,
                         textInputAction: TextInputAction.next,
                         // keyboardType: TextInputType.number,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
                         decoration: const InputDecoration(
@@ -2535,16 +2643,31 @@ class _MyHomePageState extends State<PropertyAssessment>
                           ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        //inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                        ],
                         // ✅ Validator
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter a value';
+                        //   }
+                        //   // ✅ Check if value is a valid number with up to 2 decimals
+                        //   if (!RegExp(
+                        //     r'^\d{1,8}(\.\d{0,2})?$',
+                        //   ).hasMatch(value)) {
+                        //     // return 'Enter numbers only (max 2 decimals)';
+                        //   }
+                        //   return null;
+                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
                           }
                           // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
+                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                          {
                             // return 'Enter numbers only (max 2 decimals)';
                           }
                           return null;
@@ -2605,6 +2728,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                         textInputAction: TextInputAction.next,
 
                         // keyboardType: TextInputType.number,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
                         decoration: const InputDecoration(
@@ -2620,20 +2744,36 @@ class _MyHomePageState extends State<PropertyAssessment>
                           ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        //inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                        ],
                         // ✅ Validator
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter a value';
+                        //   }
+                        //   // ✅ Check if value is a valid number with up to 2 decimals
+                        //   if (!RegExp(
+                        //     r'^\d{1,8}(\.\d{0,2})?$',
+                        //   ).hasMatch(value)) {
+                        //     // return 'Enter numbers only (max 2 decimals)';
+                        //   }
+                        //   return null;
+                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
                           }
                           // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
+                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                          {
                             // return 'Enter numbers only (max 2 decimals)';
                           }
                           return null;
                         },
+
                       ),
                     ),
                   ],
@@ -2688,6 +2828,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                         controller: _nonResidentialPropertyController,
                         textInputAction: TextInputAction.next,
                         // keyboardType: TextInputType.number,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
                         decoration: const InputDecoration(
@@ -2703,20 +2844,37 @@ class _MyHomePageState extends State<PropertyAssessment>
                           ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                        ],
+
                         // ✅ Validator
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter a value';
+                        //   }
+                        //   // ✅ Check if value is a valid number with up to 2 decimals
+                        //   if (!RegExp(
+                        //     r'^\d{1,8}(\.\d{0,2})?$',
+                        //   ).hasMatch(value)) {
+                        //     // return 'Enter numbers only (max 2 decimals)';
+                        //   }
+                        //   return null;
+                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
                           }
                           // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
+                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                          {
                             // return 'Enter numbers only (max 2 decimals)';
                           }
                           return null;
                         },
+
                       ),
                     ),
                   ],
@@ -2864,6 +3022,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                         controller: _basementSqFtCommercialController,
                         textInputAction: TextInputAction.next,
                         // keyboardType: TextInputType.number,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
                         onChanged: (value) => _updateValueCommercial(
@@ -2885,16 +3044,31 @@ class _MyHomePageState extends State<PropertyAssessment>
                           ), // Set your desired background color
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                        ],
                         // ✅ Validator
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter a value';
+                        //   }
+                        //   // ✅ Check if value is a valid number with up to 2 decimals
+                        //   if (!RegExp(
+                        //     r'^\d{1,8}(\.\d{0,2})?$',
+                        //   ).hasMatch(value)) {
+                        //     // return 'Enter numbers only (max 2 decimals)';
+                        //   }
+                        //   return null;
+                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
                           }
                           // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
+                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                          {
                             // return 'Enter numbers only (max 2 decimals)';
                           }
                           return null;
@@ -2953,6 +3127,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                         controller: _groundFloorSqFtCommercialController,
                         textInputAction: TextInputAction.next,
                         // keyboardType: TextInputType.number,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
                         onChanged: (value) => _updateValueCommercial(
@@ -2973,19 +3148,23 @@ class _MyHomePageState extends State<PropertyAssessment>
                           ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                        ],
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
                           }
                           // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
+                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                          {
                             // return 'Enter numbers only (max 2 decimals)';
                           }
                           return null;
                         },
+
                       ),
                     ),
                   ],
@@ -3040,6 +3219,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                         controller: _firstFloorSqFtCommercialController,
                         textInputAction: TextInputAction.next,
                         // keyboardType: TextInputType.number,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
                         onChanged: (value) => _updateValueCommercial(
@@ -3061,15 +3241,30 @@ class _MyHomePageState extends State<PropertyAssessment>
                           ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        //inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                        ],
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter a value';
+                        //   }
+                        //   // ✅ Check if value is a valid number with up to 2 decimals
+                        //   if (!RegExp(
+                        //     r'^\d{1,8}(\.\d{0,2})?$',
+                        //   ).hasMatch(value)) {
+                        //     // return 'Enter numbers only (max 2 decimals)';
+                        //   }
+                        //   return null;
+                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
                           }
                           // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
+                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                          {
                             // return 'Enter numbers only (max 2 decimals)';
                           }
                           return null;
@@ -3127,7 +3322,8 @@ class _MyHomePageState extends State<PropertyAssessment>
                         focusNode: _secondFloorSqFtCommercialfocus,
                         controller: _secondFloorSqFtCommercialController,
                         // textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                       // keyboardType: TextInputType.number,
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
                         onChanged: (value) => _updateValueCommercial(
@@ -3149,19 +3345,34 @@ class _MyHomePageState extends State<PropertyAssessment>
                           ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                        ],
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
                           }
                           // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
+                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                          {
                             // return 'Enter numbers only (max 2 decimals)';
                           }
                           return null;
                         },
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter a value';
+                        //   }
+                        //   // ✅ Check if value is a valid number with up to 2 decimals
+                        //   if (!RegExp(
+                        //     r'^\d{1,8}(\.\d{0,2})?$',
+                        //   ).hasMatch(value)) {
+                        //     // return 'Enter numbers only (max 2 decimals)';
+                        //   }
+                        //   return null;
+                        // },
                       ),
                     ),
                   ],
@@ -3214,8 +3425,9 @@ class _MyHomePageState extends State<PropertyAssessment>
                       child: TextFormField(
                         focusNode: _thirdFloorSqFtCommercialfocus,
                         controller: _thirdFloorSqFtCommercialController,
-                        keyboardType: TextInputType.number,
+                        //keyboardType: TextInputType.number,
                         // textInputAction: TextInputAction.next,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
                         onChanged: (value) => _updateValueCommercial(
@@ -3237,15 +3449,30 @@ class _MyHomePageState extends State<PropertyAssessment>
                           ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                        ],
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter a value';
+                        //   }
+                        //   // ✅ Check if value is a valid number with up to 2 decimals
+                        //   if (!RegExp(
+                        //     r'^\d{1,8}(\.\d{0,2})?$',
+                        //   ).hasMatch(value)) {
+                        //     // return 'Enter numbers only (max 2 decimals)';
+                        //   }
+                        //   return null;
+                        // }
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
                           }
                           // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
+                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                          {
                             // return 'Enter numbers only (max 2 decimals)';
                           }
                           return null;
@@ -3302,8 +3529,9 @@ class _MyHomePageState extends State<PropertyAssessment>
                       child: TextFormField(
                         focusNode: _mezzanineFloorsProperyCommercialfocus,
                         controller: _mezzanineFloorsProperyController,
-                        keyboardType: TextInputType.number,
+                       // keyboardType: TextInputType.number,
                         // textInputAction: TextInputAction.next,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
                         onChanged: (value) => _updateValueCommercial(
@@ -3324,15 +3552,30 @@ class _MyHomePageState extends State<PropertyAssessment>
                           ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                        ],
+                        //inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter a value';
+                        //   }
+                        //   // ✅ Check if value is a valid number with up to 2 decimals
+                        //   if (!RegExp(
+                        //     r'^\d{1,8}(\.\d{0,2})?$',
+                        //   ).hasMatch(value)) {
+                        //     // return 'Enter numbers only (max 2 decimals)';
+                        //   }
+                        //   return null;
+                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
                           }
                           // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
+                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                          {
                             // return 'Enter numbers only (max 2 decimals)';
                           }
                           return null;
@@ -3489,6 +3732,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                         focusNode: _residentalRentalAreaCommercialfocus,
                         controller: _residentalRentalAreaCommercialController,
                         textInputAction: TextInputAction.next,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         //keyboardType: TextInputType.number,
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
@@ -3505,19 +3749,35 @@ class _MyHomePageState extends State<PropertyAssessment>
                           ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                        ],
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
                           }
                           // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
+                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                          {
                             // return 'Enter numbers only (max 2 decimals)';
                           }
                           return null;
                         },
+
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter a value';
+                        //   }
+                        //   // ✅ Check if value is a valid number with up to 2 decimals
+                        //   if (!RegExp(
+                        //     r'^\d{1,8}(\.\d{0,2})?$',
+                        //   ).hasMatch(value)) {
+                        //     // return 'Enter numbers only (max 2 decimals)';
+                        //   }
+                        //   return null;
+                        // },
                       ),
                     ),
                   ],
@@ -3574,6 +3834,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                             _rentOfTheResidentialRentalPropertyCommercialController,
                         textInputAction: TextInputAction.next,
                         // keyboardType: TextInputType.number,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
                         decoration: const InputDecoration(
@@ -3589,15 +3850,30 @@ class _MyHomePageState extends State<PropertyAssessment>
                           ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        //inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                        ],
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter a value';
+                        //   }
+                        //   // ✅ Check if value is a valid number with up to 2 decimals
+                        //   if (!RegExp(
+                        //     r'^\d{1,8}(\.\d{0,2})?$',
+                        //   ).hasMatch(value)) {
+                        //     // return 'Enter numbers only (max 2 decimals)';
+                        //   }
+                        //   return null;
+                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
                           }
                           // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
+                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                          {
                             // return 'Enter numbers only (max 2 decimals)';
                           }
                           return null;
@@ -3656,6 +3932,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                         controller: _nonResidentialPropertyCommercialController,
                         textInputAction: TextInputAction.next,
                         // keyboardType: TextInputType.number,
+                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
                         onEditingComplete: () =>
                             FocusScope.of(context).nextFocus(),
                         decoration: const InputDecoration(
@@ -3671,19 +3948,34 @@ class _MyHomePageState extends State<PropertyAssessment>
                           ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                        inputFormatters: [
+                          LengthLimitingTextInputFormatter(10),
+                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                        ],
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
                           }
                           // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
+                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                          {
                             // return 'Enter numbers only (max 2 decimals)';
                           }
                           return null;
                         },
+                        // validator: (value) {
+                        //   if (value == null || value.isEmpty) {
+                        //     return 'Please enter a value';
+                        //   }
+                        //   // ✅ Check if value is a valid number with up to 2 decimals
+                        //   if (!RegExp(
+                        //     r'^\d{1,8}(\.\d{0,2})?$',
+                        //   ).hasMatch(value)) {
+                        //     // return 'Enter numbers only (max 2 decimals)';
+                        //   }
+                        //   return null;
+                        // },
                       ),
                     ),
                   ],

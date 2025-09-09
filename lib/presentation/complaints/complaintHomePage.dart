@@ -1,8 +1,6 @@
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../app/generalFunction.dart';
@@ -17,7 +15,6 @@ import '../resources/app_text_style.dart';
 import 'grievanceStatus/grievanceStatus.dart';
 
 class ComplaintHomePage extends StatefulWidget {
-
   const ComplaintHomePage({super.key});
 
   @override
@@ -27,20 +24,15 @@ class ComplaintHomePage extends StatefulWidget {
 class _MyHomePageState extends State<ComplaintHomePage> {
 
   GeneralFunction generalFunction = GeneralFunction();
-  //  drawerFunction
   String? sCitizenName;
   String? sContactNo;
-  String? sContactNo2;
-  String? sContactNo3;
   var token;
 
   /// todo here you should put notification code and call initState()
   void setupPushNotifications() async {
-      print("------41----xxxxx---xxxxx");
     final fcm = FirebaseMessaging.instance;
     await fcm.requestPermission();
     token = await fcm.getToken();
-    print("🔥 Firebase Messaging Instance Info:");
     print("📌 Token:----45----xxx $token");
 
     NotificationSettings settings = await fcm.getNotificationSettings();
@@ -58,13 +50,6 @@ class _MyHomePageState extends State<ComplaintHomePage> {
         _showNotification(message.notification!);
       }
     });
-
-    if (token != null && token!.isNotEmpty) {
-      /// todo  here call a api
-      //notificationResponse(token);
-    } else {
-      print("🚨 No Token Received!");
-    }
   }
 
 // ✅ Show Notification with Default Sound
@@ -83,7 +68,6 @@ class _MyHomePageState extends State<ComplaintHomePage> {
     const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
       presentSound: true, // 🔊 Enable sound for iOS
     );
-
     const NotificationDetails details = NotificationDetails(
       android: androidDetails,
       iOS: iosDetails,
@@ -115,42 +99,6 @@ class _MyHomePageState extends State<ComplaintHomePage> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  Widget logoutDialogBox(BuildContext context){
-    return AlertDialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-        side: BorderSide(color: Colors.orange, width: 2),
-      ),
-      title: Text('Do you want to log out?'),
-      actions: <Widget>[
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.grey, // Background color
-          ),
-          child: Text('No'),
-          onPressed: () {
-            Navigator.of(context).pop(); // Dismiss the dialog
-          },
-        ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.orange, // Background color
-          ),
-          child: Text('Yes'),
-          onPressed: () {
-            // Add your logout functionality here
-            Navigator.of(context).pop(); // Dismiss the dialog
-          },
-        ),
-      ],
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async => false,
@@ -160,7 +108,6 @@ class _MyHomePageState extends State<ComplaintHomePage> {
        appBar: appBarFunction(context,"Diu Citizen"),
        drawer: generalFunction.drawerFunction_2(context,"$sCitizenName","$sContactNo"),
        body: Stack(
-         // fit: StackFit.expand, // Make the stack fill the entire screen
           children: [
             /// todo here you applh border Image
             Container(
@@ -185,19 +132,10 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                       fit: BoxFit.cover, // Adjust how the image fits the container
                     ),
                     borderRadius: BorderRadius.circular(15), // Optional: Rounded corners
-                    // boxShadow: const [
-                    //   BoxShadow(
-                    //     color: Colors.black12, // Shadow color
-                    //     blurRadius: 10, // Spread of the shadow
-                    //     offset: Offset(0, 5), // Position of the shadow
-                    //   ),
-                    // ],
                   ),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 10,right: 10),
                     child: ListView(
-                     // mainAxisAlignment: MainAxisAlignment.start,
-                      //crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -214,12 +152,6 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                           children: <Widget>[
                             InkWell(
                               onTap: () {
-
-                                // Navigator.push(context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) =>
-                                //           OnlineComplaint(name: "Online Complaint")),
-                                // );
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) =>  OnlineComplaint(name: "Online Complaint")),
@@ -295,14 +227,6 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                             SizedBox(width: 5),
                             InkWell(
                               onTap: () {
-                                // Add your onTap functionality here
-                                print('-----109------');
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) =>
-                                //           PendingComplaintScreen()),
-                                // );
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -390,11 +314,7 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                           children: <Widget>[
                             InkWell(
                               onTap: () {
-                                // Add your onTap functionality here
-                                print('-----52------');
-                               // displayToast("Coming Soon");
                                 var name="Important Links";
-
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -402,12 +322,6 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                                           Importantlink(name:name),
                                 ));
 
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) =>
-                                //           OnlineComplaint_2(name: "Raise Grievance")),
-                                // );
                               },
                               child: Container(
                                 height: 120,
@@ -451,12 +365,6 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                                               ),
                                               borderRadius: BorderRadius.circular(12), // Optional: Adds rounded corners
                                             ),
-                                            // decoration: BoxDecoration(
-                                            //   borderRadius: BorderRadius.circular(25),
-                                            //   // half of width and height for a circle
-                                            //   //color: Colors.green
-                                            //   color: Color(0xFFD3D3D3),
-                                            // ),
                                             child: const Center(
                                                 child: Image(
                                                   image: AssetImage(
@@ -484,24 +392,13 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                             SizedBox(width: 5),
                             InkWell(
                               onTap: () {
-                                // Add your onTap functionality here
-                                //print('-----109------');
-                              //  displayToast("Coming Soon");
                                 var name = "Book Advertisement";
-
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           BookadvertisementHome(name: name)),
                                 );
-
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //       builder: (context) =>
-                                //           GrievanceStatus(name: "Grievance Status")),
-                                // );
                               },
                               child: Container(
                                 height: 120,
@@ -526,7 +423,7 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                                     elevation: 10,
                                     shadowColor: Colors.green,
                                     shape: RoundedRectangleBorder(
-                                      side: BorderSide(
+                                      side: const BorderSide(
                                           color: Colors.green, width: 0.5),
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
@@ -562,13 +459,6 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                                             'Book Advertisement',
                                             style: AppTextStyle
                                                 .font14penSansExtraboldGreenTextStyle,
-                                            // style: GoogleFonts.lato(
-                                            //     textStyle: Theme.of(context).textTheme.titleSmall,
-                                            //     fontSize: 14,
-                                            //     fontWeight: FontWeight.w700,
-                                            //     fontStyle: FontStyle.italic,
-                                            //     color:Colors.orange
-                                            // ),
                                           ),
                                         ],
                                       ),
@@ -583,10 +473,6 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                           children: <Widget>[
                             InkWell(
                               onTap: () {
-                               // displayToast("Coming Soon");
-                                // BookAdvertisement
-                                // Add your onTap functionality here
-                                print('-----177------');
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -617,7 +503,7 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                                     margin: EdgeInsets.all(5.0),
                                     shadowColor: Colors.green,
                                     shape: RoundedRectangleBorder(
-                                      side: BorderSide(
+                                      side: const BorderSide(
                                           color: Colors.green, width: 0.5),
                                       borderRadius: BorderRadius.circular(10.0),
                                     ),
@@ -635,12 +521,6 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                                               ),
                                               borderRadius: BorderRadius.circular(12), // Optional: Adds rounded corners
                                             ),
-                                            // decoration: BoxDecoration(
-                                            //   borderRadius: BorderRadius.circular(25),
-                                            //   // half of width and height for a circle
-                                            //   //color: Colors.green
-                                            //   color: Color(0xFFD3D3D3),
-                                            // ),
                                             child: const Center(
                                                 child: Image(
                                               image: AssetImage(
@@ -668,10 +548,6 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                             SizedBox(width: 5),
                             InkWell(
                               onTap: () {
-                                // Add your onTap functionality here
-                                print('-----235------');
-                               // displayToast("Coming Soon");
-                                // OnlineServives
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -719,12 +595,6 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                                               ),
                                               borderRadius: BorderRadius.circular(12), // Optional: Adds rounded corners
                                             ),
-                                            // decoration: BoxDecoration(
-                                            //   borderRadius: BorderRadius.circular(25),
-                                            //   // half of width and height for a circle
-                                            //   //color: Colors.green
-                                            //   color: Color(0xFFD3D3D3),
-                                            // ),
                                             child: const Center(
                                                 child: Image(
                                               image: AssetImage('assets/images/events_newsletter.png'),

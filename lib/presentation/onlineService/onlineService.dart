@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:puri/presentation/onlineService/propertyAssessment/propertyAssessment.dart';
 import 'package:puri/presentation/onlineService/propertyAssessment/property_AssessmentHome.dart';
 import 'package:puri/presentation/onlineService/propertyMutation/propertyMutation.dart';
 import 'package:puri/presentation/onlineService/propertyTax/propertyTax.dart';
@@ -11,7 +10,6 @@ import 'package:puri/presentation/onlineService/waterSupply/waterSupply.dart';
 import '../../app/generalFunction.dart';
 import '../../services/getEmergencyContactTitleRepo.dart';
 import '../aboutDiu/Aboutdiupage.dart';
-import '../complaints/complaintHomePage.dart';
 import '../nodatavalue/NoDataValue.dart';
 import '../resources/app_text_style.dart';
 import 'buildingPlan/buildingPlan.dart';
@@ -314,6 +312,9 @@ class _OnlineComplaintState extends State<OnlineServives> {
                             }
                             else if(title=="Property Transfer"){
                               var sPageName = "Property Transfer";
+
+                              print('---316----$sPageName');
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => PropertyMutation(name:sPageName)),

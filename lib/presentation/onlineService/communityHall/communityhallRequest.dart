@@ -1,14 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:puri/services/bindCommunityHallRepo.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -23,14 +20,11 @@ import '../../circle/circle.dart';
 import '../../fullscreen/imageDisplay.dart';
 import '../../resources/app_text_style.dart';
 import '../../resources/values_manager.dart';
-import 'PDFViewerScreen.dart';
+
 
 class CommunityHallRequest extends StatefulWidget {
 
   var name, iCategoryCode;
-  var name2, iCategoryCode2;
-  var name3, iCategoryCode3;
-
   CommunityHallRequest(
       {super.key, required this.name, required this.iCategoryCode});
 
@@ -40,17 +34,11 @@ class CommunityHallRequest extends StatefulWidget {
 
 class _MyHomePageState extends State<CommunityHallRequest> with TickerProviderStateMixin {
 
-  List stateList = [];
   List<dynamic> subCategoryList = [];
-  //List<dynamic> bindcommunityHallDate = [];
  List<Map<String, dynamic>>bindcommunityHallDate=[];
   List<dynamic> wardList = [];
   List<dynamic> bindMonthList = [];
-  List<dynamic> bindreimouList = [];
-  List blockList = [];
-  List shopTypeList = [];
   var result2, msg2;
-
   bool isFormVisible = true; // Track the visibility of the form
   bool isIconRotated = false;
   bool isFormVisible2 = true; // Track the visibility of the form
@@ -63,19 +51,8 @@ class _MyHomePageState extends State<CommunityHallRequest> with TickerProviderSt
     setState(() {});
   }
 
-  // bindCommunityHallDate(var hallId) async {
-  //   bindcommunityHallDate = (await BindCommunityHallDateRepo()
-  //       .bindCommunityHallDate(context, hallId))!;
-  //   print(" -----xxxxx-  bindcommunityHallDate--53--> $bindcommunityHallDate");
-  //   setState(() {});
-  // }
-
-
-
-  var msg;
+ // var msg;
   var result;
-  var SectorData;
-  var stateblank;
   final stateDropdownFocus = GlobalKey();
 
   TextEditingController _applicationNameController = TextEditingController();
@@ -96,36 +73,17 @@ class _MyHomePageState extends State<CommunityHallRequest> with TickerProviderSt
   List? data;
   List? listCon;
   int selectedIndex = -1;
-
-  //var _dropDownSector;
-  var dropDownSubCategory;
   var _dropDownWard;
   var _dropDownMonth;
-  var sectorresponse;
   String? sec;
-  final distDropdownFocus = GlobalKey();
-  final subCategoryFocus = GlobalKey();
-  final wardFocus = GlobalKey();
-  File? _imageFile;
-  var _selectedShopId;
-  var _selectedSubCategoryId;
-
-  //var _selectedWardId;
   var _selectediCommunityHallId;
   var _selectedMonthCode;
   var _selectedRatePerDay;
-  var iUserTypeCode;
-  var userId;
-  var slat;
-  var slong;
   File? image;
   File? image2;
   var uplodedImage;
   var uplodedImage2;
-  double? lat, long;
-  //List<String> selectedDates = []; // List to store selected dates
   List<Map<String, dynamic>> seleccteddates = [];
-  List<Map<String, dynamic>> thirdFormCombinedList = [];
   List<Map<String, dynamic>> firstFormCombinedList = [];
   final List<File> _imageFiles = [];
   bool isSuccess = false;
@@ -137,21 +95,7 @@ var  firstStatus;
   final ImagePicker _picker = ImagePicker();
    bool isFirstColumn = true;
 
-  final List<Color> borderColors = [
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.orange,
-    Colors.purple,
-    Colors.pink,
-    Colors.teal,
-    Colors.brown,
-    Colors.cyan,
-    Colors.amber,
-  ];
-
-  // Track selected states
-  List<bool> selectedStates = [];
+   List<bool> selectedStates = [];
   Set<int> selectedIndices = {}; // To track selected items by index
 
   void openPdf(BuildContext context, String pdfUrl) async {
@@ -168,14 +112,13 @@ var  firstStatus;
   bindWard() async {
     /// todo remove the comment and call Community Hall
     wardList = await BindCommunityHallRepo().bindCommunityHall();
-    print(" -----xxxxx-  wardList--58-xx---> $wardList");
+
     setState(() {});
   }
   // BindMonth
   bindMonth() async {
     /// todo remove the comment and call Community Hall
     bindMonthList = await BindMonthsRepo().bindMonth();
-    print(" -----xxxxx-  BindMonth--148-xx---> $bindMonthList");
     setState(() {});
   }
   // DropdownButton Ward
@@ -346,8 +289,6 @@ var  firstStatus;
       isLoading = true; // Start the progress bar
     });
     try {
-      print("-----hallId----$hallId");
-      print("-----selectedMonthCode----$selectedMonthCode");
       bindcommunityHallDate = await BindCommunityHallDateRepo()
           .bindCommunityHallDate(context, hallId,selectedMonthCode);
         print('-----328----xxxx---->>>>---$bindcommunityHallDate');
@@ -888,25 +829,9 @@ var  firstStatus;
     var sApplicantName = _applicationNameController.text.trim();
     var sMobileNo = _applicationMoboileNoController.text.trim();
     var sAddress = _applicantAddressController.text.trim();
-    // var perDayAmount = _perDayAmountController.text.trim();
     var dPurposeOfBooking = _purposeOfBookingController.text.trim();
-
-    // Debug logs
-    print("--_selectediCommunityHallId--: $_selectediCommunityHallId");
-    print("---applicatinName---: $sApplicantName");
-    print("---applicationMobileNumber---: $sMobileNo");
-    print("---applicationAddress--: $sAddress");
-    // print('---perDayAmount----$perDayAmount');
-    print("purposeOfBooking: $dPurposeOfBooking");
-    print("per Day Amount : $_selectedRatePerDay");
-    print("Community Booking Dates List : $seleccteddates");
-    print("------446----${seleccteddates.length}");
     var iDaysOfBooking = "${seleccteddates.length}";
     final isFormValid = _formKey.currentState!.validate();
-
-    // }
-    //
-    print("Form Validation: $isFormValid");
 
     // Validate all conditions
     if (isFormValid &&

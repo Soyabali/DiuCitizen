@@ -43,6 +43,27 @@ Future<String> loadPdfFromAssets(String assetPath) async {
     return '';
   }
 }
+// showToast
+void showToast(BuildContext context,String msg) {
+  final scaffold = ScaffoldMessenger.of(context);
+  scaffold.showSnackBar(
+    SnackBar(
+      content:  Text('$msg'),
+      action: SnackBarAction(label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
+    ),
+  );
+}
+
+void displayToast(String msg){
+  Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 16.0);
+}
 // call dialog
 Widget buildDialogCall(BuildContext context, String sEmpName, String sContactNo) {
   return Dialog(
@@ -210,7 +231,7 @@ void _makePhoneCall(String phoneNumber) async {
 }
 
 // toast
-void displayToast(String msg) {
+void displayToastSucess(String msg) {
   Fluttertoast.showToast(
       msg: msg,
       toastLength: Toast.LENGTH_SHORT,
@@ -899,6 +920,43 @@ class GeneralFunction {
       ),
     );
   }
+  // logoutDialogBox
+  Widget logoutDialogBox(BuildContext context){
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+        side: BorderSide(color: Colors.lightBlue, width: 2),
+      ),
+      title: Text('Do you want to log out?'),
+      actions: <Widget>[
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.grey, // Background color
+          ),
+          child: Text('No'),
+          onPressed: () {
+            Navigator.of(context).pop(); // Dismiss the dialog
+          },
+        ),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.lightBlue, // Background color
+          ),
+          child: Text('Yes'),
+          onPressed: ()async {
+            // Add your logout functionality here
+          // Navigator.of(context).pop(); // Dismiss the dialog
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.clear(); // This removes all stored data
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => LoginScreen_2()),
+            );
+
+          },
+        ),
+      ],
+    );
+  }
 
 
   drawerFunction_2(BuildContext context, String sName, String sContactNo) {
@@ -970,7 +1028,12 @@ class GeneralFunction {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 10),
+                    Divider(
+                      height: 1,
+                      color: Colors.black38,
+                    ),
+                  const SizedBox(height: 10),
                   GestureDetector(
                     onTap: () async {
                       //displayToast("Coming Soon");
@@ -1006,7 +1069,12 @@ class GeneralFunction {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 10),
+                  Divider(
+                    height: 1,
+                    color: Colors.black38,
+                  ),
+                  const SizedBox(height: 10),
                   GestureDetector(
                     onTap: () {
                      // displayToast("Coming Soon");
@@ -1032,7 +1100,12 @@ class GeneralFunction {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  SizedBox(height: 10),
+                  Divider(
+                    height: 1,
+                    color: Colors.black38,
+                  ),
+                  const SizedBox(height: 10),
                   GestureDetector(
                     onTap: () {
                       showDialog(
@@ -1060,16 +1133,29 @@ class GeneralFunction {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 15),
+                  const SizedBox(height: 10),
+                  Divider(
+                    height: 1,
+                    color: Colors.black38,
+                  ),
+                  const SizedBox(height: 10),
                   GestureDetector(
                     onTap: () async {
                       // clear all store SharedPreferenceValue :
 
-                      final prefs = await SharedPreferences.getInstance();
-                      await prefs.clear(); // This removes all stored data
+                      // final prefs = await SharedPreferences.getInstance();
+                      // await prefs.clear(); // This removes all stored data
+                      //
+                      // Navigator.of(context).pushReplacement(
+                      //   MaterialPageRoute(builder: (context) => LoginScreen_2()),
+                      // );
 
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => LoginScreen_2()),
+                      showDialog(
+                        context: context,
+                        barrierDismissible: false, // Prevent closing by tapping outside
+                        builder: (BuildContext context) {
+                          return logoutDialogBox(context);
+                        },
                       );
 
                     },

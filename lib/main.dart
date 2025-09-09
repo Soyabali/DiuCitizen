@@ -5,7 +5,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'app/myapp.dart';
 import 'firebase_options.dart';
 
-
 void main() async {
 
    print("----Main Page---");
