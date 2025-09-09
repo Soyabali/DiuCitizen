@@ -580,17 +580,6 @@ class _SchedulePointScreenState extends State<SchedulePointScreen> {
                                                   8.0),
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  print('----341---');
-                                                  var sBeforePhoto =
-                                                      "${item['sBeforePhoto']}";
-                                                  // Navigator.push(
-                                                  //   context,
-                                                  //   MaterialPageRoute(
-                                                  //       builder: (context) =>
-                                                  //           ActionOnSchedultPointScreen(
-                                                  //               sBeforePhoto:
-                                                  //               sBeforePhoto)),
-                                                 // );
                                                 },
                                                 child: const Row(
                                                   mainAxisAlignment:

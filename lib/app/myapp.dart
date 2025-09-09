@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:puri/provider/todo_provider.dart';
@@ -16,7 +14,7 @@ class MyApp extends StatefulWidget {
 
   MyApp._internal(); // private named constructor
 
-  int appState = 0;
+  dynamic appState = 0;
 
   static final MyApp instance = MyApp._internal(); // single instance -- singleton
   factory MyApp() => instance; // factory for the class instance
@@ -27,25 +25,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-  // bool activeConnection = false;
-  // String T = "";
-  // Future checkUserConnection() async {
-  //   try {
-  //     final result = await InternetAddress.lookup('google.com');
-  //     if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-  //       setState(() {
-  //         activeConnection = true;
-  //         T = "Turn off the data and repress again";
-  //       });
-  //     }
-  //   } on SocketException catch (_) {
-  //     setState(() {
-  //       activeConnection = false;
-  //       T = "Turn On the data and repress again";
-  //     });
-  //   }
-  // }
 
   bool activeConnection = false;
   String connectionType = "No Internet";
@@ -87,8 +66,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void didChangeDependencies() {
-   // _appPreferences.getLocal().then((local) => {context.setLocale(local)});
-    super.didChangeDependencies();
+      super.didChangeDependencies();
   }
   void configLoading() {
 
@@ -127,20 +105,7 @@ class _MyAppState extends State<MyApp> {
         ListenableProvider<TempleProvider>(create: (_) => TempleProvider()),
         ChangeNotifierProvider<BindComplaintProvider>(
             create: (_) => BindComplaintProvider()),
-        // ListenableProvider<PendingPhotoProvider>(
-        //     create: (_) => PendingPhotoProvider()),
-        // ListenableProvider<ReportUploadProvider>(
-        //     create: (_) => ReportUploadProvider()),
-        // ListenableProvider<PendingProvider>(
-        //     create: (_) => PendingProvider()),
-        // ListenableProvider<CompleteListProvider>(
-        //     create: (_) => CompleteListProvider()),
-        // ListenableProvider<ParamsProviderCom>(
-        //     create: (_) => ParamsProviderCom()),
-        // ListenableProvider<GetLecParametersProvider>(
-        //     create: (_) => GetLecParametersProvider()),
-        // ListenableProvider<ReportDownlodeProvider>(
-        //     create: (_) => ReportDownlodeProvider()),
+
       ],//ReportDownlodeProvider
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

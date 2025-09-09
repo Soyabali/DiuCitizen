@@ -1,14 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../app/generalFunction.dart';
 import '../../services/notificationRepo.dart';
 import '../complaints/complaintHomePage.dart';
-import '../otp/otpverification.dart';
 import '../resources/app_text_style.dart';
-
 
 class NotificationPage extends StatelessWidget {
   const NotificationPage({super.key});
@@ -73,7 +69,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return  Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-            // statusBarColore
             systemOverlayStyle: const SystemUiOverlayStyle(
               statusBarColor: Color(0xFF12375e),
               statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
@@ -91,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(builder: (context) => const ComplaintHomePage()),
                 );
               },
-              child: Icon(Icons.arrow_back_ios,
+              child: const Icon(Icons.arrow_back_ios,
                 color: Colors.white,),
             ),
             title: Padding(
@@ -105,11 +100,6 @@ class _MyHomePageState extends State<MyHomePage> {
             //centerTitle: true,
             elevation: 0, // Removes shadow under the AppBar
           ),
-        //  drawer: generalFunction.drawerFunction(context,'$sName','$sContactNo'),
-         // drawer: generalFunction.drawerFunction_2(context,"$sCitizenName","$sContactNo"),
-    // WillPopScope(
-    // onWillPop: () async => false,
-    //       child:
           body: WillPopScope(
             onWillPop: ()async =>false,
             child: Container(
@@ -150,13 +140,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                       Text(notificationList?[index]['sTitle'].toString() ?? '',
                                           style: AppTextStyle
                                               .font14penSansExtraboldBlack45TextStyle
-                                        // style: const TextStyle(
-                                        //                       fontFamily: 'Montserrat',
-                                        //                       color: Color(0xff3f617d),
-                                        //                       fontSize: 14.0,
-                                        //                       fontWeight: FontWeight.bold),
 
-                                                        ),
+                                      ),
                                       SizedBox(height: 2),
                                       Container(
                                         width: MediaQuery.of(context).size.width - 32,
@@ -172,17 +157,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
-                                          Icon(Icons.calendar_month,size:18,
+                                          const Icon(Icons.calendar_month,size:18,
                                           color: Color(0xff3f617d),),
                                           SizedBox(width: 5),
                                           Text(notificationList?[index]['dRecivedAt'].toString() ?? '',
                                               style: AppTextStyle
                                                   .font14penSansExtraboldBlackTextStyle
-                                            // style: const TextStyle(
-                                            //     fontFamily: 'Montserrat',
-                                            //     color: Color(0xff3f617d),
-                                            //     fontSize: 14.0,
-                                            //     fontWeight: FontWeight.bold),
                                           )
                                         ],
                                       )
@@ -203,10 +183,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           )
-
-
     );
-
-
   }
 }

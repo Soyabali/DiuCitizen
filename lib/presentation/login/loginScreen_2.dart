@@ -205,7 +205,7 @@ class _LoginPageState extends State<LoginPage> {
                                           var phone = _phoneNumberController.text;
                                           if(_formKey.currentState!.validate() && phone != null && phone!='') {
                                             // Call Api
-                                            loginMap = await LoginRepo().login(context, phone!);
+                                            loginMap = await LoginRepo().login(context, phone);
                                             print("------299---$loginMap");
                                             result = "${loginMap['Result']}";
                                             msg = "${loginMap['Msg']}";

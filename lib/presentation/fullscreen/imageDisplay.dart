@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../app/generalFunction.dart';
-
-
-import 'package:flutter/material.dart';
-
 class FullScreenImages extends StatelessWidget {
   final String image;
 

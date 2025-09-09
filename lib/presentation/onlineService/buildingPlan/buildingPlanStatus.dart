@@ -1,13 +1,8 @@
-import 'package:back_button_interceptor/back_button_interceptor.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:puri/presentation/complaints/grievanceStatus/searchBar.dart';
 import '../../../app/generalFunction.dart';
 import '../../../services/buildingPlanApplicationStatusRepo.dart';
-import '../../../services/citizenMyPostedComplaint.dart';
 import '../../circle/circle.dart';
 import '../../fullscreen/imageDisplay.dart';
 import '../../nodatavalue/NoDataValue.dart';
@@ -37,8 +32,6 @@ class _TemplesHomeState extends State<BuildingPlanStatus> {
   TextEditingController _searchController = TextEditingController();
   double? lat;
   double? long;
-  var _dropDownAgency2;
-  var _dropDownValueUserAgency;
   final distDropdownFocus = GlobalKey();
   var result, msg;
   var userAjencyData;
@@ -262,11 +255,7 @@ class _TemplesHomeState extends State<BuildingPlanStatus> {
                                             right: 15,
                                             child: GestureDetector(
                                               onTap: (){
-                                                // print("------257-----");
-                                                //  sComplaintPhoto
                                                 var image = "${item['sUploadBuildingPlanPath']}";
-                                                var image2 = "${item['sUploadSupportingDocPath']}";
-                                                print('------260----$image');
                                                 // FullScreenImages
                                                 Navigator.push(
                                                   context,

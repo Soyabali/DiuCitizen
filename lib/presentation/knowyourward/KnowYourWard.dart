@@ -1,11 +1,7 @@
 import 'dart:io';
 
-import 'package:back_button_interceptor/back_button_interceptor.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import '../../app/generalFunction.dart';
-import '../../app/navigationUtils.dart';
 import '../resources/app_text_style.dart';
 
 class KnowYourWard extends StatefulWidget {
@@ -21,9 +17,7 @@ class _KnowYourWardState extends State<KnowYourWard> {
   // Date PICKER
   DateTime selectedDate = DateTime.now();
   GeneralFunction generalFunction = GeneralFunction();
-  final _formKey = GlobalKey<FormState>();
-  String _toDate = 'Pick a date';
-  String _fromDate = 'Pick a date';
+
   File? image;
   List distList = [];
   var _dropDownValueDistric;

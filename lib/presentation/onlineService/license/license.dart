@@ -130,12 +130,7 @@ class _OnlineComplaintState extends State<License> {
                               context,
                               MaterialPageRoute(builder: (context) => Onlinelicense(name:name)),
                             );
-
-                            //print('------209---Property Tax');
                           }else if(title=="License Status"){
-                            //   BuildingPlan
-                            // print('------211---Building Plan');
-                            //  LicenseStatus
                             var name ="License Status";
                             Navigator.push(
                               context,
@@ -162,8 +157,6 @@ class _OnlineComplaintState extends State<License> {
                               )
                           ),
                           title: Text(
-                            //emergencyTitleList![index]['sHeadName']!,
-                            // "Property Tax",
                             OnlineTitle[index],
                             style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
                           ),

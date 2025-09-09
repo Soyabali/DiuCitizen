@@ -664,8 +664,7 @@ class _TemplesHomeState extends State<PropertyAssessmentStatus> {
                                     const EdgeInsets.only(
                                         left: 24),
                                     child: Text(
-                                        item['fTotalCarpetArea'].toString() ??
-                                            '',
+                                        item['fTotalCarpetArea'].toString(),
                                         style: AppTextStyle
                                             .font14penSansExtraboldBlack26TextStyle),
                                   ),
@@ -708,8 +707,7 @@ class _TemplesHomeState extends State<PropertyAssessmentStatus> {
                                         left: 24),
                                     child: Text(
                                         item['sHouseAddress']
-                                            .toString() ??
-                                            '',
+                                            .toString(),
                                         style: AppTextStyle
                                             .font14penSansExtraboldBlack26TextStyle),
                                   ),

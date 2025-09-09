@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../app/generalFunction.dart';
@@ -757,8 +755,7 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                           left: 24),
                                                   child: Text(
                                                       item['iDaysOfBooking']
-                                                              .toString() ??
-                                                          '',
+                                                              .toString(),
                                                       style: AppTextStyle
                                                           .font14penSansExtraboldBlack26TextStyle),
                                                 ),
@@ -803,8 +800,7 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                           left: 24),
                                                   child: Text(
                                                       item['sAddress']
-                                                              .toString() ??
-                                                          '',
+                                                              .toString(),
                                                       style: AppTextStyle
                                                           .font14penSansExtraboldBlack26TextStyle),
                                                 ),

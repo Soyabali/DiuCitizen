@@ -2,10 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../app/generalFunction.dart';
 import '../../../app/loader_helper.dart';
-import '../../../services/baseurl.dart';
+
 
 
 class MarkPointSubmitRepo {
@@ -27,10 +26,6 @@ class MarkPointSubmitRepo {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('sToken');
     try {
-      var baseURL = BaseRepo().baseurl;
-      /// TODO CHANGE HERE
-      var endPoint = "MarkLocation/MarkLocation";
-      var markPointSubmitApi = "$baseURL$endPoint";
 
       String jsonResponse =
           '{"sArray":[{"iCompCode":$randomNumber,"iSubCategoryCode":$dropDownValueMarkLocation,"sWardCode":$dropDownValueDistric,"sAddress":"$location","sLandmark":$slat,"sComplaintDetails":$slong,"sComplaintPhoto":"$description","sPostedBy":"$uplodedImage","fLatitude":"$todayDate","fLongitude":$userId}]}';

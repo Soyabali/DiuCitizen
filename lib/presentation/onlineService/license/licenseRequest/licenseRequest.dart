@@ -136,7 +136,6 @@ class _MyHomePageState extends State<LicenseRequest>
 
   String? dropdownValue;
   final List<File> _imageFiles = []; // To store selected images
-  final List<String> _imageUrls = [];
   final ImagePicker _picker = ImagePicker();
   List<Map<String, dynamic>> firstFormCombinedList = [];
   List<Map<String, dynamic>> secondFormCombinedList = [];

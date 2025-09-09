@@ -284,7 +284,7 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                                                               .font14OpenSansRegularBlack45TextStyle),
                                                       SizedBox(height: 2),
                                                       Text(
-                                                        '₹ ${item['fTotalAmount'].toString() ?? ''}',
+                                                        '₹ ${item['fTotalAmount'].toString()}',
                                                         style: AppTextStyle
                                                             .font14OpenSansRegularBlack26TextStyle,
                                                       )
@@ -347,8 +347,7 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                                                               .font14OpenSansRegularBlack45TextStyle),
                                                       SizedBox(height: 2),
                                                       Text(
-                                                          item['dFromDate'].toString() ??
-                                                              '',
+                                                          item['dFromDate'].toString(),
                                                           style: AppTextStyle
                                                               .font14OpenSansRegularBlack26TextStyle),
                                                     ],
@@ -414,7 +413,7 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                                                   ),
                                                   SizedBox(width: 4),
                                                   Text(
-                                                      'Req.No : ${item['sRequestNo'].toString() ?? ''}',
+                                                      'Req.No : ${item['sRequestNo'].toString()}',
                                                       style: AppTextStyle
                                                           .font14OpenSansRegularBlack45TextStyle)
                                                 ],

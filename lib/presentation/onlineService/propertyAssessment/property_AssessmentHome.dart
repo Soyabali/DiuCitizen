@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:puri/presentation/onlineService/propertyAssessment/propertyAssessment.dart';
 import 'package:puri/presentation/onlineService/propertyAssessment/propertyAssessmentStatus.dart';
@@ -92,7 +91,7 @@ class _OnlineComplaintState extends State<PropertyAssessmentHome> {
             height: MediaQuery.of(context).size.height * 0.8, // Adjust the height as needed
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: OnlineTitle?.length ?? 0,
+              itemCount: OnlineTitle.length ?? 0,
               itemBuilder: (context, index) {
                 final color = borderColors[index % borderColors.length];
                 return Column(

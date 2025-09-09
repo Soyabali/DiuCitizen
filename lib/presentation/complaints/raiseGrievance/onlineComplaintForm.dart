@@ -1,19 +1,15 @@
 import 'dart:io';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../../app/generalFunction.dart';
 import '../../../app/loader_helper.dart';
 import '../../../services/bindCityzenWardRepo.dart';
 import '../../../services/bindComplaintCategory.dart';
 import '../../../services/cityzenpostcomplaintRepo.dart';
 import '../../resources/app_text_style.dart';
-import '../../resources/custom_elevated_button.dart';
 import '../../resources/values_manager.dart';
 import 'package:http/http.dart' as http;
 import 'dart:async';
@@ -799,10 +795,6 @@ class _TemplesHomeState extends State<OnlineComplaintForm> {
                                 displayToast('select Ward');
                               }else if(address==""){
                                 displayToast('Enter Address');
-                              }else if(landmark==null){
-                                displayToast('Enter Landmark');
-                              }else if(mention==null){
-                                displayToast('Enter Mention');
                               }else if(uplodedImage==null){
                                 displayToast('Pick a Image');
                               }else{

@@ -1,20 +1,16 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:puri/presentation/helpline_feedback/twitte_page.dart';
 import 'package:puri/presentation/helpline_feedback/website.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../app/generalFunction.dart';
-import 'package:flutter/widgets.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import '../../services/feedbackRepo.dart';
 import '../resources/app_text_style.dart';
-import '../resources/assets_manager.dart';
 import '../resources/values_manager.dart';
 import 'facebook.dart';
-import 'feedbackBottomSheet.dart';
 import 'instagrampage.dart';
 
 class HelpLineFeedBack extends StatefulWidget {
@@ -33,18 +29,12 @@ class HelpLineFeedBack extends StatefulWidget {
 class _HelpLineFeedBackState extends State<HelpLineFeedBack> {
 
   GeneralFunction generalFunction = GeneralFunction();
+
   TextEditingController _feedbackController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
   final String phoneNumber = '918826772888';
   final String message = 'Hello';
   var result;
   var msg;
-
-  void _launchWhatsApp() async {
-    // Use the WhatsApp API with the country code and phone number
-    var whatsappUrl = "https://wa.me/$phoneNumber/?text=${Uri.parse(message)}";
-    await canLaunch(whatsappUrl) ? launch(whatsappUrl) : print('Could not launch $whatsappUrl');
-  }
 
   @override
   void initState() {
@@ -58,17 +48,10 @@ class _HelpLineFeedBackState extends State<HelpLineFeedBack> {
   }
   // call a api
   void validateAndCallApi() async {
-    // Trim values to remove leading/trailing spaces
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // Contact No
     String? sContactNo = prefs.getString('sContactNo');
-
     var feedback = _feedbackController.text.trim();
-   // final isFormValid = _formKey.currentState!.validate();
-
-    // Validate all conditions
-
     if (feedback.isNotEmpty) {
       // All conditions met; call the API
       print('---Call API---');
@@ -78,15 +61,7 @@ class _HelpLineFeedBackState extends State<HelpLineFeedBack> {
       result = feedbackResponse['Result'];
       msg = feedbackResponse['Msg'];
       _feedbackController.clear();
-     // displayToast(msg);
-      // navigate to home page
       Navigator.pop(context);
-      //Navigator.of(context, rootNavigator: true).pop();
-      // Navigator.pushAndRemoveUntil(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => ComplaintHomePage()),
-      //       (Route<dynamic> route) => false, // Removes all previous routes
-      // );
       // Your API call logic here
     } else {
       displayToast(msg);
@@ -105,8 +80,7 @@ class _HelpLineFeedBackState extends State<HelpLineFeedBack> {
       onWillPop: () async => false,
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: getAppBarBack(context,'Help Line/Feedback'),
-        //drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
+        appBar: getAppBarBack(context,'HelpLine/Feedback'),
         body: ListView(
           children: <Widget>[
             SizedBox(height: 10),
@@ -115,7 +89,7 @@ class _HelpLineFeedBackState extends State<HelpLineFeedBack> {
                 Center(
                   child: Image.asset(
                     "assets/images/Diu_icon-02.png",
-                   // ImageAssets.iclauncher, // Replace with your image asset path
+                    // Replace with your image asset path
                     width: AppSize.s145,
                     height: AppSize.s145,
                     fit: BoxFit.contain, // Adjust as needed
@@ -162,10 +136,10 @@ class _HelpLineFeedBackState extends State<HelpLineFeedBack> {
                                               crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                               children: [
-                                                Text('Diu Muncipal Council Address',
+                                                Text('Diu Municipal Council Address',
                                                   style: AppTextStyle.font14OpenSansRegularBlackTextStyle,),
                                                 SizedBox(height: 5),
-                                                Text('For Road, Diu,(Union territory),India',
+                                                Text('Fort Road, Diu,(Union territory),India',
                                                   style: AppTextStyle.font14OpenSansRegularBlack45TextStyle),
                                                 SizedBox(height: 5),
                                               ],
@@ -476,13 +450,6 @@ class _HelpLineFeedBackState extends State<HelpLineFeedBack> {
                                   ),
                                   InkWell(
                                     onTap: (){
-                                      //  _launchWhatsApp();
-                                      //displayToast("Coming Soon");
-
-                                      // showModalBottomSheet(
-                                      //   context: context,
-                                      //   builder: (context) => FeedbackBottomSheet(),
-                                      // );
                                       _showCustomBottomSheet(context);
                                     },
                                     child: Padding(
@@ -509,7 +476,7 @@ class _HelpLineFeedBackState extends State<HelpLineFeedBack> {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true, // Ensures the bottom sheet adjusts for the keyboard
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)), // Rounded top corners
       ),
       builder: (BuildContext context) {
@@ -606,125 +573,4 @@ class _HelpLineFeedBackState extends State<HelpLineFeedBack> {
       },
     );
   }
-
-// void _showCustomBottomSheet(BuildContext context) {
-  //   showModalBottomSheet(
-  //     context: context,
-  //     isScrollControlled: true, // Allows for proper height adjustments
-  //     shape: RoundedRectangleBorder(
-  //       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-  //     ),
-  //     builder: (BuildContext context) {
-  //       return Padding(
-  //         padding: EdgeInsets.only(
-  //           top: 20,
-  //           left: 16,
-  //           right: 16,
-  //           bottom: MediaQuery.of(context).viewInsets.bottom + 16, // Adjust for keyboard
-  //         ),
-  //         child: Expanded(
-  //           child: Column(
-  //             mainAxisSize: MainAxisSize.min,
-  //             children: [
-  //               // Center image
-  //               Center(
-  //                 child:Image.asset(
-  //                   //"assets/images/home.png",
-  //                   ImageAssets.iclauncher, // Replace with your image asset path
-  //                   width: AppSize.s145,
-  //                   height: AppSize.s145,
-  //                   fit: BoxFit.contain, // Adjust as needed
-  //                 ),
-  //               ),
-  //               SizedBox(height: 16),
-  //
-  //               // Row with circular widget and "Feedback" text
-  //               Row(
-  //                 children: [
-  //                   // Circular widget
-  //                   Container(
-  //                     height: 20,
-  //                     width: 20,
-  //                     decoration: BoxDecoration(
-  //                       shape: BoxShape.circle,
-  //                       color: Colors.blue.withOpacity(0.2),
-  //                     ),
-  //                     child: Icon(Icons.feedback, color: Colors.blue),
-  //                   ),
-  //                   SizedBox(width: 10),
-  //                   // Text "Feedback"
-  //                   Text(
-  //                     "Feedback", style: AppTextStyle.font14OpenSansRegularBlackTextStyle,
-  //                   ),
-  //                 ],
-  //               ),
-  //               SizedBox(height: 16),
-  //
-  //               // EditText with multiline support
-  //               Padding(
-  //                 padding: const EdgeInsets.only(
-  //                   left: 15, // Adjusted padding value
-  //                   right: 15, // Adjusted padding value
-  //                 ),
-  //                 child: Container(
-  //                   // height: 80, // Adjusted container height
-  //                   child: Expanded(
-  //                     child: TextFormField(
-  //                       controller: _feedbackController, // Controller to manage the text field's value
-  //                       textInputAction: TextInputAction.next, // Set action for the keyboard
-  //                       onEditingComplete: () => FocusScope.of(context).nextFocus(), // Move to next input on completion
-  //                       maxLines: null, // Allows the text field to expand to multiple lines
-  //                       minLines: 4, // Minimum height of the text field (approximately 100 in height)
-  //                       decoration: const InputDecoration(
-  //                         border: OutlineInputBorder(), // Add a border around the text field
-  //                         contentPadding: EdgeInsets.symmetric(
-  //                           vertical: 10.0, // Adjust padding inside the text field
-  //                           horizontal: 10.0,
-  //                         ),
-  //                         filled: true, // Enable background color for the text field
-  //                         fillColor: Colors.white,
-  //                         hintText: "Enter your feedback here...", // Placeholder text when field is empty
-  //                         hintStyle: TextStyle(color: Colors.grey), // Style for the placeholder text
-  //                       ),
-  //                       autovalidateMode: AutovalidateMode.onUserInteraction, // Enable validation on user interaction
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ),
-  //               SizedBox(height: 16),
-  //
-  //               // Submit button
-  //               InkWell(
-  //                 onTap: () {
-  //                   validateAndCallApi();
-  //                 },
-  //                 child: Padding(
-  //                   padding: const EdgeInsets.only(left: 15,right: 15),
-  //                   child: Container(
-  //                     // Make container fill the width of its parent
-  //                     height: AppSize.s45,
-  //                     padding: EdgeInsets.all(AppPadding.p5),
-  //                     decoration: BoxDecoration(
-  //                       color: Color(0xFF255898),
-  //                       // Background color using HEX value
-  //                       borderRadius: BorderRadius.circular(
-  //                           AppMargin.m10), // Rounded corners
-  //                     ),
-  //                     //  #00b3c7
-  //                     child: Center(
-  //                       child: Text(
-  //                         "Submit",
-  //                         style: AppTextStyle.font16OpenSansRegularWhiteTextStyle,
-  //                       ),
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
 }

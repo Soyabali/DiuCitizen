@@ -1,15 +1,10 @@
-import 'package:back_button_interceptor/back_button_interceptor.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:puri/presentation/complaints/grievanceStatus/searchBar.dart';
 import '../../../app/generalFunction.dart';
 import '../../../services/citizenMyPostedComplaint.dart';
 import '../../circle/circle.dart';
 import '../../fullscreen/fullScreenImageComplaintList.dart';
-import '../../fullscreen/imageDisplay.dart';
 import '../../nodatavalue/NoDataValue.dart';
 import '../../resources/app_text_style.dart';
 
@@ -37,8 +32,6 @@ class _TemplesHomeState extends State<GrievanceStatus> {
   TextEditingController _searchController = TextEditingController();
   double? lat;
   double? long;
-  var _dropDownAgency2;
-  var _dropDownValueUserAgency;
   final distDropdownFocus = GlobalKey();
   var result, msg;
   var userAjencyData;
@@ -54,7 +47,6 @@ class _TemplesHomeState extends State<GrievanceStatus> {
     _filteredData = List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
 
     setState(() {
-      // parkList=[];
       isLoading = false;
     });
   }
@@ -258,18 +250,9 @@ class _TemplesHomeState extends State<GrievanceStatus> {
                                               right: 15,
                                               child: GestureDetector(
                                                 onTap: (){
-                                                 // print("------257-----");
-                                                  //  sComplaintPhoto
                                                   var image = "${item['sComplaintPhoto']}";
-                                                  // resolePhoto  sResolvePhoto
                                                   var sResolvePhoto = "${item['sResolvePhoto']}";
-                                                  var sComplaintDetails = "${item['sComplaintDetails']}";
-                                                  var sResolvedRemark = "${item['sResolvedRemark']}";
-
-                                                  print('------265----$image');
-                                                  print('------266----resolePhoto----$sResolvePhoto');
-
-                                                 // FullScreenImages
+                                                  // FullScreenImages
                                                   Navigator.push(
                                                     context,
                                                     MaterialPageRoute(builder: (context) => FullScreenImagesComplaintList(image:image,sResolvePhoto:sResolvePhoto)),

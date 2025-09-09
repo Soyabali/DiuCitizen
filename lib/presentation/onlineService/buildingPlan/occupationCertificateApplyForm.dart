@@ -15,11 +15,9 @@ import '../../../services/PostOccupancyCertificateReq.dart';
 import '../../../services/baseurl.dart';
 import '../../../services/bindCityzenWardRepo.dart';
 import '../../../services/bindSubCategoryRepo.dart';
-import '../../../services/markpointSubmit.dart';
 import '../../circle/circle.dart';
 import '../../resources/app_text_style.dart';
 import '../../resources/values_manager.dart';
-import 'occupationCertificate.dart';
 
 class OccupationCertificateApplyForm extends StatefulWidget {
 
@@ -60,22 +58,8 @@ class _MyHomePageState extends State<OccupationCertificateApplyForm> {
   final stateDropdownFocus = GlobalKey();
 
   TextEditingController _applicationNameController = TextEditingController();
-  TextEditingController _applicationMobileNumberController = TextEditingController();
-  TextEditingController _emailIdController = TextEditingController();
-  TextEditingController _projectLocationController = TextEditingController();
-  TextEditingController _architectureNameController = TextEditingController();
-  TextEditingController _addressController = TextEditingController();
   TextEditingController _remarksController = TextEditingController();
 
-
-
-  FocusNode _applicationNamefocus = FocusNode();
-  FocusNode _applicationMobileNumberfocus = FocusNode();
-  FocusNode _emailControllerfocus = FocusNode();
-  FocusNode _projectLocationfoucs = FocusNode();
-  FocusNode _architectNamefocus = FocusNode();
-  FocusNode _addressfocus = FocusNode();
-  FocusNode _wardfocus = FocusNode();
   FocusNode _remarksfocus = FocusNode();
 
   String? todayDate;
@@ -637,14 +621,7 @@ class _MyHomePageState extends State<OccupationCertificateApplyForm> {
     iApplicationid = "${widget.iApplicationId}";
     print("-----632---$iApplicationid");
     super.initState();
-    //  _addressfocus = FocusNode();
-    _applicationNamefocus = FocusNode();
-    _applicationMobileNumberfocus = FocusNode();
-    _emailControllerfocus = FocusNode();
-    _projectLocationfoucs = FocusNode();
-    _architectNamefocus = FocusNode();
-    _addressfocus = FocusNode();
-    _remarksfocus = FocusNode();
+
 
   }
 
@@ -806,24 +783,12 @@ class _MyHomePageState extends State<OccupationCertificateApplyForm> {
 
   void validateAndCallApi() async {
     // Trim values to remove leading/trailing spaces
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // Contact No
-    String? sContactNo = prefs.getString('sContactNo');
     // random number
     String random20DigitNumber = generateRandom20DigitNumber();
-
     // TextFormField value
     var remark = _remarksController.text.trim();
     // Debug logs
-    print('---iCompCode----$random20DigitNumber');
-    print("--iApplicationid--: $iApplicationid");
-    print("---remark--: $remark");
-    print('---Document 1----$uplodeimageDocument_1');
-    print('---Document 2----$uplodeimageDocument_2');
-    print('---Document 3----$uplodeimageDocument_3');
-    print('---Document 4----$uplodeimageDocument_4');
-
     final isFormValid = _formKey.currentState!.validate();
 
 

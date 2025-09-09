@@ -66,7 +66,6 @@ class _MyHomePageState extends State<PropertyAssessment>
       context,
       subCategoryCode,
     ))!;
-    print(" -----xxxxx-  subCategoryList--43---> $subCategoryList");
     setState(() {});
   }
 
@@ -75,8 +74,6 @@ class _MyHomePageState extends State<PropertyAssessment>
   var SectorData;
   var stateblank;
   final stateDropdownFocus = GlobalKey();
-
-  // -----  OwnerDetails TextFormField Controller.------.
 
   TextEditingController _houseNoController = TextEditingController();
   TextEditingController _surveyNoController = TextEditingController();
@@ -460,27 +457,6 @@ class _MyHomePageState extends State<PropertyAssessment>
     });
   }
 
-  // void _updateValue(String value, int previousValue, Function setPreviousValue) {
-  //   int newValue = int.tryParse(value) ?? 0;
-  //   setState(() {
-  //     // Adjust the thirdVariable by subtracting the previous value and adding the new one
-  //     thirdVariable = thirdVariable - previousValue + newValue;
-  //     setPreviousValue(newValue);
-  //   });
-  // }
-  // update value Commercial
-  // void _updateValueCommercial(
-  //   String value,
-  //   int previousValue,
-  //   Function setPreviousValue,
-  // ) {
-  //   int newValue = int.tryParse(value) ?? 0;
-  //   setState(() {
-  //     // Adjust the thirdVariable by subtracting the previous value and adding the new one
-  //     commercialVariable = commercialVariable - previousValue + newValue;
-  //     setPreviousValue(newValue);
-  //   });
-  // }
   void _updateValueCommercial(
       String value,
       double previousValue,
@@ -608,11 +584,7 @@ class _MyHomePageState extends State<PropertyAssessment>
     var firstFloorSq = _firstFloorSqFtController.text.trim();
     var secondFloorSq = _secondFloorSqFtController.text.trim();
     var thirdFloorSq = _thirdFloorSqFtController.text.trim();
-    var totalResidentialProperty = _totalResidentialProperySqFtController.text
-        .trim();
     var residentialRentalAreaSf = _residentalRentalAreaController.text.trim();
-
-    print("---602---$residentialRentalAreaSf");
 
     var rentOfTheResidentialRental =
         _rentOfTheResidentialRentalPropertyController.text.trim();
@@ -641,46 +613,6 @@ class _MyHomePageState extends State<PropertyAssessment>
     var useOfNonResidentialPropertyCommercial =
         _useOfNonResidentialCommercialController.text.trim();
 
-    //  String allThreeFormJson = jsonEncode(thirdFormCombinedList);
-
-    //  var sPropertyType="Residential";
-    //  _selectedOption
-
-    print("---formattedDate-----------------$formattedDate");
-    print("---_dropDownPremisesWardCode-----$_dropDownPremisesWardCode");
-    print("---houseNo-----------------------$houseNo");
-    print("---ownerName-----------------------$ownerName");
-    print("---houseAddress-----------------------$houseAddress");
-    print("---_formattedDate-----------------------$_formattedDate");
-    print("---_selectedOption-----------------------$_selectedOption");
-    print("---grooundFloorSq-----------------------$grooundFloorSq");
-    print("---firstFloorSq-----------------------$firstFloorSq");
-    print("---secondFloorSq-----------------------$secondFloorSq");
-    print("---thirdFloorSq-----------------------$thirdFloorSq");
-    print("---basementSq-----------------------$basementSq");
-    print("---thirdVariable-----------------------$thirdVariable");
-    print("---nonResidentialProperty--------------$nonResidentialProperty");
-    print("---useOfNonResidentialProperty---------$useOfNonResidentialProperty");
-    print("---groundFloorCommercial---------------$groundFloorCommercial");
-    print("---firstFloorCommercial---------------$firstFloorCommercial");
-    print("---secondFloorCommercial---------------$secondFloorCommercial");
-    print("---thirdFloorCommercial---------------$thirdFloorCommercial");
-    print("---mazzanineFloorsProperty---------------$mazzanineFloorsProperty");
-    print("---basementSqFtCommercial---------------$basementSqFtCommercial");
-    print("---basementSqFtCommercial---------------$basementSqFtCommercial");
-    print("---commercialVariable---------------$commercialVariable");
-    print("---residentialRentalAreaCommercial--$residentialRentalAreaCommercial");
-    print("---rentOfTheResidentialRentalCommercial----$rentOfTheResidentialRentalCommercial");
-    print("---nonResidentialPropertyCommercial----$nonResidentialPropertyCommercial");
-    print("---useOfNonResidentialPropertyCommercial----$useOfNonResidentialPropertyCommercial");
-    print("---totalCarpetArea------------------------$totalCarpetArea");
-    print("---mobileNo-------------------------------$mobileNo");
-    print("---sContactNo-------------------------------$sContactNo");
-    print("---residentialRentalAreaSf-------------------$residentialRentalAreaSf");
-    print("---rentOfTheResidentialRental-------------------$rentOfTheResidentialRental");
-    print("---surveyNo-------------------------------------$surveyNo");
-    print("---thirdFormCombinedList------------------------$thirdFormCombinedList");
-
     // contact no
     if (_dropDownPremisesWardCode != null &&
         houseNo.isNotEmpty &&
@@ -692,9 +624,6 @@ class _MyHomePageState extends State<PropertyAssessment>
         _formattedDate.isNotEmpty) {
       // All conditions met; call the API
       print('---Call API---');
-
-      /// put these value into the list
-      /// todo bind all item into the list
 
       firstFormCombinedList.add({
         "sHouseHoldRequestId": formattedDate,
@@ -732,10 +661,6 @@ class _MyHomePageState extends State<PropertyAssessment>
         "DocumentUploadList": thirdFormCombinedList,
       });
       String allThreeFormJson = jsonEncode(firstFormCombinedList);
-      //print("----660 -----$allThreeFormJson");
-     // String allThreeFormJson = const JsonEncoder.withIndent('  ').convert(firstFormCombinedList);
-     // print("----660 -----$allThreeFormJson");
-      print("-------727-------");
       debugPrint(allThreeFormJson, wrapWidth: 1024);
       // -----call Api ------
 
@@ -757,6 +682,11 @@ class _MyHomePageState extends State<PropertyAssessment>
     } else {
       // If conditions fail, display appropriate error messages
       print('--Not Call API--');
+
+      if (_formattedDate.isEmpty) {
+        displayToast('Please Select Date');
+        return;
+      }
       if (_dropDownPremisesWard == null) {
         displayToast('Please Select Ward');
         return;
@@ -783,10 +713,6 @@ class _MyHomePageState extends State<PropertyAssessment>
       }
       if (totalCarpetArea.isEmpty) {
         displayToast('Please Total Carpet Area');
-        return;
-      }
-      if (_formattedDate.isEmpty) {
-        displayToast('Please Select Date');
         return;
       }
     }
@@ -1360,35 +1286,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                 child: Column(
                   children: [
                     Expanded(
-                      // child: TextFormField(
-                      //   focusNode: _surveyNofocus,
-                      //   controller: _surveyNoController,
-                      //   textInputAction: TextInputAction.next,
-                      //   keyboardType: const TextInputType.numberWithOptions(decimal: true), // ✅ Numeric keyboard with dot
-                      //   onEditingComplete: () => FocusScope.of(context).nextFocus(),
-                      //   decoration: const InputDecoration(
-                      //     border: OutlineInputBorder(),
-                      //     contentPadding: EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-                      //     filled: true,
-                      //     fillColor: Color(0xFFf2f3f5),
-                      //   ),
-                      //   autovalidateMode: AutovalidateMode.onUserInteraction,
-                      //   inputFormatters: [
-                      //     LengthLimitingTextInputFormatter(10),
-                      //     FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')), // ✅ Allow numbers & max 2 decimals
-                      //   ],
-                      //   validator: (value) {
-                      //     if (value == null || value.isEmpty) {
-                      //       return 'Please enter a value';
-                      //     }
-                      //     // ✅ Check if value is a valid number (max 2 decimal places)
-                      //     if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value)) {
-                      //       return 'Enter a valid number (max 2 decimals)';
-                      //     }
-                      //     return null;
-                      //   },
-                      // ),
-
                       child: TextFormField(
                         focusNode: _surveyNofocus,
                         controller: _surveyNoController,
@@ -2034,19 +1931,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                           LengthLimitingTextInputFormatter(10),
                           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
                         ],
-                        // inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                        // ✅ Validator
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter a value';
-                        //   }
-                        //   // ✅ Check if value is a valid number with up to 2 decimals
-                        //   if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
-                        //   {
-                        //     // return 'Enter numbers only (max 2 decimals)';
-                        //   }
-                        //   return null;
-                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
@@ -2139,19 +2023,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                           LengthLimitingTextInputFormatter(10),
                           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
                         ],
-                        // ✅ Validator
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter a value';
-                        //   }
-                        //   // ✅ Check if value is a valid number with up to 2 decimals
-                        //   if (!RegExp(
-                        //     r'^\d{1,8}(\.\d{0,2})?$',
-                        //   ).hasMatch(value)) {
-                        //     // return 'Enter numbers only (max 2 decimals)';
-                        //   }
-                        //   return null;
-                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
@@ -2243,20 +2114,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                           LengthLimitingTextInputFormatter(10),
                           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
                         ],
-
-                        // ✅ Validator
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter a value';
-                        //   }
-                        //   // ✅ Check if value is a valid number with up to 2 decimals
-                        //   if (!RegExp(
-                        //     r'^\d{1,8}(\.\d{0,2})?$',
-                        //   ).hasMatch(value)) {
-                        //     // return 'Enter numbers only (max 2 decimals)';
-                        //   }
-                        //   return null;
-                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
@@ -2349,19 +2206,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                           LengthLimitingTextInputFormatter(10),
                           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
                         ],
-                        // ✅ Validator
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter a value';
-                        //   }
-                        //   // ✅ Check if value is a valid number with up to 2 decimals
-                        //   if (!RegExp(
-                        //     r'^\d{1,8}(\.\d{0,2})?$',
-                        //   ).hasMatch(value)) {
-                        //     // return 'Enter numbers only (max 2 decimals)';
-                        //   }
-                        //   return null;
-                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
@@ -2453,19 +2297,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                           LengthLimitingTextInputFormatter(10),
                           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
                         ],
-                        // ✅ Validator
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter a value';
-                        //   }
-                        //   // ✅ Check if value is a valid number with up to 2 decimals
-                        //   if (!RegExp(
-                        //     r'^\d{1,8}(\.\d{0,2})?$',
-                        //   ).hasMatch(value)) {
-                        //     // return 'Enter numbers only (max 2 decimals)';
-                        //   }
-                        //   return null;
-                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
@@ -2541,43 +2372,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                 ),
               ),
             ),
-            // child: Container(
-            //   height: 70,
-            //   // Increased height to accommodate error message without resizing
-            //   color: Colors.white,
-            //   child: Padding(
-            //     padding: const EdgeInsets.only(left: 14, right: 14),
-            //     child: Column(
-            //       children: [
-            //         Expanded(
-            //           child: TextFormField(
-            //             focusNode: _totalResidentialProperySqFtfocus,
-            //             controller: _totalResidentialProperySqFtController,
-            //             textInputAction: TextInputAction.next,
-            //             readOnly: true,
-            //             keyboardType: TextInputType.number,
-            //             onEditingComplete: () => FocusScope.of(context).nextFocus(),
-            //             decoration: const InputDecoration(
-            //               border: OutlineInputBorder(),
-            //               contentPadding: EdgeInsets.symmetric(
-            //               vertical: 10.0, horizontal: 10.0),
-            //               filled: true,
-            //               // Enable background color
-            //               fillColor: Color(0xFFf2f3f5), // Set your desired background color here
-            //             ),
-            //             autovalidateMode: AutovalidateMode.onUserInteraction,
-            //             inputFormatters: [
-            //               FilteringTextInputFormatter.digitsOnly,
-            //               // Allow only digits
-            //               // LengthLimitingTextInputFormatter(10),
-            //               // Restrict input to a maximum of 10 digits
-            //             ],
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // ),
           ),
           // Residential Rental Area (Square feet)
           SizedBox(height: 5),
@@ -2648,19 +2442,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                           LengthLimitingTextInputFormatter(10),
                           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
                         ],
-                        // ✅ Validator
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter a value';
-                        //   }
-                        //   // ✅ Check if value is a valid number with up to 2 decimals
-                        //   if (!RegExp(
-                        //     r'^\d{1,8}(\.\d{0,2})?$',
-                        //   ).hasMatch(value)) {
-                        //     // return 'Enter numbers only (max 2 decimals)';
-                        //   }
-                        //   return null;
-                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
@@ -2749,19 +2530,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                           LengthLimitingTextInputFormatter(10),
                           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
                         ],
-                        // ✅ Validator
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter a value';
-                        //   }
-                        //   // ✅ Check if value is a valid number with up to 2 decimals
-                        //   if (!RegExp(
-                        //     r'^\d{1,8}(\.\d{0,2})?$',
-                        //   ).hasMatch(value)) {
-                        //     // return 'Enter numbers only (max 2 decimals)';
-                        //   }
-                        //   return null;
-                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
@@ -2849,20 +2617,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                           LengthLimitingTextInputFormatter(10),
                           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
                         ],
-
-                        // ✅ Validator
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter a value';
-                        //   }
-                        //   // ✅ Check if value is a valid number with up to 2 decimals
-                        //   if (!RegExp(
-                        //     r'^\d{1,8}(\.\d{0,2})?$',
-                        //   ).hasMatch(value)) {
-                        //     // return 'Enter numbers only (max 2 decimals)';
-                        //   }
-                        //   return null;
-                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
@@ -3049,19 +2803,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                           LengthLimitingTextInputFormatter(10),
                           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
                         ],
-                        // ✅ Validator
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter a value';
-                        //   }
-                        //   // ✅ Check if value is a valid number with up to 2 decimals
-                        //   if (!RegExp(
-                        //     r'^\d{1,8}(\.\d{0,2})?$',
-                        //   ).hasMatch(value)) {
-                        //     // return 'Enter numbers only (max 2 decimals)';
-                        //   }
-                        //   return null;
-                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
@@ -3246,18 +2987,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                           LengthLimitingTextInputFormatter(10),
                           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
                         ],
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter a value';
-                        //   }
-                        //   // ✅ Check if value is a valid number with up to 2 decimals
-                        //   if (!RegExp(
-                        //     r'^\d{1,8}(\.\d{0,2})?$',
-                        //   ).hasMatch(value)) {
-                        //     // return 'Enter numbers only (max 2 decimals)';
-                        //   }
-                        //   return null;
-                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
@@ -3361,18 +3090,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                           }
                           return null;
                         },
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter a value';
-                        //   }
-                        //   // ✅ Check if value is a valid number with up to 2 decimals
-                        //   if (!RegExp(
-                        //     r'^\d{1,8}(\.\d{0,2})?$',
-                        //   ).hasMatch(value)) {
-                        //     // return 'Enter numbers only (max 2 decimals)';
-                        //   }
-                        //   return null;
-                        // },
                       ),
                     ),
                   ],
@@ -3454,18 +3171,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                           LengthLimitingTextInputFormatter(10),
                           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
                         ],
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter a value';
-                        //   }
-                        //   // ✅ Check if value is a valid number with up to 2 decimals
-                        //   if (!RegExp(
-                        //     r'^\d{1,8}(\.\d{0,2})?$',
-                        //   ).hasMatch(value)) {
-                        //     // return 'Enter numbers only (max 2 decimals)';
-                        //   }
-                        //   return null;
-                        // }
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
@@ -3556,19 +3261,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                           LengthLimitingTextInputFormatter(10),
                           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
                         ],
-                        //inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter a value';
-                        //   }
-                        //   // ✅ Check if value is a valid number with up to 2 decimals
-                        //   if (!RegExp(
-                        //     r'^\d{1,8}(\.\d{0,2})?$',
-                        //   ).hasMatch(value)) {
-                        //     // return 'Enter numbers only (max 2 decimals)';
-                        //   }
-                        //   return null;
-                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
@@ -3655,32 +3347,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                         ),
                       ),
                     ),
-                    // Expanded(
-                    //   child: TextFormField(
-                    //     focusNode: _totalResidentialPropertyCommercialfocus,
-                    //     controller: _totalResidentialPropertyCommercialController,
-                    //     textInputAction: TextInputAction.next,
-                    //     keyboardType: TextInputType.number,
-                    //     onEditingComplete: () =>
-                    //         FocusScope.of(context).nextFocus(),
-                    //     decoration: const InputDecoration(
-                    //       border: OutlineInputBorder(),
-                    //       contentPadding: EdgeInsets.symmetric(
-                    //           vertical: 10.0, horizontal: 10.0),
-                    //       filled: true,
-                    //       // Enable background color
-                    //       fillColor: Color(
-                    //           0xFFf2f3f5), // Set your desired background color here
-                    //     ),
-                    //     autovalidateMode: AutovalidateMode.onUserInteraction,
-                    //     inputFormatters: [
-                    //       FilteringTextInputFormatter.digitsOnly,
-                    //       // Allow only digits
-                    //       // LengthLimitingTextInputFormatter(10),
-                    //       // Restrict input to a maximum of 10 digits
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
@@ -3765,19 +3431,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                           }
                           return null;
                         },
-
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter a value';
-                        //   }
-                        //   // ✅ Check if value is a valid number with up to 2 decimals
-                        //   if (!RegExp(
-                        //     r'^\d{1,8}(\.\d{0,2})?$',
-                        //   ).hasMatch(value)) {
-                        //     // return 'Enter numbers only (max 2 decimals)';
-                        //   }
-                        //   return null;
-                        // },
                       ),
                     ),
                   ],
@@ -3855,18 +3508,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                           LengthLimitingTextInputFormatter(10),
                           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
                         ],
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter a value';
-                        //   }
-                        //   // ✅ Check if value is a valid number with up to 2 decimals
-                        //   if (!RegExp(
-                        //     r'^\d{1,8}(\.\d{0,2})?$',
-                        //   ).hasMatch(value)) {
-                        //     // return 'Enter numbers only (max 2 decimals)';
-                        //   }
-                        //   return null;
-                        // },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please enter a value';
@@ -3964,18 +3605,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                           }
                           return null;
                         },
-                        // validator: (value) {
-                        //   if (value == null || value.isEmpty) {
-                        //     return 'Please enter a value';
-                        //   }
-                        //   // ✅ Check if value is a valid number with up to 2 decimals
-                        //   if (!RegExp(
-                        //     r'^\d{1,8}(\.\d{0,2})?$',
-                        //   ).hasMatch(value)) {
-                        //     // return 'Enter numbers only (max 2 decimals)';
-                        //   }
-                        //   return null;
-                        // },
                       ),
                     ),
                   ],
@@ -4045,12 +3674,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                           ), // Set your desired background color here
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
-                        // inputFormatters: [
-                        //   FilteringTextInputFormatter.digitsOnly,
-                        //   // Allow only digits
-                        //   // LengthLimitingTextInputFormatter(10),
-                        //   // Restrict input to a maximum of 10 digits
-                        // ],
                       ),
                     ),
                   ],
@@ -4372,8 +3995,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                                   // Second Container
                                   GestureDetector(
                                     onTap: () async {
-                                      // _pickImageGallry();
-                                      File? selectedFile;
                                       SharedPreferences prefs =
                                           await SharedPreferences.getInstance();
                                       String? sToken = prefs.getString(
@@ -4498,14 +4119,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                                     print(
                                       "Updated List: $thirdFormCombinedList",
                                     );
-                                    //image==null;
-
-                                    // setState(() {
-                                    //   image = null;
-                                    //   uplodedImage = null;
-                                    //   _dropDownRequiredDocumentTypeCode = null;
-                                    //   _dropDownRequiredDocumentType = null;
-                                    // });
 
                                     Navigator.of(
                                       context,
@@ -4564,85 +4177,6 @@ class _MyHomePageState extends State<PropertyAssessment>
           ),
         ),
         SizedBox(height: 10),
-        // horizontal list
-        // thirdFormCombinedList.isNotEmpty
-        //     ? Padding(
-        //         padding: const EdgeInsets.symmetric(horizontal: 10),
-        //         child: SizedBox(
-        //           height: 160, // Increased height to fit image + text
-        //           child: ListView.builder(
-        //             scrollDirection: Axis.horizontal,
-        //             itemCount: thirdFormCombinedList.length,
-        //             itemBuilder: (context, index) {
-        //               var item = thirdFormCombinedList[index];
-        //               String fileUrl = item['sDocumentUrl'] ?? '';
-        //               String docName = item['sDocumentName'] ?? '';
-        //               bool isPdf = fileUrl.toLowerCase().endsWith('.pdf');
-        //
-        //               return Container(
-        //                 margin: const EdgeInsets.only(right: 10.0),
-        //                 width: 140,
-        //                 decoration: BoxDecoration(
-        //                   border: Border.all(color: Colors.blue, width: 2.0),
-        //                   borderRadius: BorderRadius.circular(10.0),
-        //                 ),
-        //                 child: Column(
-        //                   crossAxisAlignment: CrossAxisAlignment.center,
-        //                   children: [
-        //                     ClipRRect(
-        //                       borderRadius: const BorderRadius.only(
-        //                         topLeft: Radius.circular(8),
-        //                         topRight: Radius.circular(8),
-        //                       ),
-        //                       child: isPdf
-        //                           ? Container(
-        //                               height: 100,
-        //                               width: double.infinity,
-        //                               color: Colors.grey[200],
-        //                               child: const Center(
-        //                                 child: Icon(
-        //                                   Icons.picture_as_pdf,
-        //                                   color: Colors.red,
-        //                                   size: 50,
-        //                                 ),
-        //                               ),
-        //                             )
-        //                           : Image.network(
-        //                               fileUrl,
-        //                               height: 100,
-        //                               width: double.infinity,
-        //                               fit: BoxFit.cover,
-        //                               errorBuilder:
-        //                                   (context, error, stackTrace) =>
-        //                                       const Icon(
-        //                                         Icons.broken_image,
-        //                                         size: 50,
-        //                                       ),
-        //                             ),
-        //                     ),
-        //                     Container(
-        //                       padding: const EdgeInsets.all(5),
-        //                       child: Text(
-        //                         docName,
-        //                         textAlign: TextAlign.center,
-        //                         style: const TextStyle(
-        //                           fontSize: 12,
-        //                           fontWeight: FontWeight.w500,
-        //                           color: Colors.black87,
-        //                         ),
-        //                         overflow: TextOverflow.ellipsis,
-        //                         maxLines: 2, // Handle long names
-        //                       ),
-        //                     ),
-        //                   ],
-        //                 ),
-        //               );
-        //             },
-        //           ),
-        //         ),
-        //       )
-        //     : const Center(child: Text('No documents found.')),
-
         _imageFiles.isNotEmpty
             ? Padding(
           padding: const EdgeInsets.symmetric(
@@ -4798,9 +4332,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                                       bindDocumentTypeList.forEach((element) {
                                         if (element["sDocumentTypeName"] ==
                                             _dropDownDocument2) {
-                                          // RatePerDay
-                                          //_selectedWardId = element['iCommunityHallId'];
-                                          // iTradeCode   fLicenceFees
                                           _dropDownDocument2_code =
                                               element['iDocumentTypeCode'];
                                           // _dropDownTradeSubCategoryFeesCode = element['fLicenceFees'];
@@ -4923,9 +4454,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                               setState(() {
                                 image = File(pickFileid!.path);
                               });
-                              // image2 = ${pickedFile?.path};
-                              // image2 = pickedFile!.path as File?;
-
                               print("----171----pic path : ---$image");
                               if (pickFileid != null) {
                                 setState(() {
@@ -5027,9 +4555,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                       const SizedBox(height: 10),
                       ElevatedButton(
                         onPressed: () async {
-                          print("-----2463--Doc---$_dropDownDocument2_code");
-                          print("-----2463--Doc---$_dropDownDocument2");
-                          print("-----2463--images---$uplodedImage");
 
                           if (_dropDownRequiredDocumentTypeCode == null) {
                             displayToast("Please Select Document");
@@ -5043,11 +4568,6 @@ class _MyHomePageState extends State<PropertyAssessment>
                                 'sDocumentUrl': uplodedImage,
                               });
                             });
-                            // thirdFormCombinedList.add({
-                            //   'iDocumentTypeId': "${_dropDownDocument2_code}",
-                            //   'sDocumentName': "$_dropDownDocument2",
-                            //   'sDocumentUrl': uplodedImage,
-                            // });
                             print(
                               "ListItem-----2630----$thirdFormCombinedList",
                             );

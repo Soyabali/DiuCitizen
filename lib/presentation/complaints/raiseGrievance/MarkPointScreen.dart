@@ -75,8 +75,6 @@ class _MyHomePageState extends State<MyHomePage> {
     print(" -----xxxxx-  --72---> $postimageResponse");
     setState(() {});
   }
-
-  String? _chosenValue;
   var msg;
   var result;
   var SectorData;

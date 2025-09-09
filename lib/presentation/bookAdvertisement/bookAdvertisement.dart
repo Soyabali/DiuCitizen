@@ -50,8 +50,6 @@ class _MyHomePageState extends State<BookAdvertisement> with TickerProviderState
   bool isFormVisible4 = true; // Track the visibility of the form
   bool isIconRotated4 = false;
 
-  final _formKey = GlobalKey<FormState>();
-
   bindSubCategory(String subCategoryCode) async {
     subCategoryList = (await BindSubCategoryRepo().bindSubCategory(context, subCategoryCode))!;
     print(" -----xxxxx-  subCategoryList--43---> $subCategoryList");

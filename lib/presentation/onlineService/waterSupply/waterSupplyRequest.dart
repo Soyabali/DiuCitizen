@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -17,7 +16,6 @@ import '../../../../services/BindTadeSubCategoryRepo.dart';
 import '../../../../services/BindTradeCategoryRepo.dart';
 import '../../../../services/baseurl.dart';
 import '../../../../services/bindSubCategoryRepo.dart';
-import '../../../../services/postLicenseRequest.dart';
 import '../../../services/BindWaterTaxTypeRepo.dart';
 import '../../../services/PostWaterSupplyTaxRequestRepo.dart';
 import '../../circle/circle.dart';
@@ -41,8 +39,6 @@ class _MyHomePageState extends State<WaterSupplyRequest>
     with TickerProviderStateMixin {
   List stateList = [];
   List<dynamic> subCategoryList = [];
-
-  //List<dynamic> bindcommunityHallDate = [];
   List<Map<String, dynamic>> bindcommunityHallDate = [];
   List<dynamic> premisesWardDropDown = [];
   List<dynamic> bindWaterTextTypeDropDown = [];
@@ -70,13 +66,6 @@ class _MyHomePageState extends State<WaterSupplyRequest>
     print(" -----xxxxx-  subCategoryList--43---> $subCategoryList");
     setState(() {});
   }
-
-  // bindCommunityHallDate(var hallId) async {
-  //   bindcommunityHallDate = (await BindCommunityHallDateRepo()
-  //       .bindCommunityHallDate(context, hallId))!;
-  //   print(" -----xxxxx-  bindcommunityHallDate--53--> $bindcommunityHallDate");
-  //   setState(() {});
-  // }
 
   var msg;
   var result;
@@ -112,12 +101,9 @@ class _MyHomePageState extends State<WaterSupplyRequest>
   List? listCon;
   int selectedIndex = -1;
 
-  //var _dropDownSector;
   var dropDownSubCategory;
   var _dropDownPremisesWard;
-  var _dropDownDocument;
-  var _dropDownDocumentCode;
-  var _dropDownFinalYear;
+
   var sectorresponse;
   String? sec;
   final distDropdownFocus = GlobalKey();
@@ -130,10 +116,6 @@ class _MyHomePageState extends State<WaterSupplyRequest>
   var _dropDownTradeCategoryCode;
   var _dropDownWaterTaxTypeCode;
   var _dropDownWaterTaxTyperAmount;
-  var _dropDownTradeSubCategoryCode;
-  var _dropDownTradeSubCategoryFeesCode;
-  var _dropDownDocument2;
-  var _dropDownDocument2_code;
   var _dropDownTradeCategory;
   var _dropDownWaterTaxType;
   var _dropDownTradeSubCategory;

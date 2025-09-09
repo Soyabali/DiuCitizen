@@ -1,4 +1,3 @@
-import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -37,8 +36,6 @@ class _TemplesHomeState extends State<PropertyMutationStatus> {
   TextEditingController _searchController = TextEditingController();
   double? lat;
   double? long;
-  var _dropDownAgency2;
-  var _dropDownValueUserAgency;
   final distDropdownFocus = GlobalKey();
   var result, msg;
   var userAjencyData;

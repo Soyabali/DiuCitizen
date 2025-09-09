@@ -1,14 +1,8 @@
 
-import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import '../../app/generalFunction.dart';
 import '../../services/aboutdiuRepo.dart';
-import '../../services/getEmergencyContactTitleRepo.dart';
-import '../birth_death/birthanddeath.dart';
-import '../complaints/complaintHomePage.dart';
-import '../onlineComplaint/onlineComplaintForm.dart';
 import '../nodatavalue/NoDataValue.dart';
 import '../resources/app_text_style.dart';
 import 'Aboutdiupage.dart';
@@ -40,55 +34,6 @@ class _AboutDiuState extends State<AboutDiu> {
     });
   }
 
-
-  final List<Map<String, dynamic>> itemList2 = [
-    {
-      //'leadingIcon': Icons.account_balance_wallet,
-      'leadingIcon': 'assets/images/credit-card.png',
-      'title': 'ICICI BANK CC PAYMENT',
-      'subtitle': 'Utility & Bill Payments',
-      'transactions': '1 transaction',
-      'amount': ' 7,86,698',
-      'temple': 'Fire Emergency'
-    },
-    {
-      //  'leadingIcon': Icons.ac_unit_outlined,
-      'leadingIcon': 'assets/images/shopping-bag.png',
-      'title': 'APTRONIX',
-      'subtitle': 'Shopping',
-      'transactions': '1 transaction',
-      'amount': '@ 1,69,800',
-      'temple': 'Police'
-    },
-    {
-      //'leadingIcon': Icons.account_box,
-      'leadingIcon': 'assets/images/shopping-bag2.png',
-      'title': 'MICROSOFT INDIA',
-      'subtitle': 'Shopping',
-      'transactions': '1 transaction',
-      'amount': '@ 30,752',
-      'temple': 'Women Help'
-    },
-    {
-      //'leadingIcon': Icons.account_balance_wallet,
-      'leadingIcon': 'assets/images/credit-card.png',
-      'title': 'SARVODAYA HOSPITAL U O',
-      'subtitle': 'Medical',
-      'transactions': '1 transaction',
-      'amount': '@ 27,556',
-      'temple': 'Medical Emergency'
-    },
-    {
-      //  'leadingIcon': Icons.ac_unit_outlined,
-      'leadingIcon': 'assets/images/shopping-bag.png',
-      'title': 'MOHAMMED ZUBER',
-      'subtitle': 'UPI Payment',
-      'transactions': '1 transaction',
-      'amount': '@ 25,000',
-      'temple': 'Other Important Numbers'
-    },
-  ];
-
   final List<Color> borderColors = [
     Colors.red,
     Colors.blue,
@@ -102,10 +47,10 @@ class _AboutDiuState extends State<AboutDiu> {
     Colors.amber,
   ];
 
-  Color getRandomBorderColor() {
-    final random = Random();
-    return borderColors[random.nextInt(borderColors.length)];
-  }
+  // Color getRandomBorderColor() {
+  //   final random = Random();
+  //   return borderColors[random.nextInt(borderColors.length)];
+  // }
 
   @override
   void initState() {
@@ -116,7 +61,6 @@ class _AboutDiuState extends State<AboutDiu> {
 
   @override
   void dispose() {
-    // BackButtonInterceptor.remove(myInterceptor);
     super.dispose();
   }
 
@@ -127,13 +71,11 @@ class _AboutDiuState extends State<AboutDiu> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          // statusBarColore
           systemOverlayStyle: const SystemUiOverlayStyle(
             statusBarColor: Color(0xFF12375e),
             statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
             statusBarBrightness: Brightness.light, // For iOS (dark icons)
           ),
-          // backgroundColor: Colors.blu
           centerTitle: true,
           backgroundColor: Color(0xFF255898),
           leading: GestureDetector(
@@ -141,7 +83,7 @@ class _AboutDiuState extends State<AboutDiu> {
               print("------back---");
               Navigator.pop(context);
             },
-            child: Icon(Icons.arrow_back_ios,
+            child: const Icon(Icons.arrow_back_ios,
               color: Colors.white,),
           ),
           title: Padding(
@@ -152,11 +94,8 @@ class _AboutDiuState extends State<AboutDiu> {
               textAlign: TextAlign.center,
             ),
           ),
-          //centerTitle: true,
           elevation: 0, // Removes shadow under the AppBar
         ),
-        drawer:
-        generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
 
         body:
         isLoading
@@ -167,13 +106,11 @@ class _AboutDiuState extends State<AboutDiu> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            // middleHeader(context, '${widget.name}'),
             Container(
               height: MediaQuery.of(context).size.height * 0.8, // Adjust the height as needed
               child: ListView.builder(
                 shrinkWrap: true,
                 itemCount: emergencyTitleList?.length ?? 0,
-                // itemCount: emergencyTitleList?.length ?? 0,
                 itemBuilder: (context, index) {
                 final color = borderColors[index % borderColors.length];
                   return Column(
@@ -184,11 +121,6 @@ class _AboutDiuState extends State<AboutDiu> {
                           onTap: () {
                             var sPageName = emergencyTitleList![index]['sPageName'];
                             var sPageLink = emergencyTitleList![index]['sPageLink'];
-
-
-                            // sIcon
-                            print('----sPageName---$sPageName');
-                            print('----categoryCode---$sPageLink');
 
                             Navigator.push(
                                 context,

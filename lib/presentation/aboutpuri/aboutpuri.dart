@@ -1,10 +1,6 @@
 
-import 'package:back_button_interceptor/back_button_interceptor.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import '../../app/generalFunction.dart';
-import '../../app/navigationUtils.dart';
 import '../resources/app_text_style.dart';
 import '../resources/custom_elevated_button.dart';
 import '../temples/temple_gallery.dart';
@@ -25,19 +21,9 @@ class _TemplesHomeState extends State<AboutPuri> {
   @override
   void initState() {
     super.initState();
-    //BackButtonInterceptor.add(myInterceptor);
   }
 
-  @override
-  void dispose() {
-   // BackButtonInterceptor.remove(myInterceptor);
-    super.dispose();
-  }
 
-  // bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
-  //   NavigationUtils.onWillPop(context);
-  //   return true;
-  // }
 
   @override
   Widget build(BuildContext context) {

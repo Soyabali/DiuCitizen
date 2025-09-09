@@ -28,7 +28,6 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 void configLoading() {
- var info;
   EasyLoading.instance
 
     ..displayDuration = const Duration(milliseconds: 2000)

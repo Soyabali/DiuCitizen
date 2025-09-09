@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../app/generalFunction.dart';
-import '../../services/PostOccupancyCertificateReq.dart';
 import '../../services/feedbackRepo.dart';
 import '../circle/circle.dart';
-import '../complaints/complaintHomePage.dart';
 import '../resources/app_text_style.dart';
 import '../resources/assets_manager.dart';
-import '../resources/custom_elevated_button.dart';
 import '../resources/values_manager.dart';
 
 class FeedbackBottomSheet extends StatelessWidget {
-
-  final TextEditingController _feedbackController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -72,16 +67,7 @@ class _FeedbackFormState extends State<FeedbackForm> {
       print('----845---->>.--->>>>---$feedbackResponse');
       result = feedbackResponse['Result'];
       msg = feedbackResponse['Msg'];
-      // displayToast(msg);
-      // navigate to home page
-      //Navigator.pop(context);
       Navigator.of(context, rootNavigator: true).pop();
-      // Navigator.pushAndRemoveUntil(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => ComplaintHomePage()),
-      //       (Route<dynamic> route) => false, // Removes all previous routes
-      // );
-      // Your API call logic here
     } else {
       displayToast(msg);
       // If conditions fail, display appropriate error messages

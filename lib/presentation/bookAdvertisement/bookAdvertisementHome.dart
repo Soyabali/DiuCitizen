@@ -93,7 +93,7 @@ class _OnlineComplaintState extends State<BookadvertisementHome> {
               height: MediaQuery.of(context).size.height * 0.8, // Adjust the height as needed
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: itemList2?.length ?? 0,
+                itemCount: itemList2.length ?? 0,
                 itemBuilder: (context, index) {
                   final color = borderColors[index % borderColors.length];
                   return Column(
@@ -102,10 +102,8 @@ class _OnlineComplaintState extends State<BookadvertisementHome> {
                         padding: const EdgeInsets.symmetric(vertical: 1.0),
                         child: GestureDetector(
                           onTap: () {
-                            var title = itemList2![index]['title'];
+                            var title = itemList2[index]['title'];
                             if(title=="Book Advertisement"){
-                              // BirthAndDeathCertificate
-
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

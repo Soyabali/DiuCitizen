@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../app/generalFunction.dart';
-import '../../../../services/GetLicenceDataDocsRepo.dart';
 import '../../../services/PropertyTransferDocListRepo.dart';
 import '../../fullscreen/imageDisplay.dart';
 import '../../nodatavalue/NoDataValue.dart';

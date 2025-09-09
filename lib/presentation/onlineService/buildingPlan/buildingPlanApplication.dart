@@ -13,7 +13,6 @@ import '../../../app/generalFunction.dart';
 import '../../../app/loader_helper.dart';
 import '../../../services/PostPropertyPlanApplicationRepo.dart';
 import '../../../services/baseurl.dart';
-import '../../../services/markpointSubmit.dart';
 import '../../circle/circle.dart';
 import '../../resources/app_text_style.dart';
 import '../../resources/values_manager.dart';
@@ -76,7 +75,6 @@ class _MyHomePageState extends State<BuildingPlanApplication> {
   final distDropdownFocus = GlobalKey();
   final subCategoryFocus = GlobalKey();
   final wardFocus = GlobalKey();
-  File? _imageFile;
   var _selectedSubCategoryId;
   var _selectedWardId;
   final _formKey = GlobalKey<FormState>();
@@ -353,147 +351,6 @@ class _MyHomePageState extends State<BuildingPlanApplication> {
     FocusScope.of(context).unfocus();
   }
 
-  // Todo bind sector code
-  Widget _bindSubCategory() {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(10.0),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10),
-        child: Container(
-          width: MediaQuery.of(context).size.width - 50,
-          height: 42,
-          color: Color(0xFFf2f3f5),
-          child: DropdownButtonHideUnderline(
-            child: ButtonTheme(
-              alignedDropdown: true,
-              child: DropdownButton(
-                isDense: true,
-                // Helps to control the vertical size of the button
-                isExpanded: true,
-                dropdownColor: Colors.white,
-                // Allows the DropdownButton to take full width
-                onTap: () {
-                  FocusScope.of(context).unfocus();
-                },
-                hint: RichText(
-                  text: TextSpan(
-                    text: "Select Sub Category",
-                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                    // style: TextStyle(
-                    //     color: Colors.black,
-                    //     fontSize: 14,
-                    //     fontWeight: FontWeight.normal),
-                  ),
-                ),
-                value: dropDownSubCategory,
-                key: subCategoryFocus,
-                onChanged: (newValue) {
-                  setState(() {
-                    dropDownSubCategory = newValue;
-                    subCategoryList.forEach((element) {
-                      if (element["sSubCategoryName"] == dropDownSubCategory) {
-                        _selectedSubCategoryId = element['iSubCategoryCode'];
-                        setState(() {});
-                      }
-                    });
-                  });
-                },
-                items: subCategoryList.map((dynamic item) {
-                  return DropdownMenuItem(
-                    value: item["sSubCategoryName"].toString(),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            item['sSubCategoryName'].toString(),
-                            overflow: TextOverflow.ellipsis,
-                            // Handles long text
-                            style: AppTextStyle
-                                .font14OpenSansRegularBlack45TextStyle,
-                            // style: TextStyle(
-                            //   fontSize: 16,
-                            //   fontWeight: FontWeight.normal,
-                            // ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  // bind Ward
-  Widget _bindWard() {
-    return Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(10.0),
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10),
-        child: Container(
-          width: MediaQuery.of(context).size.width - 50,
-          height: 42,
-          color: Color(0xFFf2f3f5),
-          child: DropdownButtonHideUnderline(
-            child: ButtonTheme(
-              alignedDropdown: true,
-              child: DropdownButton(
-                isDense: true,
-                // Reduces the vertical size of the button
-                isExpanded: true,
-                // Allows the DropdownButton to take full width
-                dropdownColor: Colors.white,
-                // Set dropdown list background color
-                onTap: () {
-                  FocusScope.of(context).unfocus(); // Dismiss keyboard
-                },
-                hint: RichText(
-                  text: TextSpan(
-                    text: "Select Ward",
-                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                  ),
-                ),
-                value: _dropDownWard,
-                onChanged: (newValue) {
-                  setState(() {
-                    _dropDownWard = newValue;
-                    wardList.forEach((element) {
-                      if (element["sWardName"] == _dropDownWard) {
-                        _selectedWardId = element['sWardCode'];
-                      }
-                    });
-                  });
-                },
-                items: wardList.map((dynamic item) {
-                  return DropdownMenuItem(
-                    value: item["sWardName"].toString(),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            item['sWardName'].toString(),
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTextStyle
-                                .font14OpenSansRegularBlack45TextStyle,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }).toList(),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
 
   /// Algo.  First of all create repo, secodn get repo data in the main page after that apply list data on  dropdown.
   // function call
