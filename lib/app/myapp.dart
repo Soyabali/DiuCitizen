@@ -13,7 +13,6 @@ import '../provider/bindComplaintProvider.dart';
 class MyApp extends StatefulWidget {
 
   MyApp._internal(); // private named constructor
-
   dynamic appState = 0;
 
   static final MyApp instance = MyApp._internal(); // single instance -- singleton
