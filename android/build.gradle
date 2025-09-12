@@ -5,6 +5,14 @@ allprojects {
             mavenCentral()
         }
     }
+//android {
+//    namespace "com.az.upi_india"
+//    compileSdkVersion 36
+//
+//    defaultConfig {
+//        minSdkVersion 26
+//    }
+//}
 
     rootProject.buildDir = '../build'
     subprojects {

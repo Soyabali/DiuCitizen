@@ -73,10 +73,10 @@ dependencies:
   pdfx: ^2.9.2
   uuid: ^4.5.1
   share_plus: ^11.1.0
-  upi_india: ^3.0.1
   file_picker: ^10.3.2
   dotted_border: ^2.1.0
-
+  upi_india:
+    path: packages/upi_india
 
 dev_dependencies:
   flutter_test:

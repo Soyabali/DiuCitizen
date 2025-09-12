@@ -7,14 +7,14 @@ import 'firebase_options.dart';
 
 void main() async {
 
-   print("----Main Page---");
+   //print("----Main Page---");
    WidgetsFlutterBinding.ensureInitialized();
    await Firebase.initializeApp(
      options: DefaultFirebaseOptions.currentPlatform,
    );
   HttpOverrides.global = MyHttpOverrides();
-  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
+  //runApp(SplashView());
   configLoading();
 }
 

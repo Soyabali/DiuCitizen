@@ -1,4 +1,4 @@
-package com.city.purione
+package com.synergy.diuCitizen
 
 import io.flutter.embedding.android.FlutterActivity
 
