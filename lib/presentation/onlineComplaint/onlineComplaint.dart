@@ -94,7 +94,7 @@ class _OnlineComplaintState extends State<OnlineComplaint> {
           elevation: 0, // Removes shadow under the AppBar
         ),
             body: isLoading
-            ? Center(child: Container())
+            ? buildShimmerList()
             : (emergencyTitleList == null || emergencyTitleList!.isEmpty)
             ? NoDataScreenPage()
             :

@@ -1026,7 +1026,7 @@ class _MyHomePageState extends State<LicenseRequest>
 
                   // Third Section Header
                   _buildSectionHeader(
-                    title: "3. Uplode Photos",
+                    title: "3. Upload Photos",
                     isVisible: isThirdFormVisible,
                     isIconRotated: isThirdIconRotated,
                     onToggle: () {

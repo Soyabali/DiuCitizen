@@ -1474,7 +1474,7 @@ class _MyHomePageState extends State<WaterSupplyRequest>
                       fit: BoxFit.fill,
                     ),
                     SizedBox(width: 10),
-                    Text('Uplode Water Supply Item',
+                    Text('Upload Water Supply Item',
                         style:
                         AppTextStyle.font14OpenSansRegularBlack45TextStyle),
                   ],
@@ -1658,7 +1658,7 @@ class _MyHomePageState extends State<WaterSupplyRequest>
                               ),
                               SizedBox(width: 5),
                               Text(
-                                "Uplode Water Supply Item ${consuambleItemList?.length}",
+                                "Upload Water Supply Item ${consuambleItemList?.length}",
                                 style: TextStyle(
                                     color: Colors.black45, fontSize: 16),
                               ),

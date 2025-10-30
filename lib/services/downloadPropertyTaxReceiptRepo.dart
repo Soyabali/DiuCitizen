@@ -22,6 +22,8 @@ class GetPendingforApprovalReimRepo {
     print("------24--$lastDayOfCurrentMonth");
     print("----24----contactNo----$contactNo");
     print("----25-----pageCode---$pageCode");
+    print("----25-----token ---$sToken");
+
 
     showLoader();
 
@@ -31,7 +33,7 @@ class GetPendingforApprovalReimRepo {
 
     try {
       var headers = {
-        'token': "2BC30AC2-7D95-4DD9-AC36-EBF97FE36136",
+        'token': "$sToken",
         'Content-Type': 'application/json',
       };
 
@@ -39,7 +41,7 @@ class GetPendingforApprovalReimRepo {
       request.body = json.encode({
         "dFromDate": firstOfMonthDay,      //"dFromDate": "01/Aug/2024",     //"dFromDate": firstOfMonthDay,
         "dToDate": lastDayOfCurrentMonth,          //"dToDate": "01/Aug/2025",    //"dToDate": lastDayOfCurrentMonth,
-        "sReceiptTypeCode": pageCode,
+        "sReceiptTypeCode": pageCode,                //"sReceiptTypeCode": pageCode,
         "sUserId": contactNo,
       });
       request.headers.addAll(headers);
@@ -53,6 +55,7 @@ class GetPendingforApprovalReimRepo {
         Map<String, dynamic> jsonResponse = jsonDecode(responseBody);
         List<dynamic> dataList = jsonResponse['Data'];  // ✅ FIXED LINE
 
+        print('------58--response---$dataList');
         return dataList
             .map((data) => DownloadReceiptModel.fromJson(data))
             .toList();
@@ -61,6 +64,7 @@ class GetPendingforApprovalReimRepo {
         generalFunction.logout(context);
         throw Exception('Unauthorized access');
       } else {
+        print('------67--response---');
         hideLoader();
         throw Exception('Failed to load pending approvals');
       }

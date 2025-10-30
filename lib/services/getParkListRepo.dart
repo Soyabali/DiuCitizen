@@ -10,6 +10,7 @@ import 'baseurl.dart';
 class ParkListRepo {
 
   GeneralFunction generalFunction = GeneralFunction();
+
   Future<List<Map<String, dynamic>>?> getParkList(BuildContext context, lat,long)async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? sToken = prefs.getString('sToken');

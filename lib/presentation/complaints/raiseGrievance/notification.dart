@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../app/generalFunction.dart';
 import '../../../services/notificationRepo.dart';
+import '../../nodatavalue/NoDataValue.dart';
 import '../../resources/app_text_style.dart';
 import '../complaintHomePage.dart';
 
@@ -41,12 +42,14 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Map<String, dynamic>>? notificationList;
 
   String? sName, sContactNo;
+  bool isLoading = true;
 
   GeneralFunction generalFunction = GeneralFunction();
   getnotificationResponse() async {
     notificationList = await NotificationRepo().notification(context);
     print('------39----$notificationList');
     setState(() {
+      isLoading = false;
     });
   }
 
@@ -109,7 +112,13 @@ class _MyHomePageState extends State<MyHomePage> {
     // WillPopScope(
     // onWillPop: () async => false,
     //       child:
-          body: WillPopScope(
+          body:
+          isLoading
+              ? buildShimmerList()
+              : (notificationList == null || notificationList!.isEmpty)
+              ? NoDataScreenPage()
+              :
+          WillPopScope(
             onWillPop: ()async =>false,
             child: Container(
               child: SingleChildScrollView(

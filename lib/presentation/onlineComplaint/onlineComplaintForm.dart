@@ -232,8 +232,7 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
                             item['sSubCategoryName'].toString(),
                             overflow: TextOverflow.ellipsis,
                             // Handles long text
-                            style: AppTextStyle
-                                .font14OpenSansRegularBlack45TextStyle,
+                            style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
                           ),
                         ),
                       ],
@@ -744,7 +743,7 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
                                       CircleWithSpacing(),
                                       // Space between the circle and text
                                       Text(
-                                        'Uplode Photo',
+                                        'Upload Photo',
                                         style: AppTextStyle
                                             .font14OpenSansRegularBlack45TextStyle,
                                       ),

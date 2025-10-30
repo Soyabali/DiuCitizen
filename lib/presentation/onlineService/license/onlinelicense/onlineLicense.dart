@@ -175,36 +175,84 @@ class _PropertyTaxState extends State<Onlinelicense> {
                     padding: const EdgeInsets.only(left: 0),
                     child: Column(
                       children: [
-                        Expanded(
-                            child: TextFormField(
-                          focusNode:
-                              _housefocus, // Focus node for the text field
-                          controller:
-                              _houseController, // Controller to manage the text field's value
-                          textInputAction: TextInputAction
-                              .next, // Set action for the keyboard
-                          onEditingComplete: () => FocusScope.of(context)
-                              .nextFocus(), // Move to next input on completion
-                          decoration: const InputDecoration(
-                            border:
-                                OutlineInputBorder(), // Add a border around the text field
-                            contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0,
-                              horizontal: 10.0,
-                            ), // Adjust padding inside the text field
-                            filled:
-                                true, // Enable background color for the text field
-                            fillColor:
-                                Color(0xFFf2f3f5), // Set background color
-                            hintText:
-                                "License Request Id", // Placeholder text when field is empty
-                            hintStyle: TextStyle(
-                                color: Colors
-                                    .grey), // Style for the placeholder text
+                        Padding(
+                          padding: const EdgeInsets.only(left: 0, right: 0),
+                          child: Container(
+                            height: 55,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 0),
+                              child: Column(
+                                children: [
+                                  Expanded(
+                                      child: TextFormField(
+                                        focusNode: _housefocus, // Focus node for the text field
+                                        controller:
+                                        _houseController, // Controller to manage the text field's value
+                                        keyboardType: TextInputType.number,
+                                        textInputAction: TextInputAction
+                                            .next, // Set action for the keyboard
+                                        onEditingComplete: () => FocusScope.of(context)
+                                            .nextFocus(), // Move to next input on completion
+                                        decoration: const InputDecoration(
+                                          border:
+                                          OutlineInputBorder(), // Add a border around the text field
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 10.0,
+                                            horizontal: 10.0,
+                                          ), // Adjust padding inside the text field
+                                          filled:
+                                          true, // Enable background color for the text field
+                                          fillColor:
+                                          Color(0xFFf2f3f5), // Set background color
+                                          hintText:
+                                          "Licence Number", // Placeholder text when field is empty
+                                          hintStyle: TextStyle(
+                                              color: Colors
+                                                  .grey), // Style for the placeholder text
+                                        ),
+                                        autovalidateMode: AutovalidateMode.onUserInteraction, // Enable validation on user interaction
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly, // Allow only digits
+                                          LengthLimitingTextInputFormatter(8), // Restrict input to a maximum of 10 digits
+                                        ],
+                                      )),
+                                ],
+                              ),
+                            ),
                           ),
-                          autovalidateMode: AutovalidateMode
-                              .onUserInteraction, // Enable validation on user interaction
-                        )),
+                        ),
+                        // Expanded(
+                        //     child: TextFormField(
+                        //   focusNode:
+                        //       _housefocus, // Focus node for the text field
+                        //   controller:
+                        //       _houseController, // Controller to manage the text field's value
+                        //   textInputAction: TextInputAction
+                        //       .next, // Set action for the keyboard
+                        //   onEditingComplete: () => FocusScope.of(context)
+                        //       .nextFocus(), // Move to next input on completion
+                        //   decoration: const InputDecoration(
+                        //     border:
+                        //         OutlineInputBorder(), // Add a border around the text field
+                        //     contentPadding: EdgeInsets.symmetric(
+                        //       vertical: 10.0,
+                        //       horizontal: 10.0,
+                        //     ), // Adjust padding inside the text field
+                        //     filled:
+                        //         true, // Enable background color for the text field
+                        //     fillColor:
+                        //         Color(0xFFf2f3f5), // Set background color
+                        //     hintText:
+                        //         "Licence Number", // Placeholder text when field is empty
+                        //     hintStyle: TextStyle(
+                        //         color: Colors
+                        //             .grey), // Style for the placeholder text
+                        //   ),
+                        //   autovalidateMode: AutovalidateMode
+                        //       .onUserInteraction, // Enable validation on user interaction
+                        // )
+                        //
+                        // ),
                       ],
                     ),
                   ),

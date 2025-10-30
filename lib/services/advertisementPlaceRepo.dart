@@ -21,6 +21,7 @@ class AdvertiseMentPlaceRepo
         textColor: Colors.white,
         fontSize: 16.0);
   }
+
   Future<List> advertisementPlace(dropDownValueAdvertisementPlaceType) async
   {
     SharedPreferences prefs = await SharedPreferences.getInstance();

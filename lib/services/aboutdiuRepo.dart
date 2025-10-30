@@ -8,6 +8,7 @@ import '../app/loader_helper.dart';
 import 'baseurl.dart';
 
 class AboutDiuRepo {
+
   GeneralFunction generalFunction = GeneralFunction();
   Future<List<Map<String, dynamic>>?> aboutdiu(BuildContext context) async {
 

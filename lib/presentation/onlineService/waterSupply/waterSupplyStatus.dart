@@ -143,8 +143,7 @@ class _TemplesHomeState extends State<WaterSupplyStatus> {
         //   ? NoDataScreen()
         //   :
         isLoading
-            ? Center(child:
-        Container())
+            ? buildShimmerList()
             : (pendingInternalComplaintList == null || pendingInternalComplaintList!.isEmpty)
             ? NoDataScreenPage()
             :

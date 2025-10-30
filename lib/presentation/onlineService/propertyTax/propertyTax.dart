@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../app/generalFunction.dart';
 import '../../../services/SearchPropertyTaxForPaymentRepo.dart';
@@ -8,6 +9,7 @@ import '../../circle/circle.dart';
 import '../../nodatavalue/NoDataValue.dart';
 import '../../resources/app_text_style.dart';
 import '../../resources/values_manager.dart';
+import '../onlineService.dart';
 
 class PropertyTaxDiu extends StatefulWidget {
 
@@ -167,7 +169,45 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: getAppBarBack(context,'${widget.name}'),
+       // appBar: getAppBarBack(context,'${widget.name}'),
+        appBar: AppBar(
+          // statusBarColore
+          systemOverlayStyle: const SystemUiOverlayStyle(
+            statusBarColor: Color(0xFF12375e),
+            statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
+            statusBarBrightness: Brightness.light, // For iOS (dark icons)
+          ),
+          // backgroundColor: Colors.blu
+          centerTitle: true,
+          backgroundColor: Color(0xFF255898),
+          leading: GestureDetector(
+            onTap: (){
+              print("------back---");
+              Navigator.pop(context);
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => const ComplaintHomePage()),
+              // );
+            },
+            child: const Icon(Icons.arrow_back_ios,
+              color: Colors.white,),
+          ),
+          title: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5),
+            child: Text(
+              '${widget.name}',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Montserrat',
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          //centerTitle: true,
+          elevation: 0, // Removes shadow under the AppBar
+        ),
            body: Column(
             children: [
               SizedBox(height: 5),
@@ -286,7 +326,7 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
               SizedBox(height: 5),
 
               isLoading
-                  ? Center(child: Container())
+                  ? buildShimmerList()
                   : (emergencyTitleList == null || emergencyTitleList!.isEmpty)
                   ? NoDataScreenPage()
                   :

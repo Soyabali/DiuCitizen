@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../../services/GetLisenceTradeList.dart';
+import '../../../app/generalFunction.dart';
 import '../../../services/GetWaterSupTaxTypeListRepo.dart';
 import '../../nodatavalue/NoDataValue.dart';
 import '../../resources/app_text_style.dart';
@@ -90,8 +91,7 @@ class _TradeDetailsPageState extends State<WaterSupplyTaxtTypelist> {
       ),
       body:
       isLoading
-          ? Center(child:
-      Container())
+          ? buildShimmerList()
           : (pendingInternalComplaintList == null || pendingInternalComplaintList!.isEmpty)
           ? NoDataScreenPage()
           :

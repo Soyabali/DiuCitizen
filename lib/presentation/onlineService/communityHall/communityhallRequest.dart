@@ -1485,23 +1485,6 @@ var  firstStatus;
                                   ),
                                 ),
                                 // images code
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    // Align items vertically
-                                    children: <Widget>[
-                                      CircleWithSpacing(),
-                                      // Space between the circle and text
-                                      Text(
-                                        'Uplode Identity Document',
-                                        style: AppTextStyle
-                                            .font14OpenSansRegularBlack45TextStyle,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 5),
                                 //----Card
                                 SizedBox(height: 5),
                                 // Purpose of Booking
@@ -1563,6 +1546,23 @@ var  firstStatus;
                                     ),
                                   ),
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    // Align items vertically
+                                    children: <Widget>[
+                                      CircleWithSpacing(),
+                                      // Space between the circle and text
+                                      Text(
+                                        'Upload Identity Document',
+                                        style: AppTextStyle
+                                            .font14OpenSansRegularBlack45TextStyle,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 5),
                                 Container(
                                   height: 40,
                                   decoration: BoxDecoration(

@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:readmore/readmore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../presentation/complaints/complaintHomePage.dart';
 import '../presentation/complaints/raiseGrievance/notification.dart';
@@ -23,6 +24,58 @@ import '../presentation/temples/weather/weather.dart';
 import '../services/deleteaccountrepo.dart';
 
 // pdf downlodd path
+// shimmer
+Widget buildShimmerList() {
+  return ListView.builder(
+    itemCount: 6, // number of shimmer items while loading
+    itemBuilder: (context, index) {
+      return Column(
+        children: [
+          ListTile(
+            leading: Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: Container(
+                width: 35,
+                height: 35,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+            ),
+            title: Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: Container(
+                width: double.infinity,
+                height: 14,
+                color: Colors.white,
+              ),
+            ),
+            trailing: Shimmer.fromColors(
+              baseColor: Colors.grey[300]!,
+              highlightColor: Colors.grey[100]!,
+              child: Container(
+                width: 12,
+                height: 12,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 12, right: 12),
+            child: Container(
+              height: 1,
+              color: Colors.grey[300],
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
 
 Future<String> loadPdfFromAssets(String assetPath) async {
   try {
@@ -53,11 +106,12 @@ void displayToast(String msg){
       msg: msg,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.CENTER,
-      timeInSecForIosWeb: 1,
+      timeInSecForIosWeb: 8,
       backgroundColor: Colors.red,
       textColor: Colors.white,
       fontSize: 16.0);
 }
+
 // call dialog
 Widget buildDialogCall(BuildContext context, String sEmpName, String sContactNo) {
   return Dialog(
@@ -204,7 +258,6 @@ Widget buildDialogCall(BuildContext context, String sEmpName, String sContactNo)
                   ],
                 ),
               ),
-
             ],
           ),
         ),
@@ -369,6 +422,7 @@ middleHeaderPuri(BuildContext context, String templeName) {
     ],
   );
 }
+
  appBarFunction(BuildContext context,String title){
    return AppBar(
      // statusBarColore
@@ -471,6 +525,7 @@ getAppBarBack(BuildContext context ,String title) {
 }
 
 dynamic lat,long;
+
 class GeneralFunction {
 
   void logout(BuildContext context) async {
@@ -479,7 +534,6 @@ class GeneralFunction {
     goNext(context);
 
   }
-
   goNext(BuildContext context) {
     Navigator.pushAndRemoveUntil(
       context,
@@ -523,7 +577,6 @@ class GeneralFunction {
                       fontWeight: FontWeight.normal,
                     ),
                   ),
-
                 ],
               ),
             ),

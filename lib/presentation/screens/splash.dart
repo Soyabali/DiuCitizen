@@ -114,8 +114,9 @@ class _SplaceState extends State<SplashView> {
     var loginMap = await VerifyAppVersionRepo().verifyAppVersion(context,'2');
     var msg = "${loginMap['Msg']}";
     var iVersion = "${loginMap['iVersion']}";
+    print("---version :  $iVersion");
 
-    if(iVersion=="11"){
+    if(iVersion=="12"){
       // to check token is store or not
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var sContactNo = prefs.getString('sContactNo');
@@ -145,7 +146,7 @@ class _SplaceState extends State<SplashView> {
                 onPressed: () {
                   _launchGooglePlayStore(); // Close the dialog
                 },
-                child: const Text('Downlode'),
+                child: const Text('Download'),
               ),
 
             ],

@@ -138,8 +138,7 @@ class _TemplesHomeState extends State<GrievanceStatus> {
            //   ? NoDataScreen()
            //   :
          isLoading
-             ? Center(child:
-         Container())
+             ? buildShimmerList()
              : (pendingInternalComplaintList == null || pendingInternalComplaintList!.isEmpty)
              ? NoDataScreenPage()
              :

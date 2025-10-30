@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../../../app/generalFunction.dart';
 import '../../../../services/GetLisenceTradeList.dart';
 import '../../../nodatavalue/NoDataValue.dart';
 import '../../../resources/app_text_style.dart';
@@ -88,8 +89,7 @@ class _TradeDetailsPageState extends State<TradeDetailsPage> {
       ),
       body:
       isLoading
-          ? Center(child:
-      Container())
+          ? buildShimmerList()
           : (pendingInternalComplaintList == null || pendingInternalComplaintList!.isEmpty)
           ? NoDataScreenPage()
           :

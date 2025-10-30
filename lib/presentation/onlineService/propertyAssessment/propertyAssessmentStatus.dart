@@ -345,7 +345,7 @@ class _TemplesHomeState extends State<PropertyAssessmentStatus> {
         generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
         body:
         isLoading
-            ? Center(child: Container())
+            ? buildShimmerList()
             : (pendingInternalComplaintList == null ||
             pendingInternalComplaintList!.isEmpty)
             ? NoDataScreenPage()

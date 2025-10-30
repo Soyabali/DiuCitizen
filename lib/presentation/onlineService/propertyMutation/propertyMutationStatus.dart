@@ -300,8 +300,7 @@ class _TemplesHomeState extends State<PropertyMutationStatus> {
         //   ? NoDataScreen()
         //   :
         isLoading
-            ? Center(child:
-        Container())
+            ? buildShimmerList()
             : (getMutationStatus == null || getMutationStatus!.isEmpty)
             ? NoDataScreenPage()
             :

@@ -469,7 +469,7 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
          appBar: getAppBarBack(context, '${widget.name}'),
          body:
          isLoading
-                ? Center(child: Container())
+                ? buildShimmerList()
                 : (pendingInternalComplaintList == null ||
                         pendingInternalComplaintList!.isEmpty)
                     ? NoDataScreenPage()

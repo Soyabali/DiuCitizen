@@ -85,7 +85,7 @@ class _MyHomePageState extends State<EmergencyListPage> {
 
             body:
             isLoading
-                ? Center(child: Container())
+                ? buildShimmerList()
                 : (emergencyList == null || emergencyList!.isEmpty)
                 ? NoDataScreenPage()
                 :

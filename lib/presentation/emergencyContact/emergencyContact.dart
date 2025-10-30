@@ -98,7 +98,7 @@ class _TemplesHomeState extends State<EmergencyContacts> {
         ),
         body:
         isLoading
-            ? Center(child: Container())
+            ? buildShimmerList()
             : (emergencyTitleList == null || emergencyTitleList!.isEmpty)
             ? NoDataScreenPage()
             :

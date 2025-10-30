@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:puri/services/GetAdvertismentRequestStatus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../app/generalFunction.dart';
 import '../aboutDiu/Aboutdiupage.dart';
 import '../circle/circle.dart';
 import '../complaints/complaintHomePage.dart';
@@ -99,7 +100,7 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
         elevation: 0, // Removes shadow under the AppBar
       ),
       body: isLoading
-          ? Center(child: Container())
+          ? buildShimmerList()
           : (pendingInternalComplaintList == null ||
                   pendingInternalComplaintList!.isEmpty)
               ? NoDataScreenPage()
@@ -152,38 +153,42 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                                                     color: Colors.green,
                                                   ),
                                                   SizedBox(width: 5),
-                                                  //
-                                                  Column(
-                                                    mainAxisAlignment: MainAxisAlignment.start,
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      Padding(
-                                                        padding:
-                                                        const EdgeInsets.only(
-                                                            top: 12),
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .start,
-                                                          crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                          children: <Widget>[
-                                                            Text(item['sContent'] ?? '',
-                                                              style: AppTextStyle
-                                                                  .font12OpenSansRegularBlack45TextStyle,
-                                                            ),
-                                                            Text(
-                                                                "Advertisement Place : ${item['sAdSpacePlace'] ?? ''}",
-                                                                style: AppTextStyle
-                                                                    .font14OpenSansRegularBlack26TextStyle)
-                                                          ],
-                                                        ),
-                                                      ),
+                                                  Expanded(
+                                                    child: Column(
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                          const EdgeInsets.only(
+                                                              top: 12),
+                                                          child: Column(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                            crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                            children: <Widget>[
+                                                              Text(item['sContent'] ?? '',
+                                                                style: AppTextStyle.font12OpenSansRegularBlack45TextStyle,
+                                                                softWrap: true,
+                                                                overflow: TextOverflow.visible,
+                                                              ),
+                                                              Text(
+                                                                  "Advertisement Place : ${item['sAdSpacePlace'] ?? ''}",
+                                                                  style: AppTextStyle.font14OpenSansRegularBlack26TextStyle,
+                                                                   softWrap: true,
+                                                                  overflow: TextOverflow.visible,
+                                                              )
 
-                                                    ],
+                                                            ],
+                                                          ),
+                                                        ),
+
+                                                      ],
+                                                    ),
                                                   ),
-                                                  Spacer(),
                                                   Row(
                                                     mainAxisAlignment: MainAxisAlignment.end, // Align to right
                                                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -200,13 +205,10 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                                                         child: Text(item['sStatus'] ?? '',
                                                           textAlign: TextAlign.center,
                                                             style: AppTextStyle.font14OpenSansRegularWhiteTextStyle
-
-
                                                         ),
                                                       ),
                                                     ],
                                                   )
-
                                                 ],
                                               ),
                                             ),
@@ -232,7 +234,12 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                                                       SizedBox(height: 5),
                                                       Text('Content Description',style: AppTextStyle.font14OpenSansRegularBlack45TextStyle),
                                                       SizedBox(height: 2),
-                                                      Text(item['sContentDescription'] ?? '', style: AppTextStyle.font14OpenSansRegularBlack26TextStyle),
+                                                      Text(item['sContentDescription'] ?? '', style: AppTextStyle.font14OpenSansRegularBlack26TextStyle
+                                                      ,softWrap: true,
+                                                       overflow: TextOverflow.ellipsis
+
+
+                                                      ),
                                                     ],
                                                   )
                                                 ],
@@ -253,7 +260,11 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                                                     ),
                                                     SizedBox(width: 5),
                                                     Text(item['dPostedAt'] ?? '', style: AppTextStyle
-                                                    .font14OpenSansRegularBlack45TextStyle),
+                                                    .font14OpenSansRegularBlack45TextStyle
+                                                    ,
+                                                      softWrap: true,
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
                                                   ],
                                                 ),
                                               )
@@ -287,6 +298,8 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                                                         '₹ ${item['fTotalAmount'].toString()}',
                                                         style: AppTextStyle
                                                             .font14OpenSansRegularBlack26TextStyle,
+                                                        softWrap: true,
+                                                        overflow: TextOverflow.ellipsis,
                                                       )
                                                     ],
                                                   )
@@ -313,6 +326,8 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                                                     'No Of Day : ${item['sDays'].toString() ?? ''}',
                                                     style: AppTextStyle
                                                         .font14OpenSansRegularBlack26TextStyle,
+                                                    softWrap: true,
+                                                    overflow: TextOverflow.ellipsis,
                                                   ),
                                                 ),
                                               )
@@ -349,7 +364,10 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                                                       Text(
                                                           item['dFromDate'].toString(),
                                                           style: AppTextStyle
-                                                              .font14OpenSansRegularBlack26TextStyle),
+                                                              .font14OpenSansRegularBlack26TextStyle,
+                                                         softWrap: true,
+                                                        overflow: TextOverflow.ellipsis,
+                                                      ),
                                                     ],
                                                   )
                                                 ],
@@ -384,7 +402,10 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                                                                     .toString() ??
                                                                 '',
                                                             style: AppTextStyle
-                                                                .font14OpenSansRegularBlack26TextStyle),
+                                                                .font14OpenSansRegularBlack26TextStyle,
+                                                          softWrap: true,
+                                                          overflow: TextOverflow.ellipsis,
+                                                        ),
                                                       ],
                                                     )
                                                   ],
@@ -415,7 +436,10 @@ class _AdvertisementbookingstatusPageState extends State<Advertisementbookingsta
                                                   Text(
                                                       'Req.No : ${item['sRequestNo'].toString()}',
                                                       style: AppTextStyle
-                                                          .font14OpenSansRegularBlack45TextStyle)
+                                                          .font14OpenSansRegularBlack45TextStyle,
+                                                    softWrap: true,
+                                                    overflow: TextOverflow.ellipsis,
+                                                  )
                                                 ],
                                               ),
                                               // Apply a payment

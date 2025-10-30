@@ -99,7 +99,7 @@ class _AboutDiuState extends State<AboutDiu> {
 
         body:
         isLoading
-            ? Center(child: Container())
+            ? buildShimmerList()
             : (emergencyTitleList == null || emergencyTitleList!.isEmpty)
             ? NoDataScreenPage()
             :

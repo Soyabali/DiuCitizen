@@ -97,8 +97,7 @@ class _TemplesHomeState extends State<LicenseStatus> {
         appBar: getAppBarBack(context,'${widget.name}'),
         body :
         isLoading
-            ? Center(child:
-        Container())
+            ? buildShimmerList()
             : (pendingInternalComplaintList == null || pendingInternalComplaintList!.isEmpty)
             ? NoDataScreenPage()
             :

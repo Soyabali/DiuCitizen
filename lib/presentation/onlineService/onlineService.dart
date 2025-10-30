@@ -189,7 +189,7 @@ class _OnlineComplaintState extends State<OnlineServives> {
 
         body:
         isLoading
-            ? Center(child: Container())
+            ? buildShimmerList()
             : (OnlineTitle == null || OnlineTitle!.isEmpty)
             ? NoDataScreenPage()
             :

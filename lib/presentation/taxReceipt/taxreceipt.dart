@@ -162,7 +162,7 @@ class _OnlineComplaintState extends State<TaxReceipt> {
           elevation: 0,
         ),
         body: isLoading
-            ? const Center(child: CircularProgressIndicator())
+            ? buildShimmerList()
             : (emergencyTitleList == null || emergencyTitleList!.isEmpty)
             ? NoDataScreenPage()
             : ListView.builder(

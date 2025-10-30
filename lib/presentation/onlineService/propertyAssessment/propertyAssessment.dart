@@ -28,8 +28,8 @@ class PropertyAssessment extends StatefulWidget {
   State<PropertyAssessment> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<PropertyAssessment>
-    with TickerProviderStateMixin {
+class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStateMixin {
+
   List stateList = [];
   List<dynamic> subCategoryList = [];
   List<Map<String, dynamic>> bindcommunityHallDate = [];
@@ -271,6 +271,7 @@ class _MyHomePageState extends State<PropertyAssessment>
   double secondFloorCommercialPreviousValue = 0;
   double thirdFloorCommercialPreviousValue = 0;
   double mazzanineCommercialPreviousValue = 0;
+  String selectedUnit = 'Sq Ft';
 
   // ---selectDate---
 
@@ -358,8 +359,7 @@ class _MyHomePageState extends State<PropertyAssessment>
     /// todo remove the comment and call Community Hall
     bindDocumentTypePropertyList = await BindDocumentTypePropertyRepo()
         .bindDocumentyTypeProperty();
-    print(
-      " -----bindDocumnent Property Repo---->>>>-xx--154-----> $bindDocumentTypePropertyList",
+    print(" -----bindDocumnent Property Repo---->>>>-xx--154-----> $bindDocumentTypePropertyList",
     );
     setState(() {});
   }
@@ -658,7 +658,9 @@ class _MyHomePageState extends State<PropertyAssessment>
         "fTotalRentalResidentialArea": "$residentialRentalAreaSf",             //"fTotalRentalResidentialArea": residentialRentalAreaSf,
         "RentOfTotalRentalResidentialArea": rentOfTheResidentialRental,
         "sSurveyNo": surveyNo,
+        "sSelectUnitType":selectedUnit,
         "DocumentUploadList": thirdFormCombinedList,
+
       });
       String allThreeFormJson = jsonEncode(firstFormCombinedList);
       debugPrint(allThreeFormJson, wrapWidth: 1024);
@@ -1538,6 +1540,78 @@ class _MyHomePageState extends State<PropertyAssessment>
               ),
             ),
           ),
+          // total Area land BooleanValue
+          Padding(
+            padding: const EdgeInsets.only(left: 0),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // Align items vertically
+              children: <Widget>[
+                CircleWithSpacing(),
+                // Space between the circle and text
+                RichText(
+                  text: TextSpan(
+                    text: 'Select Units',
+                    // The normal text
+                    style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                    // Default style
+                    children: const [
+                      TextSpan(
+                        text: ' *', // The asterisk
+                        style: TextStyle(
+                          color: Colors.red, // Red color for the asterisk
+                          fontWeight: FontWeight
+                              .bold, // Optional: Make the asterisk bold
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            height: 50,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // SQ FT Radio
+                Row(
+                  children: [
+                    Radio<String>(
+                      value: 'Sq. ft.',
+                      groupValue: selectedUnit,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedUnit = value!;
+                        });
+                        print("---1643---$selectedUnit");
+                      },
+                    ),
+                    const Text('Sq Ft .'),
+                  ],
+                ),
+                // SQ MT Radio
+                Row(
+                  children: [
+                    Radio<String>(
+                      value: 'Sq. m.',
+                      groupValue: selectedUnit,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedUnit = value!;
+                        });
+                        print("---1658---$selectedUnit");
+                      },
+                    ),
+                    const Text('Sq Mt .'),
+                  ],
+                ),
+
+              ],
+            ),
+          ),
+          SizedBox(height: 5),
           // Total Carpet Area
           Padding(
             padding: const EdgeInsets.only(left: 0),
@@ -1625,6 +1699,7 @@ class _MyHomePageState extends State<PropertyAssessment>
               ),
             ),
           ),
+
           Padding(
             padding: const EdgeInsets.only(left: 0),
             child: Row(
@@ -1832,7 +1907,7 @@ class _MyHomePageState extends State<PropertyAssessment>
                     _buildCommercialPropertyDetailForm(),
                   // build thirdForm
                   _buildSectionHeader(
-                    title: "${uplodePhoto}. Uplode Photos",
+                    title: "${uplodePhoto}. Upload Photos",
                     isVisible: isThirdFormVisible,
                     isIconRotated: isThirdIconRotated,
                     color: Color(0xFFdac5e4),
