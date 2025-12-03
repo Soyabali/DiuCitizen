@@ -161,6 +161,7 @@ class _TemplesHomeState extends State<PropertyAssessmentStatus> {
                       /// TODO HERE YOU SHOUL CHNAGE THE PATH
 
                       var baseurl = "https://www.diusmartcity.com/SBICommunityHallDataFormGatewayMobile.aspx?QS=";
+
                       var paymentUrl = "$baseurl$sBookingReqId";
                       print(paymentUrl);
 

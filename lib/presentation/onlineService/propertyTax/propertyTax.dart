@@ -781,6 +781,7 @@ class _PropertyTaxState extends State<PropertyTaxDiu> {
                       // var houseNo = "${emergencyTitleList![index]['sHouseNo']}";
                       // var baseurl = "https://www.diusmartcity.com/PaymentGatewayMobile.aspx?QS=$houseNo&iWardCode=$iWardCode";
                       var baseurl = "https://www.diusmartcity.com/SBIPropertyTaxDataformGetewayMobile.aspx?QS=$houseNo&iWardCode=$iWardCode";
+                    //  var baseurl = "https://www.diusmartcity.com/User/PaymentCommunityHall.aspx?id=";
                       var sPageName = "Property Tax";
                       print('-----baseURL--$baseurl');
                       // close the dialogbOS

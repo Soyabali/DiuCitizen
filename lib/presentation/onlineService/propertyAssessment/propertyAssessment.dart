@@ -1699,7 +1699,6 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               ),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.only(left: 0),
             child: Row(

@@ -909,7 +909,6 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                                     )
                                                   ],
                                                 ),
-
                                                 iStatus == 1 && iPaymenyDone == 1
                                                     ? Container(
                                                     height:
@@ -933,13 +932,16 @@ class _TemplesHomeState extends State<CommunityHallStatus> {
                                           visible: (iStatus == 1 && iPaymenyDone == 0), // Only show for this condition
                                       child: InkWell(
                                         onTap: () async {
-
-                                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                                        var  sBookingReqId =  item['sBookingReqId'];
+                                       print("-----936---:$sBookingReqId");
+                                       SharedPreferences prefs = await SharedPreferences.getInstance();
                                           String? sContactNo = prefs.getString('sContactNo');
                                           var sPageName = "Community Hall Status";
                                           // Payment URL
-                                           var baseurl = "https://www.diusmartcity.com/root/User/PaymentCommunityHall.aspx?id=";
-                                           var paymentUrl = "$baseurl$sBookingReqId&user=$sContactNo";
+                                          // var baseurl = "https://www.diusmartcity.com/root/User/PaymentCommunityHall.aspx?id=";
+                                            var baseurl = "https://www.diusmartcity.com/User/PaymentCommunityHall.aspx?id=";
+                                         var paymentUrl = "$baseurl$sBookingReqId&user=$sContactNo";
+                                         // var paymentUrl = "https://www.diusmartcity.com/root/User/PaymentCommunityHall.aspx?id=070820251436242030&user=9695897706";
                                           print(paymentUrl);
                                           if(paymentUrl!=null&& paymentUrl!=''){
                                             print("--863--: $paymentUrl");
