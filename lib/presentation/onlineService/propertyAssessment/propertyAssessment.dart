@@ -1217,31 +1217,36 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _houseNofocus,
-                        controller: _houseNoController,
-                        textInputAction: TextInputAction.next,
-                        //keyboardType: TextInputType.number,
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 5.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _houseNofocus,
+                          controller: _houseNoController,
+                          textInputAction: TextInputAction.next,
+                          //keyboardType: TextInputType.number,
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 5.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true, // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color
                           ),
-                          filled: true, // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -1285,45 +1290,50 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _surveyNofocus,
-                        controller: _surveyNoController,
-                        textInputAction: TextInputAction.next,
-                        //keyboardType: TextInputType.number,
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 5.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _surveyNofocus,
+                          controller: _surveyNoController,
+                          textInputAction: TextInputAction.next,
+                          //keyboardType: TextInputType.number,
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 5.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(
+                              r'^\d{1,8}(\.\d{0,2})?$',
+                            ).hasMatch(value)) {
+                              //return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
-                            //return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -1367,31 +1377,36 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _ownerNamefocus,
-                        controller: _ownerNameController,
-                        textInputAction: TextInputAction.next,
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _ownerNamefocus,
+                          controller: _ownerNameController,
+                          textInputAction: TextInputAction.next,
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -1435,38 +1450,43 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _mobileNofocus,
-                        controller: _mobileNoController,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number,
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _mobileNofocus,
+                          controller: _mobileNoController,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.number,
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            // Allow only digits
+                            LengthLimitingTextInputFormatter(10),
+                            // Restrict input to a maximum of 10 digits
+                          ],
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          // Allow only digits
-                          LengthLimitingTextInputFormatter(10),
-                          // Restrict input to a maximum of 10 digits
-                        ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -1510,32 +1530,37 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _houseAddressfocus,
-                        controller: _houseAddressController,
-                        // keyboardType: TextInputType.number,
-                        textInputAction: TextInputAction.next,
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _houseAddressfocus,
+                          controller: _houseAddressController,
+                          // keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.next,
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -1651,50 +1676,55 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _totalCarpetAreafocus,
-                        controller: _totalCarpetAreaController,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _totalCarpetAreafocus,
+                          controller: _totalCarpetAreaController,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
 
-                        // keyboardType: TextInputType.number,
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 10.0,
+                          // keyboardType: TextInputType.number,
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                          ],
+                          // ✅ Validator
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                            {
+                              // return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                        ],
-                        // ✅ Validator
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
-                          {
-                            // return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -1973,52 +2003,57 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _basementSqFtfocus,
-                        controller: _basementSqFtController,
-                        textInputAction: TextInputAction.next,
-                        // keyboardType: TextInputType.num,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        onChanged: (value) => _updateValue(
-                          value,
-                          basementPreviousValue,
-                          (newVal) => basementPreviousValue = newVal,
-                        ),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 5.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _basementSqFtfocus,
+                          controller: _basementSqFtController,
+                          textInputAction: TextInputAction.next,
+                          // keyboardType: TextInputType.num,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          onChanged: (value) => _updateValue(
+                            value,
+                            basementPreviousValue,
+                            (newVal) => basementPreviousValue = newVal,
                           ),
-                          filled: true, // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 5.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true, // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                          ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                            {
+                              // return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                        ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
-                          {
-                            // return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -2062,55 +2097,60 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _groundFloorSqFtfocus,
-                        controller: _groundFloorSqFtController,
-                        textInputAction: TextInputAction.next,
-                        // keyboardType: TextInputType.number,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _groundFloorSqFtfocus,
+                          controller: _groundFloorSqFtController,
+                          textInputAction: TextInputAction.next,
+                          // keyboardType: TextInputType.number,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
 
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        onChanged: (value) => _updateValue(
-                          value,
-                          groundFloorPreviousValue,
-                          (newVal) => groundFloorPreviousValue = newVal,
-                        ),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 5.0,
-                            horizontal: 10.0,
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          onChanged: (value) => _updateValue(
+                            value,
+                            groundFloorPreviousValue,
+                            (newVal) => groundFloorPreviousValue = newVal,
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 5.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                         // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                          ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                            {
+                              // return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                        ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
-                          {
-                            // return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -2154,55 +2194,60 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _firstFloorSqFtfocus,
-                        controller: _firstFloorSqFtController,
-                        textInputAction: TextInputAction.next,
-                        // keyboardType: TextInputType.number,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        onChanged: (value) => _updateValue(
-                          value,
-                          firstFloorPreviousValue,
-                          (newVal) => firstFloorPreviousValue = newVal,
-                        ),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _firstFloorSqFtfocus,
+                          controller: _firstFloorSqFtController,
+                          textInputAction: TextInputAction.next,
+                          // keyboardType: TextInputType.number,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          onChanged: (value) => _updateValue(
+                            value,
+                            firstFloorPreviousValue,
+                            (newVal) => firstFloorPreviousValue = newVal,
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
-                        ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                        ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
-                          {
-                            // return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                         // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                          ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                            {
+                              // return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
 
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -2246,54 +2291,59 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _secondFloorSqFtfocus,
-                        controller: _secondFloorSqFtController,
-                        textInputAction: TextInputAction.next,
-                        // keyboardType: TextInputType.number,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        onChanged: (value) => _updateValue(
-                          value,
-                          secondFloorPreviousValue,
-                          (newVal) => secondFloorPreviousValue = newVal,
-                        ),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _secondFloorSqFtfocus,
+                          controller: _secondFloorSqFtController,
+                          textInputAction: TextInputAction.next,
+                          // keyboardType: TextInputType.number,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          onChanged: (value) => _updateValue(
+                            value,
+                            secondFloorPreviousValue,
+                            (newVal) => secondFloorPreviousValue = newVal,
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                        //  inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                          ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                            {
+                              // return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                      //  inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                        ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
-                          {
-                            // return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -2337,54 +2387,59 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _thirdFloorSqFtfocus,
-                        controller: _thirdFloorSqFtController,
-                        //keyboardType: TextInputType.number,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        textInputAction: TextInputAction.next,
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        onChanged: (value) => _updateValue(
-                          value,
-                          thirdFloorPreviousValue,
-                          (newVal) => thirdFloorPreviousValue = newVal,
-                        ),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _thirdFloorSqFtfocus,
+                          controller: _thirdFloorSqFtController,
+                          //keyboardType: TextInputType.number,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          textInputAction: TextInputAction.next,
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          onChanged: (value) => _updateValue(
+                            value,
+                            thirdFloorPreviousValue,
+                            (newVal) => thirdFloorPreviousValue = newVal,
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                         // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                          ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                            {
+                              // return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                        ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
-                          {
-                            // return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -2487,49 +2542,54 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _residentalRentalAreafocus,
-                        controller: _residentalRentalAreaController,
-                        textInputAction: TextInputAction.next,
-                        // keyboardType: TextInputType.number,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _residentalRentalAreafocus,
+                          controller: _residentalRentalAreaController,
+                          textInputAction: TextInputAction.next,
+                          // keyboardType: TextInputType.number,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          //inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                          ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                            {
+                              // return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        //inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                        ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
-                          {
-                            // return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -2573,52 +2633,57 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _rentOfTheResidentialRentalPropertyfocus,
-                        controller:
-                            _rentOfTheResidentialRentalPropertyController,
-                        textInputAction: TextInputAction.next,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _rentOfTheResidentialRentalPropertyfocus,
+                          controller:
+                              _rentOfTheResidentialRentalPropertyController,
+                          textInputAction: TextInputAction.next,
 
-                        // keyboardType: TextInputType.number,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 10.0,
+                          // keyboardType: TextInputType.number,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
-                        ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        //inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                        ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
-                          {
-                            // return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          //inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                          ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                            {
+                              // return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
 
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -2662,50 +2727,55 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _nonResidentialPropertyfocus,
-                        controller: _nonResidentialPropertyController,
-                        textInputAction: TextInputAction.next,
-                        // keyboardType: TextInputType.number,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _nonResidentialPropertyfocus,
+                          controller: _nonResidentialPropertyController,
+                          textInputAction: TextInputAction.next,
+                          // keyboardType: TextInputType.number,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
-                        ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                        ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
-                          {
-                            // return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                         // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                          ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                            {
+                              // return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
 
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -2749,45 +2819,50 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _useOfNonResidentialPropertyfocus,
-                        controller: _useOfNonResidentialPropertyController,
-                        //  textInputAction: TextInputAction.next,
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _useOfNonResidentialPropertyfocus,
+                          controller: _useOfNonResidentialPropertyController,
+                          //  textInputAction: TextInputAction.next,
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                          // ✅ Validator
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(
+                              r'^\d{1,8}(\.\d{0,2})?$',
+                            ).hasMatch(value)) {
+                              // return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                        // ✅ Validator
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(
-                            r'^\d{1,8}(\.\d{0,2})?$',
-                          ).hasMatch(value)) {
-                            // return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -2842,55 +2917,60 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _basementSqFtCommercialfocus,
-                        controller: _basementSqFtCommercialController,
-                        textInputAction: TextInputAction.next,
-                        // keyboardType: TextInputType.number,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        onChanged: (value) => _updateValueCommercial(
-                          value,
-                          groundFloorCommercialPreviousValue,
-                          (newVal) =>
-                              groundFloorCommercialPreviousValue = newVal,
-                        ),
-
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 5.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _basementSqFtCommercialfocus,
+                          controller: _basementSqFtCommercialController,
+                          textInputAction: TextInputAction.next,
+                          // keyboardType: TextInputType.number,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          onChanged: (value) => _updateValueCommercial(
+                            value,
+                            groundFloorCommercialPreviousValue,
+                            (newVal) =>
+                                groundFloorCommercialPreviousValue = newVal,
                           ),
-                          filled: true, // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color
+
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 5.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true, // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                         // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                          ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                            {
+                              // return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                        ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
-                          {
-                            // return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -2934,55 +3014,60 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _groundFloorSqFtCommercialfocus,
-                        controller: _groundFloorSqFtCommercialController,
-                        textInputAction: TextInputAction.next,
-                        // keyboardType: TextInputType.number,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        onChanged: (value) => _updateValueCommercial(
-                          value,
-                          basementCommercialPreviousValue,
-                          (newVal) => basementCommercialPreviousValue = newVal,
-                        ),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 5.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _groundFloorSqFtCommercialfocus,
+                          controller: _groundFloorSqFtCommercialController,
+                          textInputAction: TextInputAction.next,
+                          // keyboardType: TextInputType.number,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          onChanged: (value) => _updateValueCommercial(
+                            value,
+                            basementCommercialPreviousValue,
+                            (newVal) => basementCommercialPreviousValue = newVal,
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
-                        ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                        ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
-                          {
-                            // return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 5.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                         // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                          ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                            {
+                              // return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
 
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -3026,55 +3111,60 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _firstFloorSqFtCommercialfocus,
-                        controller: _firstFloorSqFtCommercialController,
-                        textInputAction: TextInputAction.next,
-                        // keyboardType: TextInputType.number,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        onChanged: (value) => _updateValueCommercial(
-                          value,
-                          firstFloorCommercialPreviousValue,
-                          (newVal) =>
-                              firstFloorCommercialPreviousValue = newVal,
-                        ),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _firstFloorSqFtCommercialfocus,
+                          controller: _firstFloorSqFtCommercialController,
+                          textInputAction: TextInputAction.next,
+                          // keyboardType: TextInputType.number,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          onChanged: (value) => _updateValueCommercial(
+                            value,
+                            firstFloorCommercialPreviousValue,
+                            (newVal) =>
+                                firstFloorCommercialPreviousValue = newVal,
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          //inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                          ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                            {
+                              // return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        //inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                        ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
-                          {
-                            // return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -3118,55 +3208,60 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _secondFloorSqFtCommercialfocus,
-                        controller: _secondFloorSqFtCommercialController,
-                        // textInputAction: TextInputAction.next,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                       // keyboardType: TextInputType.number,
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        onChanged: (value) => _updateValueCommercial(
-                          value,
-                          secondFloorCommercialPreviousValue,
-                          (newVal) =>
-                              secondFloorCommercialPreviousValue = newVal,
-                        ),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _secondFloorSqFtCommercialfocus,
+                          controller: _secondFloorSqFtCommercialController,
+                          // textInputAction: TextInputAction.next,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                         // keyboardType: TextInputType.number,
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          onChanged: (value) => _updateValueCommercial(
+                            value,
+                            secondFloorCommercialPreviousValue,
+                            (newVal) =>
+                                secondFloorCommercialPreviousValue = newVal,
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                         // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                          ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                            {
+                              // return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                        ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
-                          {
-                            // return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -3210,55 +3305,60 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _thirdFloorSqFtCommercialfocus,
-                        controller: _thirdFloorSqFtCommercialController,
-                        //keyboardType: TextInputType.number,
-                        // textInputAction: TextInputAction.next,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        onChanged: (value) => _updateValueCommercial(
-                          value,
-                          thirdFloorCommercialPreviousValue,
-                          (newVal) =>
-                              thirdFloorCommercialPreviousValue = newVal,
-                        ),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _thirdFloorSqFtCommercialfocus,
+                          controller: _thirdFloorSqFtCommercialController,
+                          //keyboardType: TextInputType.number,
+                          // textInputAction: TextInputAction.next,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          onChanged: (value) => _updateValueCommercial(
+                            value,
+                            thirdFloorCommercialPreviousValue,
+                            (newVal) =>
+                                thirdFloorCommercialPreviousValue = newVal,
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                         // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                          ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                            {
+                              // return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                        ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
-                          {
-                            // return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -3302,53 +3402,58 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _mezzanineFloorsProperyCommercialfocus,
-                        controller: _mezzanineFloorsProperyController,
-                       // keyboardType: TextInputType.number,
-                        // textInputAction: TextInputAction.next,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        onChanged: (value) => _updateValueCommercial(
-                          value,
-                          mazzanineCommercialPreviousValue,
-                          (newVal) => mazzanineCommercialPreviousValue = newVal,
-                        ),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _mezzanineFloorsProperyCommercialfocus,
+                          controller: _mezzanineFloorsProperyController,
+                         // keyboardType: TextInputType.number,
+                          // textInputAction: TextInputAction.next,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          onChanged: (value) => _updateValueCommercial(
+                            value,
+                            mazzanineCommercialPreviousValue,
+                            (newVal) => mazzanineCommercialPreviousValue = newVal,
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                          ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                            {
+                              // return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                        ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
-                          {
-                            // return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -3465,49 +3570,54 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _residentalRentalAreaCommercialfocus,
-                        controller: _residentalRentalAreaCommercialController,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        //keyboardType: TextInputType.number,
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _residentalRentalAreaCommercialfocus,
+                          controller: _residentalRentalAreaCommercialController,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          //keyboardType: TextInputType.number,
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                         // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                          ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                            {
+                              // return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                        ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
-                          {
-                            // return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -3551,51 +3661,56 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode:
-                            _rentOfTheResidentialRentalPropertyCommercialfocus,
-                        controller:
-                            _rentOfTheResidentialRentalPropertyCommercialController,
-                        textInputAction: TextInputAction.next,
-                        // keyboardType: TextInputType.number,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode:
+                              _rentOfTheResidentialRentalPropertyCommercialfocus,
+                          controller:
+                              _rentOfTheResidentialRentalPropertyCommercialController,
+                          textInputAction: TextInputAction.next,
+                          // keyboardType: TextInputType.number,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          //inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                          ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                            {
+                              // return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        //inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                        ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
-                          {
-                            // return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -3639,49 +3754,54 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _nonResidentialPropertyCommercialfocus,
-                        controller: _nonResidentialPropertyCommercialController,
-                        textInputAction: TextInputAction.next,
-                        // keyboardType: TextInputType.number,
-                        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _nonResidentialPropertyCommercialfocus,
+                          controller: _nonResidentialPropertyCommercialController,
+                          textInputAction: TextInputAction.next,
+                          // keyboardType: TextInputType.number,
+                          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                         // inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                            FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                          ],
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter a value';
+                            }
+                            // ✅ Check if value is a valid number with up to 2 decimals
+                            if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
+                            {
+                              // return 'Enter numbers only (max 2 decimals)';
+                            }
+                            return null;
+                          },
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                       // inputFormatters: [LengthLimitingTextInputFormatter(10)],
-                        inputFormatters: [
-                          LengthLimitingTextInputFormatter(10),
-                          FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
-                        ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please enter a value';
-                          }
-                          // ✅ Check if value is a valid number with up to 2 decimals
-                          if (!RegExp(r'^\d+(\.\d{1,2})?$').hasMatch(value))
-                          {
-                            // return 'Enter numbers only (max 2 decimals)';
-                          }
-                          return null;
-                        },
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -3725,32 +3845,37 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
               color: Colors.white,
               child: Padding(
                 padding: const EdgeInsets.only(left: 14, right: 14),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _useOfNonResidentialCommercialfocus,
-                        controller: _useOfNonResidentialCommercialController,
-                        textInputAction: TextInputAction.next,
-                        // keyboardType: TextInputType.number,
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: 10.0,
-                            horizontal: 10.0,
+                child: GestureDetector(
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                  },
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: TextFormField(
+                          focusNode: _useOfNonResidentialCommercialfocus,
+                          controller: _useOfNonResidentialCommercialController,
+                          textInputAction: TextInputAction.next,
+                          // keyboardType: TextInputType.number,
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 10.0,
+                              horizontal: 10.0,
+                            ),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                              0xFFf2f3f5,
+                            ), // Set your desired background color here
                           ),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                            0xFFf2f3f5,
-                          ), // Set your desired background color here
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
