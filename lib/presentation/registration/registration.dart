@@ -223,6 +223,20 @@ class _LoginPageState extends State<RegistrationPage> {
                                            var name = _userController.text.trim();
                                           var phone = _phoneNumberController.text.trim();
 
+                                           if (phone.isEmpty) {
+                                             displayToast("Please enter mobile number");
+                                             phoneNumberfocus.requestFocus();
+                                             return;
+                                           }
+
+                                           // 2️⃣ Length validation (MAIN REQUIREMENT)
+                                           if (phone.length < 10) {
+                                             displayToast("Please enter minimum 10 digit number");
+                                             phoneNumberfocus.requestFocus();
+                                             return;
+                                           }
+
+
                                           if(_formKey.currentState!.validate() && name.isNotEmpty && phone.isNotEmpty){
                                             // Call Api
                                             registrationMap = await CitizenRegistrationRepo().citizenRegistration(context, name!, phone);

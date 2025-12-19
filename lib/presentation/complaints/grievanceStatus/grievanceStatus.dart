@@ -43,7 +43,7 @@ class _TemplesHomeState extends State<GrievanceStatus> {
 
   pendingInternalComplaintResponse() async {
     pendingInternalComplaintList = await CitizenMyPostComplaintRepo().cityzenpostcomplaint(context);
-    print('-----5----$pendingInternalComplaintList');
+    print('-----46----$pendingInternalComplaintList');
     _filteredData = List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
 
     setState(() {
@@ -73,9 +73,17 @@ class _TemplesHomeState extends State<GrievanceStatus> {
         String location = item['sCompId'].toLowerCase();
         String pointType = item['sSubCategoryName'].toLowerCase();
         String sector = item['sCategoryName'].toLowerCase();
+        String sWardName = item['sWardName'].toLowerCase();
+        String sAddress = item['sAddress'].toLowerCase();
+        String sStatus = item['sStatus'].toLowerCase();
+
         return location.contains(query) ||
             pointType.contains(query) ||
-            sector.contains(query);
+            sector.contains(query) ||
+            sWardName.contains(query) ||
+            sAddress.contains(query) ||
+            sStatus.contains(query)
+        ;
       }).toList() ??
           [];
     });
@@ -132,7 +140,7 @@ class _TemplesHomeState extends State<GrievanceStatus> {
           backgroundColor: Colors.white,
            appBar: getAppBarBack(context,'${widget.name}'),
          // appBar: getAppBarBack(context,'jjsjsjsj'),
-          drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
+         // drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
          body :
            // pendingInternalComplaintList == null
            //   ? NoDataScreen()

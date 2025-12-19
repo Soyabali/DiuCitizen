@@ -202,31 +202,74 @@ class _LoginPageState extends State<LoginPage> {
                                       padding: const EdgeInsets.only(left: 13,right: 13),
                                       child: InkWell(
                                         onTap: () async {
-                                          var phone = _phoneNumberController.text;
-                                          if(_formKey.currentState!.validate() && phone != null && phone!='') {
-                                            // Call Api
-                                            loginMap = await LoginRepo().login(context, phone);
-                                            print("------299---$loginMap");
-                                            result = "${loginMap['Result']}";
-                                            msg = "${loginMap['Msg']}";
-                                          }else{
-                                            if(_phoneNumberController.text.isEmpty){
-                                              phoneNumberfocus.requestFocus();
-                                            }
-                                          } // condition to fetch a response form a api
-                                          if(result=="1"){
+                                          String phone = _phoneNumberController.text.trim();
 
+                                          // 1️⃣ Empty check
+                                          if (phone.isEmpty) {
+                                            displayToast("Please enter mobile number");
+                                            phoneNumberfocus.requestFocus();
+                                            return;
+                                          }
+
+                                          // 2️⃣ Length validation (MAIN REQUIREMENT)
+                                          if (phone.length < 10) {
+                                            displayToast("Please enter minimum 10 digit number");
+                                            phoneNumberfocus.requestFocus();
+                                            return;
+                                          }
+
+                                          // 3️⃣ Optional: form validation
+                                          if (!_formKey.currentState!.validate()) {
+                                            return;
+                                          }
+
+                                          // 4️⃣ Call API only when phone is valid
+                                          loginMap = await LoginRepo().login(context, phone);
+                                          print("------299---$loginMap");
+
+                                          result = "${loginMap['Result']}";
+                                          msg = "${loginMap['Msg']}";
+
+                                          // 5️⃣ API response handling
+                                          if (result == "1") {
                                             Navigator.pushAndRemoveUntil(
                                               context,
-                                              MaterialPageRoute(builder: (context) => OtpPage(phone:phone)),
-                                                  (Route<dynamic> route) => false, // This condition removes all previous routes
+                                              MaterialPageRoute(
+                                                builder: (context) => OtpPage(phone: phone),
+                                              ),
+                                                  (Route<dynamic> route) => false,
                                             );
-
-                                          }else{
+                                          } else {
                                             displayToast(msg);
-
                                           }
                                         },
+
+                                        // onTap: () async {
+                                        //   var phone = _phoneNumberController.text;
+                                        //   if(_formKey.currentState!.validate() && phone != null && phone!='') {
+                                        //     // Call Api
+                                        //     loginMap = await LoginRepo().login(context, phone);
+                                        //     print("------299---$loginMap");
+                                        //     result = "${loginMap['Result']}";
+                                        //     msg = "${loginMap['Msg']}";
+                                        //   }else{
+                                        //     if(_phoneNumberController.text.isEmpty){
+                                        //       phoneNumberfocus.requestFocus();
+                                        //     }
+                                        //   } // condition to fetch a response form a api
+                                        //   if(result=="1"){
+                                        //
+                                        //     Navigator.pushAndRemoveUntil(
+                                        //       context,
+                                        //       MaterialPageRoute(builder: (context) => OtpPage(phone:phone)),
+                                        //           (Route<dynamic> route) => false, // This condition removes all previous routes
+                                        //     );
+                                        //
+                                        //   }else{
+                                        //     displayToast(msg);
+                                        //
+                                        //   }
+                                        // },
                                         child: Container(
                                           width: double.infinity, // Make container fill the width of its parent
                                           height: AppSize.s45,

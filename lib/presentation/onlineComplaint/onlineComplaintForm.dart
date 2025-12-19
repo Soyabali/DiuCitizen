@@ -230,11 +230,20 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
                         Expanded(
                           child: Text(
                             item['sSubCategoryName'].toString(),
-                            overflow: TextOverflow.ellipsis,
-                            // Handles long text
+                            maxLines: 2,                 // allow text to go to next line
+                            softWrap: true,              // enable wrapping
+                            overflow: TextOverflow.visible, // do NOT cut text
                             style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
                           ),
                         ),
+                        // Expanded(
+                        //   child: Text(
+                        //     item['sSubCategoryName'].toString(),
+                        //     overflow: TextOverflow.ellipsis,
+                        //     // Handles long text
+                        //     style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                        //   ),
+                        // ),
                       ],
                     ),
                   );

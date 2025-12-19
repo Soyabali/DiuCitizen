@@ -114,6 +114,10 @@ class _MyHomePageState extends State<BookAdvertisement> with TickerProviderState
   var uplodedImage;
   double? lat, long;
   List<String> selectedDates = []; // List to store selected dates
+  //
+  int calculateTotalDays(DateTime fromDate, DateTime toDate) {
+    return toDate.difference(fromDate).inDays + 1;
+  }
 
   bool isSuccess = false;
   bool isLoading = false;
@@ -122,10 +126,11 @@ class _MyHomePageState extends State<BookAdvertisement> with TickerProviderState
   File? image2;
   var _fromDate;
   var _toDate;
+  var daysValue;
   DateTime? _fromDateValue;
   DateTime? _toDateValue;
   List<bool> selectedStates = [];
-  Set<int> selectedIndices = {}; // To track selected items by index
+  Set<int> selectedIndices = {};     // To track selected items by index
   List<dynamic>? consuambleItemList = [];
 
   // firstPage secondPage and ThirdPage
@@ -460,7 +465,7 @@ class _MyHomePageState extends State<BookAdvertisement> with TickerProviderState
       selectedStates = List.generate(bindcommunityHallDate.length, (index) => false);
     }
   }
-  getSaveValue()async {
+  getSaveValue() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var sContactNo = prefs.getString('sContactNo');
     var sCitizenName = prefs.getString('sCitizenName');
@@ -820,87 +825,89 @@ class _MyHomePageState extends State<BookAdvertisement> with TickerProviderState
                                               children: <Widget>[
                                                 InkWell(
                                                   onTap: () async {
+                                                    // 1️⃣ Check number of days first
+                                                    if (_daysController.text.trim().isEmpty) {
+                                                      displayToast("Please enter number of days");
+                                                      return;
+                                                    }
+                                                    int numberOfDays = int.parse(_daysController.text.trim());
+
                                                     DateTime? pickedDate = await showDatePicker(
                                                       context: context,
                                                       initialDate: DateTime.now(),
-                                                      // Set the current date as the initial date
                                                       firstDate: DateTime.now(),
-                                                      // Prevent selection of past dates
-                                                      lastDate: DateTime(2101), // Set the maximum selectable date
+                                                      lastDate: DateTime(2101),
                                                     );
 
                                                     if (pickedDate != null) {
-                                                      if (_toDateValue != null && pickedDate.isAfter(_toDateValue!)) {
-                                                        // ❌ Invalid: From Date > To Date
-                                                        ScaffoldMessenger.of(context).showSnackBar(
-                                                          SnackBar(content: Text('From Date cannot be later than To Date')),
-                                                        );
-                                                      } else {
-                                                        // ✅ Valid selection
-                                                        String formattedDate = DateFormat('dd/MMM/yyyy').format(pickedDate);
-                                                        setState(() {
-                                                          _fromDate = formattedDate;
-                                                          _fromDateValue = pickedDate;
-                                                        });
-                                                      }
+                                                      // 2️⃣ Calculate To Date
+                                                      DateTime calculatedToDate =
+                                                      pickedDate.add(Duration(days: numberOfDays - 1));
+
+                                                      setState(() {
+                                                        // FROM DATE
+                                                        _fromDateValue = pickedDate;
+                                                        _fromDate = DateFormat('dd/MMM/yyyy').format(pickedDate);
+
+                                                        // TO DATE (AUTO CALCULATED)
+                                                        _toDateValue = calculatedToDate;
+                                                        _toDate = DateFormat('dd/MMM/yyyy').format(calculatedToDate);
+
+                                                        print("From Date: $_fromDate");
+                                                        print("To Date: $_toDate");
+                                                      });
                                                     }
-                                                    //   String formattedDate = DateFormat('dd/MMM/yyyy').format(pickedDate);
-                                                    //   setState(() {
-                                                    //     _fromDate = formattedDate; // Update the selected date
-                                                    //     _fromDateValue = pickedDate;
-                                                    //   });
-                                                    //   print(
-                                                    //       "----1285------$_fromDate");
-                                                    // }
-                                                    // print("---From Date----");
                                                   },
                                                   child: Container(
-                                                      height: 60,
-                                                      child: Column(
-                                                        children: [
-                                                          // Asset Image
-                                                          Image.asset(
-                                                            'assets/images/calendar.png',
-                                                            // Replace with your asset path
-                                                            height: 40,
-                                                            width: 40,
-                                                            fit: BoxFit.fill,
-                                                          ),
-                                                          // Spacer between image and text
-                                                          // Text Widget
-                                                          Text(
-                                                          _fromDate != null && _fromDate.isNotEmpty ? _fromDate : 'From Date',
-                                                          style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                                                       )
-                                                        ],
-                                                      )),
+                                                    height: 60,
+                                                    child: Column(
+                                                      children: [
+                                                        Image.asset(
+                                                          'assets/images/calendar.png',
+                                                          height: 40,
+                                                          width: 40,
+                                                          fit: BoxFit.fill,
+                                                        ),
+                                                        Text(
+                                                          _fromDate != null && _fromDate.isNotEmpty
+                                                              ? _fromDate
+                                                              : 'From Date',
+                                                          style:
+                                                          AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
                                                 ),
+
+
                                                 InkWell(
                                                   onTap: () async {
                                                     // to date
-                                                    DateTime? pickedDate = await showDatePicker(
-                                                      context: context,
-                                                      initialDate: DateTime.now(),
-                                                      // Set the current date as the initial date
-                                                      firstDate: DateTime.now(),
-                                                      // Prevent selection of past dates
-                                                      lastDate: DateTime(2101), // Set the maximum selectable date
-                                                    );
+                                                    // DateTime? pickedDate = await showDatePicker(
+                                                    //   context: context,
+                                                    //   initialDate: DateTime.now(),
+                                                    //   // Set the current date as the initial date
+                                                    //   firstDate: DateTime.now(),
+                                                    //   // Prevent selection of past dates
+                                                    //   lastDate: DateTime(2101), // Set the maximum selectable date
+                                                    // );
 
-                                                    if (pickedDate != null) {
-                                                      if (_fromDateValue != null && pickedDate.isBefore(_fromDateValue!)) {
-                                                        // Show validation error
-                                                        ScaffoldMessenger.of(context).showSnackBar(
-                                                          SnackBar(content: Text('To Date cannot be earlier than From Date')),
-                                                        );
-                                                      } else {
-                                                        String formattedDate = DateFormat('dd/MMM/yyyy').format(pickedDate);
-                                                        setState(() {
-                                                          _toDate = formattedDate;
-                                                          _toDateValue = pickedDate;
-                                                        });
-                                                      }
-                                                    }
+                                                    // if (pickedDate != null) {
+                                                    //   if (_fromDateValue != null && pickedDate.isBefore(_fromDateValue!)) {
+                                                    //     // Show validation error
+                                                    //     ScaffoldMessenger.of(context).showSnackBar(
+                                                    //       SnackBar(content: Text('To Date cannot be earlier than From Date')),
+                                                    //     );
+                                                    //   } else {
+                                                    //     String formattedDate = DateFormat('dd/MMM/yyyy').format(pickedDate);
+                                                    //     setState(() {
+                                                    //       _toDate = formattedDate;
+                                                    //       _toDateValue = pickedDate;
+                                                    //       print("----904---$_toDateValue");
+                                                    //     });
+                                                    //   }
+                                                    // }
                                                     //   String formattedDate = DateFormat('dd/MMM/yyyy').format(pickedDate);
                                                     //   setState(() {
                                                     //     _toDate = formattedDate; // Update the selected date
@@ -1505,39 +1512,47 @@ class _MyHomePageState extends State<BookAdvertisement> with TickerProviderState
                 child: Column(
                   children: [
                     Expanded(
-                      child: TextFormField(
-                        focusNode: _sizeOfAdvertisementfocus,
-                        controller: _sizeOfAdvertisementController,
-                        keyboardType: TextInputType.number,
-                        textInputAction: TextInputAction.next,
-                        onChanged: (value) {
-                          // Update the current text
-                          setState(() {
-                            num number = num.parse(value);
-                            sizeOfAdvertisementValue = number;
-                           // totalamout+=number;
-                            print('----->>>>>>----$sizeOfAdvertisementValue');
+                      child: GestureDetector(
+                        onTap: (){
+                          FocusScope.of(context).unfocus();
+                        },
+                        child: TextFormField(
+                          focusNode: _sizeOfAdvertisementfocus,
+                          controller: _sizeOfAdvertisementController,
+                          keyboardType: TextInputType.number,
+                          textInputAction: TextInputAction.next,
+                          onChanged: (value) {
+                            // Update the current text
+                            setState(() {
+                              num number = num.parse(value);
+                              sizeOfAdvertisementValue = number;
+                             // totalamout+=number;
+                              totalAmountValue = daysValue*sizeOfAdvertisementValue*_dropDownfAmount;
+                             // print("-----1551---$totalAmountValue");
+                              _totalAmountController.text=totalAmountValue.toString();
+                              //print('----->>>>>>----$sizeOfAdvertisementValue');
 
-                          });
-                          },
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                              0xFFf2f3f5), // Set your desired background color here
+                            });
+                            },
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 10.0),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                                0xFFf2f3f5), // Set your desired background color here
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                            // Allow only digits
+                            LengthLimitingTextInputFormatter(10),
+                            // Restrict input to a maximum of 10 digits
+                          ],
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          // Allow only digits
-                          LengthLimitingTextInputFormatter(10),
-                          // Restrict input to a maximum of 10 digits
-                        ],
                       ),
                     ),
                   ],
@@ -1586,39 +1601,43 @@ class _MyHomePageState extends State<BookAdvertisement> with TickerProviderState
                 child: Column(
                   children: [
                     Expanded(
-                      child: TextFormField(
-                        focusNode: _daysfocus,
-                        controller: _daysController,
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.number, // Numeric keyboard
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly, // Accept only digits
-                          LengthLimitingTextInputFormatter(2),
-                        ],
-                        onChanged: (value) {
-                          // Update the current text
-                          setState(() {
-                            num number = num.parse(value);
-                          var daysValue = number;
-
-                            totalAmountValue = daysValue*sizeOfAdvertisementValue*_dropDownfAmount;
-                            print("-----1551---$totalAmountValue");
-                            _totalAmountController.text=totalAmountValue.toString();
-
-                          });
+                      child: GestureDetector(
+                        onTap: (){
+                          FocusScope.of(context).unfocus();
                         },
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                              0xFFf2f3f5), // Set your desired background color here
+                        child: TextFormField(
+                          focusNode: _daysfocus,
+                          controller: _daysController,
+                          textInputAction: TextInputAction.next,
+                          keyboardType: TextInputType.number, // Numeric keyboard
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly, // Accept only digits
+                            LengthLimitingTextInputFormatter(2),
+                          ],
+                          onChanged: (value) {
+                            // Update the current text
+                            setState(() {
+                              num number = num.parse(value);
+                               daysValue = number;
+                               totalAmountValue = daysValue*sizeOfAdvertisementValue*_dropDownfAmount;
+                              print("-----1551---$totalAmountValue");
+                              _totalAmountController.text=totalAmountValue.toString();
+
+                            });
+                          },
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 10.0),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                                0xFFf2f3f5), // Set your desired background color here
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
                       ),
                     ),
                   ],
@@ -1668,23 +1687,28 @@ class _MyHomePageState extends State<BookAdvertisement> with TickerProviderState
                 child: Column(
                   children: [
                     Expanded(
-                      child: TextFormField(
-                        focusNode: _totalAmountfocus,
-                        controller: _totalAmountController,
-                        textInputAction: TextInputAction.next,
-                        readOnly: true,
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                              0xFFf2f3f5), // Set your desired background color here
+                      child: GestureDetector(
+                        onTap: (){
+                          FocusScope.of(context).unfocus();
+                        },
+                        child: TextFormField(
+                          focusNode: _totalAmountfocus,
+                          controller: _totalAmountController,
+                          textInputAction: TextInputAction.next,
+                          readOnly: true,
+                          onEditingComplete: () =>
+                              FocusScope.of(context).nextFocus(),
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 10.0, horizontal: 10.0),
+                            filled: true,
+                            // Enable background color
+                            fillColor: Color(
+                                0xFFf2f3f5), // Set your desired background color here
+                          ),
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
                         ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
                       ),
                     ),
                   ],

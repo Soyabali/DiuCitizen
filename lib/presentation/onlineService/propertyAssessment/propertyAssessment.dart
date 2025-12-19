@@ -1623,7 +1623,7 @@ class _MyHomePageState extends State<PropertyAssessment> with TickerProviderStat
                 // Space between the circle and text
                 RichText(
                   text: TextSpan(
-                    text: 'Total Area of Land/Plot(sq. Feet)',
+                    text: 'Total Area of Land/Plot',
                     // The normal text
                     style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
                     // Default style
