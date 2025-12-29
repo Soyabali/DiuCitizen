@@ -178,24 +178,40 @@ var  firstStatus;
                     print("------158--MonthCode---$_selectedMonthCode");
                   });
                 },
-
                 items: wardList.map((dynamic item) {
                   return DropdownMenuItem(
                     value: item["sCommunityHallName"].toString(),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            item['sCommunityHallName'].toString(),
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTextStyle
-                                .font14OpenSansRegularBlack45TextStyle,
-                          ),
-                        ),
-                      ],
+                    child: SizedBox(
+                      width: double.infinity, // important for wrapping
+                      child: Text(
+                        item['sCommunityHallName'].toString(),
+                        maxLines: 2,
+                        softWrap: true,
+                        overflow: TextOverflow.visible,
+                        style: AppTextStyle
+                            .font14OpenSansRegularBlack45TextStyle,
+                      ),
                     ),
                   );
                 }).toList(),
+
+                // items: wardList.map((dynamic item) {
+                //   return DropdownMenuItem(
+                //     value: item["sCommunityHallName"].toString(),
+                //     child: Row(
+                //       children: [
+                //         Expanded(
+                //           child: Text(
+                //             item['sCommunityHallName'].toString(),
+                //             overflow: TextOverflow.ellipsis,
+                //             style: AppTextStyle
+                //                 .font14OpenSansRegularBlack45TextStyle,
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   );
+                // }).toList(),
               ),
             ),
           ),
@@ -1297,40 +1313,75 @@ var  firstStatus;
                                         children: [
                                           Expanded(
                                             child: TextFormField(
-                                              focusNode:
-                                                  _applicationMoboileNofocus,
-                                              controller:
-                                                  _applicationMoboileNoController,
-                                              textInputAction:
-                                                  TextInputAction.next,
-                                              onEditingComplete: () =>
-                                                  FocusScope.of(context)
-                                                      .nextFocus(),
+                                              focusNode: _applicationMoboileNofocus,
+                                              controller: _applicationMoboileNoController,
+                                              textInputAction: TextInputAction.next,
+                                              keyboardType: TextInputType.number,
+                                              onEditingComplete: () => FocusScope.of(context).nextFocus(),
                                               decoration: const InputDecoration(
                                                 border: OutlineInputBorder(),
-                                                contentPadding:
-                                                    EdgeInsets.symmetric(
-                                                        vertical: 10.0,
-                                                        horizontal: 10.0),
+                                                contentPadding: EdgeInsets.symmetric(
+                                                  vertical: 10.0,
+                                                  horizontal: 10.0,
+                                                ),
                                                 filled: true,
-                                                // Enable background color
-                                                fillColor: Color(
-                                                    0xFFf2f3f5), // Set your desired background color here
+                                                fillColor: Color(0xFFf2f3f5),
                                               ),
-                                              autovalidateMode: AutovalidateMode
-                                                  .onUserInteraction,
+                                              autovalidateMode: AutovalidateMode.onUserInteraction,
+                                              // 🔹 Validation logic
+                                              validator: (value) {
+                                                if (value == null || value.isEmpty) {
+                                                  return 'Mobile number is required';
+                                                }
+                                                if (value.length < 10) {
+                                                  return 'length is less than 10 digit';
+                                                }
+                                                return null; // valid
+                                              },
+                                            
                                               inputFormatters: [
-                                                FilteringTextInputFormatter
-                                                    .digitsOnly,
-                                                // Only allow numeric input
-                                                LengthLimitingTextInputFormatter(
-                                                    10),
-                                                // Limit input to 10 digits
+                                                FilteringTextInputFormatter.digitsOnly,
+                                                LengthLimitingTextInputFormatter(10),
                                               ],
-                                              keyboardType:
-                                                  TextInputType.number,
                                             ),
                                           ),
+
+                                          // Expanded(
+                                          //   child: TextFormField(
+                                          //     focusNode:
+                                          //         _applicationMoboileNofocus,
+                                          //     controller:
+                                          //         _applicationMoboileNoController,
+                                          //     textInputAction:
+                                          //         TextInputAction.next,
+                                          //     onEditingComplete: () =>
+                                          //         FocusScope.of(context)
+                                          //             .nextFocus(),
+                                          //     decoration: const InputDecoration(
+                                          //       border: OutlineInputBorder(),
+                                          //       contentPadding:
+                                          //           EdgeInsets.symmetric(
+                                          //               vertical: 10.0,
+                                          //               horizontal: 10.0),
+                                          //       filled: true,
+                                          //       // Enable background color
+                                          //       fillColor: Color(
+                                          //           0xFFf2f3f5), // Set your desired background color here
+                                          //     ),
+                                          //     autovalidateMode: AutovalidateMode
+                                          //         .onUserInteraction,
+                                          //     inputFormatters: [
+                                          //       FilteringTextInputFormatter
+                                          //           .digitsOnly,
+                                          //       // Only allow numeric input
+                                          //       LengthLimitingTextInputFormatter(
+                                          //           10),
+                                          //       // Limit input to 10 digits
+                                          //     ],
+                                          //     keyboardType:
+                                          //         TextInputType.number,
+                                          //   ),
+                                          // ),
                                         ],
                                       ),
                                     ),

@@ -83,9 +83,16 @@ class _TemplesHomeState extends State<WaterSupplyStatus> {
         String location = (item['iWaterTaxReqId']?.toString() ?? '').toLowerCase();
         String pointType = (item['sHouseOwnerName']?.toString() ?? '').toLowerCase();
         String sector = (item['sHouseNo']?.toString() ?? '').toLowerCase();
+        String sMobileNo = (item['sMobileNo']?.toString() ?? '').toLowerCase();
+        String sAddress = (item['sAddress']?.toString() ?? '').toLowerCase();
+        String sWardName = (item['sWardName']?.toString() ?? '').toLowerCase();
         return location.contains(query) ||
             pointType.contains(query) ||
-            sector.contains(query);
+            sector.contains(query) ||
+            sMobileNo.contains(query) ||
+            sAddress.contains(query) ||
+            sWardName.contains(query)
+        ;
       }).toList() ??
           [];
     });
@@ -137,7 +144,7 @@ class _TemplesHomeState extends State<WaterSupplyStatus> {
         backgroundColor: Colors.white,
         appBar: getAppBarBack(context,'${widget.name}'),
         // appBar: getAppBarBack(context,'jjsjsjsj'),
-        drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
+       // drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
         body :
         // pendingInternalComplaintList == null
         //   ? NoDataScreen()

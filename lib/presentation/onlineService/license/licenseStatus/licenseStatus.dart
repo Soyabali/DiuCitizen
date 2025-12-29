@@ -13,7 +13,6 @@ import 'licenseStatusImages.dart';
 class LicenseStatus extends StatefulWidget {
 
   final name;
-
   LicenseStatus({super.key, this.name});
 
   @override
@@ -47,7 +46,7 @@ class _TemplesHomeState extends State<LicenseStatus> {
 
   pendingInternalComplaintResponse() async {
     pendingInternalComplaintList = await BindLicenseStatusRepo().bindLicenseStatus(context);
-    print('-----52--->>>>>>----$pendingInternalComplaintList');
+    debugPrint('-----49--->>>>>>----$pendingInternalComplaintList');
     _filteredData = List<Map<String, dynamic>>.from(pendingInternalComplaintList ?? []);
 
     setState(() {
@@ -72,19 +71,39 @@ class _TemplesHomeState extends State<LicenseStatus> {
   }
 
   void _search() {
-    String query = _searchController.text.toLowerCase();
+    final query = _searchController.text.toLowerCase();
+
     setState(() {
       _filteredData = pendingInternalComplaintList?.where((item) {
-        String location = item['sLicenseRequestCode'].toLowerCase();
-        String pointType = item['sPremisesName'].toLowerCase();
-        String sector = item['sApplicantName'].toLowerCase();
-        return location.contains(query) ||
-            pointType.contains(query) ||
-            sector.contains(query);
-      }).toList() ??
-          [];
+
+        final sLicenseRequestCode =
+            item['sLicenseRequestCode']?.toString().toLowerCase() ?? '';
+
+        final sPremisesName =
+            item['sPremisesName']?.toString().toLowerCase() ?? '';
+
+        final sPremisesAddress =
+            item['sPremisesAddress']?.toString().toLowerCase() ?? '';
+
+        final sMobileNo =
+            item['sMobileNo']?.toString().toLowerCase() ?? '';
+
+        final sWardName =
+            item['sWardName']?.toString().toLowerCase() ?? '';
+
+        final sFinYear =
+            item['sFinYear']?.toString().toLowerCase() ?? '';
+
+        return sLicenseRequestCode.contains(query) ||
+            sPremisesName.contains(query) ||
+            sPremisesAddress.contains(query) ||
+            sMobileNo.contains(query) ||
+            sWardName.contains(query) ||
+            sFinYear.contains(query);
+      }).toList() ?? [];
     });
   }
+
 
   @override
   Widget build(BuildContext context) {

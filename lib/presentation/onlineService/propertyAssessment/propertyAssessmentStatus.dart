@@ -14,6 +14,7 @@ import 'package:dotted_border/dotted_border.dart';
 
 
 class PropertyAssessmentStatus extends StatefulWidget {
+
   final name;
   PropertyAssessmentStatus({super.key, this.name});
 
@@ -30,6 +31,7 @@ class _TemplesHomeState extends State<PropertyAssessmentStatus> {
 
   TextEditingController _searchController = TextEditingController();
   TextEditingController _remarksController = TextEditingController();
+
   var FinalApprovedStatus;
   var result, msg;
   GeneralFunction generalfunction = GeneralFunction();
@@ -284,12 +286,16 @@ class _TemplesHomeState extends State<PropertyAssessmentStatus> {
     String query = _searchController.text.toLowerCase();
     setState(() {
       _filteredData = pendingInternalComplaintList?.where((item) {
+        String sHouseOwnerName = item['sHouseOwnerName'].toLowerCase();
+        String sHouseNo = item['sHouseNo'].toLowerCase();
         String location = item['sHouseHoldRequestId'].toLowerCase();
         String pointType = item['sHouseAddress'].toLowerCase();
         String sector = item['sMobileNo'].toLowerCase();
         return location.contains(query) ||
             pointType.contains(query) ||
-            sector.contains(query);
+            sector.contains(query) ||
+            sHouseOwnerName.contains(query) ||
+            sHouseNo.contains(query);
       }).toList() ??
           [];
     });

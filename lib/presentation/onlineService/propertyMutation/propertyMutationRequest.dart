@@ -37,9 +37,7 @@ class PropertyMutationRequest extends StatefulWidget {
   State<PropertyMutationRequest> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<PropertyMutationRequest>
-
-    with TickerProviderStateMixin {
+class _MyHomePageState extends State<PropertyMutationRequest> with TickerProviderStateMixin {
 
   List stateList = [];
   List<dynamic> subCategoryList = [];
@@ -1403,28 +1401,64 @@ class _MyHomePageState extends State<PropertyMutationRequest>
                       child: TextFormField(
                         focusNode: _applicationMobilefocus,
                         controller: _applicationMobileController,
-                        keyboardType: TextInputType.number,
                         textInputAction: TextInputAction.next,
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
+                        keyboardType: TextInputType.number,
+                        onEditingComplete: () => FocusScope.of(context).nextFocus(),
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
+                            vertical: 10.0,
+                            horizontal: 10.0,
+                          ),
                           filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                              0xFFf2f3f5), // Set your desired background color here
+                          fillColor: Color(0xFFf2f3f5),
                         ),
                         autovalidateMode: AutovalidateMode.onUserInteraction,
+
+                        // 🔹 Validation logic
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Mobile number is required';
+                          }
+                          if (value.length < 10) {
+                            return 'length is less than 10 digit';
+                          }
+                          return null; // valid
+                        },
+
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
-                          // Allow only digits
                           LengthLimitingTextInputFormatter(10),
-                          // Restrict input to a maximum of 10 digits
                         ],
                       ),
                     ),
+
+                    // Expanded(
+                    //   child: TextFormField(
+                    //     focusNode: _applicationMobilefocus,
+                    //     controller: _applicationMobileController,
+                    //     keyboardType: TextInputType.number,
+                    //     textInputAction: TextInputAction.next,
+                    //     onEditingComplete: () =>
+                    //         FocusScope.of(context).nextFocus(),
+                    //     decoration: const InputDecoration(
+                    //       border: OutlineInputBorder(),
+                    //       contentPadding: EdgeInsets.symmetric(
+                    //           vertical: 10.0, horizontal: 10.0),
+                    //       filled: true,
+                    //       // Enable background color
+                    //       fillColor: Color(
+                    //           0xFFf2f3f5), // Set your desired background color here
+                    //     ),
+                    //     autovalidateMode: AutovalidateMode.onUserInteraction,
+                    //     inputFormatters: [
+                    //       FilteringTextInputFormatter.digitsOnly,
+                    //       // Allow only digits
+                    //       LengthLimitingTextInputFormatter(10),
+                    //       // Restrict input to a maximum of 10 digits
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

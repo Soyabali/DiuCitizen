@@ -48,7 +48,7 @@ class _TemplesHomeState extends State<PropertyMutationStatus> {
   pendingInternalComplaintResponse() async {
     //  PropertyMutationStatusRepo ---propertyMutationStatus
     getMutationStatus = await GetMutationStatusRepo().getMutationStatus(context);
-    print('-----66--->>>>>>----$getMutationStatus');
+    print('-----51--->>>>>>----$getMutationStatus');
     _filteredData = List<Map<String, dynamic>>.from(getMutationStatus ?? []);
 
     setState(() {
@@ -234,12 +234,25 @@ class _TemplesHomeState extends State<PropertyMutationStatus> {
     String query = _searchController.text.toLowerCase();
     setState(() {
       _filteredData = getMutationStatus?.where((item) {
-        String location = item['sApplicantName'].toLowerCase();
-        String pointType = item['sFathersName'].toLowerCase();
-        String sector = item['sApplicantMobile'].toLowerCase();
-        return location.contains(query) ||
-            pointType.contains(query) ||
-            sector.contains(query);
+        String sTranNo = item['sTranNo']?.toString().toLowerCase() ??'';
+        String sApplicantName = item['sApplicantName']?.toString().toLowerCase() ??'';
+        String sFathersName = item['sFathersName']?.toString().toLowerCase() ?? '';
+        String sWardName = item['sWardName']?.toString().toLowerCase() ?? '';
+        String sMutationType = item['sMutationType']?.toString().toLowerCase() ?? '';
+        String fMutationFee = item['fMutationFee']?.toString().toLowerCase() ?? '';
+        String sApplicantMobile = item['sApplicantMobile']?.toString().toLowerCase() ?? '';
+        String sCurOwner = item['sCurOwner']?.toString().toLowerCase() ?? '';
+        String sStatusName = item['sStatusName']?.toString().toLowerCase() ?? '';
+        return sTranNo.contains(query) ||
+            sApplicantName.contains(query) ||
+            sFathersName.contains(query) ||
+            sWardName.contains(query) ||
+            sMutationType.contains(query) ||
+            fMutationFee.contains(query) ||
+            sApplicantMobile.contains(query) ||
+            sCurOwner.contains(query) ||
+            sStatusName.contains(query)
+        ;
       }).toList() ??
           [];
     });
@@ -294,7 +307,7 @@ class _TemplesHomeState extends State<PropertyMutationStatus> {
         backgroundColor: Colors.white,
          appBar: getAppBarBack(context,'${widget.name}'),
         // appBar: getAppBarBack(context,'jjsjsjsj-----'),
-        drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
+      //  drawer: generalFunction.drawerFunction(context, 'Suaib Ali', '9871950881'),
         body :
         // pendingInternalComplaintList == null
         //   ? NoDataScreen()

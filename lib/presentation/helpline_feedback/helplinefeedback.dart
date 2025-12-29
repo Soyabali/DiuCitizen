@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:puri/presentation/helpline_feedback/twitte_page.dart';
 import 'package:puri/presentation/helpline_feedback/website.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import '../../app/generalFunction.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
@@ -12,6 +11,7 @@ import '../resources/app_text_style.dart';
 import '../resources/values_manager.dart';
 import 'facebook.dart';
 import 'instagrampage.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HelpLineFeedBack extends StatefulWidget {
 
@@ -46,6 +46,22 @@ class _HelpLineFeedBackState extends State<HelpLineFeedBack> {
     _feedbackController.dispose();
     super.dispose();
   }
+
+  // navigate to google map
+  Future<void> launchGoogleMaps(double latitude, double longitude) async {
+    final Uri googleMapsUrl = Uri.parse(
+      'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude',
+    );
+
+    if (await canLaunchUrl(googleMapsUrl)) {
+      await launchUrl(
+        googleMapsUrl,
+        mode: LaunchMode.externalApplication,
+      );
+    } else {
+      debugPrint('Could not open the map');
+    }
+  }
   // call a api
   void validateAndCallApi() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -59,9 +75,13 @@ class _HelpLineFeedBackState extends State<HelpLineFeedBack> {
      var  feedbackResponse = await FeedbackRepo().feedfack(context, feedback,sContactNo);
       print('----845---->>.--->>>>---$feedbackResponse');
       result = feedbackResponse['Result'];
-      msg = feedbackResponse['Msg'];
-      _feedbackController.clear();
-      Navigator.pop(context);
+      if(result=="1"){
+        msg = feedbackResponse['Msg'];
+        displayToast(msg);
+        _feedbackController.clear();
+        Navigator.pop(context);
+      }
+
       // Your API call logic here
     } else {
       displayToast(msg);
@@ -117,9 +137,11 @@ class _HelpLineFeedBackState extends State<HelpLineFeedBack> {
                               child: InkWell(
                                 onTap: () {
                                   /// TODO HERE GET A CURRECT LOCATION
+                                  print("---Navigate map------");
                                   double lat = 19.80494797579724;
                                   double long = 85.81796005389619;
                                   launchGoogleMaps(lat,long);
+
                                 },
                                 child: Row(
                                   children: [
