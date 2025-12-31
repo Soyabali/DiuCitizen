@@ -185,7 +185,7 @@ class _PropertyTaxState extends State<OnlineWaterSupply> {
                                 ), // Adjust padding inside the text field
                                 filled: true, // Enable background color for the text field
                                 fillColor: Color(0xFFf2f3f5), // Set background color
-                                hintText: "House No", // Placeholder text when field is empty
+                                hintText: "Water Supply Request Id", // Placeholder text when field is empty
                                 hintStyle: TextStyle(color: Colors.grey), // Style for the placeholder text
                               ),
                               autovalidateMode: AutovalidateMode.onUserInteraction, // Enable validation on user interaction
@@ -226,7 +226,7 @@ class _PropertyTaxState extends State<OnlineWaterSupply> {
                                 ), // Adjust padding inside the text field
                                 filled: true, // Enable background color for the text field
                                 fillColor: Color(0xFFf2f3f5), // Set background color
-                                hintText: "House Owner Name", // Placeholder text when field is empty
+                                hintText: "House No", // Placeholder text when field is empty
                                 hintStyle: TextStyle(color: Colors.grey), // Style for the placeholder text
                               ),
                               autovalidateMode: AutovalidateMode.onUserInteraction, // Enable validation on user interaction

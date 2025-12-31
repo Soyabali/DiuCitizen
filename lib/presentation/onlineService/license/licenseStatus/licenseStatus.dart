@@ -93,13 +93,21 @@ class _TemplesHomeState extends State<LicenseStatus> {
 
         final sFinYear =
             item['sFinYear']?.toString().toLowerCase() ?? '';
+        // sApplicantName sAddress LicenseStatus
+        final sApplicantName = item['sApplicantName']?.toString().toLowerCase() ?? '';
+        final sAddress = item['sAddress']?.toString().toLowerCase() ?? '';
+        final LicenseStatus = item['LicenseStatus']?.toString().toLowerCase() ?? '';
 
         return sLicenseRequestCode.contains(query) ||
             sPremisesName.contains(query) ||
             sPremisesAddress.contains(query) ||
             sMobileNo.contains(query) ||
             sWardName.contains(query) ||
-            sFinYear.contains(query);
+            sFinYear.contains(query) ||
+            sApplicantName.contains(query) ||
+            sAddress.contains(query) ||
+            LicenseStatus.contains(query)
+        ;
       }).toList() ?? [];
     });
   }

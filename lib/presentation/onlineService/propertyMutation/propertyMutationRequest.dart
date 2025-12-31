@@ -947,7 +947,7 @@ class _MyHomePageState extends State<PropertyMutationRequest> with TickerProvide
                       children: [
                         // First Section Header
                         _buildSectionHeader(
-                          title: "1. Application Details",
+                          title: "1. Applicant Details",
                           isVisible: isFirstFormVisible,
                           isIconRotated: isFirstIconRotated,
                           onToggle: () {

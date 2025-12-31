@@ -1184,7 +1184,7 @@ var  firstStatus;
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
-                          child: Text("1. Application Details",
+                          child: Text("1. Applicant Details",
                             style: AppTextStyle
                                 .font14OpenSansRegularBlackTextStyle,
                           ),
@@ -1234,7 +1234,7 @@ var  firstStatus;
                                     children: <Widget>[
                                       CircleWithSpacing(),
                                       // Space between the circle and text
-                                      Text('Application Name',
+                                      Text('Applicant Name',
                                         style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
                                       ),
                                     ],
@@ -2337,7 +2337,7 @@ var  firstStatus;
                                                       // Prevent selection and show message for waiting status
                                                       displayToast("Date is in waiting status, cannot be selected.");
                                                     } else if (iStatus == 2) {
-                                                      displayToast("Already Booked");
+                                                     // displayToast("Already Booked");
                                                     }
                                                   },
                                                   child: Container(

@@ -293,7 +293,7 @@ class _PropertyTaxState extends State<Onlinelicense> {
                             fillColor:
                                 Color(0xFFf2f3f5), // Set background color
                             hintText:
-                                "Mobile NO", // Placeholder text when field is empty
+                                "Mobile No", // Placeholder text when field is empty
                             hintStyle: TextStyle(
                                 color: Colors
                                     .grey), // Style for the placeholder text

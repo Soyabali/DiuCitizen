@@ -1286,32 +1286,60 @@ class _MyHomePageState extends State<WaterSupplyRequest>
                 padding: const EdgeInsets.only(left: 14, right: 14),
                 child: Column(
                   children: [
-                    Expanded(
-                      child: TextFormField(
-                        focusNode: _applicationMobilefocus,
-                        controller: _applicationMobileController,
-                        keyboardType: TextInputType.number,
-                        textInputAction: TextInputAction.next,
-                        onEditingComplete: () =>
-                            FocusScope.of(context).nextFocus(),
-                        decoration: const InputDecoration(
-                          border: OutlineInputBorder(),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 10.0, horizontal: 10.0),
-                          filled: true,
-                          // Enable background color
-                          fillColor: Color(
-                              0xFFf2f3f5), // Set your desired background color here
-                        ),
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          // Allow only digits
-                          LengthLimitingTextInputFormatter(10),
-                          // Restrict input to a maximum of 10 digits
-                        ],
-                      ),
+                  Expanded(
+                    child: TextFormField(
+                    focusNode: _applicationMobilefocus,
+                    controller: _applicationMobileController,
+                    keyboardType: TextInputType.number,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(10),
+                    ],
+                      validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Mobile number is required';
+                      }
+                      if (value.length < 10) {
+                        return 'value is less than 10 digit';
+                      }
+                      return null; // valid
+                    },
+
+                    decoration: const InputDecoration(
+                      labelText: 'Mobile Number',
+                      border: OutlineInputBorder(),
                     ),
+                                    ),
+                  )
+
+                // Expanded(
+                    //   child: TextFormField(
+                    //     focusNode: _applicationMobilefocus,
+                    //     controller: _applicationMobileController,
+                    //     keyboardType: TextInputType.number,
+                    //     textInputAction: TextInputAction.next,
+                    //     onEditingComplete: () =>
+                    //         FocusScope.of(context).nextFocus(),
+                    //     decoration: const InputDecoration(
+                    //       border: OutlineInputBorder(),
+                    //       contentPadding: EdgeInsets.symmetric(
+                    //           vertical: 10.0, horizontal: 10.0),
+                    //       filled: true,
+                    //       // Enable background color
+                    //       fillColor: Color(
+                    //           0xFFf2f3f5), // Set your desired background color here
+                    //     ),
+                    //     autovalidateMode: AutovalidateMode.onUserInteraction,
+                    //     inputFormatters: [
+                    //       FilteringTextInputFormatter.digitsOnly,
+                    //       // Allow only digits
+                    //       LengthLimitingTextInputFormatter(10),
+                    //       // Restrict input to a maximum of 10 digits
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

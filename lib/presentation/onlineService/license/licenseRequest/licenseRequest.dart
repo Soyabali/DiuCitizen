@@ -455,17 +455,16 @@ class _MyHomePageState extends State<LicenseRequest>
                 items: bindTradeCategory.map((dynamic item) {
                   return DropdownMenuItem(
                     value: item["sTradeCategoryName"].toString(),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            item['sTradeCategoryName'].toString(),
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTextStyle
-                                .font14OpenSansRegularBlack45TextStyle,
-                          ),
-                        ),
-                      ],
+                    child: SizedBox(
+                      width: double.infinity, // important for wrapping
+                      child: Text(
+                        item['sTradeCategoryName'].toString(),
+                        maxLines: 2,
+                        softWrap: true,
+                        overflow: TextOverflow.visible,
+                        style: AppTextStyle
+                            .font14OpenSansRegularBlack45TextStyle,
+                      ),
                     ),
                   );
                 }).toList(),
@@ -540,19 +539,17 @@ class _MyHomePageState extends State<LicenseRequest>
                 },
 
                 items: bindTradeSubCategory.map((dynamic item) {
-                  return DropdownMenuItem(
+                  return DropdownMenuItem<String>(
                     value: item["sTradeName"].toString(),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            item['sTradeName'].toString(),
-                            overflow: TextOverflow.ellipsis,
-                            style: AppTextStyle
-                                .font14OpenSansRegularBlack45TextStyle,
-                          ),
-                        ),
-                      ],
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        item['sTradeName'].toString(),
+                        maxLines: 2,
+                        softWrap: true,
+                        overflow: TextOverflow.visible,
+                        style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
+                      ),
                     ),
                   );
                 }).toList(),
@@ -2154,7 +2151,7 @@ class _MyHomePageState extends State<LicenseRequest>
                 // Space between the circle and text
                 RichText(
                   text: TextSpan(
-                    text: 'Application Name',
+                    text: 'Applicant Name',
                     // The normal text
                     style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
                     // Default style
@@ -2221,7 +2218,7 @@ class _MyHomePageState extends State<LicenseRequest>
                 // Space between the circle and text
                 RichText(
                   text: TextSpan(
-                    text: 'Application Mobile No',
+                    text: 'Applicant Mobile No',
                     // The normal text
                     style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
                     // Default style
@@ -2328,7 +2325,7 @@ class _MyHomePageState extends State<LicenseRequest>
                 // Space between the circle and text
                 RichText(
                   text: TextSpan(
-                    text: 'Application Address',
+                    text: 'Applicant Address',
                     // The normal text
                     style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
                     // Default style
@@ -2684,7 +2681,7 @@ class _MyHomePageState extends State<LicenseRequest>
                                   CircleWithSpacing(),
                                   // Space between the circle and text
                                   Text(
-                                    'Licence Free',
+                                    'Licence Fee',
                                     style: AppTextStyle
                                         .font14OpenSansRegularBlack45TextStyle,
                                   ),
