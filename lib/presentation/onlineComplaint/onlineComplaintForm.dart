@@ -21,6 +21,7 @@ import 'dart:math';
 class OnlineComplaintForm extends StatefulWidget {
 
   var name, iCategoryCode;
+
   OnlineComplaintForm({super.key, required this.name, required this.iCategoryCode});
 
   @override
@@ -236,14 +237,6 @@ class _MyHomePageState extends State<OnlineComplaintForm> {
                             style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
                           ),
                         ),
-                        // Expanded(
-                        //   child: Text(
-                        //     item['sSubCategoryName'].toString(),
-                        //     overflow: TextOverflow.ellipsis,
-                        //     // Handles long text
-                        //     style: AppTextStyle.font14OpenSansRegularBlack45TextStyle,
-                        //   ),
-                        // ),
                       ],
                     ),
                   );

@@ -108,26 +108,33 @@ class _SplaceState extends State<SplashView> {
 
     }
   }
-  versionAliCall() async{
+  versionAliCall() async {
     /// TODO HERE YOU SHOULD CHANGE APP VERSION FLUTTER VERSION MIN 3 DIGIT SUCH AS 1.0.0
     /// HERE YOU PASS variable _appVersion
-    var loginMap = await VerifyAppVersionRepo().verifyAppVersion(context,'2');
+    var loginMap = await VerifyAppVersionRepo().verifyAppVersion(context,'21');
     var msg = "${loginMap['Msg']}";
     var iVersion = "${loginMap['iVersion']}";
     print("---version :  $iVersion");
+    print("-----118---version api responnse-: $loginMap");
+    // dep
+   // var ver ="13";
 
-    if(iVersion=="12"){
+    if(iVersion=="21"){
+      print("-------123----version api match");
       // to check token is store or not
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var sContactNo = prefs.getString('sContactNo');
       print("------162---ContactNo---$sContactNo");
       if(sContactNo!=null && sContactNo!=''){
 
+        print("-------130----version api not match");
+
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(builder: (context) => ComplaintHomePage()),
               (Route<dynamic> route) => false, // This condition removes all previous routes
         );
+
       }else{
         Navigator.pushReplacement(
           context,

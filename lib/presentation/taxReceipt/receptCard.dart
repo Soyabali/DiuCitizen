@@ -41,7 +41,8 @@ class ReceiptCard extends StatelessWidget {
                 ),
               ),
             );
-          }
+
+           }
 
           // final uri = Uri.parse(sReceiptURL);
           // if (await canLaunchUrl(uri)) {

@@ -88,7 +88,7 @@ class _OnlineComplaintState extends State<Importantlink> {
           title: Padding(
             padding: EdgeInsets.symmetric(horizontal: 5),
             child: Text(
-              'Online Complaint',
+              'Important Link',
               style: AppTextStyle.font16OpenSansRegularWhiteTextStyle,
               textAlign: TextAlign.center,
             ),

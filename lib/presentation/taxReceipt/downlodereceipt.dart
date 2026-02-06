@@ -167,8 +167,31 @@ class _PropertyTaxState extends State<DownlodeReceipt> {
 
   getEmergencyTitleResponse(selectedWardId, String houseno, String houseOwnerName) async {
     // final List<dynamic> list = await SearchPropertyTaxForPaymentRepo().searchPropertyTaxForPayment(context,selectedWardId,houseno,houseOwnerName);
-    emergencyTitleList = await SearchPropertyTaxForPaymentRepo().searchPropertyTaxForPayment(context,selectedWardId,houseno,houseOwnerName);
-    print('------57-----xxxx---xx----$emergencyTitleList');
+    // emergencyTitleList = await SearchPropertyTaxForPaymentRepo().searchPropertyTaxForPayment(context,selectedWardId,houseno,houseOwnerName);
+    // print('------57-----xxxx---xx----$emergencyTitleList');
+    // setState(() {
+    //   isLoading = false;
+    // });
+
+    setState(() {
+      isLoading = true;
+    });
+
+    final response =
+    await SearchPropertyTaxForPaymentRepo().searchPropertyTaxForPayment(
+        context, selectedWardId, houseno, houseOwnerName);
+
+    /// 🔹 SAME LIST AS BEFORE
+    emergencyTitleList = response.data;
+
+    /// 🔹 NEW: message & result
+    print("Result 👉 ${response.result}");
+    print("Message 👉 ${response.message}");
+
+    if (emergencyTitleList == null || emergencyTitleList!.isEmpty) {
+     // displayToast(response.message); // ✅ dynamic API msg
+    }
+
     setState(() {
       isLoading = false;
     });

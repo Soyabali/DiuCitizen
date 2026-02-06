@@ -964,7 +964,7 @@ class GeneralFunction {
             backgroundColor: Colors.lightBlue, // Background color
           ),
           child: Text('Yes'),
-          onPressed: ()async {
+          onPressed: () async {
             // Add your logout functionality here
           // Navigator.of(context).pop(); // Dismiss the dialog
             final prefs = await SharedPreferences.getInstance();
@@ -978,7 +978,6 @@ class GeneralFunction {
       ],
     );
   }
-
 
   drawerFunction_2(BuildContext context, String sName, String sContactNo) {
     return Drawer(

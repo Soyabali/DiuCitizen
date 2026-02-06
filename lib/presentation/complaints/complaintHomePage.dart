@@ -314,7 +314,7 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                           children: <Widget>[
                             InkWell(
                               onTap: () {
-                                var name="Online Complaint";
+                                var name="Important Link";
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -380,7 +380,7 @@ class _MyHomePageState extends State<ComplaintHomePage> {
                                           ),
                                           SizedBox(height: 5),
                                           Text(
-                                            'Online Complaint',
+                                            'Important Link',
                                             style: AppTextStyle
                                                 .font14penSansExtraboldOrangeTextStyle,
                                           ),

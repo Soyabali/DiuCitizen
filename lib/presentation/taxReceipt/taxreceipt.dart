@@ -198,17 +198,21 @@ class _OnlineComplaintState extends State<TaxReceipt> {
                 ),
                 onTap: () {
                   // Convert to int safely
-                  final dynamic rawPageCode = item['iPageCode'];
+                  final rawPageCode = item['iPageCode'];
                   final int? pageCode = rawPageCode is int
                       ? rawPageCode
                       : int.tryParse(rawPageCode.toString());
                   final pageName = item['sPageName'] ?? '';
+                  final pageCode2 = item['iPageCode'] ?? '';
                   // to bind the data on a listview
+
+                  print("----208---pageName--$pageName");
+                  print("----208---pageCode--$rawPageCode");
 
 
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => DownlodeReceipt(pageName:pageName,pageCode:pageCode)),
+                    MaterialPageRoute(builder: (context) => DownlodeReceipt(pageName:pageName,pageCode:rawPageCode)),
                   );
 
 

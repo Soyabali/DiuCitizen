@@ -15,10 +15,11 @@ class VerifyAppVersionRepo {
 
     try {
       print('----version-----17--$sVersion');
-    ;
-
+      //  https://erpapi.diusmartcity.com/DiuCitizenApi/api/
+      // https://erpapi.diusmartcity.com/DiuCitizenApi/api/VerifyAppVersionV1/VerifyAppVersionV1
       var baseURL = BaseRepo().baseurl;
-      var endPoint = "VerifyAppVersion/VerifyAppVersion";
+      //var endPoint = "VerifyAppVersion/VerifyAppVersion";
+      var endPoint = "VerifyAppVersionV1/VerifyAppVersionV1";
       var verifyAppVersionApi = "$baseURL$endPoint";
       print('------------23---verifyAppVersionApi---$verifyAppVersionApi');
 
@@ -26,7 +27,11 @@ class VerifyAppVersionRepo {
       var headers = {'Content-Type': 'application/json'};
       var request = http.Request(
           'POST', Uri.parse('$verifyAppVersionApi'));
-      request.body = json.encode({"sVersion": sVersion});
+      request.body = json.encode(
+          {
+            "sVersion": sVersion,
+            "sAppType": "I"
+          });
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
       var map;

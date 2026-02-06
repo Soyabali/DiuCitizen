@@ -8,6 +8,7 @@ import 'package:pdfx/pdfx.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:uuid/uuid.dart';
 import '../resources/app_text_style.dart';
+import 'package:share_plus/share_plus.dart';
 
 class DownloadReceiptScreen extends StatefulWidget {
 
@@ -91,6 +92,57 @@ class _DownloadReceiptScreenState extends State<DownloadReceiptScreen> {
     super.dispose();
   }
 
+  // shareCode
+  Future<void> sharePdf(BuildContext context, String pdfUrl) async {
+    try {
+      final response = await http.get(Uri.parse(pdfUrl));
+
+      if (response.statusCode == 200) {
+        final dir = await getTemporaryDirectory();
+        final file = File('${dir.path}/receipt.pdf');
+
+        await file.writeAsBytes(response.bodyBytes);
+
+        final box = context.findRenderObject() as RenderBox?;
+
+        await Share.shareXFiles(
+          [XFile(file.path)],
+          text: 'Receipt PDF',
+          subject: 'Receipt PDF',
+          sharePositionOrigin:
+          box!.localToGlobal(Offset.zero) & box.size, // 🔥 FIX
+        );
+      } else {
+        debugPrint('Failed to download PDF');
+      }
+    } catch (e) {
+      debugPrint('Share error: $e');
+    }
+  }
+
+  // Future<void> sharePdf(String pdfUrl) async {
+  //   try {
+  //     final response = await http.get(Uri.parse(pdfUrl));
+  //
+  //     if (response.statusCode == 200) {
+  //       final dir = await getTemporaryDirectory();
+  //       final file = File('${dir.path}/receipt.pdf');
+  //
+  //       await file.writeAsBytes(response.bodyBytes);
+  //
+  //       await Share.shareXFiles(
+  //         [XFile(file.path)],
+  //         text: 'Receipt PDF',
+  //         subject: 'Receipt PDF',
+  //       );
+  //     } else {
+  //       debugPrint('Failed to download PDF');
+  //     }
+  //   } catch (e) {
+  //     debugPrint('Share error: $e');
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -125,13 +177,45 @@ class _DownloadReceiptScreenState extends State<DownloadReceiptScreen> {
           ),
         ),
           actions: [
-            IconButton(
-              icon: _downloading
-                  ? const CircularProgressIndicator(color: Colors.white)
-                  : const Icon(Icons.download,color: Colors.white),
-              onPressed: _downloading ? null : _downloadPdf,
-            )
-          ],
+
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: IconButton(
+                icon: const Icon(Icons.share, color: Colors.white),
+                onPressed: () {
+                  sharePdf(context, widget.pdfUrl);
+                },
+              ),
+            ),
+            // IconButton(
+            //   icon: const Icon(Icons.share, color: Colors.white),
+            //   iconSize: 24,
+            //   constraints: const BoxConstraints(
+            //     minWidth: 44,
+            //     minHeight: 44, // 🔥 REQUIRED FOR iOS
+            //   ),
+            //   onPressed: () {
+            //     print("-----157------");
+            //     sharePdf(widget.pdfUrl);
+            //   },
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: IconButton(
+            //     onPressed: () {
+            //       print("-----157------");
+            //       sharePdf(widget.pdfUrl);
+            //       // final pdfUrl = widget.pdfUrl;
+            //       //
+            //       // Share.share(
+            //       //   'Download your receipt PDF:\n$pdfUrl',
+            //       //   subject: 'Receipt PDF',
+            //       // );
+            //     },
+            //     icon: const Icon(Icons.share, color: Colors.white),
+            //   ),
+            // )
+        ],
         //centerTitle: true,
         elevation: 0, // Removes shadow under the AppBar
       ),
