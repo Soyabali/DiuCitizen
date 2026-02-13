@@ -254,8 +254,7 @@ class _MyHomePageState extends State<OtpPage> {
                                                             "${verifyCitizenOtpMap['Data'][0]['sContactNo']}";
                                                         var sCitizenName =
                                                             "${verifyCitizenOtpMap['Data'][0]['sCitizenName']}";
-                                                        var sToken =
-                                                            "${verifyCitizenOtpMap['Data'][0]['sToken']}";
+                                                        var sToken = "${verifyCitizenOtpMap['Data'][0]['sToken']}";
                                                         // to store the value in local dataBase
 
                                                         SharedPreferences prefs = await SharedPreferences.getInstance();

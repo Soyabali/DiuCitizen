@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../app/generalFunction.dart';
+import '../../services/updateGsmId.dart';
 import '../aboutDiu/aboutdiu.dart';
 import '../bookAdvertisement/bookAdvertisementHome.dart';
 import '../emergencyContact/emergencyContact.dart';
@@ -33,7 +34,14 @@ class _MyHomePageState extends State<ComplaintHomePage> {
     final fcm = FirebaseMessaging.instance;
     await fcm.requestPermission();
     token = await fcm.getToken();
+    setState(() {
+    });
     print("📌 Token:----45----xxx $token");
+    if(token!=null){
+      // call api
+      var UpdateGsmid = await VmsUpdateGsmid().vmsUpdateGsmid(context,token);
+      print("-------Update Gsmid--------41-----$UpdateGsmid");
+    }
 
     NotificationSettings settings = await fcm.getNotificationSettings();
     print("🔔 Notification Permissions:");
