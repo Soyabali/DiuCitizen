@@ -40,19 +40,31 @@ void main() async {
    await Firebase.initializeApp(
      options: DefaultFirebaseOptions.currentPlatform,
    );
+
+   FirebaseMessaging messaging = FirebaseMessaging.instance;
+   await messaging.requestPermission(
+     alert: true,
+     badge: true,
+     sound: true,
+   );
+
    initializeNotifications();
+   /// 🔥 Android 13+ notification permission (ADD HERE)
+   await flutterLocalNotificationsPlugin
+       .resolvePlatformSpecificImplementation<
+       AndroidFlutterLocalNotificationsPlugin>()
+       ?.requestNotificationsPermission();
    createNotificationChannel();
 
    FirebaseMessaging.onBackgroundMessage(firebaseBackgroundHandler);
 
    // ✅ For background & foreground click (already running app)
+   /// ✅ ADD THIS (Foreground Fix)
+   FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+     print("🔔 Foreground Notification Received: ${message.notification?.title}");
+     await showNotification(message);
+   });
 
-   // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-   //   print("🔔 Notification Clicked: ${message.data}");
-   //   String payload = jsonEncode({"title": message.notification?.title, "body": message.notification?.body});
-   //   storeNotificationPayload(payload); // ✅ Save for later navigation
-   //   navigateToNotificationScreen(payload); // ✅ Navigate if app is already running
-   // });
    // ✅ For background & foreground click (already running app)
    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
      print("🔔 Notification Clicked: ${message.data}");
@@ -138,20 +150,6 @@ Future<void> checkAndNavigateFromStoredPayload() async {
   }
 }
 
-// Future<void> safeNavigate(String route, {String? payload}) async {
-//   await Future.delayed(const Duration(milliseconds: 300)); // small delay
-//   if (navigatorKey.currentContext != null) {
-//
-//     GoRouter.of(navigatorKey.currentContext!).go(route, extra: payload);
-//
-//   } else {
-//     print("Navigator still not ready, retrying...");
-//     Future.delayed(const Duration(milliseconds: 500), () {
-//       safeNavigate(route, payload: payload);
-//     });
-//   }
-// }
-
 void navigateToNotificationScreen(String payload) async {
   print("🔗 Navigating to VisitorList with Payload: $payload");
 
@@ -182,12 +180,21 @@ void navigateToNotificationScreen(String payload) async {
   }
 }
 // Initialize Notification
-void initializeNotifications() {
-  var androidSettings = const AndroidInitializationSettings('@mipmap/ic_launcher');
-  var iosSettings = const DarwinInitializationSettings();
-  var initSettings = InitializationSettings(android: androidSettings, iOS: iosSettings);
+void initializeNotifications() async {
+  const AndroidInitializationSettings androidSettings =
+  AndroidInitializationSettings('@mipmap/ic_launcher');
 
-  flutterLocalNotificationsPlugin.initialize(
+  const DarwinInitializationSettings iosSettings =
+  DarwinInitializationSettings(
+    requestAlertPermission: true,
+    requestBadgePermission: true,
+    requestSoundPermission: true,
+  );
+
+  const InitializationSettings initSettings =
+  InitializationSettings(android: androidSettings, iOS: iosSettings);
+
+  await flutterLocalNotificationsPlugin.initialize(
     initSettings,
     onDidReceiveNotificationResponse: (NotificationResponse response) {
       if (response.payload != null) {
@@ -195,56 +202,171 @@ void initializeNotifications() {
         navigateToNotificationScreen(response.payload!);
       }
     },
-    onDidReceiveBackgroundNotificationResponse: (NotificationResponse response) {
-      if (response.payload != null) {
-        storeNotificationPayload(response.payload!);
-      }
-    },
+  );
+
+  /// 🔥 VERY IMPORTANT FOR FOREGROUND iOS
+  await FirebaseMessaging.instance
+      .setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
   );
 }
+
+
+// void initializeNotifications() async {
+//   const AndroidInitializationSettings androidSettings =
+//   AndroidInitializationSettings('@mipmap/ic_launcher');
+//
+//   const DarwinInitializationSettings iosSettings =
+//   DarwinInitializationSettings(
+//     requestAlertPermission: true,
+//     requestBadgePermission: true,
+//     requestSoundPermission: true,
+//   );
+//
+//   const InitializationSettings initSettings =
+//   InitializationSettings(android: androidSettings, iOS: iosSettings);
+//
+//   await flutterLocalNotificationsPlugin.initialize(
+//     initSettings,
+//     onDidReceiveNotificationResponse: (NotificationResponse response) {
+//       if (response.payload != null) {
+//         storeNotificationPayload(response.payload!);
+//         navigateToNotificationScreen(response.payload!);
+//       }
+//     },
+//     onDidReceiveBackgroundNotificationResponse:
+//         (NotificationResponse response) {
+//       if (response.payload != null) {
+//         storeNotificationPayload(response.payload!);
+//       }
+//     },
+//   );
+// }
+
+// void initializeNotifications() {
+//   var androidSettings = const AndroidInitializationSettings('@mipmap/ic_launcher');
+//   var iosSettings = const DarwinInitializationSettings();
+//   var initSettings = InitializationSettings(android: androidSettings, iOS: iosSettings);
+//
+//   flutterLocalNotificationsPlugin.initialize(
+//     initSettings,
+//     onDidReceiveNotificationResponse: (NotificationResponse response) {
+//       if (response.payload != null) {
+//         storeNotificationPayload(response.payload!);
+//         navigateToNotificationScreen(response.payload!);
+//       }
+//     },
+//     onDidReceiveBackgroundNotificationResponse: (NotificationResponse response) {
+//       if (response.payload != null) {
+//         storeNotificationPayload(response.payload!);
+//       }
+//     },
+//   );
+// }
 /// ✅ Create Custom Notification Channel for Android
 void createNotificationChannel() async {
   const AndroidNotificationChannel channel = AndroidNotificationChannel(
     'custom_channel',
     'Custom Notifications',
-    description: 'Channel for custom sound notifications',
-    importance: Importance.high,
+    description: 'Channel for notifications',
+    importance: Importance.max,
     playSound: true,
-    sound: RawResourceAndroidNotificationSound('coustom_sound'),
   );
 
-  final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
-  flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+  final androidImplementation =
+  flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
+      AndroidFlutterLocalNotificationsPlugin>();
+
   await androidImplementation?.createNotificationChannel(channel);
 }
+
+// void createNotificationChannel() async {
+//   const AndroidNotificationChannel channel = AndroidNotificationChannel(
+//     'custom_channel',
+//     'Custom Notifications',
+//     description: 'Channel for custom sound notifications',
+//     importance: Importance.high,
+//     playSound: true,
+//     sound: RawResourceAndroidNotificationSound('coustom_sound'),
+//   );
+//
+//   final AndroidFlutterLocalNotificationsPlugin? androidImplementation =
+//   flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+//   await androidImplementation?.createNotificationChannel(channel);
+// }
 /// ✅ Show Local Notification
+// Future<void> showNotification(RemoteMessage message) async {
+//   const AndroidNotificationDetails androidDetails =
+//   AndroidNotificationDetails(
+//     'custom_channel', // MUST match channel id
+//     'Custom Notifications', // MUST match channel name
+//     channelDescription: 'Channel for custom sound notifications',
+//     importance: Importance.max, // 🔥 changed to max
+//     priority: Priority.high,
+//     playSound: true,
+//     enableVibration: true,
+//     ticker: 'ticker',
+//   );
+//
+//   const DarwinNotificationDetails iosDetails =
+//   DarwinNotificationDetails(
+//     presentAlert: true,
+//     presentBadge: true,
+//     presentSound: true,
+//   );
+//
+//   const NotificationDetails notificationDetails =
+//   NotificationDetails(android: androidDetails, iOS: iosDetails);
+//
+//   await flutterLocalNotificationsPlugin.show(
+//     DateTime.now().millisecondsSinceEpoch ~/ 1000, // 🔥 unique ID
+//     message.notification?.title ?? message.data['title'] ?? "New Alert",
+//     message.notification?.body ?? message.data['body'] ?? "New Message",
+//     notificationDetails,
+//     payload: message.data.isNotEmpty ? jsonEncode(message.data) : null,
+//   );
+// }
+
 Future<void> showNotification(RemoteMessage message) async {
-  const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
+
+  const AndroidNotificationDetails androidDetails =
+  AndroidNotificationDetails(
     'custom_channel',
-    'Custom Sound Channel',
-    channelDescription: 'Channel for custom sound notifications',
-    importance: Importance.high,
+    'Custom Notifications',
+    channelDescription: 'Channel for notifications',
+    importance: Importance.max,
     priority: Priority.high,
-    sound: RawResourceAndroidNotificationSound('coustom_sound'),
     playSound: true,
+    enableVibration: true,
+    icon: '@mipmap/ic_launcher',
   );
 
-  const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
-    sound: 'coustom_sound.wav',
+  const DarwinNotificationDetails iosDetails =
+  DarwinNotificationDetails(
+    presentAlert: true,
+    presentBadge: true,
+    presentSound: true,
+    sound: 'default',
   );
 
   const NotificationDetails notificationDetails =
   NotificationDetails(android: androidDetails, iOS: iosDetails);
 
   await flutterLocalNotificationsPlugin.show(
-    0,
-    message.notification?.title ?? "New Alert",
-    message.notification?.body ?? "This should play a custom sound",
+    DateTime.now().millisecondsSinceEpoch ~/ 1000,
+    message.notification?.title ??
+        message.data['title'] ??
+        "New Notification",
+    message.notification?.body ??
+        message.data['body'] ??
+        "You have a new message",
     notificationDetails,
+    payload:
+    message.data.isNotEmpty ? jsonEncode(message.data) : null,
   );
 }
-
-
 
 
 class MyHttpOverrides extends HttpOverrides {

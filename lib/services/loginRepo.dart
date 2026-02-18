@@ -15,7 +15,8 @@ class LoginRepo {
     try {
       print('----phone-----17--$phone');
       var baseURL = BaseRepo().baseurl;
-      var endPoint = "SendOTPForCitizenLogin/SendOTPForCitizenLogin";
+      //var endPoint = "SendOTPForCitizenLogin/SendOTPForCitizenLogin";
+      var endPoint = "SendOTPForCitizenLoginV1/SendOTPForCitizenLoginV1";
       var loginApi = "$baseURL$endPoint";
       print('------------17---loginApi---$loginApi');
 
@@ -25,8 +26,12 @@ class LoginRepo {
           'POST',
           Uri.parse('$loginApi'));
       request.body = json.encode(
+          // {
+          //   "sContactNo": phone
+          // });
           {
-            "sContactNo": phone
+            "sContactNo": phone,
+            "sDeviceType":"IOS"
           });
       request.headers.addAll(headers);
       http.StreamedResponse response = await request.send();
