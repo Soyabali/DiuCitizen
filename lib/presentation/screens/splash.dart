@@ -82,7 +82,6 @@ class _SplaceState extends State<SplashView> {
             (Route<dynamic> route) => false,
       );
     }
-
   }
 
   getlocalDataBaseValue() async {
@@ -111,7 +110,7 @@ class _SplaceState extends State<SplashView> {
   versionAliCall() async {
     /// TODO HERE YOU SHOULD CHANGE APP VERSION FLUTTER VERSION MIN 3 DIGIT SUCH AS 1.0.0
     /// HERE YOU PASS variable _appVersion
-    var loginMap = await VerifyAppVersionRepo().verifyAppVersion(context,'21');
+    var loginMap = await VerifyAppVersionRepo().verifyAppVersion(context,'22');
     var msg = "${loginMap['Msg']}";
     var iVersion = "${loginMap['iVersion']}";
     print("---version :  $iVersion");
@@ -119,7 +118,7 @@ class _SplaceState extends State<SplashView> {
     // dep
    // var ver ="13";
 
-    if(iVersion=="21"){
+    if(iVersion=="22"){
       print("-------123----version api match");
       // to check token is store or not
       SharedPreferences prefs = await SharedPreferences.getInstance();
