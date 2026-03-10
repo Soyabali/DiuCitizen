@@ -458,6 +458,7 @@ class _PropertyTaxState extends State<DownlodeReceipt> {
         child: Scaffold(
           backgroundColor: Colors.white,
           appBar: getAppBarBack(context,'${widget.pageName}'),
+         // appBar: getAppBarBack(context,'${"jssksks"}'),
           body:
 
           Container(

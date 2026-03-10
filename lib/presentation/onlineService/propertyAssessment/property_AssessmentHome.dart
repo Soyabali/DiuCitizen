@@ -1,8 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:puri/presentation/onlineService/propertyAssessment/pdfOpenFile.dart';
 import 'package:puri/presentation/onlineService/propertyAssessment/propertyAssessment.dart';
 import 'package:puri/presentation/onlineService/propertyAssessment/propertyAssessmentStatus.dart';
+import '../../aboutDiu/Aboutdiupage.dart';
 import '../../resources/app_text_style.dart';
 
 class PropertyAssessmentHome extends StatefulWidget {
@@ -19,6 +20,7 @@ class _OnlineComplaintState extends State<PropertyAssessmentHome> {
   var OnlineTitle = [
     "Property Assessment Request",
     "Property Assessment Status",
+    "Download Assessment Form"
   ];
 
   final List<Color> borderColors = [
@@ -101,21 +103,33 @@ class _OnlineComplaintState extends State<PropertyAssessmentHome> {
                       child: GestureDetector(
                         onTap: () {
                           var title = OnlineTitle[index];
-                          if(title=="Property Assessment Request"){
-                            //  PropertyTax
-                            var name = "Property Assessment Request";
-                            /// todo here open a new activity
 
+                          if (title == "Property Assessment Request") {
+                            var name = "Property Assessment Request";
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => PropertyAssessment(name:name)),
+                              MaterialPageRoute(
+                                builder: (context) => PropertyAssessment(name: name),
+                              ),
                             );
-                          }else{
+                          } else if (title == "Property Assessment Status") {
                             var name = "Property Assessment Status";
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => PropertyAssessmentStatus(name:name)),
+                              MaterialPageRoute(
+                                builder: (context) => PropertyAssessmentStatus(name: name),
+                              ),
                             );
+                          } else {
+                            var name = "Download Assessment Form";
+                            var pdfUrl = "https://www.diusmartcity.com/Documents/PropertyAssessmentForm.pdf";
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>
+                                  DownloadReceiptScreen(
+                                    pdfUrl: pdfUrl,name:name,)),
+                            );
+                            print("Download report");
                           }
                         },
                         child: ListTile(
@@ -166,4 +180,3 @@ class _OnlineComplaintState extends State<PropertyAssessmentHome> {
     );
   }
 }
-

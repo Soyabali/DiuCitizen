@@ -78,6 +78,7 @@ dependencies:
   upi_india:
     path: packages/upi_india
   shimmer: ^3.0.0
+  syncfusion_flutter_pdfviewer: ^28.1.37
 
 dev_dependencies:
   flutter_test:
